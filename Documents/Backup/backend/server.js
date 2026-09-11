@@ -264,6 +264,23 @@ function normalizeCustomSections(sections) {
     .filter((section) => section.title || section.content);
 }
 
+function stripHtmlTags(str) {
+  if (!str || typeof str !== 'string') return '';
+  if (!/<[a-z][\s\S]*>/i.test(str)) return str.trim();
+  return str
+    .replace(/<br\s*\/?>/gi, '\n')
+    .replace(/<\/(p|div|h[1-6]|li)>/gi, '\n')
+    .replace(/<[^>]+>/g, '')
+    .replace(/&quot;/g, '"')
+    .replace(/&#39;/g, "'")
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim();
+}
+
 function normalizeFacultyEntries(entries) {
   // NOTE: facultyId is NEVER auto-generated from the array index here.
   // Auto-generating by index caused identity to shift whenever entries were reordered,
@@ -278,7 +295,7 @@ function normalizeFacultyEntries(entries) {
     phone: String((item && item.phone) || "").trim(),
     office: String((item && item.office) || "").trim(),
     specialization: String((item && item.specialization) || "").trim(),
-    bio: String((item && item.bio) || "").trim(),
+    bio: stripHtmlTags(String((item && item.bio) || "")),
     photoDataUrl: String((item && item.photoDataUrl) || "").trim(),
     department: String((item && item.department) || "Department of Physics").trim(),
     subgroup: String((item && item.subgroup) || "").trim(),

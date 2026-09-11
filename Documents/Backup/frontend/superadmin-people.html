@@ -502,6 +502,27 @@
           return group;
         });
       }
+
+      function stripHtmlTags(str) {
+        if (!str || typeof str !== "string") { return ""; }
+        if (!/<[a-z][\s\S]*>/i.test(str)) { return str.trim(); }
+        var tmp = document.createElement("div");
+        tmp.innerHTML = str;
+        var breaks = tmp.querySelectorAll("br");
+        for (var b = 0; b < breaks.length; b++) {
+          if (breaks[b].parentNode) {
+            breaks[b].parentNode.replaceChild(document.createTextNode("\n"), breaks[b]);
+          }
+        }
+        var blocks = tmp.querySelectorAll("p, div, li, h1, h2, h3, h4, h5, h6");
+        for (var k = 0; k < blocks.length; k++) {
+          if (blocks[k].parentNode) {
+            blocks[k].parentNode.insertBefore(document.createTextNode("\n"), blocks[k].nextSibling);
+          }
+        }
+        return (tmp.textContent || tmp.innerText || "").replace(/\n{3,}/g, "\n\n").trim();
+      }
+
       function normalizeFaculty(faculty) {
         return (faculty || []).map(function (item) {
           return {
@@ -514,7 +535,7 @@
             phone: String(item.phone || ""),
             office: String(item.office || ""),
             specialization: String(item.specialization || ""),
-            bio: String(item.bio || "")
+            bio: stripHtmlTags(String(item.bio || ""))
           };
         });
       }
@@ -714,7 +735,7 @@
         officeInput.value = person.office;
         specializationInput.value = person.specialization;
         passwordInput.value = person.initialPassword;
-        bioInput.value = person.bio;
+        bioInput.value = stripHtmlTags(person.bio || "");
         updateMeta();
         facultyIdInput.addEventListener("input", function () { person.facultyId = facultyIdInput.value; updateMeta(); });
         loginIdInput.addEventListener("input", function () { person.loginId = loginIdInput.value; updateMeta(); });
@@ -726,6 +747,10 @@
         specializationInput.addEventListener("input", function () { person.specialization = specializationInput.value; });
         passwordInput.addEventListener("input", function () { person.initialPassword = passwordInput.value; });
         bioInput.addEventListener("input", function () { person.bio = bioInput.value; });
+        bioInput.addEventListener("change", function () {
+          bioInput.value = stripHtmlTags(bioInput.value);
+          person.bio = bioInput.value;
+        });
         removeButton.addEventListener("click", function () {
           state.faculty = state.faculty.filter(function (item) { return item !== person; });
           render();
