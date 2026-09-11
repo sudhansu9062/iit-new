@@ -1,10 +1,11 @@
 "use strict";
-require("dotenv").config();
+const path = require("path");
+const fs = require("fs");
+require("dotenv").config({ path: path.join(__dirname, ".env") });
+require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const http = require("http");
-const fs = require("fs");
 const fsp = fs.promises;
-const path = require("path");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -41,8 +42,8 @@ function loadEnvFile(filePath) {
   }
 }
 
-//loadEnvFile(path.join(__dirname, "..", ".env"));
-//loadEnvFile(path.join(__dirname, "..", ".env.local"));
+loadEnvFile(path.join(__dirname, ".env"));
+loadEnvFile(path.join(__dirname, "..", ".env"));
 
 const HOST = String(process.env.HOST || "0.0.0.0");
 const PORT = Number(process.env.PORT || 3000);
