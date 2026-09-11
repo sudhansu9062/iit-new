@@ -1,0 +1,25 @@
+# robots.txt for Department of Physics, IIT Kharagpur
+# https://phy.iitkgp.ac.in
+
+User-agent: *
+Allow: /
+
+# Disallow admin and superadmin pages
+Disallow: /admin-*
+Disallow: /superadmin-*
+Disallow: /admin-portal
+Disallow: /super-portal
+
+# Disallow password and auth pages
+Disallow: /forgot-password.html
+Disallow: /reset-password.html
+Disallow: /admin-setup-password.html
+
+# Disallow API endpoints
+Disallow: /api/
+
+# Disallow uploads directory listing
+Disallow: /uploads/
+
+# Sitemap
+Sitemap: https://phy.iitkgp.ac.in/sitemap.xml

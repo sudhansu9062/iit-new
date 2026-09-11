@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CMSTS Tickets | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html">Notices</a><a href="./admin-notices.html?category=General">General Notices</a><a href="./admin-notices.html?category=Academic">Academic Notices</a><a href="./admin-notices.html?category=Administrative">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar">Seminar Requests</a><a href="./admin-bookings.html?type=zoom">Room Booking</a><a href="./admin-profile.html">Edit Profile</a><a href="./admin-notices.html?category=Faculty">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html?view=cmsts" id="services-cmsts-link">CMSTS</a><a href="./admin-tickets.html?view=raise" id="services-raise-ticket-link">Raise Ticket</a><a href="./admin-tickets.html?view=track" id="services-track-status-link">Track Status</a><a href="./facility-booking.html" id="services-facility-slot-link">Facility Booking</a><a href="./admin-module.html?module=computational-access&title=Computational%20Access" id="services-computational-access-link">Computational Access</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+    <main class="portal-main portal-module-main">
+      <section class="portal-page-shell">
+        <div class="portal-page-header"><div><p class="portal-page-eyebrow">Ticketing Workflow</p><h1 class="portal-page-title">CMSTS Tickets</h1></div><p class="portal-page-copy">Raising a ticket sends a notification to super admin, and status changes notify you automatically.</p></div>
+        <div class="portal-module-grid">
+          <section class="portal-panel">
+            <h2 class="portal-panel-title">Raise Ticket</h2>
+            <form id="ticket-form" class="portal-form-grid">
+              <label>Subject<input class="portal-input" name="subject" required /></label>
+              <label>Category<input class="portal-input" name="category" value="Technical Support" /></label>
+              <label class="portal-form-span">Description<textarea class="portal-textarea" name="description" required></textarea></label>
+              <button class="portal-button" type="submit">Submit Ticket</button>
+            </form>
+            <p id="ticket-message" class="portal-inline-message"></p>
+          </section>
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Your Tickets</h2></div>
+            <div id="ticket-list" class="portal-card-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      
+      function setupMobilePortalSidebar() {
+        var sidebar = document.querySelector(".portal-sidebar");
+        var menuButton = document.querySelector(".portal-menu-button");
+        if (!sidebar || !menuButton) { return; }
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      setupMobilePortalSidebar();
+
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+      var params = new URLSearchParams(window.location.search);
+      var view = params.get("view") || "cmsts";
+      var form = document.getElementById("ticket-form");
+      var message = document.getElementById("ticket-message");
+      var list = document.getElementById("ticket-list");
+      var ticketStream = null;
+      var cmstsLink = document.getElementById("services-cmsts-link");
+      var raiseTicketLink = document.getElementById("services-raise-ticket-link");
+      var trackStatusLink = document.getElementById("services-track-status-link");
+
+      [cmstsLink, raiseTicketLink, trackStatusLink].forEach(function (link) {
+        if (link) {
+          link.classList.remove("is-active");
+        }
+      });
+
+      if (view === "raise" && raiseTicketLink) {
+        raiseTicketLink.classList.add("is-active");
+      } else if (view === "track" && trackStatusLink) {
+        trackStatusLink.classList.add("is-active");
+      } else if (cmstsLink) {
+        cmstsLink.classList.add("is-active");
+      }
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {}));
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
+        });
+      }
+
+      function render(items) {
+        list.innerHTML = items.length ? items.map(function (item) {
+          var badgeClass = item.status === "Resolved" ? "success" : item.status === "In Progress" ? "info" : item.status === "Rejected" ? "danger" : "warning";
+          return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.category) + ' • ' + escapeHtml(new Date(item.createdAt).toLocaleString()) + '</p><h3>' + escapeHtml(item.subject) + '</h3><p>' + escapeHtml(item.description) + '</p></div><span class="portal-badge ' + escapeHtml(badgeClass) + '">' + escapeHtml(item.status) + '</span></article>';
+        }).join("") : '<p class="portal-empty">No tickets raised yet.</p>';
+      }
+
+      async function load() { render((await api("/api/tickets")).tickets || []); }
+
+      function connectTicketStream() {
+        if (ticketStream) {
+          ticketStream.close();
+        }
+
+        ticketStream = new EventSource(
+          window.location.origin + "/api/dashboard/stream?token=" + encodeURIComponent(token)
+        );
+
+        ticketStream.addEventListener("dashboard", function () {
+          load().catch(function () {});
+        });
+
+        ticketStream.onerror = function () {
+          if (ticketStream) {
+            ticketStream.close();
+          }
+
+          window.setTimeout(function () {
+            connectTicketStream();
+          }, 2000);
+        };
+      }
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var fd = new FormData(form);
+        try {
+          var response = await api("/api/tickets", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ subject: fd.get("subject"), category: fd.get("category"), description: fd.get("description") })
+          });
+          message.textContent = response.message;
+          form.reset();
+          await load();
+        } catch (error) {
+          message.textContent = error.message;
+        }
+      });
+
+      await load();
+      connectTicketStream();
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

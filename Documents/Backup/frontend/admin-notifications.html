@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notifications | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html">Notices</a><a href="./admin-notices.html?category=General">General Notices</a><a href="./admin-notices.html?category=Academic">Academic Notices</a><a href="./admin-notices.html?category=Administrative">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar">Seminar Requests</a><a href="./admin-bookings.html?type=zoom">Room Booking</a><a href="./admin-profile.html">Edit Profile</a><a href="./admin-notices.html?category=Faculty">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html">CMSTS</a><a href="./admin-tickets.html">Raise Ticket</a><a href="./admin-tickets.html">Track Status</a><a href="./facility-booking.html">Facility Booking</a><a href="./admin-module.html?module=computational-access&title=Computational%20Access">Computational Access</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+    <main class="portal-main portal-module-main">
+      <section class="portal-page-shell">
+        <div class="portal-page-header"><div><p class="portal-page-eyebrow">Alerts</p><h1 class="portal-page-title">Notifications</h1></div><p class="portal-page-copy">Ticket updates, notice publishing alerts, and blocked-date messages are shown here.</p></div>
+        <section class="portal-panel"><div id="notification-list" class="portal-card-list"></div></section>
+      </section>
+    </main>
+  </div>
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      
+      function setupMobilePortalSidebar() {
+        var sidebar = document.querySelector(".portal-sidebar");
+        var menuButton = document.querySelector(".portal-menu-button");
+        if (!sidebar || !menuButton) { return; }
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      setupMobilePortalSidebar();
+
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+      var list = document.getElementById("notification-list");
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {}));
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
+        });
+      }
+
+      function render(items) {
+        list.innerHTML = items.length ? items.map(function (item) {
+          var isRead = item.readBy && item.readBy.length;
+          return '<article class="portal-item-card' + (isRead ? "" : " is-unread") + '"><div><p class="portal-item-meta">' + escapeHtml(new Date(item.createdAt).toLocaleString()) + '</p><h3>' + escapeHtml(item.title) + '</h3><p>' + escapeHtml(item.message) + '</p></div><button class="portal-button portal-button-secondary" data-id="' + escapeHtml(item.id) + '">' + (isRead ? "Read" : "Mark Read") + '</button></article>';
+        }).join("") : '<p class="portal-empty">No notifications yet.</p>';
+      }
+
+      async function load() { render((await api("/api/notifications")).notifications || []); }
+
+      list.addEventListener("click", async function (event) {
+        var id = event.target.getAttribute("data-id");
+        if (!id) { return; }
+        await api("/api/notifications/" + id + "/read", { method: "POST" });
+        await load();
+      });
+
+      await load();
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Postdocs | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body class="postdocs-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn active">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <main class="faculty-main">
+    <div class="faculty-wrap" id="postdocs-sections">
+      <section class="faculty-section">
+        <h2 class="faculty-title with-bar">Postdocs</h2>
+        <p class="faculty-subtitle" id="postdocs-subtitle">Postdoctoral researchers of the Department of Physics.</p>
+
+        <div class="table-wrap">
+          <table class="directory-table faculty-table">
+            <thead>
+              <tr>
+                <th>Profile</th>
+                <th>Name</th>
+                <th>Professional Details</th>
+                <th>Contact</th>
+              </tr>
+            </thead>
+            <tbody id="postdocs-table-body"></tbody>
+          </table>
+        </div>
+        <p class="faculty-count" id="postdocs-count">Loading postdocs...</p>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (async function () {
+      var body = document.getElementById("postdocs-table-body");
+      var count = document.getElementById("postdocs-count");
+      var subtitle = document.getElementById("postdocs-subtitle");
+      var sectionsNode = document.getElementById("postdocs-sections");
+      if (!body || !count || !subtitle || !sectionsNode) {
+        return;
+      }
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"]/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[char];
+        });
+      }
+
+      function isDrProfile(item) {
+        return /^dr\.\s+/i.test(String((item && item.name) || "").trim());
+      }
+
+      function profileKey(item) {
+        return String((item && (item.facultyId || item.loginId || item.email || item.name)) || "").trim();
+      }
+
+      function renderRows(items) {
+        return items.length ? items.map(function (item) {
+          var key = profileKey(item);
+          var profileHref = "./faculty-profile.html?id=" + encodeURIComponent(key);
+          var photoSrc = item.photoDataUrl || item.photo || "";
+          var photo = photoSrc
+            ? '<img src="' + escapeHtml(photoSrc) + '" alt="' + escapeHtml(item.name || "Research fellow") + '" class="faculty-profile-image" />'
+            : '<span class="faculty-profile-thumb" aria-hidden="true"></span>';
+          var nameBlock = '<div class="faculty-person-block"><strong class="faculty-person-name"><a href="' + escapeHtml(profileHref) + '">' + escapeHtml(item.name || "Research Fellow") + "</a></strong></div>";
+          var detailsBlock = '<div class="faculty-detail-stack">' +
+            (item.designation ? '<p><strong>Designation:</strong> ' + escapeHtml(item.designation) + '</p>' : '') +
+            (item.office ? '<p><strong>Office:</strong> ' + escapeHtml(item.office) + '</p>' : '') +
+            '</div>';
+          var contactBlock = '<div class="faculty-detail-stack">' +
+            (item.email ? '<p><strong>Email:</strong> <a href="mailto:' + escapeHtml(item.email) + '">' + escapeHtml(item.email) + '</a></p>' : '') +
+            '</div>';
+          return "<tr><td>" + photo + "</td><td>" + nameBlock + "</td><td>" + detailsBlock + "</td><td>" + contactBlock + "</td></tr>";
+        }).join("") : '<tr><td colspan="4">No researchers listed right now.</td></tr>';
+      }
+
+      try {
+        var responses = await Promise.all([
+          fetch(window.location.origin + "/api/public/postdocs"),
+          fetch(window.location.origin + "/api/public/faculty", { cache: "no-store" })
+        ]);
+        var data = await responses[0].json();
+        var facultyData = await responses[1].json();
+        var page = data.page || {};
+        var groups = Array.isArray(data.peopleGroups) ? data.peopleGroups : [];
+        var people = [];
+        groups.forEach(function (group) {
+          (group.items || []).forEach(function (item) {
+            people.push(item);
+          });
+        });
+        var drFaculty = (Array.isArray(facultyData.faculty) ? facultyData.faculty : []).filter(isDrProfile);
+        var existingKeys = new Set(people.map(function (item) { return profileKey(item).toLowerCase(); }));
+        drFaculty.forEach(function (item) {
+          var key = profileKey(item).toLowerCase();
+          if (!key || existingKeys.has(key)) { return; }
+          people.push(item);
+          existingKeys.add(key);
+        });
+
+        groups = groups.map(function (group) {
+          return {
+            id: group.id,
+            title: group.title,
+            subtitle: group.subtitle,
+            content: group.content,
+            items: Array.isArray(group.items) ? group.items.slice() : []
+          };
+        });
+
+        var ramunanjanGroup = groups.find(function (group) {
+          return /ramunanjan|ramanujan/i.test(String(group.id || "") + " " + String(group.title || ""));
+        });
+        var postdocsGroup = groups.find(function (group) {
+          return group !== ramunanjanGroup;
+        }) || { id: "postdocs-current", items: people };
+
+        drFaculty.forEach(function (item) {
+          var key = profileKey(item).toLowerCase();
+          var existsInPostdocs = postdocsGroup.items.some(function (groupItem) {
+            return profileKey(groupItem).toLowerCase() === key;
+          });
+          if (key && !existsInPostdocs) {
+            postdocsGroup.items.push(item);
+          }
+        });
+
+        groups = [
+          {
+            id: "postdocs-current",
+            title: "Postdocs",
+            subtitle: "Postdoctoral researchers of the Department of Physics.",
+            items: postdocsGroup.items
+          },
+          {
+            id: "ramunanjan-current",
+            title: "Ramunanjan",
+            subtitle: "ramunanjan of the Department of Physics.",
+            items: ramunanjanGroup ? ramunanjanGroup.items : postdocsGroup.items.slice()
+          }
+        ];
+
+        sectionsNode.innerHTML = groups.map(function (group, index) {
+          var items = Array.isArray(group.items) ? group.items : [];
+          var groupTitle = String(group.title || "").trim() || (index === 0 ? "Postdocs" : "Researchers");
+          var groupSubtitle = index === 0
+            ? (page.summary || "Postdoctoral researchers of the Department of Physics.")
+            : (String(group.subtitle || group.content || "").trim() || groupTitle + " of the Department of Physics.");
+          var groupCount = items.length ? ("Showing 1-" + items.length + " of " + items.length) : "No researchers listed";
+
+          return [
+            '<section class="faculty-section">',
+            '<h2 class="faculty-title with-bar">' + escapeHtml(groupTitle) + '</h2>',
+            '<p class="faculty-subtitle">' + escapeHtml(groupSubtitle) + '</p>',
+            '<div class="table-wrap">',
+            '<table class="directory-table faculty-table">',
+            '<thead><tr><th>Profile</th><th>Name</th><th>Professional Details</th><th>Contact</th></tr></thead>',
+            '<tbody>' + renderRows(items) + '</tbody>',
+            '</table>',
+            '</div>',
+            '<p class="faculty-count">' + escapeHtml(groupCount) + '</p>',
+            '</section>'
+          ].join("");
+        }).join("");
+      } catch (error) {
+        body.innerHTML = '<tr><td colspan="4">Postdoc data is currently unavailable.</td></tr>';
+        count.textContent = "Unable to load postdoc records";
+      }
+    })();
+  </script>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

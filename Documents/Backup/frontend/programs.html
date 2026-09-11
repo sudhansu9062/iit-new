@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Programs | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+  <style>
+    .programs-v2 { background: #ffffff; color: #1f2c44; }
+    .programs-v2 .main-nav { border: 0; background: #ffffff; }
+    .programs-v2 .programs-hero { height: 600px; min-height: 600px; background: linear-gradient(rgba(8,24,54,.42), rgba(8,24,54,.42)), url('./programs-hero.png') center top/cover no-repeat; }
+    .programs-shell { width: min(1280px, 92vw); margin: 0 auto; padding: 56px 0 54px; }
+    .programs-title { margin: 0; font-size: 42px; font-weight: 700; color: #142c59; }
+    .programs-title-line { width: 74px; height: 5px; border-radius: 99px; background: #c9a84c; margin: 14px 0 24px; }
+    .programs-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 24px; }
+    .program-card { display: block; text-decoration: none; color: inherit; background: #fff; border: 1px solid #d5dbe5; border-radius: 10px; overflow: hidden; box-shadow: 0 3px 9px rgba(10,25,49,.08); }
+    .program-card img { width: 100%; height: 210px; object-fit: cover; display: block; }
+    .program-card-body { padding: 18px; }
+    .program-card h3 { margin: 0; font-size: 18px; line-height: 1.35; color: #233250; }
+    .program-card p { margin: 10px 0 14px; font-size: 14px; line-height: 1.6; color: #616f85; }
+    .program-card .cta { font-size: 15px; font-weight: 700; color: #1d3668; }
+    .highlights-panel { margin-top: 58px; display: grid; grid-template-columns: 1.03fr 1fr; border: 1px solid #d5dbe5; border-radius: 10px; overflow: hidden; background: #fff; }
+    .highlights-panel img { width: 100%; height: 100%; min-height: 320px; object-fit: cover; display: block; }
+    .highlights-content { padding: 42px 44px; }
+    .highlights-content .eyebrow { margin: 0; color: #b89236; font-size: 12px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; }
+    .highlights-content h2 { margin: 14px 0 0; font-size: 40px; color: #142c59; line-height: 1.2; }
+    .highlights-list { list-style: none; margin: 24px 0 0; padding: 0; display: grid; gap: 16px; }
+    .highlights-list li { display: flex; align-items: center; gap: 11px; font-size: 14px; color: #27344e; }
+    .highlights-list li::before { content: "\2713"; width: 24px; height: 24px; border-radius: 50%; background: #efe8d1; color: #b48d2e; display: grid; place-items: center; font-size: 14px; font-weight: 700; flex: 0 0 24px; }
+    @media (max-width:1100px){
+      .programs-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+      .highlights-panel{grid-template-columns:1fr;}
+      .program-card h3{font-size:17px;}.program-card p{font-size:14px;}.program-card .cta{font-size:15px;}.highlights-list li{font-size:14px;}.highlights-content h2{font-size:32px;}
+    }
+    @media (max-width:900px){
+      .programs-v2 .programs-hero{height:260px;min-height:260px;}
+    }
+    @media (max-width:760px){
+      .programs-grid{grid-template-columns:1fr;}
+      .programs-v2 .programs-hero{height:260px;min-height:260px;}
+      .programs-title{font-size:34px;}
+      .program-card h3{font-size:17px;}
+      .program-card p,.program-card .cta,.highlights-list li{font-size:14px;}
+      .highlights-content h2{font-size:28px;}
+      .highlights-content{padding:28px 22px;}
+    }
+    @media (max-width:640px){
+      .programs-v2 .programs-hero{height:220px;min-height:220px;}
+    }
+  </style>
+</head>
+<body class="programs-v2">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <a href="./faculty.html">PEOPLE</a>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html" class="active">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="programs-hero" aria-label="Programs hero banner"></section>
+
+  <main>
+    <section class="programs-shell">
+      <h2 class="programs-title">Academic Programs</h2>
+      <div class="programs-title-line" aria-hidden="true"></div>
+      <div class="programs-grid">
+        <a class="program-card" href="./undergraduate-program.html">
+          <img src="./undergraduate-program.png" alt="Undergraduate Program" />
+          <div class="program-card-body">
+            <h3>Undergraduate Program</h3>
+            <p>Comprehensive foundational training in modern physics with interdisciplinary exposure.</p>
+            <span class="cta">View Details -></span>
+          </div>
+        </a>
+        <a class="program-card" href="./postgraduate-program.html">
+          <img src="./postgraduate-program.png" alt="Postgraduate Program" />
+          <div class="program-card-body">
+            <h3>Postgraduate Program</h3>
+            <p>Advanced specialized coursework with strong research integration.</p>
+            <span class="cta">View Details -></span>
+          </div>
+        </a>
+        <a class="program-card" href="./doctoral-program.html">
+          <img src="./doctoral-program.png" alt="Doctoral Program" />
+          <div class="program-card-body">
+            <h3>Doctoral Program</h3>
+            <p>Independent research training across frontier areas of physics.</p>
+            <span class="cta">View Details -></span>
+          </div>
+        </a>
+        <a class="program-card" href="./programs-old-backup.html">
+          <img src="./itep-programme1.png" alt="Integrated MSc-PhD Program" />
+          <div class="program-card-body">
+            <h3>Integrated MSc-PhD Program</h3>
+            <p>Seamless transition from advanced coursework to doctoral research.</p>
+            <span class="cta">View Details -></span>
+          </div>
+        </a>
+        <a class="program-card" href="./programs-old-backup.html">
+          <img src="./course-catalogue1.png" alt="Curriculum and Course Structure" />
+          <div class="program-card-body">
+            <h3>Curriculum &amp; Course Structure</h3>
+            <p>Detailed academic framework, credits, electives, and progression pathways.</p>
+            <span class="cta">View Details -></span>
+          </div>
+        </a>
+        <a class="program-card" href="./programs-old-backup.html">
+          <img src="./admissions1.png" alt="Admissions and Eligibility" />
+          <div class="program-card-body">
+            <h3>Admissions &amp; Eligibility</h3>
+            <p>Admission criteria, application routes, timelines, and requirements.</p>
+            <span class="cta">View Details -></span>
+          </div>
+        </a>
+      </div>
+
+      <section class="highlights-panel">
+        <img src="./about-research-lab1.png" alt="Students working in laboratory" />
+        <div class="highlights-content">
+          <p class="eyebrow">Academic Highlights</p>
+          <h2>Why Study Physics at IIT Kharagpur</h2>
+          <div class="programs-title-line" aria-hidden="true"></div>
+          <ul class="highlights-list">
+            <li>Globally recognized faculty</li>
+            <li>Cutting-edge laboratories</li>
+            <li>Strong interdisciplinary exposure</li>
+            <li>International research collaborations</li>
+            <li>Industry and academic placements</li>
+            <li>Research-driven curriculum</li>
+          </ul>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302<br />India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links"><a href="./privacy-policy.html">Privacy Policy</a><a href="./sitemap-page.html">Sitemap</a></div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

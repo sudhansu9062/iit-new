@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>News &amp; Events | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+
+<body class="news-events-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo"
+          class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+        <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html" class="active">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="news-events-hero" aria-label="News and events banner">
+    <img class="news-events-hero-image" src="giving-hero.png" alt="News and events banner" />
+  </section>
+
+  <main class="news-events-main">
+    <div class="news-events-container">
+      <section class="news-filters" aria-label="Event categories">
+        <button type="button" class="news-filter active" data-filter="all">All</button>
+        <button type="button" class="news-filter" data-filter="seminars">Seminars</button>
+        <button type="button" class="news-filter" data-filter="workshops">Workshops</button>
+        <button type="button" class="news-filter" data-filter="conferences">Conferences</button>
+      </section>
+
+      <section class="news-events-grid">
+        <aside class="news-announcements">
+          <h2>Announcements</h2>
+          <div id="news-announcements-list">
+            <article class="news-announcement-item">
+              <p class="news-announcement-date">8 Apr 2026</p>
+              <p class="news-announcement-copy">Seminar on Quantum Computing by Prof. A. Das, April 15, 2026</p>
+            </article>
+
+            <article class="news-announcement-item">
+              <p class="news-announcement-date">5 Apr 2026</p>
+              <p class="news-announcement-copy">Call for Applications: Summer Research Fellowship 2026</p>
+            </article>
+
+            <article class="news-announcement-item">
+              <p class="news-announcement-date">1 Apr 2026</p>
+              <p class="news-announcement-copy">Notice: Department Library will remain closed on April 14 (Ambedkar
+                Jayanti)</p>
+            </article>
+
+            <article class="news-announcement-item">
+              <p class="news-announcement-date">28 Mar 2026</p>
+              <p class="news-announcement-copy">PhD Comprehensive Viva schedule released for Spring 2026</p>
+            </article>
+
+            <article class="news-announcement-item">
+              <p class="news-announcement-date">20 Mar 2026</p>
+              <p class="news-announcement-copy">Seminar: Topological Insulators, Prof. S. Banerjee, April 3</p>
+            </article>
+          </div>
+        </aside>
+
+        <div class="news-events-content">
+          <section class="news-upcoming">
+            <h2>Upcoming Events</h2>
+            <div id="news-upcoming-list">
+              <a class="news-event-card-link" href="./iccmp-2026.html" aria-label="Open event details">
+                <article class="news-event-card" data-category="seminars">
+                  <h3>Colloquium: Dark Matter Searches at the LHC</h3>
+                  <p class="news-event-meta">18 Apr 2026 <span aria-hidden="true">&bull;</span> Seminar Hall, Department
+                    of Physics</p>
+                  <p class="news-event-text">Prof. R. Sharma from TIFR will discuss recent results from ATLAS and CMS
+                    experiments.</p>
+                </article>
+              </a>
+
+              <a class="news-event-card-link" href="./iccmp-2026.html" aria-label="Open event details">
+                <article class="news-event-card" data-category="workshops">
+                  <h3>Workshop on Computational Physics Methods</h3>
+                  <p class="news-event-meta">22 Apr 2026 - 24 Apr 2026 <span aria-hidden="true">&bull;</span> Computer
+                    Lab, Physics Building</p>
+                  <p class="news-event-text">Three-day hands-on workshop covering Monte Carlo simulations, DFT, and
+                    molecular dynamics.</p>
+                </article>
+              </a>
+
+              <a class="news-event-card-link" href="./iccmp-2026.html" aria-label="Open ICCMP 2026 conference details">
+                <article class="news-event-card" data-category="conferences">
+                  <h3>International Conference on Condensed Matter Physics (ICCMP 2026)</h3>
+                  <p class="news-event-meta">10 May 2026 - 13 May 2026 <span aria-hidden="true">&bull;</span> Netaji
+                    Auditorium, IIT Kharagpur</p>
+                  <p class="news-event-text">Annual conference featuring invited talks, poster sessions, and panel
+                    discussions on recent advances.</p>
+                </article>
+              </a>
+
+              <a class="news-event-card-link" href="./iccmp-2026.html" aria-label="Open event details">
+                <article class="news-event-card" data-category="seminars">
+                  <h3>Seminar: Gravitational Wave Astronomy</h3>
+                  <p class="news-event-meta">2 May 2026 <span aria-hidden="true">&bull;</span> Room 204, Physics
+                    Building</p>
+                  <p class="news-event-text">Dr. P. Mukherjee presents recent findings from LIGO-India collaboration.
+                  </p>
+                </article>
+              </a>
+            </div>
+          </section>
+
+          <section class="news-past">
+            <h2>Past Events</h2>
+
+            <div class="news-past-list" id="news-past-list">
+              <article class="news-past-item" data-category="conferences">
+                <div>
+                  <h3>National Symposium on Photonics</h3>
+                  <p>14 Feb 2026 - 16 Feb 2026</p>
+                </div>
+                <a href="./iccmp-2026.html">Details &rsaquo;</a>
+              </article>
+
+              <article class="news-past-item" data-category="seminars">
+                <div>
+                  <h3>Seminar: Advances in Spintronics</h3>
+                  <p>22 Jan 2026</p>
+                </div>
+                <a href="./iccmp-2026.html">Details &rsaquo;</a>
+              </article>
+
+              <article class="news-past-item" data-category="workshops">
+                <div>
+                  <h3>Workshop on Scientific Writing for Researchers</h3>
+                  <p>5 Dec 2025 - 6 Dec 2025</p>
+                </div>
+                <a href="./iccmp-2026.html">Details &rsaquo;</a>
+              </article>
+
+              <article class="news-past-item" data-category="seminars">
+                <div>
+                  <h3>Colloquium: Neutrino Physics, Past, Present, Future</h3>
+                  <p>18 Nov 2025</p>
+                </div>
+                <a href="./iccmp-2026.html">Details &rsaquo;</a>
+              </article>
+
+              <article class="news-past-item" data-category="workshops">
+                <div>
+                  <h3>Workshop on Advanced Lab Techniques</h3>
+                  <p>10 Oct 2025 - 12 Oct 2025</p>
+                </div>
+                <a href="./iccmp-2026.html">Details &rsaquo;</a>
+              </article>
+            </div>
+          </section>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span
+              class="footer-contact-lines"><span class="footer-contact-line"><a
+                  href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a
+                  href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span
+              class="footer-contact-lines"><span class="footer-contact-line"><a
+                  href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span
+                class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a>
+                (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a>
+          </li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank"
+              rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT
+              Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var filterButtons = document.querySelectorAll(".news-filter");
+      var announcementsList = document.getElementById("news-announcements-list");
+      var upcomingList = document.getElementById("news-upcoming-list");
+      var pastList = document.getElementById("news-past-list");
+      var activeFilter = "all";
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function renderAnnouncements(items) {
+        if (!announcementsList) { return; }
+        announcementsList.innerHTML = items.length ? items.map(function (item) {
+          return [
+            '<article class="news-announcement-item">',
+            '<p class="news-announcement-date">' + escapeHtml(item.date) + "</p>",
+            '<p class="news-announcement-copy">' + escapeHtml(item.title) + "</p>",
+            "</article>"
+          ].join("");
+        }).join("") : '<p class="news-event-text">No announcements available.</p>';
+      }
+
+      function eventUrl(id, title) {
+        return "./iccmp-2026.html";
+      }
+
+      function renderUpcoming(items) {
+        if (!upcomingList) { return; }
+        upcomingList.innerHTML = items.length ? items.map(function (item) {
+          return [
+            '<a class="news-event-card-link" href="' + eventUrl(item.id, item.title) + '" aria-label="Open event details">',
+            '<article class="news-event-card" data-category="' + escapeHtml(item.category || "seminars") + '">',
+            "<h3>" + escapeHtml(item.title) + "</h3>",
+            '<p class="news-event-meta">' + escapeHtml(item.date) + (item.location ? ' <span aria-hidden="true">&bull;</span> ' + escapeHtml(item.location) : "") + "</p>",
+            '<p class="news-event-text">' + escapeHtml(item.summary || "") + "</p>",
+            "</article>",
+            "</a>"
+          ].join("");
+        }).join("") : '<p class="news-event-text">No upcoming events available.</p>';
+      }
+
+      function renderPast(items) {
+        if (!pastList) { return; }
+        pastList.innerHTML = items.length ? items.map(function (item) {
+          return [
+            '<article class="news-past-item" data-category="' + escapeHtml(item.category || "seminars") + '">',
+            "<div>",
+            "<h3>" + escapeHtml(item.title) + "</h3>",
+            "<p>" + escapeHtml(item.date) + "</p>",
+            "</div>",
+            '<a href="' + eventUrl(item.id, item.title) + '">' + escapeHtml(item.actionLabel || "Details") + " &rsaquo;</a>",
+            "</article>"
+          ].join("");
+        }).join("") : '<p class="news-event-text">No past events available.</p>';
+      }
+
+      function applyFilter(filterKey) {
+        activeFilter = filterKey;
+        filterButtons.forEach(function (button) {
+          button.classList.toggle("active", button.getAttribute("data-filter") === filterKey);
+        });
+        document.querySelectorAll(".news-event-card, .news-past-item").forEach(function (item) {
+          var category = item.getAttribute("data-category") || "";
+          item.hidden = filterKey !== "all" && category !== filterKey;
+        });
+      }
+
+      filterButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          applyFilter(button.getAttribute("data-filter") || "all");
+        });
+      });
+
+      (async function loadNewsEvents() {
+        try {
+          var response = await fetch(window.location.origin + "/api/public/news-events");
+          if (!response.ok) { return; }
+          var data = await response.json();
+          renderAnnouncements(Array.isArray(data.announcements) ? data.announcements : []);
+          renderUpcoming(Array.isArray(data.upcomingEvents) ? data.upcomingEvents : []);
+          renderPast(Array.isArray(data.pastEvents) ? data.pastEvents : []);
+          applyFilter(activeFilter);
+        } catch (error) {
+          console.error("Failed to load news and events.", error);
+        }
+      })();
+    })();
+  </script>
+  <script>
+    (function () {
+      var SK = "__phy_visitor_sid";
+      function getSid() { var s = sessionStorage.getItem(SK); if (s) return s; s = ""; for (var i = 0; i < 32; i++)s += "abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random() * 36)); sessionStorage.setItem(SK, s); return s; }
+      function render(n) { var el = document.getElementById("visitor-digits"); if (!el) return; var s = String(n); el.innerHTML = ""; for (var i = 0; i < s.length; i++) { var d = document.createElement("span"); d.className = "visitor-digit"; d.textContent = s[i]; el.appendChild(d); } }
+      var sid = getSid();
+      fetch("/api/public/visitor-hit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sessionToken: sid }) }).then(function (r) { return r.json(); }).then(function (d) { if (typeof d.count === "number") render(d.count); }).catch(function () { fetch("/api/public/visitor-count").then(function (r) { return r.json(); }).then(function (d) { if (typeof d.count === "number") render(d.count); }).catch(function () { }); });
+    })();
+  </script>
+</body>
+
+</html>

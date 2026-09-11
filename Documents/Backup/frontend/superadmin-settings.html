@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Super Admin Settings | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html" class="is-active"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input type="search" placeholder="Search pages, users, tickets..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <h1>Settings</h1>
+            <p>Global system configuration</p>
+          </div>
+        </section>
+
+        <div class="superadmin-settings-stack">
+          <section class="superadmin-setting-card">
+            <h2 class="superadmin-setting-title"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18"></path><path d="M12 3a15 15 0 0 1 4 9 15 15 0 0 1-4 9 15 15 0 0 1-4-9 15 15 0 0 1 4-9z"></path></svg>Website Settings</h2>
+            <form id="website-settings-form" class="superadmin-form-grid">
+              <label>Site Title<input name="siteTitle" /></label>
+              <label>Meta Description<input name="metaDescription" /></label>
+              <div class="superadmin-setting-row">
+                <div>
+                  <strong>Maintenance Mode</strong>
+                  <p>Take website offline temporarily</p>
+                </div>
+                <button class="superadmin-toggle" id="maintenance-toggle" type="button" aria-label="Toggle maintenance mode"></button>
+              </div>
+              <label>Maintenance Message<textarea name="maintenanceMessage"></textarea></label>
+            </form>
+          </section>
+
+          <section class="superadmin-setting-card">
+            <h2 class="superadmin-setting-title"><svg viewBox="0 0 24 24"><path d="M4 5h16v14H4z"></path><path d="m4 7 8 6 8-6"></path></svg>Email Configuration</h2>
+            <form id="email-settings-form" class="superadmin-form-grid">
+              <label>System Email<input name="systemEmail" /></label>
+              <label>Super Admin Signup Key<input name="superadminSignupKey" type="password" placeholder="Set a private key for super admin signup" /></label>
+              <div class="superadmin-setting-row">
+                <div>
+                  <strong>Email Notifications</strong>
+                  <p>Send alerts for bookings and tickets</p>
+                </div>
+                <button class="superadmin-toggle" id="email-toggle" type="button" aria-label="Toggle email notifications"></button>
+              </div>
+            </form>
+          </section>
+
+          <section class="superadmin-setting-card">
+            <h2 class="superadmin-setting-title">Super Admin Credentials</h2>
+            <p>Change email and password. All existing sessions will be signed out.</p>
+            <form id="credentials-form" class="superadmin-form-grid">
+              <label>Current Password<input name="currentPassword" type="password" required /></label>
+              <label>New Email<input name="email" type="email" required /></label>
+              <label>New Password<input name="password" type="password" minlength="8" required /></label>
+              <label>Confirm New Password<input name="confirmPassword" type="password" minlength="8" required /></label>
+              <button class="superadmin-button" type="submit">Update Credentials</button>
+            </form>
+            <p id="credentials-message" class="superadmin-inline-message"></p>
+          </section>
+          <section class="superadmin-setting-card">
+            <h2 class="superadmin-setting-title"><svg viewBox="0 0 24 24"><path d="M12 3l7 4v5c0 5-3.5 8.5-7 9-3.5-.5-7-4-7-9V7l7-4z"></path></svg>Role Permissions</h2>
+            <div class="superadmin-permission-list">
+              <div class="superadmin-permission-row">
+                <div><strong>Admin</strong><p>Edit content, manage bookings, view tickets</p></div>
+                <button class="superadmin-button-secondary" data-role="admin" type="button">Configure</button>
+              </div>
+              <div class="superadmin-permission-row">
+                <div><strong>Content Editor</strong><p>Create and edit content only</p></div>
+                <button class="superadmin-button-secondary" data-role="editor" type="button">Configure</button>
+              </div>
+              <div class="superadmin-permission-row">
+                <div><strong>Faculty</strong><p>Edit own profile, submit bookings</p></div>
+                <button class="superadmin-button-secondary" data-role="faculty" type="button">Configure</button>
+              </div>
+            </div>
+          </section>
+
+          <section class="superadmin-setting-card">
+            <h2 class="superadmin-setting-title"><svg viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.6"></path><path d="M4 4v5h5"></path></svg>Backup &amp; Restore</h2>
+            <div class="superadmin-backup-row">
+              <div>
+                <strong>Last Backup</strong>
+                <p id="backup-label">Apr 30, 2026 at 02:00 AM</p>
+              </div>
+              <div class="superadmin-backup-actions">
+                <button class="superadmin-button-secondary" type="button">Restore</button>
+                <button class="superadmin-button" id="backup-button" type="button">Backup Now</button>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <div class="superadmin-form-actions">
+          <button class="superadmin-button" id="save-settings-button" type="button">Save Settings</button>
+        </div>
+        <p id="settings-message" class="superadmin-inline-message"></p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var websiteForm = document.getElementById("website-settings-form");
+      var emailForm = document.getElementById("email-settings-form");
+      var credentialsForm = document.getElementById('credentials-form');
+      var credentialsMessage = document.getElementById('credentials-message');
+      var maintenanceToggle = document.getElementById("maintenance-toggle");
+      var emailToggle = document.getElementById("email-toggle");
+      var saveButton = document.getElementById("save-settings-button");
+      var backupButton = document.getElementById("backup-button");
+      var backupLabel = document.getElementById("backup-label");
+      var message = document.getElementById("settings-message");
+      var userName = document.getElementById("current-user-name");
+      var userAvatar = document.getElementById("user-avatar");
+      var permissionButtons = document.querySelectorAll("[data-role]");
+      var settingsCache = {
+        maintenanceMode: false,
+        emailNotifications: true,
+        rolePermissions: {},
+        superadminSignupKey: ""
+      };
+
+      async function api(path, options) {
+        var config = Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {});
+        var response = await fetch(window.location.origin + path, config);
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function setToggle(button, state) {
+        button.classList.toggle("is-on", !!state);
+      }
+
+      function fill(settings) {
+        settingsCache = Object.assign(settingsCache, settings || {});
+        settingsCache.rolePermissions = settings.rolePermissions || settingsCache.rolePermissions || {};
+        websiteForm.siteTitle.value = settingsCache.siteTitle || "Department of Physics - IIT Kharagpur";
+        websiteForm.metaDescription.value = settingsCache.metaDescription || "Official website of the Department of Physics, Indian Institute of Technology Kharagpur";
+        websiteForm.maintenanceMessage.value = settingsCache.maintenanceMessage || "";
+        emailForm.systemEmail.value = settingsCache.systemEmail || "admin@phy.iitkgp.ac.in";
+        emailForm.superadminSignupKey.value = settingsCache.superadminSignupKey || "";
+        setToggle(maintenanceToggle, settingsCache.maintenanceMode);
+        setToggle(emailToggle, settingsCache.emailNotifications !== false);
+      }
+
+      async function saveSettings() {
+      try {
+          var response = await api("/api/superadmin/settings", {
+            method: "PUT",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              maintenanceMode: settingsCache.maintenanceMode,
+              maintenanceMessage: websiteForm.maintenanceMessage.value,
+              siteTitle: websiteForm.siteTitle.value,
+              metaDescription: websiteForm.metaDescription.value,
+              systemEmail: emailForm.systemEmail.value,
+              superadminSignupKey: emailForm.superadminSignupKey.value,
+              emailNotifications: settingsCache.emailNotifications,
+              lastBackupAt: settingsCache.lastBackupAt || ""
+            })
+          });
+          fill(response.settings);
+          message.classList.remove("is-error");
+          message.textContent = response.message;
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      }
+
+      maintenanceToggle.addEventListener("click", function () {
+        settingsCache.maintenanceMode = !settingsCache.maintenanceMode;
+        setToggle(maintenanceToggle, settingsCache.maintenanceMode);
+      });
+
+      emailToggle.addEventListener("click", function () {
+        settingsCache.emailNotifications = !settingsCache.emailNotifications;
+        setToggle(emailToggle, settingsCache.emailNotifications);
+      });
+
+      permissionButtons.forEach(function (button) {
+        button.addEventListener("click", async function () {
+          var role = button.getAttribute("data-role");
+          var current = (settingsCache.rolePermissions[role] || []).join(" - ");
+          var next = prompt("Update permissions for " + role, current);
+          if (next === null) { return; }
+          var nextPermissions = next.split(" - ").map(function (item) { return item.trim(); }).filter(Boolean);
+
+      try {
+            var response = await api("/api/superadmin/settings", {
+              method: "PUT",
+              headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+              body: JSON.stringify({
+                rolePermissions: Object.assign({}, settingsCache.rolePermissions, { [role]: nextPermissions }),
+                resetUserPermissions: true
+              })
+            });
+            fill(response.settings);
+            message.classList.remove("is-error");
+            message.textContent = response.message;
+          } catch (error) {
+            message.classList.add("is-error");
+            message.textContent = error.message;
+          }
+        });
+      });
+
+      saveButton.addEventListener("click", saveSettings);
+
+      credentialsForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var data = new FormData(credentialsForm);
+        try {
+          var response = await api("/api/superadmin/credentials", { method: "PUT", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify({ currentPassword: data.get("currentPassword"), email: data.get("email"), password: data.get("password"), confirmPassword: data.get("confirmPassword") }) });
+          localStorage.removeItem("iitPortalToken"); localStorage.removeItem("iitPortalUser");
+          window.location.href = "/admin-login.html?role=superadmin&message=" + encodeURIComponent(response.message);
+        } catch (error) { credentialsMessage.classList.add("is-error"); credentialsMessage.textContent = error.message; }
+      });
+
+
+      backupButton.addEventListener("click", function () {
+        var now = new Date();
+        settingsCache.lastBackupAt = now.toISOString();
+        backupLabel.textContent = now.toLocaleDateString() + " at " + now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        message.classList.remove("is-error");
+        message.textContent = "Backup record updated. Click Save Settings to keep it.";
+      });
+
+
+      try {
+        var me = await api("/api/auth/me");
+        userName.textContent = me.user.name;
+        userAvatar.textContent = String(me.user.name || "S").charAt(0).toUpperCase();
+
+        var settingsResponse = await api("/api/superadmin/settings");
+        fill(settingsResponse.settings);
+        if (settingsResponse.settings.lastBackupAt) {
+          var backupDate = new Date(settingsResponse.settings.lastBackupAt);
+          backupLabel.textContent = backupDate.toLocaleDateString() + " at " + backupDate.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+        }
+      } catch (error) {
+        localStorage.removeItem("iitPortalToken");
+        localStorage.removeItem("iitPortalUser");
+        window.location.href = "/admin-login.html?role=superadmin";
+      }
+      setupMobileSidebar();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

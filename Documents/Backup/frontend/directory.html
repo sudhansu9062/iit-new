@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Directory | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body>
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn active">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <main class="directory-main">
+    <div class="directory-wrap">
+      <section class="directory-section">
+        <h2 class="directory-title with-bar directory-office-title">Department Office</h2>
+        <div class="office-grid">
+          <div class="office-row">
+            <span>Physics Office</span>
+            <span>82285</span>
+            <a href="#">phyoffice@phy.iitkgp.ac.in</a>
+          </div>
+          <div class="office-row">
+            <span>Head of Department</span>
+            <span>82286</span>
+            <a href="#">hod@phy.iitkgp.ac.in</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="directory-section" id="faculty">
+        <div class="directory-head-row">
+          <h2 class="directory-title directory-sub-title">Faculty</h2>
+          <p>36 faculty members</p>
+        </div>
+        <div class="faculty-filter-row">
+          <div class="search-input-wrap">
+            <span>&#128269;</span>
+            <input type="text" value="" placeholder="Search faculty..." />
+          </div>
+        </div>
+
+        <div class="table-wrap">
+          <table class="directory-table">
+            <thead>
+              <tr>
+                <th>Name ^</th>
+                <th>Office ^</th>
+                <th>Email ^</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Banerjee Debamalya</td><td>83804</td><td><a href="#">debamalya@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Bhaktha S N B</td><td>83802</td><td><a href="#">kiranbhaktha@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Bharadwaj Somnath</td><td>83806</td><td><a href="#">somnath@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Bhattacharya J</td><td>84860</td><td><a href="#">jyoti@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Burada P S</td><td>83816</td><td><a href="#">psburada@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Chandra Amreesh</td><td>83820</td><td><a href="#">achandra@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Choudhury Debraj</td><td>82876</td><td><a href="#">debraj@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Das A K</td><td>83824</td><td><a href="#">amal@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Das S</td><td>83812</td><td><a href="#">saikat@phy.iitkgp.ac.in</a></td></tr>
+              <tr><td>Das S D</td><td>84858</td><td><a href="#">sitikantha.das@phy.iitkgp.ac.in</a></td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="table-footer-row">
+          <p>Showing 1-10 of 36</p>
+          <div class="pager">
+            <a href="#" class="disabled">&lt; Previous</a>
+            <a href="#" class="active">1</a>
+            <a href="#">2</a>
+            <a href="#">3</a>
+            <a href="#">4</a>
+            <a href="#">Next &gt;</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="directory-section">
+        <h2 class="directory-title directory-sub-title">Laboratories</h2>
+        <div class="table-wrap">
+          <table class="directory-table labs-table">
+            <thead>
+              <tr>
+                <th>Laboratory</th>
+                <th>Phone</th>
+                <th>Laboratory</th>
+                <th>Phone</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1st Year Lab</td><td>60266</td><td>Nonlinear Instability Lab</td><td>81643</td></tr>
+              <tr><td>2nd / 3rd Year Lab</td><td>81620</td><td>Nuclear Physics Lab</td><td>81641</td></tr>
+              <tr><td>4th Year Lab</td><td>81621</td><td>Photonic Systems Lab</td><td>81637</td></tr>
+              <tr><td>5th Year Lab</td><td>81622</td><td>Optical Waveguide Lab</td><td>81629</td></tr>
+              <tr><td>Atomic &amp; Molecular Physics Lab</td><td>81624</td><td>Optics &amp; Photonics Lab</td><td>81639</td></tr>
+              <tr><td>Atmospheric Tower</td><td>81623</td><td>Organic Electronics Lab</td><td>81638</td></tr>
+              <tr><td>Computer Lab</td><td>81626</td><td>Research Scholar, PDF, Visitors</td><td>81645</td></tr>
+              <tr><td>FIST Lab</td><td>81642</td><td>Semiconductor Lab</td><td>81633</td></tr>
+              <tr><td>High Vacuum Lab</td><td>81627</td><td>Silicon Lab</td><td>81634</td></tr>
+              <tr><td>Holography / Fibre Optics</td><td>81628</td><td>Solid State Ionics Lab</td><td>81625</td></tr>
+              <tr><td>Materials Processing Lab</td><td>81638</td><td>SST Lab</td><td>81640</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,2320 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HPC Cluster Access | Department of Physics | IIT Kharagpur</title>
+  <meta name="description"
+    content="Apply for a High-Performance Computing (HPC) account at the Department of Physics, Indian Institute of Technology Kharagpur." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    :root {
+      --gf-bg: #f0f4f9;
+      --gf-card-bg: #ffffff;
+      --gf-border: #dadce0;
+      --gf-primary: #1a4f8a;
+      --gf-primary-hover: #123c69;
+      --gf-gold: #c9a84c;
+      --gf-gold-dark: #b28c30;
+      --gf-text: #202124;
+      --gf-subtext: #5f6368;
+      --gf-error: #d93025;
+      --gf-error-bg: #fce8e6;
+      --gf-success: #137333;
+      --gf-success-bg: #e6f4ea;
+      --gf-focus-line: #1a4f8a;
+      --gf-radius: 10px;
+    }
+
+    body.hpc-form-page {
+      background-color: var(--gf-bg);
+      color: var(--gf-text);
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .gf-page-main {
+      flex: 1 0 auto;
+      padding: 32px 16px 64px;
+    }
+
+    .gf-container {
+      width: 100%;
+      max-width: 740px;
+      margin: 0 auto;
+    }
+
+    .gf-breadcrumbs {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 20px;
+      font-size: 13px;
+      color: var(--gf-subtext);
+    }
+
+    .gf-breadcrumbs a {
+      color: var(--gf-primary);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.15s ease;
+    }
+
+    .gf-breadcrumbs a:hover {
+      text-decoration: underline;
+    }
+
+    .gf-breadcrumbs span {
+      color: #9aa0a6;
+    }
+
+    /* Google Forms Card Style */
+    .gf-card {
+      background: var(--gf-card-bg);
+      border: 1px solid var(--gf-border);
+      border-radius: var(--gf-radius);
+      padding: 24px 28px;
+      margin-bottom: 18px;
+      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 1px 2px rgba(60, 64, 67, 0.12);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      position: relative;
+    }
+
+    .gf-card:focus-within {
+      border-color: #aecbfa;
+      box-shadow: 0 2px 8px rgba(26, 79, 138, 0.12);
+    }
+
+    .gf-card.has-error {
+      border-color: var(--gf-error);
+      background-color: #fffdfd;
+    }
+
+    /* Top Header Card */
+    .gf-card-header {
+      padding-top: 0;
+      overflow: hidden;
+      border-top: none;
+      position: relative;
+    }
+
+    .gf-header-accent {
+      height: 10px;
+      background: linear-gradient(90deg, #0b2545 0%, #1a4f8a 70%, #c9a84c 100%);
+      margin: 0 -28px 24px;
+    }
+
+    .gf-header-brand {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding-bottom: 18px;
+      border-bottom: 1px solid #edf0f5;
+      margin-bottom: 20px;
+    }
+
+    .gf-header-brand img {
+      width: 58px;
+      height: 58px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .gf-header-brand-info h2 {
+      margin: 0 0 4px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #0b2545;
+      line-height: 1.25;
+    }
+
+    .gf-header-brand-info p {
+      margin: 0;
+      font-size: 13px;
+      color: var(--gf-subtext);
+      line-height: 1.35;
+    }
+
+    .gf-form-title {
+      margin: 0 0 12px;
+      font-size: 28px;
+      font-weight: 700;
+      color: #122a53;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .gf-form-desc {
+      margin: 0 0 16px;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #3c4043;
+    }
+
+    .gf-form-desc ul {
+      margin: 8px 0 12px;
+      padding-left: 20px;
+    }
+
+    .gf-form-desc li {
+      margin-bottom: 4px;
+    }
+
+    .gf-required-note {
+      display: inline-block;
+      margin-top: 6px;
+      font-size: 13px;
+      color: var(--gf-error);
+      font-weight: 500;
+    }
+
+    /* Section Cards */
+    .gf-section-title {
+      margin: 0 0 6px;
+      font-size: 18px;
+      font-weight: 700;
+      color: #1a4f8a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .gf-section-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #e8f0fa;
+      color: #1a4f8a;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .gf-section-desc {
+      margin: 0 0 20px;
+      font-size: 13px;
+      color: var(--gf-subtext);
+      line-height: 1.45;
+    }
+
+    /* Question Styles */
+    .gf-question-item {
+      margin-bottom: 22px;
+    }
+
+    .gf-question-item:last-child {
+      margin-bottom: 0;
+    }
+
+    .gf-question-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      color: #202124;
+      line-height: 1.35;
+    }
+
+    .gf-question-label .req {
+      color: var(--gf-error);
+      font-weight: 700;
+      margin-left: 3px;
+    }
+
+    .gf-question-help {
+      margin: 0 0 10px;
+      font-size: 12px;
+      color: var(--gf-subtext);
+      line-height: 1.4;
+    }
+
+    /* Inputs styled like clean modern Google Forms */
+    .gf-input-wrapper {
+      position: relative;
+    }
+
+    .gf-input,
+    .gf-textarea,
+    .gf-select {
+      width: 100%;
+      border: 1px solid #ced4da;
+      border-radius: 6px;
+      background-color: #fafbfc;
+      padding: 12px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #202124;
+      line-height: 1.4;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+    }
+
+    .gf-select {
+      appearance: none;
+      -webkit-appearance: none;
+      -moz-appearance: none;
+      cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%235f6368' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      background-size: 16px;
+      padding-right: 40px;
+    }
+
+    .gf-input:hover,
+    .gf-textarea:hover,
+    .gf-select:hover {
+      border-color: #b0b8c4;
+      background-color: #ffffff;
+    }
+
+    .gf-input:focus,
+    .gf-textarea:focus,
+    .gf-select:focus {
+      border-color: var(--gf-primary);
+      background-color: #ffffff;
+      box-shadow: 0 0 0 3px rgba(26, 79, 138, 0.15);
+    }
+
+    .gf-textarea {
+      min-height: 90px;
+      resize: vertical;
+    }
+
+    .has-error .gf-input,
+    .has-error .gf-textarea,
+    .has-error .gf-select {
+      border-color: var(--gf-error);
+      background-color: #fff9f9;
+    }
+
+    .has-error .gf-input:focus,
+    .has-error .gf-textarea:focus,
+    .has-error .gf-select:focus {
+      box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.15);
+    }
+
+    .gf-error-msg {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      margin-top: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--gf-error);
+    }
+
+    .has-error .gf-error-msg {
+      display: flex;
+    }
+
+    .gf-error-msg svg {
+      flex-shrink: 0;
+      width: 14px;
+      height: 14px;
+    }
+
+    /* Signature Upload & Toggle Component */
+    .gf-sig-container {
+      background: #fafbfc;
+      border: 1px solid #dfe3e8;
+      border-radius: 8px;
+      padding: 16px;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .has-error .gf-sig-container {
+      border-color: var(--gf-error);
+      background-color: #fff9f9;
+    }
+
+    .gf-sig-tabs {
+      display: inline-flex;
+      background: #eaedf1;
+      padding: 3px;
+      border-radius: 7px;
+      gap: 4px;
+      margin-bottom: 14px;
+    }
+
+    .gf-sig-tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border: none;
+      border-radius: 5px;
+      background: transparent;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--gf-subtext);
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .gf-sig-tab.is-active {
+      background: #ffffff;
+      color: var(--gf-primary);
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+    }
+
+    .gf-sig-tab svg {
+      width: 15px;
+      height: 15px;
+    }
+
+    .gf-upload-dropzone {
+      border: 2px dashed #cbd5e1;
+      border-radius: 8px;
+      padding: 22px 16px;
+      text-align: center;
+      background: #ffffff;
+      cursor: pointer;
+      transition: border-color 0.2s ease, background-color 0.2s ease;
+    }
+
+    .gf-upload-dropzone:hover,
+    .gf-upload-dropzone.is-dragover {
+      border-color: var(--gf-primary);
+      background-color: #f0f6ff;
+    }
+
+    .gf-upload-dropzone svg {
+      width: 32px;
+      height: 32px;
+      color: #64748b;
+      margin-bottom: 6px;
+    }
+
+    .gf-upload-dropzone p {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #334155;
+    }
+
+    .gf-upload-dropzone small {
+      display: block;
+      font-size: 12px;
+      color: #64748b;
+    }
+
+    .gf-upload-btn-fake {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
+      padding: 6px 14px;
+      background: #e8f0fa;
+      color: var(--gf-primary);
+      border-radius: 5px;
+      font-size: 12px;
+      font-weight: 600;
+      pointer-events: none;
+    }
+
+    .gf-upload-preview {
+      display: none;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 12px 16px;
+      border: 1px solid #cbd5e1;
+      border-radius: 8px;
+      background: #ffffff;
+      margin-top: 12px;
+    }
+
+    .gf-upload-preview.is-active {
+      display: flex;
+    }
+
+    .gf-upload-preview-thumb {
+      max-height: 52px;
+      max-width: 180px;
+      object-fit: contain;
+      border: 1px solid #e2e8f0;
+      border-radius: 4px;
+      background: #f8fafc;
+      padding: 4px;
+    }
+
+    .gf-upload-preview-info {
+      flex: 1;
+      min-width: 0;
+      text-align: left;
+    }
+
+    .gf-upload-preview-name {
+      font-size: 13px;
+      font-weight: 600;
+      color: #1e293b;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .gf-upload-preview-size {
+      font-size: 11px;
+      color: #64748b;
+      margin-top: 2px;
+    }
+
+    .gf-upload-remove-btn {
+      padding: 6px 12px;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      background: #ffffff;
+      color: var(--gf-error);
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.15s ease, border-color 0.15s ease;
+    }
+
+    .gf-upload-remove-btn:hover {
+      background: #fee2e2;
+      border-color: #fca5a5;
+    }
+
+    .gf-sig-type-panel {
+      display: none;
+    }
+
+    .gf-sig-type-panel.is-active {
+      display: block;
+    }
+
+    .gf-sig-upload-panel {
+      display: none;
+    }
+
+    .gf-sig-upload-panel.is-active {
+      display: block;
+    }
+
+    /* 2 Column Grid */
+    .gf-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+
+    /* Accordion / Collapsible Office Card */
+    .gf-office-card {
+      background: #fafbfc;
+      border: 1px dashed #c0c6ce;
+    }
+
+    .gf-office-summary {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      color: #5f6368;
+      user-select: none;
+      list-style: none;
+    }
+
+    .gf-office-summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .gf-office-badge {
+      display: inline-block;
+      padding: 3px 8px;
+      border-radius: 4px;
+      background: #eaedf1;
+      font-size: 11px;
+      font-weight: 700;
+      color: #495057;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    .gf-office-content {
+      margin-top: 18px;
+      padding-top: 16px;
+      border-top: 1px dashed #d0d7de;
+    }
+
+    /* Actions Bar */
+    .gf-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 24px;
+    }
+
+    .gf-btn-submit {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      min-height: 44px;
+      padding: 0 32px;
+      border: none;
+      border-radius: 6px;
+      background-color: var(--gf-primary);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 2px 6px rgba(26, 79, 138, 0.25);
+      transition: background-color 0.2s ease, transform 0.15s ease, box-shadow 0.2s ease;
+    }
+
+    .gf-btn-submit:hover:not(:disabled) {
+      background-color: var(--gf-primary-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 10px rgba(26, 79, 138, 0.3);
+    }
+
+    .gf-btn-submit:active:not(:disabled) {
+      transform: translateY(0);
+    }
+
+    .gf-btn-submit:disabled {
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    .gf-btn-clear {
+      background: transparent;
+      border: none;
+      color: var(--gf-subtext);
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 500;
+      cursor: pointer;
+      padding: 8px 12px;
+      border-radius: 4px;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .gf-btn-clear:hover {
+      background-color: rgba(95, 99, 104, 0.08);
+      color: #202124;
+    }
+
+    .gf-spinner {
+      display: none;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top-color: #ffffff;
+      border-radius: 50%;
+      animation: gf-spin 0.8s linear infinite;
+    }
+
+    .is-submitting .gf-spinner {
+      display: inline-block;
+    }
+
+    @keyframes gf-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Alert Banner */
+    .gf-alert {
+      display: none;
+      padding: 14px 18px;
+      border-radius: var(--gf-radius);
+      margin-bottom: 20px;
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    .gf-alert.is-error {
+      display: block;
+      background-color: var(--gf-error-bg);
+      border: 1px solid #fad2cf;
+      color: #b02319;
+    }
+
+    /* Confirmation Screen */
+    .gf-confirmation {
+      display: none;
+      background: #ffffff;
+      border: 1px solid var(--gf-border);
+      border-radius: var(--gf-radius);
+      padding: 0 0 36px;
+      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 1px 2px rgba(60, 64, 67, 0.12);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .gf-confirmation.is-visible {
+      display: block;
+      animation: gf-fade-in 0.3s ease-out;
+    }
+
+    @keyframes gf-fade-in {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .gf-confirm-header {
+      height: 10px;
+      background: linear-gradient(90deg, #0b2545 0%, #1a4f8a 70%, #c9a84c 100%);
+    }
+
+    .gf-confirm-body {
+      padding: 36px 32px 12px;
+    }
+
+    .gf-confirm-icon {
+      width: 64px;
+      height: 64px;
+      margin: 0 auto 20px;
+      border-radius: 50%;
+      background-color: var(--gf-success-bg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gf-success);
+    }
+
+    .gf-confirm-icon svg {
+      width: 36px;
+      height: 36px;
+    }
+
+    .gf-confirm-title {
+      margin: 0 0 10px;
+      font-size: 26px;
+      font-weight: 700;
+      color: #122a53;
+    }
+
+    .gf-confirm-msg {
+      margin: 0 auto 24px;
+      max-width: 580px;
+      font-size: 15px;
+      line-height: 1.6;
+      color: #3c4043;
+    }
+
+    .gf-confirm-details {
+      max-width: 520px;
+      margin: 0 auto 28px;
+      padding: 16px 20px;
+      background-color: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 8px;
+      text-align: left;
+      font-size: 13px;
+      line-height: 1.6;
+      color: #334155;
+    }
+
+    .gf-confirm-details strong {
+      color: #0f172a;
+    }
+
+    .gf-confirm-id-badge {
+      display: inline-block;
+      background-color: #e8f0fa;
+      color: #1a4f8a;
+      font-weight: 700;
+      font-family: monospace;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+
+    .gf-confirm-actions {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 14px;
+    }
+
+    .gf-confirm-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 0 22px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    }
+
+    .gf-confirm-btn.is-primary {
+      background-color: var(--gf-primary);
+      color: #ffffff;
+    }
+
+    .gf-confirm-btn.is-primary:hover {
+      background-color: var(--gf-primary-hover);
+      transform: translateY(-1px);
+    }
+
+    .gf-confirm-btn.is-secondary {
+      background-color: #ffffff;
+      color: #1a4f8a;
+      border: 1px solid #ced4da;
+    }
+
+    .gf-confirm-btn.is-secondary:hover {
+      background-color: #f8fafc;
+      border-color: #1a4f8a;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 680px) {
+      .gf-page-main {
+        padding: 20px 12px 48px;
+      }
+
+      .gf-card {
+        padding: 20px 18px;
+      }
+
+      .gf-header-accent {
+        margin: 0 -18px 20px;
+      }
+
+      .gf-form-title {
+        font-size: 22px;
+      }
+
+      .gf-grid-2 {
+        grid-template-columns: 1fr;
+        gap: 12px;
+      }
+
+      .gf-actions {
+        flex-direction: column-reverse;
+        align-items: stretch;
+      }
+
+      .gf-btn-submit {
+        width: 100%;
+      }
+
+      .gf-btn-clear {
+        text-align: center;
+      }
+
+      .gf-confirm-body {
+        padding: 24px 18px 12px;
+      }
+    }
+  </style>
+  <script src="./search.js" defer></script>
+</head>
+
+<body class="hpc-form-page">
+
+  <!-- ===== @iitkgp.ac.in Email Access Gate ===== -->
+  <style>
+    #hpc-email-gate-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      background: rgba(0, 0, 0, .55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    #hpc-email-gate-overlay.is-hidden {
+      display: none;
+    }
+
+    .hpc-gate-box {
+      background: #fff;
+      border-radius: 14px;
+      padding: 28px 28px 22px;
+      max-width: 440px;
+      width: 100%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, .22);
+      position: relative;
+    }
+
+    .hpc-gate-icon {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: #eff6ff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 14px;
+    }
+
+    .hpc-gate-icon svg {
+      width: 22px;
+      height: 22px;
+      stroke: #1a4f8a;
+      fill: none;
+      stroke-width: 2;
+    }
+
+    .hpc-gate-box h2 {
+      font-size: 17px;
+      font-weight: 700;
+      color: #111;
+      margin: 0 0 4px;
+    }
+
+    .hpc-gate-box .hpc-gate-sub {
+      font-size: 12px;
+      color: #6b7280;
+      margin: 0 0 16px;
+    }
+
+    .hpc-gate-box p {
+      font-size: 13.5px;
+      color: #374151;
+      line-height: 1.6;
+      margin: 0 0 18px;
+    }
+
+    .hpc-gate-label {
+      font-size: 13px;
+      font-weight: 600;
+      color: #111;
+      margin-bottom: 6px;
+      display: block;
+    }
+
+    .hpc-gate-label .req {
+      color: #dc2626;
+    }
+
+    .hpc-gate-input {
+      width: 100%;
+      padding: 10px 14px;
+      border: 1.5px solid #d1d5db;
+      border-radius: 8px;
+      font-size: 14px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color .15s;
+    }
+
+    .hpc-gate-input:focus {
+      border-color: #1a4f8a;
+    }
+
+    .hpc-gate-input.is-error {
+      border-color: #dc2626;
+    }
+
+    .hpc-gate-error {
+      font-size: 12px;
+      color: #dc2626;
+      margin: 5px 0 0;
+      display: none;
+    }
+
+    .hpc-gate-error.is-visible {
+      display: block;
+    }
+
+    .hpc-gate-btn {
+      margin-top: 16px;
+      width: 100%;
+      padding: 11px;
+      background: #1a4f8a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .15s;
+    }
+
+    .hpc-gate-btn:hover {
+      background: #123c69;
+    }
+
+    .hpc-gate-note {
+      font-size: 11.5px;
+      color: #9ca3af;
+      text-align: center;
+      margin-top: 12px;
+    }
+  </style>
+
+  <div id="hpc-email-gate-overlay">
+    <div class="hpc-gate-box">
+      <div class="hpc-gate-icon">
+        <svg viewBox="0 0 24 24">
+          <rect x="3" y="11" width="18" height="11" rx="2"></rect>
+          <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+        </svg>
+      </div>
+      <h2>HPC Facility Access</h2>
+      <p class="hpc-gate-sub">Department of Physics &bull; IIT Kharagpur</p>
+      <p>Access to the HPC Cluster account request form is restricted to members of IIT Kharagpur. Please enter your
+        institutional email address to continue.</p>
+      <label for="hpc-gate-email" class="hpc-gate-label">IIT KGP Email Address <span class="req">*</span></label>
+      <input id="hpc-gate-email" type="email" class="hpc-gate-input" placeholder="yourname@iitkgp.ac.in"
+        autocomplete="email" />
+      <p id="hpc-gate-error" class="hpc-gate-error">Please enter a valid @iitkgp.ac.in or @phy.iitkgp.ac.in email
+        address.</p>
+      <button type="button" class="hpc-gate-btn" id="hpc-gate-submit">Continue to Form &rarr;</button>
+      <p class="hpc-gate-note">Only @iitkgp.ac.in and @phy.iitkgp.ac.in addresses are accepted.</p>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var overlay = document.getElementById("hpc-email-gate-overlay");
+      var input = document.getElementById("hpc-gate-email");
+      var errEl = document.getElementById("hpc-gate-error");
+      var btn = document.getElementById("hpc-gate-submit");
+
+      var ALLOWED = ["@iitkgp.ac.in", "@phy.iitkgp.ac.in"];
+
+      function isValidIITKGP(email) {
+        var e = String(email || "").trim().toLowerCase();
+        return ALLOWED.some(function (domain) { return e.endsWith(domain) && e.indexOf("@") > 0; });
+      }
+
+      // Check session storage — don\'t re-show gate if already passed
+      var savedEmail = sessionStorage.getItem("hpcGateEmail");
+      if (savedEmail && isValidIITKGP(savedEmail)) {
+        overlay.classList.add("is-hidden");
+        prefillEmail(savedEmail);
+      }
+
+      btn.addEventListener("click", function () {
+        var val = String(input.value || "").trim();
+        if (!isValidIITKGP(val)) {
+          input.classList.add("is-error");
+          errEl.classList.add("is-visible");
+          input.focus();
+          return;
+        }
+        input.classList.remove("is-error");
+        errEl.classList.remove("is-visible");
+        sessionStorage.setItem("hpcGateEmail", val);
+        overlay.classList.add("is-hidden");
+        prefillEmail(val);
+      });
+
+      input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") { btn.click(); }
+      });
+
+      input.addEventListener("input", function () {
+        input.classList.remove("is-error");
+        errEl.classList.remove("is-visible");
+      });
+
+      function prefillEmail(email) {
+        // Wait for DOM then pre-fill the form\'s email field
+        var el = document.getElementById("field-email");
+        if (el) { el.value = email; el.dispatchEvent(new Event("input")); }
+        else {
+          document.addEventListener("DOMContentLoaded", function () {
+            var el2 = document.getElementById("field-email");
+            if (el2) { el2.value = email; el2.dispatchEvent(new Event("input")); }
+          });
+        }
+      }
+    })();
+  </script>
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo"
+          class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation"
+      aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+        <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html" class="active">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <main class="gf-page-main" id="main-content">
+    <div class="gf-container">
+      <nav class="gf-breadcrumbs" aria-label="Breadcrumbs">
+        <a href="./index.html">Home</a>
+        <span>&rsaquo;</span>
+        <a href="./facilities.html">Facilities</a>
+        <span>&rsaquo;</span>
+        <a href="./hpc-facility.html">HPC Facility</a>
+        <span>&rsaquo;</span>
+        <span>HPC Cluster Access</span>
+      </nav>
+
+      <div id="gf-alert" class="gf-alert" role="alert"></div>
+
+      <!-- Main Form Container -->
+      <form id="hpc-form" novalidate>
+        <!-- Title Card -->
+        <header class="gf-card gf-card-header">
+          <div class="gf-header-accent" aria-hidden="true"></div>
+          <div class="gf-header-brand">
+            <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg"
+              alt="IIT Kharagpur Crest" />
+            <div class="gf-header-brand-info">
+              <h2>Department of Physics</h2>
+              <p>Indian Institute of Technology Kharagpur &bull; Departmental Computing Facility</p>
+            </div>
+          </div>
+          <h1 class="gf-form-title">HPC Cluster Access</h1>
+          <div class="gf-form-desc">
+            <p>Two High-Performance Computing (HPC) Cluster, <strong style="color: #1a4f8a;">SNBOSE, PRITHVI</strong>
+              managed by the Department of Physics, IIT Kharagpur. Access to the cluster is granted exclusively through
+              secure shell (SSH) to the designated cluster, which serves as the gateway to the compute resources. All
+              computational work must be submitted via the <strong style="color: #1a4f8a;"><em>SLURM</em></strong> job
+              scheduler, direct execution of resource-intensive tasks on the login node is strictly prohibited.</p>
+            <p>Please complete this form to request access credentials.</p>
+            <p><strong>Note:</strong> Upon form submission, an automated notification is dispatched to the HPC Admin.
+              Once processed, your login details will be shared via your registered email.</p>
+          </div>
+          <div class="gf-required-note">* Indicates required question</div>
+        </header>
+
+        <!-- Section 1: Applicant Information -->
+        <section class="gf-card">
+          <h2 class="gf-section-title"><span class="gf-section-badge">1</span> Applicant Information</h2>
+          <p class="gf-section-desc">Personal and academic identification details for verification.</p>
+
+          <!-- Question: Full Name -->
+          <div class="gf-question-item" data-question="name">
+            <label class="gf-question-label" for="field-name">
+              Full Name<span class="req" aria-hidden="true">*</span>
+            </label>
+            <p class="gf-question-help">As registered in IIT Kharagpur records.</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-name" name="name" type="text" placeholder="Your answer" required
+                autocomplete="name" />
+            </div>
+            <div class="gf-error-msg" id="error-name" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>This is a required question.</span>
+            </div>
+          </div>
+
+          <!-- Question: Department -->
+          <div class="gf-question-item" data-question="department">
+            <label class="gf-question-label" for="field-department">
+              Department / Centre / School<span class="req" aria-hidden="true">*</span>
+            </label>
+            <p class="gf-question-help">e.g. Department of Physics, Centre for Theoretical Physics, etc.</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-department" name="department" type="text" placeholder="Your answer"
+                required />
+            </div>
+            <div class="gf-error-msg" id="error-department" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>This is a required question.</span>
+            </div>
+          </div>
+
+          <!-- Question: Institute ID / Roll No -->
+          <div class="gf-question-item" data-question="instituteId">
+            <label class="gf-question-label" for="field-instituteId">
+              Institute ID / Roll No.<span class="req" aria-hidden="true">*</span>
+            </label>
+            <p class="gf-question-help">Student roll number or employee code.</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-instituteId" name="instituteId" type="text" placeholder="Your answer"
+                required />
+            </div>
+            <div class="gf-error-msg" id="error-instituteId" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>This is a required question.</span>
+            </div>
+          </div>
+
+          <!-- Question: Email Address -->
+          <div class="gf-question-item" data-question="email">
+            <label class="gf-question-label" for="field-email">
+              Email Address<span class="req" aria-hidden="true">*</span>
+            </label>
+            <p class="gf-question-help">Official IIT Kharagpur email preferred (@iitkgp.ac.in or @phy.iitkgp.ac.in).</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-email" name="email" type="email" placeholder="Your email" required
+                autocomplete="email" />
+            </div>
+            <div class="gf-error-msg" id="error-email" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>Please enter a valid email address.</span>
+            </div>
+          </div>
+
+          <!-- Question: Mobile Number -->
+          <div class="gf-question-item" data-question="mobile">
+            <label class="gf-question-label" for="field-mobile">
+              Mobile Number<span class="req" aria-hidden="true">*</span>
+            </label>
+            <p class="gf-question-help">Active contact number for verification and communication.</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-mobile" name="mobile" type="tel"
+                placeholder="Your 10-digit mobile number" required autocomplete="tel" />
+            </div>
+            <div class="gf-error-msg" id="error-mobile" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>Please enter a valid mobile phone number.</span>
+            </div>
+          </div>
+
+          <!-- Question: Preferred Login ID -->
+          <div class="gf-question-item" data-question="preferredLoginId">
+            <label class="gf-question-label" for="field-preferredLoginId">
+              Preferred Login ID (if available)
+            </label>
+            <p class="gf-question-help">Desired cluster username (lowercase alphanumeric characters, e.g. roll number or
+              initials).</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-preferredLoginId" name="preferredLoginId" type="text"
+                placeholder="Your answer" />
+            </div>
+          </div>
+
+          <!-- Question: Supervisor Name -->
+          <div class="gf-question-item" data-question="supervisorName">
+            <label class="gf-question-label" for="field-supervisorName">
+              Supervisor Name (if applicable)
+            </label>
+            <p class="gf-question-help">Faculty supervisor / PI name for students and researchers.</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-supervisorName" name="supervisorName" type="text"
+                placeholder="Your answer" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 2: Resource Requirements -->
+        <section class="gf-card">
+          <h2 class="gf-section-title"><span class="gf-section-badge">2</span> Computational Resource Requirements</h2>
+          <p class="gf-section-desc">Specify the hardware and software configuration you need for your scientific
+            simulations.</p>
+
+          <!-- Question: Software Type -->
+          <div class="gf-question-item" data-question="softwareType">
+            <label class="gf-question-label" for="field-softwareType">
+              Software Type<span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="gf-input-wrapper">
+              <select class="gf-select" id="field-softwareType" name="softwareType" required>
+                <option value="">- Select type -</option>
+                <option value="Open Source">Open Source</option>
+                <option value="Commercial">Commercial</option>
+              </select>
+            </div>
+            <div class="gf-error-msg" id="error-softwareType" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>This is a required question.</span>
+            </div>
+          </div>
+
+          <!-- Question: Software Name -->
+          <div class="gf-question-item" data-question="softwareName">
+            <label class="gf-question-label" for="field-softwareName">
+              Software Name<span class="req" aria-hidden="true">*</span>
+            </label>
+            <div class="gf-input-wrapper">
+              <select class="gf-select" id="field-softwareName" name="softwareName" required>
+                <option value="">- Select software -</option>
+              </select>
+            </div>
+            <div class="gf-error-msg" id="error-softwareName" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>This is a required question.</span>
+            </div>
+          </div>
+
+          <!-- Question: Specify Other Software (conditionally displayed if Others is chosen) -->
+          <div class="gf-question-item" id="item-softwareNameOther" data-question="softwareNameOther"
+            style="display: none;">
+            <label class="gf-question-label" for="field-softwareNameOther">
+              Specify Other Software<span class="req" aria-hidden="true">*</span>
+            </label>
+            <p class="gf-question-help">Please enter the name of the software you require.</p>
+            <div class="gf-input-wrapper">
+              <input class="gf-input" id="field-softwareNameOther" name="softwareNameOther" type="text"
+                placeholder="Your answer" />
+            </div>
+            <div class="gf-error-msg" id="error-softwareNameOther" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>This is a required question.</span>
+            </div>
+          </div>
+
+          <!-- Question: Mode -->
+          <div class="gf-question-item" data-question="mode">
+            <label class="gf-question-label" for="field-mode">
+              Mode
+            </label>
+            <div class="gf-input-wrapper">
+              <select class="gf-select" id="field-mode" name="mode">
+                <option value="Serial" selected>Serial</option>
+                <option value="Parallel">Parallel</option>
+              </select>
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 3: Declaration & Verification -->
+        <section class="gf-card">
+          <h2 class="gf-section-title"><span class="gf-section-badge">3</span> Declaration &amp; Digital Signature</h2>
+          <p class="gf-section-desc">By submitting this form, you agree to adhere to the institute's computing ethics,
+            data security, and resource allocation policies.</p>
+
+          <!-- Question: Applicant Signature with Upload Option -->
+          <div class="gf-question-item" data-question="applicantSignature">
+            <label class="gf-question-label">
+              Signature of Applicant<span class="req" aria-hidden="true">*</span>
+            </label>
+            <p class="gf-question-help">Provide your signature by uploading an image file or typing your full name.</p>
+
+            <div class="gf-sig-container">
+              <!-- Mode Tabs -->
+              <div class="gf-sig-tabs" role="tablist" aria-label="Signature input mode">
+                <button type="button" class="gf-sig-tab is-active" id="sig-tab-upload" role="tab" aria-selected="true"
+                  aria-controls="sig-panel-upload">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
+                  </svg>
+                  <span>Upload Signature Image</span>
+                </button>
+                <button type="button" class="gf-sig-tab" id="sig-tab-type" role="tab" aria-selected="false"
+                  aria-controls="sig-panel-type">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                  </svg>
+                  <span>Type Full Name</span>
+                </button>
+              </div>
+
+              <!-- Upload Panel -->
+              <div class="gf-sig-upload-panel is-active" id="sig-panel-upload" role="tabpanel">
+                <div class="gf-upload-dropzone" id="sig-dropzone" tabindex="0" role="button"
+                  aria-label="Click or drag and drop to upload signature">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <p>Click or drag &amp; drop signature image here</p>
+                  <small>Supports PNG, JPG, JPEG, WEBP (Max 5 MB)</small>
+                  <span class="gf-upload-btn-fake">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                      <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+                    </svg>
+                    Browse Files
+                  </span>
+                  <input type="file" id="sig-file-input" accept="image/png, image/jpeg, image/jpg, image/webp"
+                    style="display:none;" />
+                </div>
+
+                <!-- Upload Preview -->
+                <div class="gf-upload-preview" id="sig-preview-card">
+                  <img src="" alt="Signature preview" class="gf-upload-preview-thumb" id="sig-preview-img" />
+                  <div class="gf-upload-preview-info">
+                    <div class="gf-upload-preview-name" id="sig-preview-name">signature.png</div>
+                    <div class="gf-upload-preview-size" id="sig-preview-size">0 KB</div>
+                  </div>
+                  <button type="button" class="gf-upload-remove-btn" id="sig-remove-btn"
+                    title="Remove signature">Remove</button>
+                </div>
+              </div>
+
+              <!-- Type Panel -->
+              <div class="gf-sig-type-panel" id="sig-panel-type" role="tabpanel">
+                <div class="gf-input-wrapper">
+                  <input class="gf-input" id="sig-type-input" type="text"
+                    placeholder="Type your full name as digital signature" autocomplete="name" />
+                </div>
+                <small class="gf-question-help" style="margin-top:6px; display:block;">Typing your full legal name
+                  serves as your digital affirmation under institutional guidelines.</small>
+              </div>
+
+              <!-- Hidden signature field sent to server -->
+              <input type="hidden" name="applicantSignature" id="field-applicantSignature" />
+            </div>
+
+            <div class="gf-error-msg" id="error-applicantSignature" role="alert">
+              <svg viewBox="0 0 24 24" fill="currentColor">
+                <path
+                  d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z" />
+              </svg>
+              <span>Please upload your signature image or type your full name.</span>
+            </div>
+          </div>
+
+          <!-- Question: Supervisor Signature (Optional) -->
+          <div class="gf-question-item" data-question="supervisorSignature" style="margin-top: 24px;">
+            <label class="gf-question-label">
+              Signature of the Supervisor (if applicable)
+            </label>
+            <p class="gf-question-help">Faculty supervisor endorsement name, approval code, or digital reference.</p>
+
+            <div class="gf-sig-container">
+              <!-- Mode Tabs -->
+              <div class="gf-sig-tabs" role="tablist" aria-label="Supervisor signature input mode">
+                <button type="button" class="gf-sig-tab is-active" id="sup-sig-tab-type" role="tab" aria-selected="true"
+                  aria-controls="sup-sig-panel-type">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25zM20.71 7.04c.39-.39.39-1.02 0-1.41l-2.34-2.34c-.39-.39-1.02-.39-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83z" />
+                  </svg>
+                  <span>Type Name</span>
+                </button>
+                <button type="button" class="gf-sig-tab" id="sup-sig-tab-upload" role="tab" aria-selected="false"
+                  aria-controls="sup-sig-panel-upload">
+                  <svg viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z" />
+                  </svg>
+                  <span>Upload Signature</span>
+                </button>
+              </div>
+
+              <!-- Type Panel -->
+              <div class="gf-sig-type-panel is-active" id="sup-sig-panel-type" role="tabpanel">
+                <div class="gf-input-wrapper">
+                  <input class="gf-input" id="sup-sig-type-input" type="text"
+                    placeholder="Supervisor endorsement name or reference" />
+                </div>
+              </div>
+
+              <!-- Upload Panel -->
+              <div class="gf-sig-upload-panel" id="sup-sig-panel-upload" role="tabpanel">
+                <div class="gf-upload-dropzone" id="sup-sig-dropzone" tabindex="0" role="button"
+                  aria-label="Click or drag and drop to upload supervisor signature">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                    stroke-linejoin="round">
+                    <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                    <polyline points="17 8 12 3 7 8"></polyline>
+                    <line x1="12" y1="3" x2="12" y2="15"></line>
+                  </svg>
+                  <p>Click or drag &amp; drop supervisor signature image here</p>
+                  <small>Supports PNG, JPG, JPEG, WEBP (Max 5 MB)</small>
+                  <span class="gf-upload-btn-fake">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor">
+                      <path d="M9 16h6v-6h4l-7-7-7 7h4zm-4 2h14v2H5z" />
+                    </svg>
+                    Browse Files
+                  </span>
+                  <input type="file" id="sup-sig-file-input" accept="image/png, image/jpeg, image/jpg, image/webp"
+                    style="display:none;" />
+                </div>
+
+                <!-- Upload Preview -->
+                <div class="gf-upload-preview" id="sup-sig-preview-card">
+                  <img src="" alt="Supervisor signature preview" class="gf-upload-preview-thumb"
+                    id="sup-sig-preview-img" />
+                  <div class="gf-upload-preview-info">
+                    <div class="gf-upload-preview-name" id="sup-sig-preview-name">signature.png</div>
+                    <div class="gf-upload-preview-size" id="sup-sig-preview-size">0 KB</div>
+                  </div>
+                  <button type="button" class="gf-upload-remove-btn" id="sup-sig-remove-btn"
+                    title="Remove supervisor signature">Remove</button>
+                </div>
+              </div>
+
+              <!-- Hidden supervisor signature field sent to server -->
+              <input type="hidden" name="supervisorSignature" id="field-supervisorSignature" />
+            </div>
+          </div>
+        </section>
+
+        <!-- Section 4: Administrative Office Allocation (Optional) -->
+        <details class="gf-card gf-office-card">
+          <summary class="gf-office-summary">
+            <span>For Office Use (Administrative Section)</span>
+            <span class="gf-office-badge">Optional</span>
+          </summary>
+          <div class="gf-office-content">
+            <p class="gf-question-help" style="margin-bottom: 16px;">These fields may be left blank by applicants. They
+              are reserved for departmental administrative records.</p>
+            <div class="gf-grid-2">
+              <div class="gf-question-item">
+                <label class="gf-question-label" for="field-serverAllotted">Server Allotted</label>
+                <div class="gf-input-wrapper">
+                  <input class="gf-input" id="field-serverAllotted" name="serverAllotted" type="text"
+                    placeholder="e.g. snbose / compute-0-1" />
+                </div>
+              </div>
+              <div class="gf-question-item">
+                <label class="gf-question-label" for="field-loginIdGiven">Login ID Given</label>
+                <div class="gf-input-wrapper">
+                  <input class="gf-input" id="field-loginIdGiven" name="loginIdGiven" type="text"
+                    placeholder="e.g. phy_user101" />
+                </div>
+              </div>
+            </div>
+            <div class="gf-question-item" style="margin-top: 14px;">
+              <label class="gf-question-label" for="field-inChargeSignature">Signature (In-Charge, Computing
+                Facility)</label>
+              <div class="gf-input-wrapper">
+                <input class="gf-input" id="field-inChargeSignature" name="inChargeSignature" type="text"
+                  placeholder="In-Charge endorsement" />
+              </div>
+            </div>
+          </div>
+        </details>
+
+        <!-- Form Actions Bar -->
+        <div class="gf-actions">
+          <button type="submit" class="gf-btn-submit" id="gf-submit-btn">
+            <span class="gf-spinner" aria-hidden="true"></span>
+            <span id="gf-submit-text">Submit</span>
+          </button>
+          <button type="button" class="gf-btn-clear" id="gf-clear-btn">Clear form</button>
+        </div>
+      </form>
+
+      <!-- Post-Submission Confirmation Screen -->
+      <section class="gf-confirmation" id="gf-confirmation" aria-live="polite">
+        <div class="gf-confirm-header"></div>
+        <div class="gf-confirm-body">
+          <div class="gf-confirm-icon">
+            <svg viewBox="0 0 24 24" fill="currentColor">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z" />
+            </svg>
+          </div>
+          <h2 class="gf-confirm-title">HPC Account Request Submitted</h2>
+          <p class="gf-confirm-msg">
+            Your application for the Departmental Computing Facility (HPC) has been recorded successfully and is queued
+            for administrative review.
+          </p>
+
+          <div class="gf-confirm-details" id="gf-confirm-details">
+            <!-- Populated dynamically with submission details -->
+          </div>
+
+          <div class="gf-confirm-actions">
+            <button type="button" class="gf-confirm-btn is-primary" id="gf-another-btn">Submit another response</button>
+            <a href="./hpc-facility.html" class="gf-confirm-btn is-secondary">Back to HPC Facility</a>
+            <a href="./index.html" class="gf-confirm-btn is-secondary">Department Home</a>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span
+              class="footer-contact-lines"><span class="footer-contact-line"><a
+                  href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a
+                  href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span
+              class="footer-contact-lines"><span class="footer-contact-line"><a
+                  href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span
+                class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a>
+                (Head)</span></span></p>
+        </div>
+      </section>
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a>
+          </li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank"
+              rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT
+              Kharagpur</a></li>
+        </ul>
+      </section>
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a>
+          </li>
+        </ul>
+      </section>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links"><a href="./privacy-policy.html">Privacy Policy</a><a
+          href="./sitemap-page.html">Sitemap</a></div>
+
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var form = document.getElementById("hpc-form");
+      var submitBtn = document.getElementById("gf-submit-btn");
+      var submitText = document.getElementById("gf-submit-text");
+      var clearBtn = document.getElementById("gf-clear-btn");
+      var alertBox = document.getElementById("gf-alert");
+      var confirmationSection = document.getElementById("gf-confirmation");
+      var confirmDetails = document.getElementById("gf-confirm-details");
+      var anotherBtn = document.getElementById("gf-another-btn");
+
+      // Signature elements
+      var sigTabUpload = document.getElementById("sig-tab-upload");
+      var sigTabType = document.getElementById("sig-tab-type");
+      var sigPanelUpload = document.getElementById("sig-panel-upload");
+      var sigPanelType = document.getElementById("sig-panel-type");
+      var sigDropzone = document.getElementById("sig-dropzone");
+      var sigFileInput = document.getElementById("sig-file-input");
+      var sigPreviewCard = document.getElementById("sig-preview-card");
+      var sigPreviewImg = document.getElementById("sig-preview-img");
+      var sigPreviewName = document.getElementById("sig-preview-name");
+      var sigPreviewSize = document.getElementById("sig-preview-size");
+      var sigRemoveBtn = document.getElementById("sig-remove-btn");
+      var sigTypeInput = document.getElementById("sig-type-input");
+      var hiddenSigField = document.getElementById("field-applicantSignature");
+
+      var currentSigMode = "upload"; // 'upload' or 'type'
+      var uploadedSigDataUrl = "";
+
+      // Signature mode switcher
+      sigTabUpload.addEventListener("click", function () {
+        currentSigMode = "upload";
+        sigTabUpload.classList.add("is-active");
+        sigTabUpload.setAttribute("aria-selected", "true");
+        sigTabType.classList.remove("is-active");
+        sigTabType.setAttribute("aria-selected", "false");
+        sigPanelUpload.classList.add("is-active");
+        sigPanelType.classList.remove("is-active");
+        syncSignatureField();
+      });
+
+      sigTabType.addEventListener("click", function () {
+        currentSigMode = "type";
+        sigTabType.classList.add("is-active");
+        sigTabType.setAttribute("aria-selected", "true");
+        sigTabUpload.classList.remove("is-active");
+        sigTabUpload.setAttribute("aria-selected", "false");
+        sigPanelType.classList.add("is-active");
+        sigPanelUpload.classList.remove("is-active");
+        syncSignatureField();
+      });
+
+      function syncSignatureField() {
+        if (currentSigMode === "upload") {
+          hiddenSigField.value = uploadedSigDataUrl;
+        } else {
+          hiddenSigField.value = String(sigTypeInput.value || "").trim();
+        }
+        var item = document.querySelector('[data-question="applicantSignature"]');
+        if (item && hiddenSigField.value) {
+          item.classList.remove("has-error");
+        }
+      }
+
+      sigTypeInput.addEventListener("input", function () {
+        if (currentSigMode === "type") {
+          syncSignatureField();
+        }
+      });
+
+      // Signature file dropzone triggers
+      sigDropzone.addEventListener("click", function () {
+        sigFileInput.click();
+      });
+
+      sigDropzone.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          sigFileInput.click();
+        }
+      });
+
+      sigDropzone.addEventListener("dragover", function (e) {
+        e.preventDefault();
+        sigDropzone.classList.add("is-dragover");
+      });
+
+      sigDropzone.addEventListener("dragleave", function () {
+        sigDropzone.classList.remove("is-dragover");
+      });
+
+      sigDropzone.addEventListener("drop", function (e) {
+        e.preventDefault();
+        sigDropzone.classList.remove("is-dragover");
+        if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+          handleSignatureFile(e.dataTransfer.files[0]);
+        }
+      });
+
+      sigFileInput.addEventListener("change", function () {
+        if (sigFileInput.files && sigFileInput.files.length) {
+          handleSignatureFile(sigFileInput.files[0]);
+        }
+      });
+
+      sigRemoveBtn.addEventListener("click", function () {
+        resetSignatureUpload();
+      });
+
+      function resetSignatureUpload() {
+        uploadedSigDataUrl = "";
+        sigFileInput.value = "";
+        sigPreviewImg.src = "";
+        sigPreviewCard.classList.remove("is-active");
+        sigDropzone.style.display = "block";
+        syncSignatureField();
+      }
+
+      function handleSignatureFile(file) {
+        if (!file) return;
+
+        // Check if file is image
+        if (!file.type.match(/^image\//i)) {
+          showAlert("Please select a valid image file (PNG, JPG, JPEG, WEBP) for signature.");
+          return;
+        }
+
+        // Check file size (5MB limit)
+        if (file.size > 5 * 1024 * 1024) {
+          showAlert("Signature file size exceeds 5MB limit. Please choose a smaller image.");
+          return;
+        }
+
+        hideAlert();
+
+        var reader = new FileReader();
+        reader.onload = function (readerEvent) {
+          var img = new Image();
+          img.onload = function () {
+            // Compress and scale signature via canvas to clean lightweight web format
+            var maxW = 500;
+            var maxH = 180;
+            var width = img.width;
+            var height = img.height;
+
+            if (width > maxW || height > maxH) {
+              var ratio = Math.min(maxW / width, maxH / height);
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
+            }
+
+            var canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            var optimizedDataUrl = canvas.toDataURL("image/png");
+            uploadedSigDataUrl = optimizedDataUrl;
+
+            sigPreviewImg.src = optimizedDataUrl;
+            sigPreviewName.textContent = file.name;
+            sigPreviewSize.textContent = formatBytes(file.size);
+            sigDropzone.style.display = "none";
+            sigPreviewCard.classList.add("is-active");
+
+            syncSignatureField();
+          };
+          img.src = readerEvent.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      // Supervisor Signature Elements & Logic
+      var supSigTabUpload = document.getElementById("sup-sig-tab-upload");
+      var supSigTabType = document.getElementById("sup-sig-tab-type");
+      var supSigPanelUpload = document.getElementById("sup-sig-panel-upload");
+      var supSigPanelType = document.getElementById("sup-sig-panel-type");
+      var supSigDropzone = document.getElementById("sup-sig-dropzone");
+      var supSigFileInput = document.getElementById("sup-sig-file-input");
+      var supSigPreviewCard = document.getElementById("sup-sig-preview-card");
+      var supSigPreviewImg = document.getElementById("sup-sig-preview-img");
+      var supSigPreviewName = document.getElementById("sup-sig-preview-name");
+      var supSigPreviewSize = document.getElementById("sup-sig-preview-size");
+      var supSigRemoveBtn = document.getElementById("sup-sig-remove-btn");
+      var supSigTypeInput = document.getElementById("sup-sig-type-input");
+      var hiddenSupSigField = document.getElementById("field-supervisorSignature");
+
+      var currentSupSigMode = "type"; // 'type' or 'upload'
+      var uploadedSupSigDataUrl = "";
+
+      if (supSigTabUpload && supSigTabType) {
+        supSigTabUpload.addEventListener("click", function () {
+          currentSupSigMode = "upload";
+          supSigTabUpload.classList.add("is-active");
+          supSigTabUpload.setAttribute("aria-selected", "true");
+          supSigTabType.classList.remove("is-active");
+          supSigTabType.setAttribute("aria-selected", "false");
+          supSigPanelUpload.classList.add("is-active");
+          supSigPanelType.classList.remove("is-active");
+          syncSupervisorSignatureField();
+        });
+
+        supSigTabType.addEventListener("click", function () {
+          currentSupSigMode = "type";
+          supSigTabType.classList.add("is-active");
+          supSigTabType.setAttribute("aria-selected", "true");
+          supSigTabUpload.classList.remove("is-active");
+          supSigTabUpload.setAttribute("aria-selected", "false");
+          supSigPanelType.classList.add("is-active");
+          supSigPanelUpload.classList.remove("is-active");
+          syncSupervisorSignatureField();
+        });
+      }
+
+      function syncSupervisorSignatureField() {
+        if (!hiddenSupSigField) return;
+        if (currentSupSigMode === "upload") {
+          hiddenSupSigField.value = uploadedSupSigDataUrl;
+        } else {
+          hiddenSupSigField.value = String(supSigTypeInput ? supSigTypeInput.value : "").trim();
+        }
+      }
+
+      if (supSigTypeInput) {
+        supSigTypeInput.addEventListener("input", function () {
+          if (currentSupSigMode === "type") {
+            syncSupervisorSignatureField();
+          }
+        });
+      }
+
+      if (supSigDropzone && supSigFileInput) {
+        supSigDropzone.addEventListener("click", function () {
+          supSigFileInput.click();
+        });
+
+        supSigDropzone.addEventListener("keydown", function (e) {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            supSigFileInput.click();
+          }
+        });
+
+        supSigDropzone.addEventListener("dragover", function (e) {
+          e.preventDefault();
+          supSigDropzone.classList.add("is-dragover");
+        });
+
+        supSigDropzone.addEventListener("dragleave", function () {
+          supSigDropzone.classList.remove("is-dragover");
+        });
+
+        supSigDropzone.addEventListener("drop", function (e) {
+          e.preventDefault();
+          supSigDropzone.classList.remove("is-dragover");
+          if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files.length) {
+            handleSupervisorSignatureFile(e.dataTransfer.files[0]);
+          }
+        });
+
+        supSigFileInput.addEventListener("change", function () {
+          if (supSigFileInput.files && supSigFileInput.files.length) {
+            handleSupervisorSignatureFile(supSigFileInput.files[0]);
+          }
+        });
+      }
+
+      if (supSigRemoveBtn) {
+        supSigRemoveBtn.addEventListener("click", function () {
+          resetSupervisorSignatureUpload();
+        });
+      }
+
+      function resetSupervisorSignatureUpload() {
+        uploadedSupSigDataUrl = "";
+        if (supSigFileInput) supSigFileInput.value = "";
+        if (supSigPreviewImg) supSigPreviewImg.src = "";
+        if (supSigPreviewCard) supSigPreviewCard.classList.remove("is-active");
+        if (supSigDropzone) supSigDropzone.style.display = "block";
+        syncSupervisorSignatureField();
+      }
+
+      function handleSupervisorSignatureFile(file) {
+        if (!file) return;
+        if (!file.type.match(/^image\//i)) {
+          showAlert("Please select a valid image file (PNG, JPG, JPEG, WEBP) for supervisor signature.");
+          return;
+        }
+        if (file.size > 5 * 1024 * 1024) {
+          showAlert("Supervisor signature file size exceeds 5MB limit. Please choose a smaller image.");
+          return;
+        }
+
+        hideAlert();
+
+        var reader = new FileReader();
+        reader.onload = function (readerEvent) {
+          var img = new Image();
+          img.onload = function () {
+            var maxW = 500;
+            var maxH = 180;
+            var width = img.width;
+            var height = img.height;
+
+            if (width > maxW || height > maxH) {
+              var ratio = Math.min(maxW / width, maxH / height);
+              width = Math.round(width * ratio);
+              height = Math.round(height * ratio);
+            }
+
+            var canvas = document.createElement("canvas");
+            canvas.width = width;
+            canvas.height = height;
+            var ctx = canvas.getContext("2d");
+            ctx.drawImage(img, 0, 0, width, height);
+
+            var optimizedDataUrl = canvas.toDataURL("image/png");
+            uploadedSupSigDataUrl = optimizedDataUrl;
+
+            if (supSigPreviewImg) supSigPreviewImg.src = optimizedDataUrl;
+            if (supSigPreviewName) supSigPreviewName.textContent = file.name;
+            if (supSigPreviewSize) supSigPreviewSize.textContent = formatBytes(file.size);
+            if (supSigDropzone) supSigDropzone.style.display = "none";
+            if (supSigPreviewCard) supSigPreviewCard.classList.add("is-active");
+
+            syncSupervisorSignatureField();
+          };
+          img.src = readerEvent.target.result;
+        };
+        reader.readAsDataURL(file);
+      }
+
+      function formatBytes(bytes) {
+        if (bytes === 0) return "0 Bytes";
+        var k = 1024;
+        var sizes = ["Bytes", "KB", "MB"];
+        var i = Math.floor(Math.log(bytes) / Math.log(k));
+        return parseFloat((bytes / Math.pow(k, i)).toFixed(1)) + " " + sizes[i];
+      }
+
+      function showAlert(msg) {
+        if (!alertBox) return;
+        alertBox.textContent = msg;
+        alertBox.className = "gf-alert is-error";
+        alertBox.scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+
+      function hideAlert() {
+        if (!alertBox) return;
+        alertBox.textContent = "";
+        alertBox.className = "gf-alert";
+      }
+
+      function clearErrors() {
+        hideAlert();
+        var errorItems = document.querySelectorAll(".gf-question-item.has-error");
+        errorItems.forEach(function (item) {
+          item.classList.remove("has-error");
+        });
+      }
+
+      function markError(fieldName, customMsg) {
+        var item = document.querySelector('[data-question="' + fieldName + '"]');
+        if (item) {
+          item.classList.add("has-error");
+          if (customMsg) {
+            var msgEl = item.querySelector(".gf-error-msg span");
+            if (msgEl) msgEl.textContent = customMsg;
+          }
+        }
+        return item;
+      }
+
+      // Real-time error removal on input / change
+      form.querySelectorAll("input, textarea, select").forEach(function (input) {
+        var clearHandler = function () {
+          var item = input.closest(".gf-question-item");
+          if (item && item.classList.contains("has-error")) {
+            item.classList.remove("has-error");
+          }
+        };
+        input.addEventListener("input", clearHandler);
+        input.addEventListener("change", clearHandler);
+      });
+
+      // Dynamic Software Name options based on Software Type
+      var softwareCatalog = {
+        "Open Source": [
+          "GROMACS",
+          "Intel MPI (free)",
+          "LAMMPS",
+          "Openmpi",
+          "Python",
+          "Quantum Expresso",
+          "gcc",
+          "fftw3",
+          "Lapack",
+          "Blas",
+          "xcrysden",
+          "Others (specify)"
+        ],
+        "Commercial": [
+          "MATLAB",
+          "Mathematica",
+          "VASP",
+          "Wien2K",
+          "Others (specify)"
+        ]
+      };
+
+      var softTypeSelect = document.getElementById("field-softwareType");
+      var softNameSelect = document.getElementById("field-softwareName");
+      var softOtherItem = document.getElementById("item-softwareNameOther");
+      var softOtherInput = document.getElementById("field-softwareNameOther");
+
+      function updateSoftwareNameOptions(preserveVal) {
+        if (!softTypeSelect || !softNameSelect) return;
+        var selectedType = softTypeSelect.value;
+        var prevVal = preserveVal ? softNameSelect.value : "";
+
+        softNameSelect.innerHTML = "";
+        var defaultOpt = document.createElement("option");
+        defaultOpt.value = "";
+        defaultOpt.textContent = "- Select software -";
+        softNameSelect.appendChild(defaultOpt);
+
+        if (softwareCatalog[selectedType]) {
+          softwareCatalog[selectedType].forEach(function (name) {
+            var opt = document.createElement("option");
+            opt.value = name;
+            opt.textContent = name;
+            if (name === prevVal) opt.selected = true;
+            softNameSelect.appendChild(opt);
+          });
+        }
+
+        handleOtherSoftwareVisibility();
+      }
+
+      function handleOtherSoftwareVisibility() {
+        if (!softNameSelect || !softOtherItem) return;
+        if (softNameSelect.value === "Others (specify)") {
+          softOtherItem.style.display = "block";
+          if (softOtherInput) softOtherInput.required = true;
+        } else {
+          softOtherItem.style.display = "none";
+          if (softOtherInput) {
+            softOtherInput.required = false;
+            softOtherInput.value = "";
+          }
+          softOtherItem.classList.remove("has-error");
+        }
+      }
+
+      if (softTypeSelect) {
+        softTypeSelect.addEventListener("change", function () {
+          updateSoftwareNameOptions(false);
+          var nameItem = document.querySelector('[data-question="softwareName"]');
+          if (nameItem) nameItem.classList.remove("has-error");
+        });
+      }
+
+      if (softNameSelect) {
+        softNameSelect.addEventListener("change", function () {
+          handleOtherSoftwareVisibility();
+          var nameItem = document.querySelector('[data-question="softwareName"]');
+          if (nameItem && softNameSelect.value) {
+            nameItem.classList.remove("has-error");
+          }
+        });
+      }
+
+      // Clear button
+      if (clearBtn) {
+        clearBtn.addEventListener("click", function () {
+          if (confirm("Are you sure you want to clear the form? All entered answers will be erased.")) {
+            form.reset();
+            updateSoftwareNameOptions(false);
+            resetSignatureUpload();
+            resetSupervisorSignatureUpload();
+            if (supSigTypeInput) supSigTypeInput.value = "";
+            if (supSigTabType) supSigTabType.click();
+            clearErrors();
+            window.scrollTo({ top: 0, behavior: "smooth" });
+          }
+        });
+      }
+
+      // Submit another response
+      if (anotherBtn) {
+        anotherBtn.addEventListener("click", function () {
+          confirmationSection.classList.remove("is-visible");
+          form.style.display = "block";
+          form.reset();
+          updateSoftwareNameOptions(false);
+          resetSignatureUpload();
+          resetSupervisorSignatureUpload();
+          if (supSigTypeInput) supSigTypeInput.value = "";
+          if (supSigTabType) supSigTabType.click();
+          clearErrors();
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        });
+      }
+
+      // Form submission handler
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        clearErrors();
+        syncSignatureField();
+        syncSupervisorSignatureField();
+
+        var firstInvalid = null;
+
+        // Validation rules
+        var nameInput = document.getElementById("field-name");
+        var nameVal = String(nameInput.value || "").trim();
+        if (!nameVal) {
+          firstInvalid = firstInvalid || markError("name", "This is a required question.");
+        }
+
+        var deptInput = document.getElementById("field-department");
+        var deptVal = String(deptInput.value || "").trim();
+        if (!deptVal) {
+          firstInvalid = firstInvalid || markError("department", "This is a required question.");
+        }
+
+        var instInput = document.getElementById("field-instituteId");
+        var instVal = String(instInput.value || "").trim();
+        if (!instVal) {
+          firstInvalid = firstInvalid || markError("instituteId", "This is a required question.");
+        }
+
+        var emailInput = document.getElementById("field-email");
+        var emailVal = String(emailInput.value || "").trim();
+        var iitKgpDomains = ["@iitkgp.ac.in", "@phy.iitkgp.ac.in"];
+        var isIITKGPEmail = iitKgpDomains.some(function (d) { return emailVal.toLowerCase().endsWith(d) && emailVal.indexOf("@") > 0; });
+        if (!emailVal) {
+          firstInvalid = firstInvalid || markError("email", "This is a required question.");
+        } else if (!isIITKGPEmail) {
+          firstInvalid = firstInvalid || markError("email", "Only @iitkgp.ac.in or @phy.iitkgp.ac.in email addresses are accepted.");
+        }
+
+        var mobileInput = document.getElementById("field-mobile");
+        var mobileVal = String(mobileInput.value || "").trim();
+        var phoneClean = mobileVal.replace(/[^0-9]/g, "");
+        if (!mobileVal) {
+          firstInvalid = firstInvalid || markError("mobile", "This is a required question.");
+        } else if (phoneClean.length < 10) {
+          firstInvalid = firstInvalid || markError("mobile", "Please enter a valid phone number (at least 10 digits).");
+        }
+
+        var softTypeInput = document.getElementById("field-softwareType");
+        var softTypeVal = String(softTypeInput ? softTypeInput.value : "").trim();
+        if (!softTypeVal) {
+          firstInvalid = firstInvalid || markError("softwareType", "This is a required question.");
+        }
+
+        var softNameInput = document.getElementById("field-softwareName");
+        var softNameVal = String(softNameInput ? softNameInput.value : "").trim();
+        if (!softNameVal) {
+          firstInvalid = firstInvalid || markError("softwareName", "This is a required question.");
+        } else if (softNameVal === "Others (specify)") {
+          var otherInput = document.getElementById("field-softwareNameOther");
+          var otherVal = String(otherInput ? otherInput.value : "").trim();
+          if (!otherVal) {
+            firstInvalid = firstInvalid || markError("softwareNameOther", "Please specify the other software name.");
+          }
+        }
+
+        // Applicant signature validation (uploaded file or typed name)
+        var sigVal = String(hiddenSigField.value || "").trim();
+        if (!sigVal) {
+          firstInvalid = firstInvalid || markError("applicantSignature", "Please upload your signature image or type your full name.");
+        }
+
+        if (firstInvalid) {
+          firstInvalid.scrollIntoView({ behavior: "smooth", block: "center" });
+          var focusable = firstInvalid.querySelector("input:not([type=hidden]), textarea, [role=button]");
+          if (focusable) focusable.focus();
+          return;
+        }
+
+        // Build payload matching existing server expectations
+        var payload = {};
+        Array.prototype.slice.call(form.querySelectorAll("input[name], textarea[name], select[name]")).forEach(function (field) {
+          payload[field.name] = String(field.value || "").trim();
+        });
+        if (payload.softwareName === "Others (specify)" && payload.softwareNameOther) {
+          payload.softwareName = "Others (" + payload.softwareNameOther + ")";
+        }
+        if (!payload.resourcesRequired && (payload.softwareName || payload.softwareType)) {
+          payload.resourcesRequired = (payload.softwareType || "") + " - " + (payload.softwareName || "");
+        }
+        if (!payload.softwareLibraries && payload.mode) {
+          payload.softwareLibraries = payload.mode;
+        }
+
+        // Automatically assign submission date
+        var now = new Date();
+        var dd = String(now.getDate()).padStart(2, "0");
+        var mm = String(now.getMonth() + 1).padStart(2, "0");
+        var yyyy = now.getFullYear();
+        payload.date = dd + "/" + mm + "/" + yyyy;
+
+        // Set submitting state
+        submitBtn.disabled = true;
+        submitBtn.classList.add("is-submitting");
+        submitText.textContent = "Submitting...";
+
+        try {
+          var response = await fetch("/api/public/hpc-account-requests", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify(payload)
+          });
+
+          var result = await response.json();
+          if (!response.ok) {
+            throw new Error(result.message || "Failed to submit HPC account application. Please try again.");
+          }
+
+          // Successful submission: Show Google Forms confirmation screen
+          form.style.display = "none";
+          var req = result.request || {};
+          var reqId = req.id || "N/A";
+          var submittedDate = req.createdAt
+            ? new Date(req.createdAt).toLocaleString("en-IN", { timeZone: "Asia/Kolkata", dateStyle: "medium", timeStyle: "short" })
+            : new Date().toLocaleString();
+
+          confirmDetails.innerHTML = [
+            '<p style="margin:0 0 8px 0;"><strong>Request Reference ID:</strong> <span class="gf-confirm-id-badge">' + escapeHtml(reqId) + '</span></p>',
+            '<p style="margin:0 0 8px 0;"><strong>Applicant Name:</strong> ' + escapeHtml(req.name || nameVal) + '</p>',
+            '<p style="margin:0 0 8px 0;"><strong>Registered Email:</strong> ' + escapeHtml(req.email || emailVal) + '</p>',
+            '<p style="margin:0 0 8px 0;"><strong>Department:</strong> ' + escapeHtml(req.department || deptVal) + '</p>',
+            '<p style="margin:0 0 8px 0;"><strong>Submitted At:</strong> ' + escapeHtml(submittedDate) + '</p>',
+            '<p style="margin:8px 0 0 0; font-size:12px; color:#64748b; border-top:1px dashed #cbd5e1; padding-top:8px;">',
+            'An administrative alert has been sent to the HPC Facility Administrator. Please save your Reference ID for future communication.',
+            '</p>'
+          ].join("");
+
+          confirmationSection.classList.add("is-visible");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        } catch (err) {
+          showAlert(err.message || "An unexpected error occurred. Please check your network connection and try again.");
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.classList.remove("is-submitting");
+          submitText.textContent = "Submit";
+        }
+      });
+
+      function escapeHtml(str) {
+        return String(str || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+    })();
+  </script>
+
+  <script>
+    (function () {
+      var SK = "__phy_visitor_sid";
+      function getSid() { var s = sessionStorage.getItem(SK); if (s) return s; s = ""; for (var i = 0; i < 32; i++)s += "abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random() * 36)); sessionStorage.setItem(SK, s); return s; }
+      function render(n) { var el = document.getElementById("visitor-digits"); if (!el) return; var s = String(n); el.innerHTML = ""; for (var i = 0; i < s.length; i++) { var d = document.createElement("span"); d.className = "visitor-digit"; d.textContent = s[i]; el.appendChild(d); } }
+      var sid = getSid();
+      fetch("/api/public/visitor-hit", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ sessionToken: sid }) }).then(function (r) { return r.json(); }).then(function (d) { if (typeof d.count === "number") render(d.count); }).catch(function () { fetch("/api/public/visitor-count").then(function (r) { return r.json(); }).then(function (d) { if (typeof d.count === "number") render(d.count); }).catch(function () { }); });
+    })();
+  </script>
+</body>
+
+</html>

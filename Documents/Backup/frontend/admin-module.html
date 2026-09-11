@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Portal Module | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .portal-hpc-toolbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .portal-hpc-count {
+      color: #516079;
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .portal-hpc-forms {
+      display: grid;
+      gap: 22px;
+    }
+
+    .portal-hpc-layout {
+      display: grid;
+      grid-template-columns: 280px minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .portal-hpc-submission-list {
+      display: grid;
+      gap: 8px;
+    }
+
+    .portal-hpc-submission-button {
+      width: 100%;
+      border: 1px solid #dbe3ef;
+      border-radius: 8px;
+      padding: 12px 14px;
+      background: #ffffff;
+      color: #17243d;
+      font: inherit;
+      text-align: left;
+      cursor: pointer;
+    }
+
+    .portal-hpc-submission-button strong,
+    .portal-hpc-submission-button span {
+      display: block;
+    }
+
+    .portal-hpc-submission-button strong {
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .portal-hpc-submission-button span {
+      margin-top: 4px;
+      color: #758198;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .portal-hpc-submission-button.is-active {
+      border-color: #174d84;
+      background: #eef6ff;
+    }
+
+    .portal-hpc-form-card {
+      display: grid;
+      gap: 12px;
+    }
+
+    .portal-hpc-empty {
+      margin: 0;
+      padding: 22px;
+      color: #758198;
+      font-size: 15px;
+    }
+
+    .portal-hpc-card-actions {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 12px;
+      width: min(760px, 100%);
+      margin: 0 auto;
+    }
+
+    .portal-hpc-button-group {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .portal-hpc-btn {
+      min-height: 38px;
+      border-radius: 5px;
+      padding: 0 16px;
+      font: inherit;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: background 0.15s ease, border-color 0.15s ease, opacity 0.15s ease;
+    }
+
+    .portal-hpc-approve {
+      background: #15803d;
+      border: 1px solid #166534;
+      color: #ffffff;
+    }
+    .portal-hpc-approve:hover {
+      background: #166534;
+    }
+
+    .portal-hpc-approved-btn {
+      background: #dcfce7;
+      border: 1px solid #86efac;
+      color: #15803d;
+      cursor: default;
+    }
+
+    .portal-hpc-disagree {
+      background: #e11d48;
+      border: 1px solid #be123c;
+      color: #ffffff;
+    }
+    .portal-hpc-disagree:hover {
+      background: #be123c;
+    }
+
+    .portal-hpc-disagreed-btn {
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #b91c1c;
+      cursor: default;
+    }
+
+    .portal-hpc-delete {
+      background: #dc2626;
+      border: 1px solid #b91c1c;
+      color: #ffffff;
+    }
+    .portal-hpc-delete:hover {
+      background: #991b1b;
+    }
+
+    .portal-hpc-download {
+      border: 1px solid #174d84;
+      background: #174d84;
+      color: #ffffff;
+    }
+    .portal-hpc-download:hover {
+      background: #0f3964;
+    }
+
+    .portal-hpc-status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 700;
+    }
+    .portal-hpc-status-pill.is-approved {
+      background: #dcfce7;
+      color: #15803d;
+      border: 1px solid #bbf7d0;
+    }
+    .portal-hpc-status-pill.is-submitted {
+      background: #fef3c7;
+      color: #b45309;
+      border: 1px solid #fde68a;
+    }
+    .portal-hpc-status-pill.is-disagreed,
+    .portal-hpc-status-pill.is-disapproved {
+      background: #fee2e2;
+      color: #b91c1c;
+      border: 1px solid #fecaca;
+    }
+
+    .portal-hpc-sub-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+      width: 100%;
+    }
+
+    .portal-hpc-list-badge {
+      display: inline-block;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 2px 7px;
+      border-radius: 999px;
+      flex-shrink: 0;
+    }
+    .portal-hpc-list-badge.is-approved {
+      background: #dcfce7;
+      color: #15803d;
+    }
+    .portal-hpc-list-badge.is-submitted {
+      background: #f1f5f9;
+      color: #64748b;
+    }
+    .portal-hpc-list-badge.is-disagreed,
+    .portal-hpc-list-badge.is-disapproved {
+      background: #fee2e2;
+      color: #b91c1c;
+    }
+
+    .portal-hpc-paper {
+      width: min(760px, 100%);
+      margin: 0 auto;
+      border: 1px solid #dadce0;
+      border-radius: 10px;
+      background: #ffffff;
+      color: #202124;
+      font-family: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      font-size: 14px;
+      line-height: 1.5;
+      box-shadow: 0 1px 3px rgba(60, 64, 67, 0.08), 0 1px 2px rgba(60, 64, 67, 0.12);
+      overflow: hidden;
+    }
+
+    .portal-hpc-header-accent {
+      height: 10px;
+      background: linear-gradient(90deg, #0b2545 0%, #1a4f8a 70%, #c9a84c 100%);
+    }
+
+    .portal-hpc-paper-head {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 20px 28px;
+      border-bottom: 1px solid #edf0f5;
+      text-align: left;
+    }
+
+    .portal-hpc-paper-head img {
+      width: 54px;
+      height: 54px;
+      object-fit: contain;
+      flex-shrink: 0;
+    }
+
+    .portal-hpc-paper-head-info h3 {
+      margin: 0 0 3px;
+      font-size: 17px;
+      font-weight: 700;
+      color: #0b2545;
+      line-height: 1.25;
+    }
+
+    .portal-hpc-paper-head-info p {
+      margin: 0;
+      font-size: 13px;
+      color: #5f6368;
+      line-height: 1.35;
+    }
+
+    .portal-hpc-intro-card {
+      padding: 22px 28px;
+      border-bottom: 8px solid #f0f4f9;
+      background: #ffffff;
+    }
+
+    .portal-hpc-form-title {
+      margin: 0 0 10px;
+      font-size: 24px;
+      font-weight: 700;
+      color: #122a53;
+      line-height: 1.25;
+      letter-spacing: -0.01em;
+    }
+
+    .portal-hpc-form-desc {
+      margin: 0;
+      font-size: 13.5px;
+      line-height: 1.6;
+      color: #3c4043;
+    }
+
+    .portal-hpc-section {
+      padding: 24px 28px;
+      border-bottom: 8px solid #f0f4f9;
+    }
+
+    .portal-hpc-section:last-child {
+      border-bottom: none;
+    }
+
+    .portal-hpc-section-title {
+      margin: 0 0 4px;
+      font-size: 16px;
+      font-weight: 700;
+      color: #1a4f8a;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .portal-hpc-section-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #e8f0fa;
+      color: #1a4f8a;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .portal-hpc-section-desc {
+      margin: 0 0 16px;
+      font-size: 12.5px;
+      color: #5f6368;
+    }
+
+    .portal-hpc-grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .portal-hpc-grid-2:last-child {
+      margin-bottom: 0;
+    }
+
+    .portal-hpc-field {
+      margin-bottom: 14px;
+    }
+
+    .portal-hpc-field:last-child {
+      margin-bottom: 0;
+    }
+
+    .portal-hpc-field-label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12.5px;
+      font-weight: 600;
+      color: #475569;
+    }
+
+    .portal-hpc-field-val {
+      padding: 10px 14px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 6px;
+      font-size: 14px;
+      color: #0f172a;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      word-break: break-word;
+      line-height: 1.4;
+    }
+
+    .portal-hpc-empty-val {
+      color: #94a3b8;
+      font-style: italic;
+    }
+
+    .portal-hpc-sig-val {
+      display: flex;
+      align-items: center;
+      min-height: 38px;
+    }
+
+    .portal-hpc-sig-val img {
+      max-height: 48px;
+      max-width: 220px;
+      object-fit: contain;
+    }
+
+    .portal-hpc-office-section {
+      background: #fcfcfd;
+    }
+
+    @media (max-width: 720px) {
+      .portal-hpc-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .portal-hpc-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .portal-hpc-paper-head {
+        flex-direction: column;
+        text-align: center;
+        padding: 18px;
+      }
+
+      .portal-hpc-intro-card,
+      .portal-hpc-section {
+        padding: 18px;
+      }
+
+      .portal-hpc-grid-2 {
+        grid-template-columns: 1fr;
+      }
+    }
+
+      .portal-hpc-sign-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+      }
+    }
+
+    @media print {
+      body * {
+        visibility: hidden;
+      }
+
+      .portal-hpc-form-card.is-printing,
+      .portal-hpc-form-card.is-printing * {
+        visibility: visible;
+      }
+
+      .portal-hpc-form-card.is-printing {
+        position: absolute;
+        inset: 0 auto auto 0;
+        width: 100%;
+        padding: 0;
+        background: #ffffff;
+      }
+
+      .portal-hpc-form-card.is-printing .portal-hpc-card-actions,
+      .portal-hpc-form-card.is-printing .portal-hpc-download {
+        display: none !important;
+      }
+
+      .portal-hpc-form-card.is-printing .portal-hpc-paper {
+        width: 100%;
+        margin: 0;
+        border-color: #777777;
+      }
+    }
+  </style>
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html">Notices</a><a href="./admin-notices.html?category=General">General Notices</a><a href="./admin-notices.html?category=Academic">Academic Notices</a><a href="./admin-notices.html?category=Administrative">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar">Seminar Requests</a><a href="./admin-bookings.html?type=zoom">Room Booking</a><a href="./admin-profile.html">Edit Profile</a><a href="./admin-notices.html?category=Faculty">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html?view=cmsts">CMSTS</a><a href="./admin-tickets.html?view=raise">Raise Ticket</a><a href="./admin-tickets.html?view=track">Track Status</a><a href="./facility-booking.html">Facility Booking</a><a href="./admin-module.html?module=computational-access&title=HPC%20Facility" id="services-computational-access-link">HPC Facility</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+    <main class="portal-main portal-module-main">
+      <section class="portal-page-shell">
+        <div class="portal-page-header"><div><p class="portal-page-eyebrow">Connected Module</p><h1 class="portal-page-title" id="module-title">Portal Module</h1></div><p class="portal-page-copy" id="module-copy">This module is active and routed correctly.</p></div>
+        <section class="portal-panel" id="module-panel"><p class="portal-module-copy">Loading module...</p></section>
+      </section>
+    </main>
+  </div>
+  <script>
+    (function () {
+      var params = new URLSearchParams(window.location.search);
+      var token = params.get("token") || params.get("iitPortalToken") || localStorage.getItem("iitPortalToken");
+      if (token && !localStorage.getItem("iitPortalToken")) {
+        localStorage.setItem("iitPortalToken", token);
+      }
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+      var title = params.get("title") || "Portal Module";
+      var module = params.get("module") || "";
+      var computationalAccessLink = document.getElementById("services-computational-access-link");
+      var moduleCopy = document.getElementById("module-copy");
+      var modulePanel = document.getElementById("module-panel");
+      var hpcRequestsCache = [];
+      var activeHpcRequestId = params.get("id") || "";
+      document.getElementById("module-title").textContent = title;
+      document.title = title + " | IIT Portal";
+      if (module === "computational-access" && computationalAccessLink) {
+        computationalAccessLink.classList.add("is-active");
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
+        });
+      }
+
+      function formatDate(value) {
+        if (!value) { return "Not recorded"; }
+        var date = new Date(value);
+        if (Number.isNaN(date.getTime())) { return String(value); }
+        return date.toLocaleDateString() + " at " + date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      }
+
+      async function api(path, options) {
+        options = options || {};
+        options.headers = Object.assign({ Authorization: "Bearer " + token }, options.headers || {});
+        var response = await fetch(window.location.origin + path, options);
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function renderHpcRequests(requests) {
+        hpcRequestsCache = requests;
+        moduleCopy.textContent = "Submitted Departmental Computing facility forms are visible here for admins granted HPC Facility access by superadmin.";
+        var count = requests.length;
+        if (!count) {
+          modulePanel.innerHTML = '<div class="portal-hpc-toolbar"><strong>HPC Account Forms</strong><span class="portal-hpc-count">0 submissions</span></div><p class="portal-hpc-empty">No HPC account forms have been submitted yet.</p>';
+          return;
+        }
+        if (!activeHpcRequestId || !requests.some(function (item, index) { return requestId(item, index) === activeHpcRequestId; })) {
+          activeHpcRequestId = requestId(requests[0], 0);
+        }
+        var activeRequest = requests.find(function (item, index) { return requestId(item, index) === activeHpcRequestId; }) || requests[0];
+        modulePanel.innerHTML = [
+          '<div class="portal-hpc-toolbar"><strong>HPC Account Forms</strong><span class="portal-hpc-count">' + count + ' submission' + (count === 1 ? '' : 's') + '</span></div>',
+          '<div class="portal-hpc-layout">',
+          '<div class="portal-hpc-submission-list" aria-label="HPC submissions">',
+          requests.map(renderSubmissionButton).join(''),
+          '</div>',
+          '<div class="portal-hpc-forms">',
+          renderHpcForm(activeRequest, requests.indexOf(activeRequest)),
+          '</div>',
+          '</div>'
+        ].join('');
+      }
+
+      function requestId(item, index) {
+        return String((item && item.id) || index);
+      }
+
+      function submissionName(item, index) {
+        var name = String((item && item.name) || "").trim();
+        var email = String((item && item.email) || "").trim();
+        var login = String((item && item.preferredLoginId) || "").trim();
+        return name || email || login || ("Submission " + (index + 1));
+      }
+
+      function renderSubmissionButton(item, index) {
+        var id = requestId(item, index);
+        var activeClass = id === activeHpcRequestId ? " is-active" : "";
+        var statusLower = (item.status || "").toLowerCase();
+        var isApproved = statusLower === "approved";
+        var isDisagreed = statusLower === "disagreed" || statusLower === "disapproved";
+        var isForwarded = isApproved || Boolean(item.forwardedToSuperadmin);
+        var badgeClass = isApproved ? 'is-approved' : (isDisagreed ? 'is-disagreed' : 'is-submitted');
+        var badgeText = isApproved ? 'Approved → Superadmin' : (isDisagreed ? 'Disagreed' : 'Submitted');
+        return [
+          '<button class="portal-hpc-submission-button' + activeClass + '" type="button" data-select-hpc-form="' + escapeHtml(id) + '">',
+          '<div class="portal-hpc-sub-row">',
+          '<strong>' + escapeHtml(submissionName(item, index)) + '</strong>',
+          '<span class="portal-hpc-list-badge ' + badgeClass + '">' + badgeText + '</span>',
+          '</div>',
+          '<span>' + escapeHtml(formatDate(item.createdAt)) + '</span>',
+          '</button>'
+        ].join('');
+      }
+
+      function formLine(value) {
+        var str = String(value || '').trim();
+        if (!str) {
+          return '<span class="portal-hpc-empty-val">—</span>';
+        }
+        if (str.startsWith('data:image/') || str.startsWith('./uploads/') || str.startsWith('/uploads/') || /\.(png|jpe?g|webp|svg)$/i.test(str)) {
+          return '<div class="portal-hpc-sig-val"><img src="' + escapeHtml(str) + '" alt="Signature" /></div>';
+        }
+        return '<span class="portal-hpc-text-val">' + escapeHtml(str) + '</span>';
+      }
+
+      function renderHpcForm(item, index) {
+        var statusLower = (item.status || "").toLowerCase();
+        var isApproved = statusLower === "approved";
+        var isDisagreed = statusLower === "disagreed" || statusLower === "disapproved";
+        var isForwarded = isApproved || Boolean(item.forwardedToSuperadmin);
+        var id = requestId(item, index);
+        var formattedCreated = formatDate(item.createdAt);
+        var formattedApproved = item.approvedAt ? formatDate(item.approvedAt) : "";
+        var formattedDisapproved = item.disapprovedAt ? formatDate(item.disapprovedAt) : "";
+        var statusPillClass = isApproved ? 'is-approved' : (isDisagreed ? 'is-disagreed' : 'is-submitted');
+        var statusPillText = isApproved ? '✓ Status: Approved &amp; Sent to Superadmin' : (isDisagreed ? '✕ Status: Disagreed' : '⏳ Status: Submitted / Pending');
+
+        var displaySoftType = String(item.softwareType || "").trim();
+        var displaySoftName = String(item.softwareName || "").trim();
+        if (displaySoftType.indexOf(" - ") !== -1 && !displaySoftName) {
+          var typeParts = displaySoftType.split(" - ");
+          displaySoftType = typeParts[0].trim();
+          displaySoftName = typeParts.slice(1).join(" - ").trim();
+        } else if (!displaySoftType && item.resourcesRequired) {
+          var resReqStr = String(item.resourcesRequired).trim();
+          if (resReqStr.indexOf(" - ") !== -1) {
+            var parts = resReqStr.split(" - ");
+            displaySoftType = parts[0].trim();
+            if (!displaySoftName) displaySoftName = parts.slice(1).join(" - ").trim();
+          } else {
+            displaySoftType = resReqStr;
+          }
+        }
+
+        return [
+          '<article class="portal-hpc-form-card" data-hpc-form-card="' + escapeHtml(id) + '">',
+          '<div class="portal-hpc-card-actions">',
+          '<div class="portal-hpc-status-pill ' + statusPillClass + '">',
+          statusPillText,
+          '</div>',
+          '<div class="portal-hpc-button-group">',
+          (!isApproved
+            ? '<button class="portal-hpc-btn portal-hpc-approve" type="button" data-approve-hpc-form="' + escapeHtml(id) + '">✓ Approve Form</button>'
+            : '<button class="portal-hpc-btn portal-hpc-approved-btn" type="button" disabled>✓ Approved &amp; Sent to Superadmin</button>'),
+          (!isDisagreed
+            ? '<button class="portal-hpc-btn portal-hpc-disagree" type="button" data-disagree-hpc-form="' + escapeHtml(id) + '">✕ Disagree</button>'
+            : '<button class="portal-hpc-btn portal-hpc-disagreed-btn" type="button" disabled>✕ Disagreed</button>'),
+          '<button class="portal-hpc-btn portal-hpc-delete" type="button" data-delete-hpc-form="' + escapeHtml(id) + '">🗑 Delete</button>',
+          '<button class="portal-hpc-btn portal-hpc-download" type="button" data-download-hpc-form="' + escapeHtml(id) + '">Download PDF</button>',
+          '</div>',
+          '</div>',
+
+          '<section class="portal-hpc-paper">',
+          '<div class="portal-hpc-header-accent" aria-hidden="true"></div>',
+          '<header class="portal-hpc-paper-head">',
+          '<img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Crest" />',
+          '<div class="portal-hpc-paper-head-info">',
+          '<h3>Department of Physics</h3>',
+          '<p>Indian Institute of Technology Kharagpur &bull; Departmental Computing Facility</p>',
+          '</div>',
+          '</header>',
+
+          '<div class="portal-hpc-intro-card">',
+          '<h1 class="portal-hpc-form-title">HPC Cluster Access</h1>',
+          '<div class="portal-hpc-form-desc">',
+          '<p style="margin:0 0 8px;">Two High-Performance Computing (HPC) Cluster, <strong style="color: #1a4f8a;">SNBOSE, PRITHVI</strong> managed by the Department of Physics, IIT Kharagpur. Access to the cluster is granted exclusively through secure shell (SSH) to the designated cluster, which serves as the gateway to the compute resources. All computational work must be submitted via the <strong style="color: #1a4f8a;"><em>SLURM</em></strong> job scheduler, direct execution of resource-intensive tasks on the login node is strictly prohibited.</p>',
+          '<p style="margin:0 0 8px;">Please complete this form to request access credentials.</p>',
+          '<p style="margin:0;"><strong>Note:</strong> Upon form submission, an automated notification is dispatched to the HPC Admin. Once processed, your login details will be shared via your registered email.</p>',
+          '</div>',
+          '</div>',
+
+          '<!-- Section 1: Applicant Information -->',
+          '<div class="portal-hpc-section">',
+          '<h3 class="portal-hpc-section-title"><span class="portal-hpc-section-badge">1</span> Applicant Information</h3>',
+          '<p class="portal-hpc-section-desc">Personal and academic identification details for verification.</p>',
+          '<div class="portal-hpc-grid-2">',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Full Name</span><div class="portal-hpc-field-val">' + formLine(item.name) + '</div></div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Department / Centre / School</span><div class="portal-hpc-field-val">' + formLine(item.department) + '</div></div>',
+          '</div>',
+          '<div class="portal-hpc-grid-2">',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Preferred Login ID (if available)</span><div class="portal-hpc-field-val">' + formLine(item.preferredLoginId) + '</div></div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Institute ID / Roll No</span><div class="portal-hpc-field-val">' + formLine(item.instituteId) + '</div></div>',
+          '</div>',
+          '<div class="portal-hpc-grid-2">',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Email Address</span><div class="portal-hpc-field-val">' + formLine(item.email) + '</div></div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Mobile No.</span><div class="portal-hpc-field-val">' + formLine(item.mobile) + '</div></div>',
+          '</div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Supervisor Name (if applicable)</span><div class="portal-hpc-field-val">' + formLine(item.supervisorName) + '</div></div>',
+          '</div>',
+
+          '<!-- Section 2: Computational Resource Requirements -->',
+          '<div class="portal-hpc-section">',
+          '<h3 class="portal-hpc-section-title"><span class="portal-hpc-section-badge">2</span> Computational Resource Requirements</h3>',
+          '<p class="portal-hpc-section-desc">Specify the hardware and software configuration you need for your scientific simulations.</p>',
+          '<div class="portal-hpc-grid-2">',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Software Type</span><div class="portal-hpc-field-val">' + formLine(displaySoftType) + '</div></div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Software Name</span><div class="portal-hpc-field-val">' + formLine(displaySoftName) + '</div></div>',
+          '</div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Mode</span><div class="portal-hpc-field-val">' + formLine(item.mode || item.softwareLibraries) + '</div></div>',
+          '</div>',
+
+          '<!-- Section 3: Declaration & Digital Signature -->',
+          '<div class="portal-hpc-section">',
+          '<h3 class="portal-hpc-section-title"><span class="portal-hpc-section-badge">3</span> Declaration &amp; Digital Signature</h3>',
+          '<p class="portal-hpc-section-desc">Adherence to the institute\'s computing ethics, data security, and resource allocation policies.</p>',
+          '<div class="portal-hpc-grid-2">',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Signature of Applicant</span><div class="portal-hpc-field-val">' + formLine(item.applicantSignature) + '</div></div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Submission Date</span><div class="portal-hpc-field-val">' + formLine(item.date) + '</div></div>',
+          '</div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Signature of the Supervisor (if applicable)</span><div class="portal-hpc-field-val">' + formLine(item.supervisorSignature) + '</div></div>',
+          '</div>',
+
+          '<!-- Section 4: For Office Use (Administrative Section) -->',
+          '<div class="portal-hpc-section portal-hpc-office-section">',
+          '<h3 class="portal-hpc-section-title"><span class="portal-hpc-section-badge">4</span> For Office Use (Administrative Section)</h3>',
+          '<p class="portal-hpc-section-desc">Departmental Computing Facility administrative allocation records.</p>',
+          '<div class="portal-hpc-grid-2">',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Server Allotted</span><div class="portal-hpc-field-val">' + formLine(item.serverAllotted) + '</div></div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Login ID Given</span><div class="portal-hpc-field-val">' + formLine(item.loginIdGiven) + '</div></div>',
+          '</div>',
+          '<div class="portal-hpc-grid-2">',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">System Administrator Decision</span><div class="portal-hpc-field-val" style="font-weight:600;' + (isApproved ? 'color:#15803d;' : (isDisagreed ? 'color:#b91c1c;' : 'color:#b45309;')) + '">' + (isApproved ? '✓ Approved by System Administrator (Forwarded to Superadmin)' : (isDisagreed ? '✕ Disagreed by System Administrator' : '⏳ Pending Administrative Decision')) + '</div></div>',
+          '<div class="portal-hpc-field"><span class="portal-hpc-field-label">Submission Timestamp</span><div class="portal-hpc-field-val">' + escapeHtml(formattedCreated) + (formattedApproved ? ' (Approved &amp; Sent to Superadmin: ' + escapeHtml(formattedApproved) + ')' : (formattedDisapproved ? ' (Disagreed: ' + escapeHtml(formattedDisapproved) + ')' : '')) + '</div></div>',
+          '</div>',
+          (isApproved || isForwarded
+            ? '<div class="portal-hpc-routing-banner" style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:6px;padding:10px 14px;margin-top:12px;display:flex;align-items:center;gap:10px;font-size:13px;color:#1e40af;"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg><span><strong>Superadmin Routing:</strong> This form has been approved by administrator and forwarded to the <strong>Superadmin</strong> for review and server allocation.</span></div>'
+            : ''),
+          '</div>',
+
+          '</section>',
+          '</article>'
+        ].join('');
+      }
+
+      function downloadHpcForm(card) {
+        if (!card) { return; }
+        var id = card.getAttribute("data-hpc-form-card");
+        var item = hpcRequestsCache.find(function (r, idx) { return requestId(r, idx) === id; });
+        if (!item) { return; }
+
+        var statusLower = (item.status || "").toLowerCase();
+        var isApproved = statusLower === "approved";
+        var isDisagreed = statusLower === "disagreed" || statusLower === "disapproved";
+        var statusText = isApproved ? "Approved & Forwarded to Superadmin" : isDisagreed ? "Disagreed" : "Submitted / Pending";
+        var statusColor = isApproved ? "#065f46" : isDisagreed ? "#991b1b" : "#92400e";
+        var statusBg = isApproved ? "#d1fae5" : isDisagreed ? "#fee2e2" : "#fef3c7";
+
+        var displaySoftType = String(item.softwareType || "").trim();
+        var displaySoftName = String(item.softwareName || "").trim();
+        if (displaySoftType.indexOf(" - ") !== -1 && !displaySoftName) {
+          var tp = displaySoftType.split(" - ");
+          displaySoftType = tp[0].trim();
+          displaySoftName = tp.slice(1).join(" - ").trim();
+        }
+
+        function pf(label, val) {
+          var v = String(val || "").trim();
+          if (!v) v = "\u2014";
+          // detect signature image
+          if (v.startsWith("data:image/") || v.startsWith("./uploads/") || v.startsWith("/uploads/") || /\.(png|jpe?g|webp|svg)$/i.test(v)) {
+            return '<div class="field"><div class="lbl">'+label+'</div><div class="val"><img src="'+v+'" style="max-height:60px;max-width:200px;object-fit:contain;" /></div></div>';
+          }
+          return '<div class="field"><div class="lbl">'+label+'</div><div class="val">'+v+'</div></div>';
+        }
+        function pfrow() { return '<div class="row">' + Array.from(arguments).join("") + '</div>'; }
+
+        var officeSection = (item.serverAllotted || item.loginIdGiven || item.approvedAt)
+          ? '<div class="section office"><h2>For Office Use (Administrative)</h2>'
+            + pfrow(pf("Server Allotted", item.serverAllotted), pf("Login ID Given", item.loginIdGiven))
+            + pfrow(pf("Approved By", item.approvedBy), pf("Approved At", item.approvedAt ? new Date(item.approvedAt).toLocaleString("en-IN") : ""))
+            + '</div>'
+          : '';
+
+        var html = '<!DOCTYPE html><html><head><meta charset="UTF-8"/>'
+          + '<title>HPC Form - '+escapeHtml(item.name||"Applicant")+'</title>'
+          + '<style>'
+          + 'body{font-family:Arial,sans-serif;margin:0;padding:0;color:#111;font-size:13px;background:#fff;}'
+          + '.page{padding:30px 40px;max-width:800px;margin:0 auto;}'
+          + '.header{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid #1a4f8a;padding-bottom:14px;margin-bottom:18px;}'
+          + '.hd-left h1{font-size:15px;font-weight:700;color:#1a4f8a;margin:0 0 3px;}'
+          + '.hd-left p{font-size:11px;color:#555;margin:0;}'
+          + '.hd-right{font-size:11px;color:#555;text-align:right;}'
+          + '.status-pill{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-bottom:16px;background:'+statusBg+';color:'+statusColor+';}'
+          + '.section{margin-bottom:18px;}'
+          + '.section h2{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#1a4f8a;border-bottom:1px solid #e5e7eb;padding-bottom:5px;margin:0 0 10px;}'
+          + '.row{display:grid;grid-template-columns:1fr 1fr;gap:8px 24px;margin-bottom:8px;}'
+          + '.field{padding:5px 0;border-bottom:1px dashed #f0f0f0;}'
+          + '.lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#888;margin-bottom:2px;}'
+          + '.val{font-size:13px;color:#111;font-weight:500;}'
+          + '.section.office{background:#f0fdf4;border:1px solid #6ee7b7;border-radius:8px;padding:14px 16px;margin-top:16px;}'
+          + '.section.office h2{color:#065f46;border-color:#6ee7b7;}'
+          + '.sig-row{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:36px;}'
+          + '.sig-box{border-top:1.5px solid #aaa;padding-top:8px;font-size:11px;color:#555;text-align:center;}'
+          + '.footer{margin-top:28px;font-size:10px;color:#bbb;border-top:1px solid #eee;padding-top:10px;text-align:center;}'
+          + '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}'
+          + '</style></head><body><div class="page">'
+          + '<div class="header">'
+          + '<div class="hd-left"><h1>Department of Physics &mdash; IIT Kharagpur</h1><p>HPC Cluster Account Request Form &bull; Departmental Computing Facility</p></div>'
+          + '<div class="hd-right"><strong>Form ID:</strong> '+escapeHtml(id)+'<br/><strong>Submitted:</strong> '+escapeHtml(item.createdAt ? new Date(item.createdAt).toLocaleDateString("en-IN",{day:"2-digit",month:"short",year:"numeric"}) : "")+'</div>'
+          + '</div>'
+          + '<span class="status-pill">Status: '+escapeHtml(statusText)+'</span>'
+
+          + '<div class="section"><h2>Section 1 &mdash; Applicant Information</h2>'
+          + pfrow(pf("Full Name", item.name), pf("Department / Centre / School", item.department))
+          + pfrow(pf("Institute ID / Roll No", item.instituteId), pf("Preferred Login ID", item.preferredLoginId))
+          + pfrow(pf("Email Address", item.email), pf("Mobile No.", item.mobile))
+          + pf("Supervisor Name (if applicable)", item.supervisorName)
+          + '</div>'
+
+          + '<div class="section"><h2>Section 2 &mdash; Computational Resource Requirements</h2>'
+          + pfrow(pf("Software Type", displaySoftType), pf("Software Name", displaySoftName))
+          + pf("Mode", item.mode || item.softwareLibraries)
+          + '</div>'
+
+          + '<div class="section"><h2>Section 3 &mdash; Declaration &amp; Signature</h2>'
+          + pfrow(pf("Signature of Applicant", item.applicantSignature), pf("Submission Date", item.date))
+          + pf("Signature of Supervisor (if applicable)", item.supervisorSignature)
+          + '</div>'
+
+          + officeSection
+
+          + '<div class="sig-row">'
+          + '<div class="sig-box">Applicant Signature &amp; Date</div>'
+          + '<div class="sig-box">Supervisor Signature &amp; Date</div>'
+          + '</div>'
+          + '<div class="footer">Department of Physics, IIT Kharagpur &bull; Generated: '+new Date().toLocaleString("en-IN")+'</div>'
+          + '</div></body></html>';
+
+        var w = window.open("", "_blank", "width=900,height=750");
+        w.document.write(html);
+        w.document.close();
+        setTimeout(function () { w.focus(); w.print(); }, 500);
+      }
+
+      async function loadHpcRequests() {
+        try {
+          var data = await api("/api/admin/hpc-account-requests");
+          renderHpcRequests(Array.isArray(data.requests) ? data.requests : []);
+        } catch (error) {
+          moduleCopy.textContent = "Superadmin must grant HPC Facility access before this module can be used.";
+          modulePanel.innerHTML = '<p class="portal-access-note">' + escapeHtml(error.message) + '</p>';
+        }
+      }
+
+      modulePanel.addEventListener("click", async function (event) {
+        var selectButton = event.target.closest("[data-select-hpc-form]");
+        if (selectButton) {
+          activeHpcRequestId = selectButton.getAttribute("data-select-hpc-form");
+          renderHpcRequests(hpcRequestsCache);
+          return;
+        }
+
+        var approveButton = event.target.closest("[data-approve-hpc-form]");
+        if (approveButton) {
+          var id = approveButton.getAttribute("data-approve-hpc-form");
+          if (!confirm("Are you sure you want to approve this HPC account form? It will be forwarded to the Superadmin.")) { return; }
+          approveButton.disabled = true;
+          approveButton.textContent = "Approving & Forwarding...";
+          try {
+            var res = await api("/api/admin/hpc-account-requests/" + encodeURIComponent(id) + "/approve", {
+              method: "POST"
+            });
+            var target = hpcRequestsCache.find(function (r, idx) { return requestId(r, idx) === id; });
+            if (target) {
+              target.status = "Approved";
+              target.forwardedToSuperadmin = true;
+              target.approvedAt = res.request ? res.request.approvedAt : new Date().toISOString();
+              target.forwardedAt = res.request ? res.request.forwardedAt : new Date().toISOString();
+              target.approvedBy = res.request ? res.request.approvedBy : target.approvedBy;
+            }
+            renderHpcRequests(hpcRequestsCache);
+            alert("✓ Form approved successfully and forwarded to Superadmin.");
+          } catch (err) {
+            alert(err.message || "Failed to approve form.");
+            approveButton.disabled = false;
+            approveButton.textContent = "✓ Approve Form";
+          }
+          return;
+        }
+
+        var disagreeButton = event.target.closest("[data-disagree-hpc-form]");
+        if (disagreeButton) {
+          var id = disagreeButton.getAttribute("data-disagree-hpc-form");
+          if (!confirm("Are you sure you want to mark this HPC form as Disagreed? It will remain recorded in the portal as Disagreed.")) { return; }
+          disagreeButton.disabled = true;
+          disagreeButton.textContent = "Updating...";
+          try {
+            var res = await api("/api/admin/hpc-account-requests/" + encodeURIComponent(id) + "/disagree", {
+              method: "POST"
+            });
+            var target = hpcRequestsCache.find(function (r, idx) { return requestId(r, idx) === id; });
+            if (target) {
+              target.status = "Disagreed";
+              target.disapprovedAt = res.request ? res.request.disapprovedAt : new Date().toISOString();
+            }
+            renderHpcRequests(hpcRequestsCache);
+          } catch (err) {
+            alert(err.message || "Failed to mark form as disagreed.");
+            disagreeButton.disabled = false;
+            disagreeButton.textContent = "✕ Disagree";
+          }
+          return;
+        }
+
+        var deleteButton = event.target.closest("[data-delete-hpc-form]");
+        if (deleteButton) {
+          var id = deleteButton.getAttribute("data-delete-hpc-form");
+          if (!confirm("Are you sure you want to permanently delete this HPC form? This action cannot be undone.")) { return; }
+          deleteButton.disabled = true;
+          deleteButton.textContent = "Deleting...";
+          try {
+            await api("/api/admin/hpc-account-requests/" + encodeURIComponent(id) + "/delete", {
+              method: "POST"
+            });
+            hpcRequestsCache = hpcRequestsCache.filter(function (r, idx) { return requestId(r, idx) !== id; });
+            if (activeHpcRequestId === id) {
+              activeHpcRequestId = hpcRequestsCache.length ? requestId(hpcRequestsCache[0], 0) : "";
+            }
+            renderHpcRequests(hpcRequestsCache);
+          } catch (err) {
+            alert(err.message || "Failed to delete form.");
+            deleteButton.disabled = false;
+            deleteButton.textContent = "🗑 Delete";
+          }
+          return;
+        }
+
+        var button = event.target.closest("[data-download-hpc-form]");
+        if (!button) { return; }
+        downloadHpcForm(button.closest(".portal-hpc-form-card"));
+      });
+
+      window.addEventListener("afterprint", function () {
+        document.querySelectorAll(".portal-hpc-form-card.is-printing").forEach(function (item) {
+          item.classList.remove("is-printing");
+        });
+      });
+
+      if (module === "computational-access") {
+        loadHpcRequests();
+      } else {
+        modulePanel.innerHTML = '<p class="portal-module-copy">This page is active and routed correctly. The backend foundation is in place, so this module can be extended into a full workflow next.</p>';
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

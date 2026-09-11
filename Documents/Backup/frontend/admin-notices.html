@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage Notices | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html" id="sidebar-notices-link">Notices</a><a href="./admin-news-events.html">News &amp; Events</a><a href="./admin-notices.html?category=General" id="sidebar-general-notices-link">General Notices</a><a href="./admin-notices.html?category=Academic" id="sidebar-academic-notices-link">Academic Notices</a><a href="./admin-notices.html?category=Administrative" id="sidebar-administrative-notices-link">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar">Seminar Requests</a><a href="./admin-bookings.html?type=zoom">Room Booking</a><a href="./admin-profile.html">Edit Profile</a><a href="./admin-notices.html?category=Faculty" id="sidebar-faculty-notices-link">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html">CMSTS</a><a href="./admin-tickets.html">Raise Ticket</a><a href="./admin-tickets.html">Track Status</a><a href="./facility-booking.html">Facility Booking</a><a href="./admin-module.html?module=computational-access&title=Computational%20Access">Computational Access</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+
+    <main class="portal-main portal-module-main">
+      <section class="portal-page-shell">
+        <div class="portal-page-header">
+          <div>
+            <p class="portal-page-eyebrow">Website Publishing</p>
+            <h1 class="portal-page-title">Manage Notices</h1>
+          </div>
+          <p class="portal-page-copy">Notices added here are shown on the public website announcements section.</p>
+        </div>
+
+        <div class="portal-module-grid">
+          <section class="portal-panel">
+            <h2 class="portal-panel-title">Publish Notice</h2>
+            <form class="portal-form-grid" id="notice-form">
+              <label>Title<input class="portal-input" name="title" required /></label>
+              <label>Category
+                <select class="portal-input" name="category">
+                  <option>General</option>
+                  <option>Academic</option>
+                  <option>Administrative</option>
+                  <option>Faculty</option>
+                </select>
+              </label>
+              <label class="portal-form-span">Content<textarea class="portal-textarea" name="content" required></textarea></label>
+              <button class="portal-button" type="submit">Publish Notice</button>
+            </form>
+            <p class="portal-inline-message" id="notice-message"></p>
+          </section>
+
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Published Notices</h2></div>
+            <div id="notice-list" class="portal-card-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      
+      function setupMobilePortalSidebar() {
+        var sidebar = document.querySelector(".portal-sidebar");
+        var menuButton = document.querySelector(".portal-menu-button");
+        if (!sidebar || !menuButton) { return; }
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      setupMobilePortalSidebar();
+
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+      var params = new URLSearchParams(window.location.search);
+      var activeCategory = params.get("category");
+      var noticeLink = document.getElementById("sidebar-notices-link");
+      var generalNoticeLink = document.getElementById("sidebar-general-notices-link");
+      var academicNoticeLink = document.getElementById("sidebar-academic-notices-link");
+      var administrativeNoticeLink = document.getElementById("sidebar-administrative-notices-link");
+      var facultyNoticeLink = document.getElementById("sidebar-faculty-notices-link");
+      var list = document.getElementById("notice-list");
+      var form = document.getElementById("notice-form");
+      var message = document.getElementById("notice-message");
+      var canPublish = false;
+      var canDelete = false;
+
+      [
+        noticeLink,
+        generalNoticeLink,
+        academicNoticeLink,
+        administrativeNoticeLink,
+        facultyNoticeLink
+      ].forEach(function (link) {
+        if (link) {
+          link.classList.remove("is-active");
+        }
+      });
+
+      if (activeCategory === "General" && generalNoticeLink) {
+        generalNoticeLink.classList.add("is-active");
+      } else if (activeCategory === "Academic" && academicNoticeLink) {
+        academicNoticeLink.classList.add("is-active");
+      } else if (activeCategory === "Administrative" && administrativeNoticeLink) {
+        administrativeNoticeLink.classList.add("is-active");
+      } else if (activeCategory === "Faculty" && facultyNoticeLink) {
+        facultyNoticeLink.classList.add("is-active");
+      } else if (noticeLink) {
+        noticeLink.classList.add("is-active");
+      }
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({
+          headers: { Authorization: "Bearer " + token }
+        }, options || {}));
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      async function loadPermissions() {
+        var data = await api("/api/auth/me");
+        var user = data.user || {};
+        var permissions = Array.isArray(user.permissions) ? user.permissions : [];
+        canPublish = user.role === "superadmin" || permissions.indexOf("all") !== -1 || permissions.indexOf("publish_notice") !== -1;
+        canDelete = user.role === "superadmin" || permissions.indexOf("all") !== -1 || permissions.indexOf("delete_notice") !== -1;
+        if (!canPublish) {
+          form.hidden = true;
+          message.textContent = canDelete
+            ? "This account can delete notices, but cannot publish new ones."
+            : "Superadmin has not granted notice publishing access for this account yet.";
+        }
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
+        });
+      }
+
+      function renderNotices(items) {
+        var filtered = activeCategory ? items.filter(function (item) { return item.category === activeCategory; }) : items;
+        list.innerHTML = filtered.length ? filtered.map(function (item) {
+          var deleteButton = canDelete ? '<button class="portal-button portal-button-secondary" data-id="' + escapeHtml(item.id) + '">Delete</button>' : "";
+          return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.category) + ' • ' + escapeHtml(new Date(item.publishedAt).toLocaleDateString()) + '</p><h3>' + escapeHtml(item.title) + '</h3><p>' + escapeHtml(item.content) + '</p></div>' + deleteButton + '</article>';
+        }).join("") : '<p class="portal-empty">No notices available for this section.</p>';
+      }
+
+      async function load() {
+        var data = await api("/api/notices");
+        renderNotices(data.notices || []);
+      }
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        if (!canPublish) {
+          message.textContent = "Superadmin has not granted notice publishing access for this account.";
+          return;
+        }
+        message.textContent = "";
+        var formData = new FormData(form);
+        try {
+          await api("/api/notices", {
+            method: "POST",
+            headers: {
+              Authorization: "Bearer " + token,
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              title: formData.get("title"),
+              category: formData.get("category"),
+              content: formData.get("content")
+            })
+          });
+          form.reset();
+          message.textContent = "Notice published successfully.";
+          await load();
+        } catch (error) {
+          message.textContent = error.message;
+        }
+      });
+
+      list.addEventListener("click", async function (event) {
+        var id = event.target.getAttribute("data-id");
+        if (!id) { return; }
+        if (!canDelete) {
+          message.textContent = "Superadmin has not granted notice deletion access for this account.";
+          return;
+        }
+        try {
+          await api("/api/notices/" + id, { method: "DELETE" });
+          await load();
+        } catch (error) {
+          message.textContent = error.message;
+        }
+      });
+
+      await loadPermissions();
+      await load();
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

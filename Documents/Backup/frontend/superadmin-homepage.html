@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Homepage Editor | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <main class="superadmin-main" style="max-width:1100px;margin:0 auto;padding:32px 20px;">
+    <section class="superadmin-page-header">
+      <div>
+        <a class="superadmin-button-ghost" href="./superadmin-content.html">Back to Website Sections</a>
+        <h1>Homepage Editor</h1>
+        <p>Edit homepage hero content and four slideshow images.</p>
+      </div>
+    </section>
+
+    <section class="superadmin-card">
+      <div class="superadmin-card-header">
+        <h2>Homepage Content</h2>
+      </div>
+      <div class="superadmin-card-body">
+        <form id="homepage-form" class="superadmin-form-grid columns-2">
+          <label>Page Title<input name="pageTitle" /></label>
+          <label>Hero Subtitle<input name="heroSubtitle" /></label>
+          <label>Announcements Title<input name="announcementsTitle" /></label>
+          <label>Text Placement<select name="heroPlacement"><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label>
+          <label class="superadmin-form-span">Hero Description<textarea name="heroDescription"></textarea></label>
+          <label>Hero Image 1<input name="heroImage1" /></label>
+          <label>Hero Image 2<input name="heroImage2" /></label>
+          <label>Hero Image 3<input name="heroImage3" /></label>
+          <label>Hero Image 4<input name="heroImage4" /></label>
+          <div class="superadmin-form-span superadmin-preview-grid">
+            <div class="superadmin-image-preview-wrap"><img id="preview-1" class="superadmin-image-preview" alt="Hero image 1 preview" /></div>
+            <div class="superadmin-image-preview-wrap"><img id="preview-2" class="superadmin-image-preview" alt="Hero image 2 preview" /></div>
+            <div class="superadmin-image-preview-wrap"><img id="preview-3" class="superadmin-image-preview" alt="Hero image 3 preview" /></div>
+            <div class="superadmin-image-preview-wrap"><img id="preview-4" class="superadmin-image-preview" alt="Hero image 4 preview" /></div>
+          </div>
+          <div class="superadmin-form-span superadmin-form-actions">
+            <button class="superadmin-button" type="submit">Save Homepage Content</button>
+          </div>
+        </form>
+        <p id="homepage-message" class="superadmin-inline-message"></p>
+      </div>
+    </section>
+  </main>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+
+      var form = document.getElementById("homepage-form");
+      var message = document.getElementById("homepage-message");
+      var previews = [
+        document.getElementById("preview-1"),
+        document.getElementById("preview-2"),
+        document.getElementById("preview-3"),
+        document.getElementById("preview-4")
+      ];
+      var fallback = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      var pageCache = null;
+      var homepageCache = null;
+
+      function refreshPreviews() {
+        [form.heroImage1.value, form.heroImage2.value, form.heroImage3.value, form.heroImage4.value].forEach(function (value, index) {
+          previews[index].src = value || fallback;
+        });
+      }
+
+      async function api(path, options) {
+        var config = Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {});
+        var response = await fetch(window.location.origin + path, config);
+        var raw = await response.text();
+        var data = raw ? JSON.parse(raw) : {};
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function fill() {
+        form.pageTitle.value = pageCache.title || homepageCache.heroTitle || "Home Page";
+        form.heroSubtitle.value = homepageCache.heroSubtitle || "";
+        form.announcementsTitle.value = homepageCache.announcementsTitle || "";
+        form.heroPlacement.value = homepageCache.heroPlacement || "left";
+        form.heroDescription.value = homepageCache.heroDescription || "";
+        var images = Array.isArray(homepageCache.heroImages) ? homepageCache.heroImages : [];
+        form.heroImage1.value = images[0] || "";
+        form.heroImage2.value = images[1] || "";
+        form.heroImage3.value = images[2] || "";
+        form.heroImage4.value = images[3] || "";
+        refreshPreviews();
+      }
+
+      try {
+        var content = await api("/api/superadmin/content");
+        var pages = content.content && content.content.pages ? content.content.pages : [];
+        pageCache = pages.find(function (item) { return item.id === "page-home"; }) || { id: "page-home", title: "Home Page", status: "published", summary: "", draft: "", sections: [], cards: [] };
+        var homepageResponse = await api("/api/public/homepage");
+        homepageCache = homepageResponse.homepage || {};
+        fill();
+      } catch (error) {
+        message.classList.add("is-error");
+        message.textContent = error.message;
+      }
+
+      [form.heroImage1, form.heroImage2, form.heroImage3, form.heroImage4].forEach(function (input) {
+        input.addEventListener("input", refreshPreviews);
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        message.classList.remove("is-error");
+        message.textContent = "Saving...";
+
+        try {
+          var heroImages = [form.heroImage1.value, form.heroImage2.value, form.heroImage3.value, form.heroImage4.value]
+            .map(function (item) { return String(item || "").trim(); })
+            .filter(Boolean);
+
+          await api("/api/superadmin/content/pages/page-home", {
+            method: "PUT",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: form.pageTitle.value,
+              status: pageCache.status || "published",
+              summary: pageCache.summary || "",
+              draft: pageCache.draft || "",
+              sections: pageCache.sections || [],
+              cards: pageCache.cards || []
+            })
+          });
+
+          await api("/api/superadmin/content/homepage", {
+            method: "PUT",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              heroTitle: form.pageTitle.value,
+              heroSubtitle: form.heroSubtitle.value,
+              heroPlacement: form.heroPlacement.value,
+              heroDescription: form.heroDescription.value,
+              announcementsTitle: form.announcementsTitle.value,
+              heroImages: heroImages
+            })
+          });
+
+          message.textContent = "Homepage updated successfully.";
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login | Department of Physics, IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" async defer></script>
+  <style>
+    .turnstile-container { margin: 0.75rem 0 0.25rem; display: flex; justify-content: center; }
+    .turnstile-container iframe { max-width: 100% !important; }
+  </style>
+</head>
+<body class="admin-login-page">
+  <main class="admin-login-layout">
+    <section class="admin-login-brand-panel" aria-label="Portal introduction">
+      <div class="admin-login-brand-card">
+        <div class="admin-login-brand-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+            <path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" />
+          </svg>
+        </div>
+        <h1>IIT Portal</h1>
+        <p>Access institutional services, manage requests, and stay connected with your department.</p>
+      </div>
+    </section>
+
+    <section class="admin-login-form-panel" aria-label="Admin sign in">
+      <div class="admin-login-form-wrap">
+        <div class="admin-login-copy">
+          <h2>Welcome back</h2>
+          <p>Sign in to access the internal portal</p>
+        </div>
+
+        <form class="admin-login-form">
+          <label for="admin-email">Faculty ID or Institute Email</label>
+          <input id="admin-email" name="email" type="text" placeholder="fphy001 or name@iit.ac.in" />
+
+          <label for="admin-password">Password</label>
+          <div class="admin-password-field">
+            <input id="admin-password" name="password" type="password" placeholder=".........." />
+            <button type="button" class="admin-password-toggle" aria-label="Show password">
+              <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+                <path d="M12 5c5.2 0 9.27 4.5 10.57 6.18a1.3 1.3 0 0 1 0 1.64C21.27 14.5 17.2 19 12 19S2.73 14.5 1.43 12.82a1.3 1.3 0 0 1 0-1.64C2.73 9.5 6.8 5 12 5Zm0 2C8.13 7 4.87 10.1 3.5 12c1.37 1.9 4.63 5 8.5 5s7.13-3.1 8.5-5c-1.37-1.9-4.63-5-8.5-5Zm0 1.8a3.2 3.2 0 1 1 0 6.4 3.2 3.2 0 0 1 0-6.4Zm0 2a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4Z" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="turnstile-container" id="turnstile-widget"></div>
+          <button type="submit" class="admin-login-submit">Sign In</button>
+        </form>
+        <div class="admin-login-meta">
+          <a class="admin-text-link" id="forgot-password-link" href="./forgot-password.html">Forgot Password?</a>
+        </div>
+        <p class="admin-auth-message" aria-live="polite"></p>
+
+        <p class="admin-signup-copy" id="login-help-copy">Admin accounts are invitation-only. Contact Super Admin if you need access.</p>
+        <p class="admin-login-help">Having trouble? Contact <a href="#">IT Support</a></p>
+      </div>
+    </section>
+  </main>
+
+  <div class="admin-signup-modal" hidden>
+    <div class="admin-signup-backdrop"></div>
+    <section class="admin-signup-dialog" role="dialog" aria-modal="true" aria-labelledby="signup-title">
+      <button type="button" class="admin-signup-close" aria-label="Close sign up form">&times;</button>
+      <h2 id="signup-title">Create Super Admin Account</h2>
+      <p>Register a new super admin using the configured signup key.</p>
+
+      <form class="admin-signup-form">
+        <label for="signup-name">Name</label>
+        <input id="signup-name" name="name" type="text" placeholder="Enter your full name" />
+
+        <label for="signup-email">Institute Email</label>
+        <input id="signup-email" name="email" type="email" placeholder="name@iit.ac.in" />
+
+        <label for="signup-access-key" class="admin-signup-access-label">Super Admin Signup Key</label>
+        <input id="signup-access-key" name="accessKey" type="password" class="admin-signup-access-input" placeholder="Enter super admin signup key" />
+
+        <label for="signup-password">Password</label>
+        <input id="signup-password" name="password" type="password" placeholder="Create a password" />
+
+        <button type="submit" class="admin-signup-submit">Sign Up</button>
+      </form>
+      <p class="admin-signup-message" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <script>
+    (function () {
+      var API_BASE_URL = window.location.origin;
+      var params = new URLSearchParams(window.location.search);
+      var requestedRole = String(params.get("role") || "admin").toLowerCase();
+      var isSuperAdminMode = requestedRole === "superadmin" || window.location.pathname === "/super-portal";
+      var turnstileWidgetId = null;
+      var turnstileToken = null;
+      var turnstileSiteKey = null;
+
+      // Fetch CAPTCHA site key from backend and render widget
+      fetch(API_BASE_URL + "/api/public/captcha-config")
+        .then(function (r) { return r.json(); })
+        .then(function (data) {
+          turnstileSiteKey = data.siteKey;
+          if (turnstileSiteKey && window.turnstile) {
+            renderTurnstile();
+          } else if (turnstileSiteKey) {
+            window.addEventListener("load", function () {
+              var checkInterval = setInterval(function () {
+                if (window.turnstile) {
+                  clearInterval(checkInterval);
+                  renderTurnstile();
+                }
+              }, 200);
+            });
+          }
+        })
+        .catch(function () { /* CAPTCHA config unavailable, allow login without */ });
+
+      function renderTurnstile() {
+        var container = document.getElementById("turnstile-widget");
+        if (!container || !window.turnstile || !turnstileSiteKey) return;
+        turnstileWidgetId = window.turnstile.render(container, {
+          sitekey: turnstileSiteKey,
+          callback: function (token) { turnstileToken = token; },
+          "expired-callback": function () { turnstileToken = null; },
+          "error-callback": function () { turnstileToken = null; },
+          theme: "light"
+        });
+      }
+
+      function resetTurnstile() {
+        turnstileToken = null;
+        if (turnstileWidgetId !== null && window.turnstile) {
+          window.turnstile.reset(turnstileWidgetId);
+        }
+      }
+      var toggle = document.querySelector(".admin-password-toggle");
+      var input = document.querySelector("#admin-password");
+      var signupModal = document.querySelector(".admin-signup-modal");
+      var signupTrigger = null;
+      var signupClose = document.querySelector(".admin-signup-close");
+      var signupBackdrop = document.querySelector(".admin-signup-backdrop");
+      var loginForm = document.querySelector(".admin-login-form");
+      var signupForm = document.querySelector(".admin-signup-form");
+      var loginMessage = document.querySelector(".admin-auth-message");
+      var signupMessage = document.querySelector(".admin-signup-message");
+      var loginButton = document.querySelector(".admin-login-submit");
+      var signupButton = document.querySelector(".admin-signup-submit");
+      var copyTitle = document.querySelector(".admin-login-copy h2");
+      var copyText = document.querySelector(".admin-login-copy p");
+      var signupCopy = document.querySelector("#login-help-copy");
+      var forgotPasswordLink = document.querySelector("#forgot-password-link");
+
+      if (!toggle || !input) {
+        return;
+      }
+
+      if (forgotPasswordLink && isSuperAdminMode) {
+        forgotPasswordLink.href = "./forgot-password.html?role=superadmin";
+      }
+
+      if (isSuperAdminMode) {
+        document.title = "Super Admin Login | Department of Physics, IIT Kharagpur";
+        if (copyTitle) { copyTitle.textContent = "Super Admin Access"; }
+        if (copyText) { copyText.textContent = "Sign in with your provisioned super admin account."; }
+        if (signupCopy) {
+          signupCopy.innerHTML = 'Need a new super admin account? <button type="button" class="admin-signup-trigger">Sign up</button>';
+          signupTrigger = document.querySelector('.admin-signup-trigger');
+        }
+      } else if (signupModal) {
+        signupModal.remove();
+      }
+
+      toggle.addEventListener("click", function () {
+        var isHidden = input.getAttribute("type") === "password";
+        input.setAttribute("type", isHidden ? "text" : "password");
+        toggle.setAttribute("aria-label", isHidden ? "Hide password" : "Show password");
+      });
+
+      function setMessage(target, text, type) {
+        if (!target) { return; }
+        target.textContent = text || "";
+        target.classList.remove("is-error", "is-success");
+        if (type) { target.classList.add(type); }
+      }
+
+      function saveSession(payload) {
+        localStorage.setItem("iitPortalToken", payload.token);
+        localStorage.setItem("iitPortalUser", JSON.stringify(payload.user));
+      }
+
+      function getDashboardRoute(user) {
+        return user && String(user.role || "").toLowerCase() === "superadmin"
+          ? "./superadmin-dashboard.html"
+          : "./admin-dashboard.html";
+      }
+
+      async function submitAuthForm(url, payload, button, idleLabel) {
+        if (button) {
+          button.disabled = true;
+          button.textContent = "Please wait...";
+        }
+        try {
+          var response = await fetch(API_BASE_URL + url, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          var result = await response.json();
+          return { ok: response.ok, result: result };
+        } catch (error) {
+          return { ok: false, result: { message: "Unable to reach the server. Make sure the backend is running." } };
+        } finally {
+          if (button) {
+            button.disabled = false;
+            button.textContent = idleLabel;
+          }
+        }
+      }
+
+      function openSignupModal() {
+        if (!signupModal) { return; }
+        signupModal.hidden = false;
+        document.body.classList.add("modal-open");
+      }
+
+      function closeSignupModal() {
+        if (!signupModal) { return; }
+        signupModal.hidden = true;
+        document.body.classList.remove("modal-open");
+      }
+
+      if (signupTrigger) { signupTrigger.addEventListener("click", openSignupModal); }
+      if (signupClose) { signupClose.addEventListener("click", closeSignupModal); }
+      if (signupBackdrop) { signupBackdrop.addEventListener("click", closeSignupModal); }
+
+      if (loginForm) {
+        loginForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          setMessage(loginMessage, "", "");
+          var email = document.querySelector("#admin-email").value.trim();
+          var password = document.querySelector("#admin-password").value;
+          if (turnstileSiteKey && !turnstileToken) {
+            setMessage(loginMessage, "Please complete the CAPTCHA verification.", "is-error");
+            return;
+          }
+          var response = await submitAuthForm("/api/auth/login", { email: email, password: password, captchaToken: turnstileToken || "" }, loginButton, "Sign In");
+          if (!response.ok) {
+            resetTurnstile();
+            setMessage(loginMessage, response.result.message || "Login failed.", "is-error");
+            return;
+          }
+          saveSession(response.result);
+          setMessage(loginMessage, "Login successful. Opening dashboard...", "is-success");
+          window.location.href = getDashboardRoute(response.result.user);
+        });
+      }
+
+      if (signupForm) {
+        signupForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          setMessage(signupMessage, "", "");
+          var response = await submitAuthForm("/api/auth/register", {
+            name: document.querySelector("#signup-name").value.trim(),
+            email: document.querySelector("#signup-email").value.trim(),
+            accessKey: document.querySelector("#signup-access-key").value.trim(),
+            role: "superadmin",
+            password: document.querySelector("#signup-password").value
+          }, signupButton, "Sign Up");
+          if (!response.ok) {
+            setMessage(signupMessage, response.result.message || "Sign up failed.", "is-error");
+            return;
+          }
+          saveSession(response.result);
+          setMessage(signupMessage, "Account created. Opening dashboard...", "is-success");
+          window.setTimeout(function () {
+            closeSignupModal();
+            window.location.href = getDashboardRoute(response.result.user);
+          }, 500);
+        });
+      }
+
+      document.addEventListener("keydown", function (event) {
+        if (event.key === "Escape" && signupModal && !signupModal.hidden) {
+          closeSignupModal();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

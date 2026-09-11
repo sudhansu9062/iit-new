@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Editor | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html" class="is-active"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input type="search" placeholder="Search..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <a class="superadmin-button-ghost" href="./superadmin-content.html">Back to Website Sections</a>
+            <h1 id="editor-title">Page Editor</h1>
+            <p id="editor-copy">Edit content sections below. Changes are published instantly.</p>
+          </div>
+        </section>
+
+        <section class="superadmin-editor-list" id="page-sections"></section>
+
+        <section class="superadmin-card">
+          <div class="superadmin-card-header">
+            <h2>Edit Selected Content</h2>
+          </div>
+          <div class="superadmin-card-body">
+            <form id="page-editor-form" class="superadmin-form-grid columns-2">
+              <label>Page Title<input name="pageTitle" /></label>
+              <label>Status<select name="pageStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="review">In Review</option></select></label>
+              <label>Section Title<input name="sectionTitle" /></label>
+              <label>Section Subtitle<input name="sectionSubtitle" /></label>
+              <label class="superadmin-form-span">Section Content<textarea name="sectionContent" rows="16"></textarea></label>
+              <label class="superadmin-form-span">Section Image<input name="sectionImage" placeholder="image-name.png or image URL" /></label>
+              <label class="superadmin-form-span">Upload Image From Computer<input id="page-section-image-file" type="file" accept="image/*" /></label>
+              <div class="superadmin-form-span superadmin-inline-actions">
+                <button class="superadmin-button-secondary" id="page-remove-image" type="button">Remove Image</button>
+                <button class="superadmin-button-secondary" id="page-restore-image" type="button">Restore Previous</button>
+              </div>
+              <label class="superadmin-form-span">Page Summary<textarea name="pageSummary"></textarea></label>
+              <div class="superadmin-form-span">
+                <div class="superadmin-image-preview-wrap">
+                  <img id="page-section-image-preview" class="superadmin-image-preview" alt="Selected section preview" />
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <section class="superadmin-card" id="page-media-card">
+          <div class="superadmin-card-header">
+            <h2>Page Image Slots</h2>
+          </div>
+          <div class="superadmin-card-body">
+            <div id="page-media-slots" class="superadmin-media-slot-grid"></div>
+          </div>
+        </section>
+
+        <section class="superadmin-card" id="home-cards-card" hidden>
+          <div class="superadmin-card-header">
+            <h2 id="page-cards-heading">Page Card Boxes</h2>
+          </div>
+          <div class="superadmin-card-body">
+            <div class="superadmin-inline-actions">
+              <button class="superadmin-button" id="home-cards-add" type="button">Add New Box</button>
+            </div>
+            <div id="home-cards-list" class="superadmin-media-slot-grid"></div>
+          </div>
+        </section>
+
+        <section class="superadmin-card">
+          <div class="superadmin-card-body">
+            <div class="superadmin-form-actions">
+              <a class="superadmin-button-secondary" id="preview-link" href="./index.html">Preview</a>
+              <button class="superadmin-button" type="submit" form="page-editor-form">Save Page Content</button>
+            </div>
+            <p id="page-editor-message" class="superadmin-inline-message"></p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var params = new URLSearchParams(window.location.search);
+      var pageId = String(params.get("id") || "").trim();
+      if (!pageId) { window.location.href = "./superadmin-content.html"; return; }
+
+      var DEFAULT_SECTIONS = {
+        "page-about": [
+          { id: "about-overview", title: "Department Overview", subtitle: "History and identity", content: "Department history and mission details.", image: "" },
+          { id: "about-vision", title: "Vision and Mission", subtitle: "Academic direction", content: "Overview content for department history, mission, and contact context.", image: "" },
+          { id: "about-contact", title: "Contact and Access", subtitle: "Reach the department", content: "Important contact information and visit details for the department.", image: "" }
+        ],
+        "page-research": [
+          { id: "research-clusters", title: "Research Clusters", subtitle: "Core research areas", content: "Research clusters and facilities updates pending review.", image: "" },
+          { id: "research-facilities", title: "Facilities", subtitle: "Labs and instruments", content: "Managed content summary for research groups and facilities.", image: "" },
+          { id: "research-projects", title: "Projects", subtitle: "Ongoing work", content: "Highlight active research projects, collaborations, and achievements.", image: "" }
+        ],
+        "page-programs": [
+          { id: "programs-overview", title: "Programs Overview", subtitle: "Academic offerings", content: "Program structure and admissions information.", image: "" },
+          { id: "programs-curriculum", title: "Curriculum", subtitle: "Course and structure", content: "Managed content summary for academic programs and admissions.", image: "" },
+          { id: "programs-admissions", title: "Admissions", subtitle: "Entry details", content: "Admission requirements, important dates, and applicant guidance.", image: "" }
+        ],
+        "page-faculty": [
+          { id: "faculty-directory", title: "Faculty Directory", subtitle: "People and expertise", content: "Public directory that reflects faculty-managed profiles.", image: "" },
+          { id: "faculty-specializations", title: "Specializations", subtitle: "Areas of expertise", content: "Showcase faculty specializations, labs, and teaching areas.", image: "" },
+          { id: "faculty-connect", title: "Contact Faculty", subtitle: "Reach staff and faculty", content: "Contact details and profile links for department faculty and staff.", image: "" }
+        ]
+      };
+
+      var DEFAULT_PAGE_MEDIA = {
+        "page-about": [
+          { id: "about-hero", label: "About Hero Banner", src: "about-department-hero.png", alt: "Department of Physics building" },
+          { id: "about-overview-image", label: "Overview Image", src: "about-history-classroom.png", alt: "Students in a classroom" },
+          { id: "about-research-image", label: "Research Facility Image", src: "about-research-lab.png", alt: "Laboratory glassware" }
+        ],
+        "page-research": [
+          { id: "research-hero", label: "Research Hero Banner", src: "research-hero.png", alt: "Research areas banner" }
+        ],
+        "page-programs": [
+          { id: "programs-hero", label: "Programs Hero Banner", src: "programs-hero.png", alt: "Academic programmes banner" },
+          { id: "programs-intro-image", label: "Programme Intro Image", src: "itep-programme.png", alt: "Integrated Teacher Education Programme" }
+        ],
+        "page-contact": [
+          { id: "contact-hero", label: "Contact Hero Banner", src: "contact-hero.png", alt: "Contact us banner" }
+        ],
+        "page-career": [
+          { id: "career-hero", label: "Career Hero Banner", src: "career-hero.png", alt: "Careers and opportunities banner" }
+        ],
+        "page-graduate-students": [
+          { id: "graduate-students-hero", label: "Graduate Students Hero", src: "graduate-students-hero.png?v=20260706", alt: "Graduate students banner" }
+        ]
+      };
+
+      var sectionsRoot = document.getElementById("page-sections");
+      var form = document.getElementById("page-editor-form");
+      var message = document.getElementById("page-editor-message");
+      var mediaCard = document.getElementById("page-media-card");
+      var mediaSlotsRoot = document.getElementById("page-media-slots");
+      var homeCardsCard = document.getElementById("home-cards-card");
+      var homeCardsList = document.getElementById("home-cards-list");
+      var homeCardsAddButton = document.getElementById("home-cards-add");
+      var titleLabel = document.getElementById("editor-title");
+      var copyLabel = document.getElementById("editor-copy");
+      var previewLink = document.getElementById("preview-link");
+      var sectionImageFileInput = document.getElementById("page-section-image-file");
+      var sectionImagePreview = document.getElementById("page-section-image-preview");
+      var removeImageButton = document.getElementById("page-remove-image");
+      var restoreImageButton = document.getElementById("page-restore-image");
+      var userName = document.getElementById("current-user-name");
+      var userAvatar = document.getElementById("user-avatar");
+      var selectedSectionId = "";
+      var pageCache = null;
+      var savedSectionImages = {};
+      var savedMediaSlots = {};
+
+      function defaultHomeCards() {
+        return [
+          { id: "home-card-research", title: "Research Areas", content: "", image: "research-areas.png", alt: "Research laboratory", href: "./research.html" },
+          { id: "home-card-ug", title: "Undergraduate Program", content: "", image: "undergraduate-program.png", alt: "Classroom session", href: "./undergraduate-program.html" },
+          { id: "home-card-pg", title: "Postgraduate Program", content: "", image: "postgraduate-program.png", alt: "Students at computer", href: "./postgraduate-program.html" },
+          { id: "home-card-phd", title: "Doctoral Program", content: "", image: "doctoral-program.png", alt: "Doctoral presentation", href: "./doctoral-program.html" },
+          { id: "home-card-labs", title: "Laboratories", content: "", image: "laboratories.png", alt: "Lab facilities", href: "./laboratories.html" },
+          { id: "home-card-facilities", title: "Facilities", content: "", image: "facilities.png", alt: "Library hall", href: "./facilities.html" }
+        ];
+      }
+
+      function defaultResearchCards() {
+        return [
+          { id: "research-card-condensed-matter", title: "Condensed Matter Physics", content: "Study of physical properties of matter in solid and soft phases.", image: "", alt: "", href: "./condensed-matter-physics.html" },
+          { id: "research-card-high-energy", title: "High Energy Physics", content: "Exploration of fundamental particles and interactions.", image: "", alt: "", href: "./condensed-matter-physics.html" },
+          { id: "research-card-astrophysics", title: "Astrophysics & Cosmology", content: "Understanding the universe from stellar systems to large-scale structures.", image: "", alt: "", href: "./condensed-matter-physics.html" },
+          { id: "research-card-complex-systems", title: "Complex Systems & Active Matter", content: "Study of collective behavior in biological and non-equilibrium systems.", image: "", alt: "", href: "./condensed-matter-physics.html" },
+          { id: "research-card-nuclear", title: "Nuclear Physics", content: "Study of atomic nuclei, their structure, interactions, and energy processes.", image: "", alt: "", href: "./condensed-matter-physics.html" },
+          { id: "research-card-quantum-information", title: "Quantum Information", content: "Exploration of information processing using the principles of quantum mechanics.", image: "", alt: "", href: "./condensed-matter-physics.html" }
+        ];
+      }
+
+      function defaultPageCards(page) {
+        if (page.id === "page-home") { return defaultHomeCards(); }
+        if (page.id === "page-research") { return defaultResearchCards(); }
+        return [];
+      }
+
+      function defaultCardForPageItem(page, item) {
+        var id = String((item && item.id) || "").trim();
+        var title = String((item && item.title) || "").trim().toLowerCase();
+        return defaultPageCards(page).find(function (card) {
+          return card.id === id || String(card.title || "").toLowerCase() === title;
+        }) || {};
+      }
+
+      function ensurePageCards(page) {
+        var defaults = defaultPageCards(page);
+        var source = Array.isArray(page.cards) && page.cards.length ? page.cards : defaults;
+        return source.map(function (item, index) {
+          var defaultCard = defaultCardForPageItem(page, item);
+          return {
+            id: String(item.id || ((page.id || "page") + "-card-" + (index + 1))),
+            title: String(item.title || defaultCard.title || ""),
+            content: String(item.content || defaultCard.content || ""),
+            image: String(item.image || defaultCard.image || ""),
+            alt: String(item.alt || defaultCard.alt || ""),
+            href: String(item.href || defaultCard.href || "")
+          };
+        });
+      }
+
+      function normalizePublicRoute(value) {
+        var route = String(value || "").trim();
+        if (!route) { return ""; }
+        if (route.startsWith("./")) { return route; }
+        if (route.startsWith("/")) { return "." + route; }
+        return "./" + route.replace(/^\.?\//, "");
+      }
+
+      function isBuiltInHomeCardRoute(value) {
+        var route = normalizePublicRoute(value).toLowerCase();
+        return [
+          "./research.html",
+          "./about.html",
+          "./programs.html",
+          "./administration.html",
+          "./faculty.html",
+          "./postdocs.html",
+          "./contact.html",
+          "./career.html",
+          "./graduate-students.html",
+          "./undergraduate-program.html",
+          "./postgraduate-program.html",
+          "./doctoral-program.html",
+          "./laboratories.html",
+          "./facilities.html"
+        ].indexOf(route) !== -1;
+      }
+
+      function findHomeCard(cardId) {
+        if (!pageCache || !Array.isArray(pageCache.cards)) { return null; }
+        return pageCache.cards.find(function (item) { return item.id === cardId; }) || null;
+      }
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+
+      function ensureSections(page) {
+        if (Array.isArray(page.sections) && page.sections.length) {
+          return page.sections.map(function (section, index) {
+            return {
+              id: String(section.id || "section-" + (index + 1)),
+              title: String(section.title || ""),
+              subtitle: String(section.subtitle || ""),
+              content: String(section.content || ""),
+              image: String(section.image || "")
+            };
+          });
+        }
+
+        var fallback = DEFAULT_SECTIONS[page.id] || [
+          {
+            id: "page-overview",
+            title: page.title,
+            subtitle: "Page overview",
+            content: page.draft || page.summary || "",
+            image: ""
+          }
+        ];
+        return fallback.map(function (section, index) {
+          return {
+            id: String(section.id || "section-" + (index + 1)),
+            title: String(section.title || ""),
+            subtitle: String(section.subtitle || ""),
+            content: String(section.content || ""),
+            image: String(section.image || "")
+          };
+        });
+      }
+
+      function ensureMedia(page) {
+        var defaults = DEFAULT_PAGE_MEDIA[page.id] || [];
+        var existing = Array.isArray(page.media) ? page.media : [];
+        var byId = existing.reduce(function (result, item) {
+          if (item && item.id) {
+            result[String(item.id)] = item;
+          }
+          return result;
+        }, {});
+
+        var merged = defaults.map(function (item) {
+          var current = byId[item.id] || {};
+          return {
+            id: String(item.id),
+            label: String(item.label),
+            src: String(current.src || item.src || ""),
+            alt: String(current.alt || item.alt || "")
+          };
+        });
+
+        existing.forEach(function (item, index) {
+          var id = String((item && item.id) || "").trim();
+          if (!id || merged.some(function (mediaItem) { return mediaItem.id === id; })) {
+            return;
+          }
+          merged.push({
+            id: id,
+            label: String((item && item.label) || ("Image " + (index + 1))),
+            src: String((item && item.src) || ""),
+            alt: String((item && item.alt) || "")
+          });
+        });
+
+        return merged;
+      }
+
+      function currentSection() {
+        if (!pageCache || !Array.isArray(pageCache.sections)) { return null; }
+        return pageCache.sections.find(function (section) { return section.id === selectedSectionId; }) || pageCache.sections[0] || null;
+      }
+
+      function fallbackImage() {
+        return "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      }
+
+      function refreshImagePreview(value) {
+        sectionImagePreview.src = value || fallbackImage();
+      }
+
+      async function uploadImageFile(file) {
+        var reader = new FileReader();
+        var dataUrl = await new Promise(function (resolve, reject) {
+          reader.onload = function () { resolve(String(reader.result || "")); };
+          reader.onerror = function () { reject(new Error("Image file could not be read.")); };
+          reader.readAsDataURL(file);
+        });
+        var response = await api("/api/superadmin/uploads/image", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: file.name,
+            dataUrl: dataUrl
+          })
+        });
+        return response.imagePath || "";
+      }
+
+      function fillEditor() {
+        var section = currentSection();
+        if (!pageCache || !section) { return; }
+        form.pageTitle.value = pageCache.title || "";
+        form.pageStatus.value = pageCache.status || "draft";
+        form.pageSummary.value = pageCache.summary || "";
+        form.sectionTitle.value = section.title || "";
+        form.sectionSubtitle.value = section.subtitle || "";
+        form.sectionContent.value = section.content || "";
+        form.sectionImage.value = section.image || "";
+        refreshImagePreview(section.image);
+        restoreImageButton.disabled = !savedSectionImages[section.id];
+        renderMediaSlots();
+      }
+
+      function syncSectionFromForm() {
+        var section = currentSection();
+        if (!pageCache || !section) { return; }
+        pageCache.title = form.pageTitle.value;
+        pageCache.status = form.pageStatus.value;
+        pageCache.summary = form.pageSummary.value;
+        section.title = form.sectionTitle.value;
+        section.subtitle = form.sectionSubtitle.value;
+        section.content = form.sectionContent.value;
+        section.image = form.sectionImage.value;
+      }
+
+      function updateMediaSlot(slotId, patch) {
+        if (!pageCache || !Array.isArray(pageCache.media)) { return; }
+        var slot = pageCache.media.find(function (item) { return item.id === slotId; });
+        if (!slot) { return; }
+        Object.assign(slot, patch);
+      }
+
+      function renderMediaSlots() {
+        if (!pageCache || !Array.isArray(pageCache.media) || !pageCache.media.length) {
+          mediaCard.hidden = true;
+          mediaSlotsRoot.innerHTML = "";
+          return;
+        }
+        mediaCard.hidden = false;
+        mediaSlotsRoot.innerHTML = pageCache.media.map(function (slot) {
+          return [
+            '<article class="superadmin-media-slot">',
+            '<div class="superadmin-media-slot-header"><strong>' + escapeHtml(slot.label) + '</strong><span>' + escapeHtml(slot.id) + '</span></div>',
+            '<div class="superadmin-image-preview-wrap"><img class="superadmin-image-preview" src="' + escapeHtml(slot.src || fallbackImage()) + '" alt="' + escapeHtml(slot.alt || slot.label) + '" /></div>',
+            '<label>Image Path<input data-media-src="' + escapeHtml(slot.id) + '" value="' + escapeHtml(slot.src || "") + '" placeholder="image-name.png or image URL" /></label>',
+            '<label>Alt Text<input data-media-alt="' + escapeHtml(slot.id) + '" value="' + escapeHtml(slot.alt || "") + '" placeholder="Describe this image" /></label>',
+            '<label>Upload Image<input data-media-file="' + escapeHtml(slot.id) + '" type="file" accept="image/*" /></label>',
+            '<div class="superadmin-inline-actions">',
+            '<button class="superadmin-button-secondary" type="button" data-media-remove="' + escapeHtml(slot.id) + '">Remove Image</button>',
+            '<button class="superadmin-button-secondary" type="button" data-media-restore="' + escapeHtml(slot.id) + '">Restore Previous</button>',
+            '</div>',
+            '</article>'
+          ].join("");
+        }).join("");
+      }
+
+      function renderHomeCards() {
+        if (!homeCardsCard || !homeCardsList || !homeCardsAddButton) {
+          return;
+        }
+        var hasCardEditor = Boolean(pageCache && pageCache.route && !/login|password/i.test(pageCache.route));
+        homeCardsCard.hidden = !hasCardEditor;
+        if (!hasCardEditor) {
+          homeCardsList.innerHTML = "";
+          return;
+        }
+        var heading = document.getElementById("page-cards-heading");
+        if (heading) {
+          heading.textContent = pageCache.id === "page-home" ? "Homepage Card Boxes" : "Page Card Boxes";
+        }
+        homeCardsList.innerHTML = (pageCache.cards || []).map(function (item, index) {
+          var normalizedHref = normalizePublicRoute(item.href);
+          var canDeleteSubPage = normalizedHref && !isBuiltInHomeCardRoute(normalizedHref);
+          return [
+            '<article class="superadmin-media-slot superadmin-home-card-slot">',
+            '<div class="superadmin-media-slot-header superadmin-home-card-header"><strong>Card Box ' + (index + 1) + '</strong><span>' + escapeHtml(item.id) + '</span></div>',
+            '<div class="superadmin-home-card-fields">',
+            '<label class="superadmin-home-card-field superadmin-home-card-field-span"><span>Title</span><input data-home-card-title="' + escapeHtml(item.id) + '" value="' + escapeHtml(item.title || "") + '" /></label>',
+            '<label class="superadmin-home-card-field superadmin-home-card-field-span"><span>Content</span><textarea data-home-card-content="' + escapeHtml(item.id) + '" rows="4">' + escapeHtml(item.content || "") + '</textarea></label>',
+            '<label class="superadmin-home-card-field superadmin-home-card-field-span"><span>Image Path</span><input data-home-card-image="' + escapeHtml(item.id) + '" value="' + escapeHtml(item.image || "") + '" placeholder="image-name.png or image URL" /></label>',
+            '<label class="superadmin-home-card-field"><span>Upload Image</span><input data-home-card-file="' + escapeHtml(item.id) + '" type="file" accept="image/*" /></label>',
+            '<label class="superadmin-home-card-field"><span>Alt Text</span><input data-home-card-alt="' + escapeHtml(item.id) + '" value="' + escapeHtml(item.alt || "") + '" /></label>',
+            '<label class="superadmin-home-card-field superadmin-home-card-field-span"><span>Target Link</span><input data-home-card-href="' + escapeHtml(item.id) + '" value="' + escapeHtml(item.href || "") + '" placeholder="./research.html" /></label>',
+            '</div>',
+            '<div class="superadmin-inline-actions superadmin-home-card-actions">',
+            '<button class="superadmin-button" type="button" data-home-card-create-page="' + escapeHtml(item.id) + '">Create Sub Page</button>',
+            '<button class="superadmin-button-secondary" type="button" data-home-card-open-page="' + escapeHtml(item.id) + '"' + (normalizedHref ? "" : " disabled") + '>Open Target</button>',
+            '<button class="superadmin-button-secondary" type="button" data-home-card-delete-page="' + escapeHtml(item.id) + '"' + (canDeleteSubPage ? "" : " disabled") + '>Delete Sub Page</button>',
+            '</div>',
+            '<button class="superadmin-button-secondary superadmin-home-card-delete" type="button" data-home-card-delete="' + escapeHtml(item.id) + '">Delete Box</button>',
+            '</article>'
+          ].join("");
+        }).join("");
+      }
+
+      function renderSections() {
+        if (!pageCache || !Array.isArray(pageCache.sections)) {
+          sectionsRoot.innerHTML = '<p class="superadmin-empty">No editable sections found.</p>';
+          return;
+        }
+
+        sectionsRoot.innerHTML = pageCache.sections.map(function (section, index) {
+          var selectedClass = section.id === selectedSectionId ? " is-selected" : "";
+          return '<article class="superadmin-editor-item' + selectedClass + '" data-section-id="' + escapeHtml(section.id) + '"><span class="superadmin-grip" aria-hidden="true"></span><div><strong>' + escapeHtml(section.title || "Untitled Section") + '</strong><p>' + escapeHtml(section.subtitle || "Section content editor") + '</p></div><div class="superadmin-editor-controls"><div class="superadmin-arrow-group"><button type="button" data-move="up" data-section-id="' + escapeHtml(section.id) + '"' + (index === 0 ? ' disabled' : '') + '><svg viewBox="0 0 24 24"><path d="m18 15-6-6-6 6"></path></svg></button><button type="button" data-move="down" data-section-id="' + escapeHtml(section.id) + '"' + (index === pageCache.sections.length - 1 ? ' disabled' : '') + '><svg viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg></button></div><button class="superadmin-button" type="button" data-edit-section="' + escapeHtml(section.id) + '">Edit Content</button><button class="superadmin-button-secondary" type="button" data-image-section="' + escapeHtml(section.id) + '">Change Image</button></div></article>';
+        }).join("");
+      }
+
+      function moveSection(sectionId, direction) {
+        if (!pageCache || !Array.isArray(pageCache.sections)) { return; }
+        var index = pageCache.sections.findIndex(function (section) { return section.id === sectionId; });
+        if (index < 0) { return; }
+        var target = direction === "up" ? index - 1 : index + 1;
+        if (target < 0 || target >= pageCache.sections.length) { return; }
+        var current = pageCache.sections[index];
+        pageCache.sections[index] = pageCache.sections[target];
+        pageCache.sections[target] = current;
+        renderSections();
+      }
+
+      function fillPage(page) {
+        pageCache = {
+          id: page.id,
+          route: page.route || "",
+          title: page.title || "Page",
+          status: page.status || "draft",
+          summary: page.summary || "",
+          draft: page.draft || "",
+          sections: ensureSections(page),
+          media: ensureMedia(page),
+          cards: ensurePageCards(page)
+        };
+        savedSectionImages = pageCache.sections.reduce(function (result, section) {
+          result[section.id] = section.image || "";
+          return result;
+        }, {});
+        savedMediaSlots = (pageCache.media || []).reduce(function (result, item) {
+          result[item.id] = { src: item.src || "", alt: item.alt || "" };
+          return result;
+        }, {});
+        selectedSectionId = pageCache.sections[0] ? pageCache.sections[0].id : "";
+        document.title = pageCache.title + " Editor | IIT Portal";
+        titleLabel.textContent = pageCache.title + " Editor";
+        copyLabel.textContent = pageCache.id === "page-about"
+          ? "Edit content sections below. Department Overview controls the main history text shown on the public About page."
+          : "Edit content sections below. Changes are published instantly.";
+        previewLink.href = pageCache.route || "./index.html";
+        renderSections();
+        fillEditor();
+        renderHomeCards();
+      }
+
+      async function api(path, options) {
+        var config = Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {});
+        var response = await fetch(window.location.origin + path, config);
+        var raw = await response.text();
+        var data = {};
+      try {
+          data = raw ? JSON.parse(raw) : {};
+        } catch (error) {
+          if (response.ok) {
+            throw new Error("Server returned an invalid response.");
+          }
+          if (raw && /<!doctype html|<html/i.test(raw)) {
+            throw new Error("Upload endpoint is unavailable. Restart the backend server and try again.");
+          }
+          throw new Error("Server returned an invalid response.");
+        }
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      async function loadPage() {
+        var content = await api("/api/superadmin/content");
+        var pages = (content.content && content.content.pages) ? content.content.pages : [];
+        var page = pages.find(function (item) { return item.id === pageId; });
+        if (!page) { throw new Error("Page content item not found."); }
+        fillPage(page);
+      }
+
+      async function savePage() {
+        syncSectionFromForm();
+        var response = await api("/api/superadmin/content/pages/" + pageId, {
+          method: "PUT",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            title: pageCache.title,
+            status: pageCache.status,
+            summary: pageCache.summary,
+            draft: pageCache.sections.map(function (section) { return section.content; }).join("\n\n"),
+            sections: pageCache.sections,
+            media: pageCache.media || [],
+            cards: pageCache.cards || []
+          })
+        });
+        savedSectionImages = pageCache.sections.reduce(function (result, section) {
+          result[section.id] = section.image || "";
+          return result;
+        }, {});
+        savedMediaSlots = (pageCache.media || []).reduce(function (result, item) {
+          result[item.id] = { src: item.src || "", alt: item.alt || "" };
+          return result;
+        }, {});
+        message.classList.remove("is-error");
+        message.textContent = response.message;
+        renderSections();
+        fillEditor();
+        renderHomeCards();
+      }
+
+      sectionsRoot.addEventListener("click", function (event) {
+        var card = event.target.closest("[data-section-id]");
+        if (card && !event.target.closest("[data-move]") && !event.target.closest("[data-edit-section]") && !event.target.closest("[data-image-section]")) {
+          syncSectionFromForm();
+          selectedSectionId = card.getAttribute("data-section-id") || selectedSectionId;
+          renderSections();
+          fillEditor();
+          return;
+        }
+
+        var moveButton = event.target.closest("[data-move]");
+        if (moveButton) {
+          syncSectionFromForm();
+          moveSection(moveButton.getAttribute("data-section-id"), moveButton.getAttribute("data-move"));
+          fillEditor();
+          return;
+        }
+
+        var editButton = event.target.closest("[data-edit-section]");
+        if (editButton) {
+          window.location.href = "./superadmin-section-editor.html?page=" + encodeURIComponent(pageId) + "&section=" + encodeURIComponent(editButton.getAttribute("data-edit-section")) + "&mode=content";
+          return;
+        }
+
+        var imageButton = event.target.closest("[data-image-section]");
+        if (imageButton) {
+          window.location.href = "./superadmin-section-editor.html?page=" + encodeURIComponent(pageId) + "&section=" + encodeURIComponent(imageButton.getAttribute("data-image-section")) + "&mode=image";
+          return;
+        }
+      });
+
+      mediaSlotsRoot.addEventListener("input", function (event) {
+        var srcInput = event.target.closest("[data-media-src]");
+        if (srcInput) {
+          updateMediaSlot(srcInput.getAttribute("data-media-src"), { src: srcInput.value });
+          renderMediaSlots();
+          return;
+        }
+        var altInput = event.target.closest("[data-media-alt]");
+        if (altInput) {
+          updateMediaSlot(altInput.getAttribute("data-media-alt"), { alt: altInput.value });
+          return;
+        }
+      });
+
+      mediaSlotsRoot.addEventListener("change", function (event) {
+        var fileInput = event.target.closest("[data-media-file]");
+        if (!fileInput) { return; }
+        var slotId = fileInput.getAttribute("data-media-file");
+        var file = fileInput.files && fileInput.files[0];
+        if (!file) { return; }
+        message.classList.remove("is-error");
+        message.textContent = "Uploading image...";
+        uploadImageFile(file).then(function (imagePath) {
+          updateMediaSlot(slotId, { src: imagePath });
+          renderMediaSlots();
+          message.classList.remove("is-error");
+          message.textContent = "Image uploaded. Save page content to publish it.";
+        }).catch(function (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        });
+      });
+
+      mediaSlotsRoot.addEventListener("click", function (event) {
+        var removeButton = event.target.closest("[data-media-remove]");
+        if (removeButton) {
+          updateMediaSlot(removeButton.getAttribute("data-media-remove"), { src: "" });
+          renderMediaSlots();
+          message.classList.remove("is-error");
+          message.textContent = "Image removed. Save page content to apply the change.";
+          return;
+        }
+
+        var restoreButton = event.target.closest("[data-media-restore]");
+        if (restoreButton) {
+          var slotId = restoreButton.getAttribute("data-media-restore");
+          var defaults = ensureMedia({ id: pageId, media: [] });
+          var fallback = defaults.find(function (item) { return item.id === slotId; }) || {};
+          var currentSaved = savedMediaSlots[slotId] || {};
+          updateMediaSlot(slotId, {
+            src: currentSaved.src || fallback.src || "",
+            alt: currentSaved.alt || fallback.alt || ""
+          });
+          renderMediaSlots();
+          message.classList.remove("is-error");
+          message.textContent = "Saved image restored in the editor.";
+        }
+      });
+
+      homeCardsList.addEventListener("input", function (event) {
+        if (!pageCache || !Array.isArray(pageCache.cards)) { return; }
+        var card = pageCache.cards.find(function (item) {
+          return item.id === event.target.getAttribute("data-home-card-title")
+            || item.id === event.target.getAttribute("data-home-card-content")
+            || item.id === event.target.getAttribute("data-home-card-image")
+            || item.id === event.target.getAttribute("data-home-card-alt")
+            || item.id === event.target.getAttribute("data-home-card-href");
+        });
+        if (!card) { return; }
+        if (event.target.hasAttribute("data-home-card-title")) { card.title = event.target.value; }
+        if (event.target.hasAttribute("data-home-card-content")) { card.content = event.target.value; }
+        if (event.target.hasAttribute("data-home-card-image")) { card.image = event.target.value; }
+        if (event.target.hasAttribute("data-home-card-alt")) { card.alt = event.target.value; }
+        if (event.target.hasAttribute("data-home-card-href")) { card.href = event.target.value; }
+      });
+
+      homeCardsList.addEventListener("change", function (event) {
+        var fileInput = event.target.closest("[data-home-card-file]");
+        if (!fileInput || !pageCache || !Array.isArray(pageCache.cards)) { return; }
+        var cardId = fileInput.getAttribute("data-home-card-file");
+        var card = findHomeCard(cardId);
+        var file = fileInput.files && fileInput.files[0];
+        if (!card || !file) { return; }
+        message.classList.remove("is-error");
+        message.textContent = "Uploading card image...";
+        uploadImageFile(file).then(function (imagePath) {
+          card.image = imagePath;
+          renderHomeCards();
+          message.classList.remove("is-error");
+          message.textContent = "Card image uploaded. Save page content to publish it.";
+        }).catch(function (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        });
+      });
+
+      homeCardsList.addEventListener("click", function (event) {
+        var createPageButton = event.target.closest("[data-home-card-create-page]");
+        if (createPageButton) {
+          var createCard = findHomeCard(createPageButton.getAttribute("data-home-card-create-page"));
+          if (!createCard) { return; }
+          var requestedRoute = normalizePublicRoute(createCard.href);
+          var slug = requestedRoute
+            ? requestedRoute.replace(/^\.?\//, "").replace(/\.html$/i, "")
+            : "";
+          message.classList.remove("is-error");
+          message.textContent = "Creating sub page...";
+          api("/api/superadmin/content/home-cards/create-page", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: createCard.title,
+              slug: slug
+            })
+          }).then(function (response) {
+            createCard.href = normalizePublicRoute(response.route || response.fileName || "");
+            if (!String(createCard.content || "").trim()) {
+              createCard.content = String(response.summary || response.title || createCard.title || "").trim();
+            }
+            return savePage().then(function () {
+              message.classList.remove("is-error");
+              message.textContent = "Sub page created and linked successfully.";
+            });
+          }).catch(function (error) {
+            message.classList.add("is-error");
+            message.textContent = error.message;
+          });
+          return;
+        }
+
+        var openPageButton = event.target.closest("[data-home-card-open-page]");
+        if (openPageButton) {
+          var openCard = findHomeCard(openPageButton.getAttribute("data-home-card-open-page"));
+          if (!openCard) { return; }
+          var openHref = normalizePublicRoute(openCard.href);
+          if (!openHref) { return; }
+          window.location.href = openHref;
+          return;
+        }
+
+        var deletePageButton = event.target.closest("[data-home-card-delete-page]");
+        if (deletePageButton) {
+          var deletePageCard = findHomeCard(deletePageButton.getAttribute("data-home-card-delete-page"));
+          if (!deletePageCard) { return; }
+          var deleteRoute = normalizePublicRoute(deletePageCard.href);
+          if (!deleteRoute || isBuiltInHomeCardRoute(deleteRoute)) { return; }
+          message.classList.remove("is-error");
+          message.textContent = "Deleting sub page...";
+          api("/api/superadmin/content/home-cards/delete-page", {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              route: deleteRoute
+            })
+          }).then(function () {
+            deletePageCard.href = "";
+            return savePage().then(function () {
+              message.classList.remove("is-error");
+              message.textContent = "Sub page deleted and card link cleared.";
+            });
+          }).catch(function (error) {
+            message.classList.add("is-error");
+            message.textContent = error.message;
+          });
+          return;
+        }
+
+        var deleteButton = event.target.closest("[data-home-card-delete]");
+        if (!deleteButton || !pageCache || !Array.isArray(pageCache.cards)) { return; }
+        var cardId = deleteButton.getAttribute("data-home-card-delete");
+        var deleteCard = findHomeCard(cardId);
+        if (!deleteCard) { return; }
+        var deleteHref = normalizePublicRoute(deleteCard.href);
+        var removeCardOnly = function () {
+          pageCache.cards = pageCache.cards.filter(function (item) { return item.id !== cardId; });
+          renderHomeCards();
+          message.classList.remove("is-error");
+          message.textContent = "Card box removed. Save page content to apply the change.";
+        };
+
+        if (deleteHref && !isBuiltInHomeCardRoute(deleteHref)) {
+          message.classList.remove("is-error");
+          message.textContent = "Deleting linked sub page and removing card box...";
+          api("/api/superadmin/content/home-cards/delete-page", {
+            method: "DELETE",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              route: deleteHref
+            })
+          }).then(function () {
+            removeCardOnly();
+          }).catch(function (error) {
+            message.classList.add("is-error");
+            message.textContent = error.message;
+          });
+          return;
+        }
+
+        removeCardOnly();
+      });
+
+      homeCardsAddButton.addEventListener("click", function () {
+        if (!pageCache) { return; }
+        var newCard = {
+          id: (pageCache.id || "page").replace(/^page-/, "") + "-card-" + Date.now(),
+          title: "New Card Box",
+          content: "",
+          image: "",
+          alt: "",
+          href: ""
+        };
+        pageCache.cards = Array.isArray(pageCache.cards) ? pageCache.cards : [];
+        pageCache.cards.push(newCard);
+        renderHomeCards();
+        message.classList.remove("is-error");
+        message.textContent = "New card box added. Save page content to publish it.";
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+
+      try {
+          await savePage();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      form.sectionImage.addEventListener("input", function () {
+        refreshImagePreview(form.sectionImage.value);
+      });
+
+      sectionImageFileInput.addEventListener("change", function () {
+        var file = sectionImageFileInput.files && sectionImageFileInput.files[0];
+        if (!file) { return; }
+        message.classList.remove("is-error");
+        message.textContent = "Uploading image...";
+        var localPreview = URL.createObjectURL(file);
+        refreshImagePreview(localPreview);
+        uploadImageFile(file).then(function (imagePath) {
+          form.sectionImage.value = imagePath;
+          refreshImagePreview(imagePath);
+          message.classList.remove("is-error");
+          message.textContent = "Image uploaded. Save page content to publish it.";
+          URL.revokeObjectURL(localPreview);
+        }).catch(function (error) {
+          URL.revokeObjectURL(localPreview);
+          refreshImagePreview(form.sectionImage.value);
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        });
+      });
+
+      removeImageButton.addEventListener("click", function () {
+        form.sectionImage.value = "";
+        refreshImagePreview("");
+        message.classList.remove("is-error");
+        message.textContent = "Image removed. Save page content to apply the change.";
+      });
+
+      restoreImageButton.addEventListener("click", function () {
+        var section = currentSection();
+        if (!section) { return; }
+        form.sectionImage.value = savedSectionImages[section.id] || "";
+        refreshImagePreview(form.sectionImage.value);
+        message.classList.remove("is-error");
+        message.textContent = "Previous saved image restored in the editor.";
+      });
+
+
+      try {
+        var me = await api("/api/auth/me");
+        userName.textContent = me.user.name;
+        userAvatar.textContent = String(me.user.name || "S").charAt(0).toUpperCase();
+        await loadPage();
+      } catch (error) {
+        localStorage.removeItem("iitPortalToken");
+        localStorage.removeItem("iitPortalUser");
+        window.location.href = "/admin-login.html?role=superadmin";
+      }
+      setupMobileSidebar();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+

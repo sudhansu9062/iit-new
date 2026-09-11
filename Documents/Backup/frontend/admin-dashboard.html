@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Dashboard | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .portal-dashboard-page .portal-greeting {
+      font-size: 13px;
+    }
+
+    .portal-dashboard-page .portal-hero-name {
+      font-size: 20px;
+    }
+
+    .portal-dashboard-page .portal-hero-email,
+    .portal-dashboard-page .portal-hero-date {
+      font-size: 12px;
+    }
+
+    .portal-dashboard-page .portal-stat-head h2,
+    .portal-dashboard-page .portal-section-header h2 {
+      font-size: 17px;
+    }
+
+    .portal-dashboard-page .portal-stat-card strong {
+      font-size: 24px;
+    }
+
+    .portal-dashboard-page .portal-stat-card p,
+    .portal-dashboard-page .portal-action-card p,
+    .portal-dashboard-page .portal-activity-item p {
+      font-size: 12px;
+    }
+
+    .portal-dashboard-page .portal-action-card h3,
+    .portal-dashboard-page .portal-activity-item h3 {
+      font-size: 14px;
+    }
+
+    .portal-dashboard-page .portal-module-item span {
+      font-size: 13px;
+    }
+
+    .portal-dashboard-page .portal-module-item strong {
+      font-size: 13px;
+    }
+  </style>
+</head>
+
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand">
+        <div class="portal-sidebar-logo">
+          <svg viewBox="0 0 24 24" role="presentation" focusable="false">
+            <path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" />
+          </svg>
+        </div>
+        <div>
+          <strong>IIT Portal</strong>
+          <span>Internal Dashboard</span>
+        </div>
+      </div>
+
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group">
+          <p>Overview</p>
+          <a href="./admin-dashboard.html" class="is-active">Dashboard</a>
+        </div>
+
+        <div class="portal-sidebar-group">
+          <p>Information</p>
+          <a href="./admin-notices.html">Notices</a>
+          <a href="./admin-news-events.html">News &amp; Events</a>
+          <a href="./admin-notices.html?category=General">General Notices</a>
+          <a href="./admin-notices.html?category=Academic">Academic Notices</a>
+          <a href="./admin-notices.html?category=Administrative">Administrative Notices</a>
+          <a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a>
+          <a href="./superadmin-content.html" id="admin-content-management-link" hidden>Content Management</a>
+        </div>
+
+        <div class="portal-sidebar-group">
+          <p>Faculty</p>
+          <a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a>
+          <a href="./admin-bookings.html?type=seminar">Seminar Requests</a>
+          <a href="./admin-bookings.html?type=zoom">Room Booking</a>
+          <a href="./admin-profile.html">Edit Profile</a>
+          <a href="./admin-notices.html?category=Faculty">Faculty Notices</a>
+        </div>
+
+        <div class="portal-sidebar-group">
+          <p>Services</p>
+          <a href="./admin-tickets.html">CMSTS</a>
+          <a href="./admin-tickets.html">Raise Ticket</a>
+          <a href="./admin-tickets.html">Track Status</a>
+          <a href="./admin-support-chat.html">Support Chat</a>
+          <a href="./facility-booking.html">Facility Booking</a>
+          <a href="./admin-module.html?module=computational-access&title=Computational%20Access">Computational
+            Access</a>
+        </div>
+
+      </nav>
+
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+
+    <main class="portal-main">
+      <header class="portal-topbar">
+        <button type="button" class="portal-menu-button" aria-label="Open navigation">&#9776;</button>
+        <div class="portal-search">
+          <span aria-hidden="true">&#128269;</span>
+          <input type="search" id="portal-dashboard-search" placeholder="Search modules, notices, requests..." />
+        </div>
+        <div class="portal-topbar-user" id="portal-user-menu">
+          <span class="portal-notice-dot"></span>
+          <div class="portal-avatar">R</div>
+          <span class="portal-user-name">Dr. Sharma</span>
+          <button type="button" class="portal-user-menu-toggle" aria-label="Open user menu"></button>
+          <div class="portal-user-menu-dropdown">
+            <button type="button" class="portal-user-menu-item" id="portal-logout-button">Logout</button>
+          </div>
+        </div>
+      </header>
+
+      <section class="portal-hero-card">
+        <div>
+          <p class="portal-greeting">Good morning</p>
+          <h1 class="portal-hero-name">Dr. Rajesh Sharma</h1>
+          <span class="portal-hero-email">Department of Computer Science &amp; Engineering</span>
+        </div>
+        <div class="portal-hero-date">Monday, 6 April 2026</div>
+      </section>
+
+      <section class="portal-stats-grid" aria-label="Portal metrics"></section>
+
+      <section class="portal-section">
+        <div class="portal-section-header">
+          <h2>Quick Actions</h2>
+        </div>
+        <div class="portal-actions-grid"></div>
+      </section>
+
+      <section class="portal-content-grid">
+        <article class="portal-panel">
+          <div class="portal-section-header">
+            <h2>Recent Activity</h2>
+          </div>
+
+          <div class="portal-activity-list"></div>
+        </article>
+
+        <aside class="portal-panel portal-modules-panel">
+          <div class="portal-section-header">
+            <h2>Modules</h2>
+          </div>
+
+          <div class="portal-module-list"></div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      var storedUser = null;
+      var statsGrid = document.querySelector(".portal-stats-grid");
+      var actionsGrid = document.querySelector(".portal-actions-grid");
+      var activityList = document.querySelector(".portal-activity-list");
+      var moduleList = document.querySelector(".portal-module-list");
+      var nameLabel = document.querySelector(".portal-user-name");
+      var heroName = document.querySelector(".portal-hero-name");
+      var heroEmail = document.querySelector(".portal-hero-email");
+      var heroDate = document.querySelector(".portal-hero-date");
+      var greeting = document.querySelector(".portal-greeting");
+      var avatar = document.querySelector(".portal-avatar");
+      var noticeDot = document.querySelector(".portal-notice-dot");
+      var userMenu = document.getElementById("portal-user-menu");
+      var logoutButton = document.getElementById("portal-logout-button");
+      var dashboardStream = null;
+
+      try {
+        storedUser = JSON.parse(localStorage.getItem("iitPortalUser") || "null");
+      } catch (error) {
+        storedUser = null;
+      }
+
+
+      function setupMobilePortalSidebar() {
+        var sidebar = document.querySelector(".portal-sidebar");
+        var menuButton = document.querySelector(".portal-menu-button");
+        if (!sidebar || !menuButton) { return; }
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      setupMobilePortalSidebar();
+
+      if (!token) {
+        window.location.href = "/admin-login.html";
+        return;
+      }
+
+      if (storedUser && String(storedUser.role || "").toLowerCase() === "superadmin") {
+        window.location.replace("./superadmin-dashboard.html");
+        return;
+      }
+
+      function closeUserMenu() {
+        if (userMenu) {
+          userMenu.classList.remove("is-open");
+        }
+      }
+
+      if (userMenu) {
+        userMenu.addEventListener("click", function (event) {
+          if (event.target.closest(".portal-user-menu-dropdown")) { return; }
+          userMenu.classList.toggle("is-open");
+        });
+      }
+
+      if (logoutButton) {
+        logoutButton.addEventListener("click", function () {
+          var token = localStorage.getItem("iitPortalToken");
+          if (token) {
+            fetch(window.location.origin + "/api/auth/logout", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+                "Authorization": "Bearer " + token
+              }
+            }).then(function() {
+              localStorage.removeItem("iitPortalToken");
+              localStorage.removeItem("iitPortalUser");
+              window.location.href = "./index.html";
+            }).catch(function() {
+              localStorage.removeItem("iitPortalToken");
+              localStorage.removeItem("iitPortalUser");
+              window.location.href = "./index.html";
+            });
+          } else {
+            localStorage.removeItem("iitPortalToken");
+            localStorage.removeItem("iitPortalUser");
+            window.location.href = "./index.html";
+          }
+        });
+      }
+
+      document.addEventListener("click", function (event) {
+        if (!userMenu) { return; }
+        if (!userMenu.contains(event.target)) {
+          closeUserMenu();
+        }
+      });
+
+      function renderStats(items) {
+        statsGrid.innerHTML = items.map(function (item) {
+          var tag = item.href ? "a" : "article";
+          var href = item.href ? ' href="' + item.href + '"' : "";
+          return [
+            '<' + tag + ' class="portal-stat-card portal-dashboard-link"' + href + '>',
+            '  <div class="portal-stat-head">',
+            "    <h2>" + displayBookingText(item.title) + "</h2>",
+            "    <span>" + item.icon + "</span>",
+            "  </div>",
+            "  <strong>" + escapeHtml(item.value) + "</strong>",
+            "  <p>" + displayBookingText(item.detail || "") + "</p>",
+            item.trend ? "  <small>" + displayBookingText(item.trend) + "</small>" : "",
+            "</" + tag + ">"
+          ].join("");
+        }).join("");
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+          return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
+        });
+      }
+
+      function displayBookingText(value) {
+        var str = String(value == null ? "" : value)
+          .replace(/Zoom Booking/g, "Room Booking")
+          .replace(/Zoom booking/g, "Room booking")
+          .replace(/zoom booking/g, "room booking")
+          .replace(/Zoom session requests/g, "room booking requests")
+          .replace(/\bzoom\b/g, "room");
+        return escapeHtml(str);
+      }
+
+      function renderActions(items) {
+        actionsGrid.innerHTML = items.map(function (item) {
+          return [
+            '<a class="portal-action-card' + (item.primary ? " is-primary" : "") + '" href="' + (item.href || "./admin-module.html") + '">',
+            "  <h3>" + displayBookingText(item.title) + "</h3>",
+            "  <p>" + displayBookingText(item.description) + "</p>",
+            "</a>"
+          ].join("");
+        }).join("");
+      }
+
+      function renderActivity(items) {
+        activityList.innerHTML = items.map(function (item) {
+          var tag = item.href ? "a" : "div";
+          var href = item.href ? ' href="' + item.href + '"' : "";
+          return [
+            '<' + tag + ' class="portal-activity-item portal-dashboard-link"' + href + '>',
+            "  <div>",
+            "    <h3>" + displayBookingText(item.title) + "</h3>",
+            "    <p>" + displayBookingText(item.meta) + "</p>",
+            "  </div>",
+            '  <span class="portal-badge ' + escapeHtml(item.statusType) + '">' + escapeHtml(item.status) + "</span>",
+            "</" + tag + ">"
+          ].join("");
+        }).join("");
+      }
+
+      function renderModules(items) {
+        moduleList.innerHTML = items.map(function (item) {
+          var tag = item.href ? "a" : "div";
+          var href = item.href ? ' href="' + item.href + '"' : "";
+          return [
+            '<' + tag + ' class="portal-module-item portal-dashboard-link"' + href + '>',
+            "  <span>" + escapeHtml(item.name) + "</span>",
+            "  <strong>" + escapeHtml(item.count) + "</strong>",
+            "</" + tag + ">"
+          ].join("");
+        }).join("");
+      }
+
+      function renderUser(user, dashboard) {
+        if (user && String(user.role || "").toLowerCase() === "superadmin") {
+          localStorage.setItem("iitPortalUser", JSON.stringify(user));
+          window.location.replace("./superadmin-dashboard.html");
+          return;
+        }
+
+        localStorage.setItem("iitPortalUser", JSON.stringify(user));
+
+        if (nameLabel) {
+          nameLabel.textContent = user.name;
+        }
+
+        if (heroName) {
+          heroName.textContent = user.name;
+        }
+
+        if (heroEmail) {
+          heroEmail.textContent = user.email;
+        }
+
+        if (heroDate && dashboard.dateLabel) {
+          heroDate.textContent = dashboard.dateLabel;
+        }
+
+        if (greeting && dashboard.greeting) {
+          greeting.textContent = dashboard.greeting;
+        }
+
+        if (avatar) {
+          avatar.textContent = String(user.name || "U").trim().charAt(0).toUpperCase();
+        }
+
+        if (noticeDot) {
+          noticeDot.hidden = !dashboard.noticeDot;
+        }
+      }
+
+      async function loadDashboard() {
+        var response = await fetch(window.location.origin + "/api/dashboard", {
+          headers: {
+            Authorization: "Bearer " + token
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Unauthorized");
+        }
+
+        var dashboard = await response.json();
+        renderUser(dashboard.user, dashboard);
+        renderStats(dashboard.stats || []);
+        renderActions(dashboard.quickActions || []);
+        renderActivity(dashboard.recentActivity || []);
+        renderModules(dashboard.modules || []);
+      }
+
+      function connectDashboardStream() {
+        if (dashboardStream) {
+          dashboardStream.close();
+        }
+
+        dashboardStream = new EventSource(
+          window.location.origin + "/api/dashboard/stream?token=" + encodeURIComponent(token)
+        );
+
+        dashboardStream.addEventListener("dashboard", function (event) {
+          var dashboard = JSON.parse(event.data);
+          renderUser(dashboard.user, dashboard);
+          renderStats(dashboard.stats || []);
+          renderActions(dashboard.quickActions || []);
+          renderActivity(dashboard.recentActivity || []);
+          renderModules(dashboard.modules || []);
+        });
+
+        dashboardStream.onerror = function () {
+          if (dashboardStream) {
+            dashboardStream.close();
+          }
+
+          window.setTimeout(function () {
+            connectDashboardStream();
+          }, 2000);
+        };
+      }
+
+      try {
+        await loadDashboard();
+        connectDashboardStream();
+      } catch (error) {
+        localStorage.removeItem("iitPortalToken");
+        localStorage.removeItem("iitPortalUser");
+        window.location.href = "/admin-login.html";
+      }
+
+      function setupDashboardSearch() {
+        var searchInput = document.getElementById("portal-dashboard-search");
+        if (!searchInput) {
+          return;
+        }
+
+        var searchIndex = [
+          { url: "./doctoral-program.html", terms: ["phd", "phd program", "doctoral", "doctoral program", "research scholar"] },
+          { url: "./undergraduate-program.html", terms: ["undergraduate", "btech", "b.sc", "ug program"] },
+          { url: "./postgraduate-program.html", terms: ["postgraduate", "masters", "mtech", "msc", "pg program"] },
+          { url: "./programs.html", terms: ["programs", "admission", "academics"] },
+          { url: "./research.html", terms: ["research", "research area", "labs", "laboratory"] },
+          { url: "./admin-notices.html", terms: ["notices", "notice", "announcement", "general notice"] },
+          { url: "./admin-notices.html?category=Academic", terms: ["academic notice", "academic notices"] },
+          { url: "./admin-notices.html?category=Administrative", terms: ["administrative notice", "admin notice"] },
+          { url: "./facility-booking.html", terms: ["facility booking", "facility slot booking"] },
+          { url: "./admin-bookings.html?type=zoom", terms: ["room booking"] },
+          { url: "./admin-tickets.html", terms: ["cmsts", "ticket", "raise ticket", "track status"] },
+          { url: "./admin-support-chat.html", terms: ["support chat", "chat", "message superadmin", "help chat"] },
+          { url: "./admin-profile.html", terms: ["profile", "edit profile", "my profile"] }
+        ];
+
+        function normalize(value) {
+          return String(value || "").toLowerCase().replace(/\s+/g, " ").trim();
+        }
+
+        function findDestination(query) {
+          var normalizedQuery = normalize(query);
+          if (!normalizedQuery) {
+            return null;
+          }
+
+          for (var i = 0; i < searchIndex.length; i += 1) {
+            var item = searchIndex[i];
+            for (var j = 0; j < item.terms.length; j += 1) {
+              var term = normalize(item.terms[j]);
+              if (term.indexOf(normalizedQuery) !== -1 || normalizedQuery.indexOf(term) !== -1) {
+                return item.url;
+              }
+            }
+          }
+
+          return null;
+        }
+
+        function runSearch() {
+          var destination = findDestination(searchInput.value);
+          if (!destination) {
+            searchInput.setCustomValidity("No matching page found. Try: phd program, research, notices, room booking, or ticket.");
+            searchInput.reportValidity();
+            window.setTimeout(function () {
+              searchInput.setCustomValidity("");
+            }, 1200);
+            return;
+          }
+
+          window.location.href = destination;
+        }
+
+        searchInput.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            runSearch();
+          }
+        });
+      }
+
+      setupDashboardSearch();
+    })();
+  </script>
+  <script>
+    (async function () {
+      var link = document.getElementById("admin-content-management-link");
+      var token = localStorage.getItem("iitPortalToken");
+      if (!link || !token) { return; }
+      try {
+        var response = await fetch(window.location.origin + "/api/auth/me", {
+          headers: { Authorization: "Bearer " + token }
+        });
+        if (!response.ok) { return; }
+        var data = await response.json();
+        var user = data.user || {};
+        if (user.role === "superadmin" || (user.permissions || []).indexOf("manage_content") !== -1) {
+          link.hidden = false;
+        }
+      } catch (error) {
+        return;
+      }
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+
+</html>
+
+
+

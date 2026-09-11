@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage News & Events | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html" class="is-active"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input id="news-events-search" type="search" placeholder="Search announcements or events..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <h1>News &amp; Events</h1>
+            <p>Publish announcements, manage upcoming and past events, and keep the public page current.</p>
+          </div>
+        </section>
+
+        <section class="portal-module-grid">
+          <section class="portal-panel">
+            <h2 class="portal-panel-title">Push Announcement</h2>
+            <form class="portal-form-grid" id="announcement-form">
+              <label>Date<input class="portal-input" name="date" placeholder="8 Apr 2026" required /></label>
+              <label class="portal-form-span">Announcement<textarea class="portal-textarea" name="title" required></textarea></label>
+              <button class="portal-button" type="submit">Publish Announcement</button>
+            </form>
+            <p class="portal-inline-message" id="announcement-message"></p>
+          </section>
+
+          <section class="portal-panel">
+            <h2 class="portal-panel-title">Create Event</h2>
+            <form class="portal-form-grid" id="event-form">
+              <label>Type
+                <select class="portal-input" name="bucket">
+                  <option value="upcoming">Upcoming</option>
+                  <option value="past">Past</option>
+                </select>
+              </label>
+              <label>Category
+                <select class="portal-input" name="category">
+                  <option value="seminars">Seminars</option>
+                  <option value="workshops">Workshops</option>
+                  <option value="conferences">Conferences</option>
+                </select>
+              </label>
+              <label class="portal-form-span">Title<input class="portal-input" name="title" required /></label>
+              <label>Date<input class="portal-input" name="date" placeholder="22 Apr 2026 - 24 Apr 2026" required /></label>
+              <label>Location<input class="portal-input" name="location" placeholder="Computer Lab, Physics Building" /></label>
+              <label class="portal-form-span">Short Description<textarea class="portal-textarea" name="summary" required></textarea></label>
+              <label class="portal-form-span">Full Details<textarea class="portal-textarea" name="details" required></textarea></label>
+              <button class="portal-button" type="submit">Create Event</button>
+            </form>
+            <p class="portal-inline-message" id="event-message"></p>
+          </section>
+
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Announcements</h2></div>
+            <div id="announcements-list" class="portal-card-list"></div>
+          </section>
+
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Upcoming Events</h2></div>
+            <div id="upcoming-list" class="portal-card-list"></div>
+          </section>
+
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Past Events</h2></div>
+            <div id="past-list" class="portal-card-list"></div>
+          </section>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var announcementForm = document.getElementById("announcement-form");
+      var eventForm = document.getElementById("event-form");
+      var announcementMessage = document.getElementById("announcement-message");
+      var eventMessage = document.getElementById("event-message");
+      var announcementsList = document.getElementById("announcements-list");
+      var upcomingList = document.getElementById("upcoming-list");
+      var pastList = document.getElementById("past-list");
+      var searchInput = document.getElementById("news-events-search");
+      var currentUserName = document.getElementById("current-user-name");
+      var userAvatar = document.getElementById("user-avatar");
+      var cache = { announcements: [], upcomingEvents: [], pastEvents: [] };
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({
+          headers: { Authorization: "Bearer " + token }
+        }, options || {}));
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function renderDeleteCard(item, type) {
+        if (type === "announcement") {
+          return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.date || "") + '</p><h3>' + escapeHtml(item.title) + '</h3></div><button class="portal-button portal-button-secondary" data-delete-announcement="' + escapeHtml(item.id) + '">Delete</button></article>';
+        }
+        return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.date || "") + '</p><h3>' + escapeHtml(item.title) + '</h3><p>' + escapeHtml(item.location || "") + '</p></div><button class="portal-button portal-button-secondary" data-delete-event="' + escapeHtml(item.id) + '">Delete</button></article>';
+      }
+
+      function matchesQuery(item, query) {
+        if (!query) { return true; }
+        return [item.title, item.date, item.location, item.summary, item.details].join(" - ").toLowerCase().indexOf(query) !== -1;
+      }
+
+      function renderList(items, type, emptyMessage) {
+        var query = String(searchInput.value || "").trim().toLowerCase();
+        var filtered = items.filter(function (item) { return matchesQuery(item, query); });
+        return filtered.length ? filtered.map(function (item) { return renderDeleteCard(item, type); }).join("") : '<p class="portal-empty">' + escapeHtml(emptyMessage) + '</p>';
+      }
+
+      function render() {
+        announcementsList.innerHTML = renderList(cache.announcements, "announcement", "No announcements.");
+        upcomingList.innerHTML = renderList(cache.upcomingEvents, "event", "No upcoming events.");
+        pastList.innerHTML = renderList(cache.pastEvents, "event", "No past events.");
+      }
+
+      async function loadCurrentUser() {
+        var data = await api("/api/auth/me");
+        currentUserName.textContent = data.user.name;
+        userAvatar.textContent = String(data.user.name || "S").charAt(0).toUpperCase();
+      }
+
+      async function load() {
+        var data = await api("/api/admin/news-events");
+        cache.announcements = Array.isArray(data.announcements) ? data.announcements : [];
+        cache.upcomingEvents = Array.isArray(data.upcomingEvents) ? data.upcomingEvents : [];
+        cache.pastEvents = Array.isArray(data.pastEvents) ? data.pastEvents : [];
+        render();
+      }
+
+      announcementForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        announcementMessage.textContent = "";
+        var formData = new FormData(announcementForm);
+        try {
+          await api("/api/admin/news-events/announcements", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ date: formData.get("date"), title: formData.get("title") })
+          });
+          announcementForm.reset();
+          announcementMessage.textContent = "Announcement published successfully.";
+          await load();
+        } catch (error) {
+          announcementMessage.textContent = error.message;
+        }
+      });
+
+      eventForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        eventMessage.textContent = "";
+        var formData = new FormData(eventForm);
+        try {
+          await api("/api/admin/news-events/events", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              bucket: formData.get("bucket"),
+              category: formData.get("category"),
+              title: formData.get("title"),
+              date: formData.get("date"),
+              location: formData.get("location"),
+              summary: formData.get("summary"),
+              details: formData.get("details")
+            })
+          });
+          eventForm.reset();
+          eventMessage.textContent = "Event created successfully.";
+          await load();
+        } catch (error) {
+          eventMessage.textContent = error.message;
+        }
+      });
+
+      document.body.addEventListener("click", async function (event) {
+        var announcementId = event.target.getAttribute("data-delete-announcement");
+        var eventId = event.target.getAttribute("data-delete-event");
+        if (!announcementId && !eventId) { return; }
+        try {
+          if (announcementId) {
+            await api("/api/admin/news-events/announcements/" + encodeURIComponent(announcementId), { method: "DELETE" });
+          }
+          if (eventId) {
+            await api("/api/admin/news-events/events/" + encodeURIComponent(eventId), { method: "DELETE" });
+          }
+          await load();
+        } catch (error) {
+          eventMessage.textContent = error.message;
+        }
+      });
+
+      searchInput.addEventListener("input", render);
+
+      setupMobileSidebar();
+      await loadCurrentUser();
+      await load();
+    })();
+  </script>
+</body>
+</html>

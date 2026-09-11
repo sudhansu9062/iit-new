@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booking Management | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html" class="is-active"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input id="booking-search" type="search" placeholder="Search pages, users, tickets..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <h1>Booking Management</h1>
+            <p>Manage venue bookings and schedules. Weekends are blocked automatically.</p>
+          </div>
+          <div class="superadmin-header-actions">
+            <button type="button" class="superadmin-button-secondary" id="focus-block-panel"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"></circle><path d="m9 9 6 6"></path><path d="m15 9-6 6"></path></svg>Block Dates</button>
+            <button type="button" class="superadmin-button" id="focus-bookings-panel"><svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Add Booking</button>
+          </div>
+        </section>
+
+        <section class="superadmin-booking-layout">
+          <article class="superadmin-booking-calendar-card">
+            <div class="superadmin-booking-calendar-head">
+              <button type="button" class="superadmin-calendar-nav" id="calendar-prev" aria-label="Previous month"><svg viewBox="0 0 24 24"><path d="m15 18-6-6 6-6"></path></svg></button>
+              <strong id="calendar-title">April 2026</strong>
+              <button type="button" class="superadmin-calendar-nav" id="calendar-next" aria-label="Next month"><svg viewBox="0 0 24 24"><path d="m9 6 6 6-6 6"></path></svg></button>
+            </div>
+            <div class="superadmin-booking-calendar-grid" id="calendar-grid"></div>
+            <p class="superadmin-booking-calendar-note">Greyed-out dates are blocked. Weekends are marked automatically.</p>
+          </article>
+
+          <article class="superadmin-booking-list-panel" id="booking-list-card">
+            <div class="superadmin-card-header">
+              <h2>Bookings</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <div id="booking-manage-list" class="superadmin-booking-stack"></div>
+            </div>
+          </article>
+        </section>
+
+        <section class="superadmin-layout-split" id="booking-tools">
+          <article class="superadmin-card">
+            <div class="superadmin-card-header">
+              <h2>Manage Booking Lists</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <form id="booking-resources-form" class="superadmin-form-grid columns-3">
+                <label>Seminar Halls (used in Seminar Booking)
+                  <textarea name="seminarHalls" rows="6" placeholder="Seminar Hall 1&#10;Seminar Hall 2"></textarea>
+                </label>
+                <label>Room Numbers (used for Room Booking)
+                  <textarea name="roomNumbers" rows="6" placeholder="Room 101&#10;Room 102"></textarea>
+                </label>
+                <label>Facility Names (used in Facility Booking)
+                  <textarea name="facilityNames" rows="6" placeholder="Hall 1&#10;Hall 2"></textarea>
+                </label>
+                <div class="superadmin-form-span superadmin-form-actions" style="justify-content:flex-start;">
+                  <button class="superadmin-button" type="submit">Save Booking Data</button>
+                </div>
+              </form>
+            </div>
+          </article>
+
+          <article class="superadmin-card">
+            <div class="superadmin-card-header">
+              <h2>Add Managed Booking</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <form id="manual-booking-form" class="superadmin-form-grid columns-2">
+                <label>Booking Type
+                  <select name="type">
+                    <option value="seminar">Seminar</option>
+                    <option value="zoom">Room</option>
+                  </select>
+                </label>
+                <label>Title<input name="title" placeholder="Seminar Hall A or Meeting Topic" required /></label>
+                <label>Date<input name="date" type="date" required /></label>
+                <label>Time<input name="time" type="time" required /></label>
+                <label class="superadmin-form-span">Reason / Notes<input name="reason" placeholder="Reserved by super admin" /></label>
+                <label>Facility Names (used in Facility Booking)
+                  <textarea name="facilityNames" rows="6" placeholder="Hall 1&#10;Hall 2"></textarea>
+                </label>
+                <div class="superadmin-form-span superadmin-form-actions" style="justify-content:flex-start;">
+                  <button class="superadmin-button" type="submit">Add Managed Booking</button>
+                </div>
+              </form>
+            </div>
+          </article>
+
+          <article class="superadmin-card" id="block-panel">
+            <div class="superadmin-card-header">
+              <h2>Block Dates and Time</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <form id="holiday-upload-form" class="superadmin-form-grid" style="margin-bottom:18px;">
+                <label>Holiday Dates (one per line, YYYY-MM-DD)
+                  <textarea name="holidays" rows="5" placeholder="2026-05-21&#10;2026-05-25"></textarea>
+                </label>
+                <label>Upload Holiday Excel / CSV
+                  <input name="holidayFile" type="file" accept=".xls,.xlsx,.csv,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" />
+                </label>
+                <div class="superadmin-form-actions" style="justify-content:flex-start;">
+                  <button class="superadmin-button-secondary" type="submit">Upload Holiday List</button>
+                </div>
+              </form>
+              <form id="block-date-form" class="superadmin-form-grid columns-2">
+                <label>Date<input name="date" type="date" required /></label>
+                <div class="superadmin-form-actions" style="justify-content:flex-start;align-self:end;">
+                  <button class="superadmin-button" type="submit">Block Full Date</button>
+                </div>
+              </form>
+              <form id="block-slot-form" class="superadmin-form-grid columns-3" style="margin-top:18px;">
+                <label>Date<input name="date" type="date" required /></label>
+                <label>Time<input name="time" type="time" required /></label>
+                <label>Reason<input name="reason" placeholder="Reserved for event" /></label>
+                <label>Facility Names (used in Facility Booking)
+                  <textarea name="facilityNames" rows="6" placeholder="Hall 1&#10;Hall 2"></textarea>
+                </label>
+                <div class="superadmin-form-span superadmin-form-actions" style="justify-content:flex-start;">
+                  <button class="superadmin-button-secondary" type="submit">Block Specific Slot</button>
+                </div>
+              </form>
+              <p id="booking-message" class="superadmin-inline-message"></p>
+            </div>
+          </article>
+
+          <article class="superadmin-card">
+            <div class="superadmin-card-header">
+              <h2>Blocked Schedule</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <div class="superadmin-block-list" id="blocked-items"></div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+
+    <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var bookingList = document.getElementById("booking-manage-list");
+      var blockedList = document.getElementById("blocked-items");
+      var manualBookingForm = document.getElementById("manual-booking-form");
+      var blockDateForm = document.getElementById("block-date-form");
+      var blockSlotForm = document.getElementById("block-slot-form");
+      var holidayUploadForm = document.getElementById("holiday-upload-form");
+      var message = document.getElementById("booking-message");
+      var grid = document.getElementById("calendar-grid");
+      var title = document.getElementById("calendar-title");
+      var searchInput = document.getElementById("booking-search");
+      var currentUserName = document.getElementById("current-user-name");
+      var userAvatar = document.getElementById("user-avatar");
+      var focusBlockPanel = document.getElementById("focus-block-panel");
+      var focusBookingsPanel = document.getElementById("focus-bookings-panel");
+      var blockPanel = document.getElementById("block-panel");
+      var bookingResourcesForm = document.getElementById("booking-resources-form");
+      var today = new Date();
+      var monthCursor = new Date(today.getFullYear(), today.getMonth(), 1);
+      var cache = null;
+      var selectedDate = toDateId(today);
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+
+      function toDateId(date) {
+        return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+      }
+
+      function isWeekend(dateId) {
+        var parts = String(dateId).split("-").map(Number);
+        var day = new Date(parts[0], parts[1] - 1, parts[2]).getDay();
+        return day === 0 || day === 6;
+      }
+
+      function bookingStatusMeta(status, blocked) {
+        if (status === "Approved") {
+          return { label: blocked ? "Blocked" : "Auto-Approved", className: blocked ? "superadmin-status-rejected" : "superadmin-status-approved" };
+        }
+        if (status === "Rejected") {
+          return { label: "Blocked", className: "superadmin-status-rejected" };
+        }
+        return { label: "Pending", className: "superadmin-status-progress" };
+      }
+
+      function parseDateText(value) {
+        var text = String(value == null ? "" : value).trim();
+        if (!text) { return ""; }
+        var direct = text.match(/^(\d{4})-(\d{2})-(\d{2})$/);
+        if (direct) {
+          return direct[1] + "-" + direct[2] + "-" + direct[3];
+        }
+        var slash = text.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+        if (slash) {
+          var day = String(Number(slash[1])).padStart(2, "0");
+          var month = String(Number(slash[2])).padStart(2, "0");
+          return slash[3] + "-" + month + "-" + day;
+        }
+        return "";
+      }
+
+      function normalizeHolidayDates(values) {
+        var unique = {};
+        (values || []).forEach(function (value) {
+          var normalized = parseDateText(value);
+          if (normalized) {
+            unique[normalized] = true;
+          }
+        });
+        return Object.keys(unique).sort();
+      }
+
+      function parseHolidayCsv(text) {
+        return String(text || "")
+          .split(/\r?\n/)
+          .reduce(function (result, line) {
+            String(line || "").split(",").forEach(function (cell) {
+              result.push(cell.trim());
+            });
+            return result;
+          }, []);
+      }
+
+      async function readHolidayDatesFromFile(file) {
+        var extension = String(file && file.name || "").toLowerCase();
+        if (extension.endsWith(".csv")) {
+          var csvText = await file.text();
+          return normalizeHolidayDates(parseHolidayCsv(csvText));
+        }
+        if (!window.XLSX) {
+          throw new Error("Excel parser is not loaded.");
+        }
+        var buffer = await file.arrayBuffer();
+        var workbook = window.XLSX.read(buffer, { type: "array", cellDates: true });
+        var sheetName = workbook.SheetNames[0];
+        if (!sheetName) {
+          return [];
+        }
+        var sheet = workbook.Sheets[sheetName];
+        var rows = window.XLSX.utils.sheet_to_json(sheet, { header: 1, defval: "" });
+        var values = [];
+        rows.forEach(function (row) {
+          (Array.isArray(row) ? row : []).forEach(function (cell) {
+            if (cell instanceof Date) {
+              values.push(toDateId(cell));
+              return;
+            }
+            values.push(String(cell == null ? "" : cell));
+          });
+        });
+        return normalizeHolidayDates(values);
+      }
+
+      async function api(path, options) {
+        var config = Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {});
+        var response = await fetch(window.location.origin + path, config);
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function renderCalendar(data) {
+        var weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+        var firstDay = new Date(monthCursor.getFullYear(), monthCursor.getMonth(), 1);
+        var startDay = firstDay.getDay();
+        var daysInMonth = new Date(monthCursor.getFullYear(), monthCursor.getMonth() + 1, 0).getDate();
+        var prevDays = new Date(monthCursor.getFullYear(), monthCursor.getMonth(), 0).getDate();
+        title.textContent = monthCursor.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+        var cells = weekdays.map(function (day) {
+          return '<div class="superadmin-booking-weekday">' + day + '</div>';
+        });
+
+        for (var i = 0; i < startDay; i += 1) {
+          cells.push('<button type="button" class="superadmin-booking-day is-muted" disabled>' + (prevDays - startDay + i + 1) + '</button>');
+        }
+
+        for (var day = 1; day <= daysInMonth; day += 1) {
+          var current = new Date(monthCursor.getFullYear(), monthCursor.getMonth(), day);
+          var dateId = toDateId(current);
+          var classes = ["superadmin-booking-day"];
+          if (isWeekend(dateId) || (data.blockedDates || []).indexOf(dateId) !== -1) { classes.push("is-blocked"); }
+          if (selectedDate === dateId) { classes.push("is-selected"); }
+          cells.push('<button type="button" class="' + classes.join(" ") + '" data-date="' + escapeHtml(dateId) + '">' + day + '</button>');
+        }
+
+        while (cells.length % 7 !== 0) {
+          cells.push('<button type="button" class="superadmin-booking-day is-muted" disabled>' + (cells.length % 7) + '</button>');
+        }
+
+        grid.innerHTML = cells.join("");
+      }
+
+      function renderBlockedItems(data) {
+        var blockedDatesMarkup = (data.blockedDates || []).map(function (item) {
+          return '<article class="superadmin-block-item"><div class="superadmin-feed-item"><div><strong>' + escapeHtml(item) + '</strong><p>Entire day blocked</p></div><button class="superadmin-button-secondary" data-date="' + escapeHtml(item) + '">Remove</button></div></article>';
+        }).join("");
+        var blockedSlotsMarkup = (data.blockedSlots || []).map(function (item) {
+          return '<article class="superadmin-block-item"><div class="superadmin-feed-item"><div><strong>' + escapeHtml(item.date + " - " + item.time) + '</strong><p>' + escapeHtml(item.reason || "Blocked time slot") + '</p></div><button class="superadmin-button-secondary" data-slot="' + escapeHtml(item.id) + '">Remove</button></div></article>';
+        }).join("");
+        blockedList.innerHTML = (blockedDatesMarkup + blockedSlotsMarkup) || '<p class="superadmin-empty">No blocked dates or time slots.</p>';
+      }
+
+      function normalizedBookings(data) {
+        return []
+          .concat((data.seminarRequests || []).map(function (item) {
+            return {
+              id: item.id,
+              type: "seminar",
+              title: item.roomName || "Seminar Request",
+              date: item.date,
+              time: item.time,
+              requesterName: item.requesterName,
+              status: item.status,
+              blocked: isWeekend(item.date) || (data.blockedDates || []).indexOf(item.date) !== -1 || (data.blockedSlots || []).some(function (slot) { return slot.date === item.date && slot.time === item.time; })
+            };
+          }))
+          .concat((data.zoomBookings || []).map(function (item) {
+            return {
+              id: item.id,
+              type: "zoom",
+              title: item.topic || "Room Booking",
+              date: item.date,
+              time: item.time,
+              requesterName: item.requesterName,
+              status: item.status,
+              blocked: isWeekend(item.date) || (data.blockedDates || []).indexOf(item.date) !== -1 || (data.blockedSlots || []).some(function (slot) { return slot.date === item.date && slot.time === item.time; })
+            };
+          }));
+      }
+
+      function renderBookings(data) {
+        var query = String(searchInput.value || "").trim().toLowerCase();
+        var all = normalizedBookings(data);
+        var filtered = all.filter(function (item) {
+          var matchesSearch = !query || [item.title, item.date, item.time, item.requesterName, item.status, item.type].join(" ").toLowerCase().indexOf(query) !== -1;
+          var matchesSelectedDate = !selectedDate || item.date === selectedDate;
+          return matchesSearch && matchesSelectedDate;
+        });
+
+        bookingList.innerHTML = filtered.length ? filtered.map(function (item) {
+          var meta = bookingStatusMeta(item.status, item.blocked);
+          return [
+            '<article class="superadmin-booking-row">',
+            '<div class="superadmin-booking-row-main">',
+            '<strong>' + escapeHtml(item.title) + '</strong>',
+            '<p>' + escapeHtml(new Date(item.date).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }) + " · " + item.time + " · " + item.requesterName) + '</p>',
+            '</div>',
+            '<div class="superadmin-booking-row-actions">',
+            '<span class="superadmin-status-pill ' + meta.className + '">' + escapeHtml(meta.label) + '</span>',
+            '<form class="superadmin-booking-inline-form" data-type="' + escapeHtml(item.type) + '" data-id="' + escapeHtml(item.id) + '">',
+            '<select name="status"><option value="Pending"' + (item.status === "Pending" ? ' selected' : '') + '>Pending</option><option value="Approved"' + (item.status === "Approved" ? ' selected' : '') + '>Approved</option><option value="Rejected"' + (item.status === "Rejected" ? ' selected' : '') + '>Rejected</option></select>',
+            '<button class="superadmin-button-secondary" type="submit">Update</button>',
+            '</form>',
+            '</div>',
+            '</article>'
+          ].join("");
+        }).join("") : '<p class="superadmin-empty">No bookings found for the selected date.</p>';
+      }
+
+      async function loadCurrentUser() {
+        var data = await api("/api/auth/me");
+        currentUserName.textContent = data.user.name;
+        userAvatar.textContent = String(data.user.name || "S").charAt(0).toUpperCase();
+      }
+
+      async function load() {
+        cache = await api("/api/superadmin/bookings");
+        var resourcesResponse = await api("/api/superadmin/booking-resources");
+        var resources = resourcesResponse.resources || {};
+        if (bookingResourcesForm) {
+          bookingResourcesForm.seminarHalls.value = (resources.seminarHalls || []).join("\n");
+          bookingResourcesForm.roomNumbers.value = (resources.roomNumbers || []).join("\n");
+          bookingResourcesForm.facilityNames.value = (resources.facilityNames || []).join("\n");
+        }
+        renderCalendar(cache);
+        renderBlockedItems(cache);
+        renderBookings(cache);
+      }
+
+      if (bookingResourcesForm) {
+        bookingResourcesForm.addEventListener("submit", async function (event) {
+          event.preventDefault();
+          var fd = new FormData(bookingResourcesForm);
+          var seminarHalls = String(fd.get("seminarHalls") || "").split(/\r?\n/).map(function (item) { return item.trim(); }).filter(Boolean);
+          var roomNumbers = String(fd.get("roomNumbers") || "").split(/\r?\n/).map(function (item) { return item.trim(); }).filter(Boolean);
+          var facilityNames = String(fd.get("facilityNames") || "").split(/\r?\n/).map(function (item) { return item.trim(); }).filter(Boolean);
+          try {
+            await api("/api/superadmin/booking-resources", {
+              method: "PUT",
+              headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+              body: JSON.stringify({ seminarHalls: seminarHalls, roomNumbers: roomNumbers, facilityNames: facilityNames })
+            });
+            message.classList.remove("is-error");
+            message.textContent = "Booking lists updated successfully.";
+          } catch (error) {
+            message.classList.add("is-error");
+            message.textContent = error.message;
+          }
+        });
+      }
+
+      manualBookingForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var fd = new FormData(manualBookingForm);
+        var bookingType = fd.get("type") === "zoom" ? "zoom" : "seminar";
+        var payload = {
+          type: bookingType,
+          date: fd.get("date"),
+          time: fd.get("time"),
+          reason: fd.get("reason"),
+          notes: fd.get("reason")
+        };
+        if (bookingType === "zoom") {
+          payload.topic = fd.get("title");
+        } else {
+          payload.roomName = fd.get("title");
+        }
+
+        try {
+          await api("/api/superadmin/bookings/manual", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          manualBookingForm.reset();
+          message.classList.remove("is-error");
+          message.textContent = "Managed booking added. That slot is now blocked in the admin portal.";
+          await load();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      blockDateForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var fd = new FormData(blockDateForm);
+        try {
+          await api("/api/superadmin/blocked-dates", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ date: fd.get("date") })
+          });
+          blockDateForm.reset();
+          message.classList.remove("is-error");
+          message.textContent = "Blocked date added successfully.";
+          await load();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      holidayUploadForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var fd = new FormData(holidayUploadForm);
+        try {
+          var manualDates = String(fd.get("holidays") || "").split(/\r?\n/).map(function (item) { return item.trim(); }).filter(Boolean);
+          var file = fd.get("holidayFile");
+          var fileDates = [];
+          if (file && file.name) {
+            fileDates = await readHolidayDatesFromFile(file);
+          }
+          var dates = normalizeHolidayDates(manualDates.concat(fileDates));
+          if (!dates.length) {
+            throw new Error("Provide at least one valid holiday date in YYYY-MM-DD format or upload a valid Excel/CSV file.");
+          }
+          var result = await api("/api/superadmin/holidays/bulk", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ dates: dates })
+          });
+          holidayUploadForm.reset();
+          message.classList.remove("is-error");
+          message.textContent = result.message || "Holiday list uploaded successfully.";
+          await load();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      blockSlotForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var fd = new FormData(blockSlotForm);
+        try {
+          await api("/api/superadmin/blocked-slots", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ date: fd.get("date"), time: fd.get("time"), reason: fd.get("reason") })
+          });
+          blockSlotForm.reset();
+          message.classList.remove("is-error");
+          message.textContent = "Blocked slot added successfully.";
+          await load();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      blockedList.addEventListener("click", async function (event) {
+        var date = event.target.getAttribute("data-date");
+        var slot = event.target.getAttribute("data-slot");
+        try {
+          if (date) { await api("/api/superadmin/blocked-dates/" + date, { method: "DELETE" }); }
+          if (slot) { await api("/api/superadmin/blocked-slots/" + slot, { method: "DELETE" }); }
+          await load();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      bookingList.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var form = event.target;
+        var fd = new FormData(form);
+        try {
+          await api("/api/superadmin/bookings/" + form.getAttribute("data-type") + "/" + form.getAttribute("data-id"), {
+            method: "PATCH",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ status: fd.get("status") })
+          });
+          message.classList.remove("is-error");
+          message.textContent = "Booking updated successfully.";
+          await load();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      searchInput.addEventListener("input", function () {
+        if (cache) { renderBookings(cache); }
+      });
+
+      grid.addEventListener("click", function (event) {
+        var button = event.target.closest("[data-date]");
+        if (!button) { return; }
+        selectedDate = button.getAttribute("data-date");
+        if (cache) {
+          renderCalendar(cache);
+          renderBookings(cache);
+        }
+      });
+
+      document.getElementById("calendar-prev").addEventListener("click", function () {
+        monthCursor.setMonth(monthCursor.getMonth() - 1);
+        if (cache) { renderCalendar(cache); }
+      });
+
+      document.getElementById("calendar-next").addEventListener("click", function () {
+        monthCursor.setMonth(monthCursor.getMonth() + 1);
+        if (cache) { renderCalendar(cache); }
+      });
+
+      focusBlockPanel.addEventListener("click", function () {
+        blockPanel.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (blockDateForm.date) { blockDateForm.date.focus(); }
+      });
+
+      focusBookingsPanel.addEventListener("click", function () {
+        manualBookingForm.scrollIntoView({ behavior: "smooth", block: "start" });
+        if (manualBookingForm.title) { manualBookingForm.title.focus(); }
+      });
+
+      try {
+        await Promise.all([loadCurrentUser(), load()]);
+      } catch (error) {
+        localStorage.removeItem("iitPortalToken");
+        localStorage.removeItem("iitPortalUser");
+        window.location.href = "/admin-login.html?role=superadmin";
+      }
+      setupMobileSidebar();
+    })();
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

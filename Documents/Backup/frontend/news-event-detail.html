@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Event Details | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body class="career-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html" class="active">NEWS &amp; EVENTS</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <main class="career-main">
+    <div class="career-container">
+      <section class="career-section">
+        <p class="career-detail-breadcrumb"><a href="./index.html">Home</a> <span>&rsaquo;</span> <a href="./news-events.html">News &amp; Events</a> <span>&rsaquo;</span> Event Details</p>
+        <h2 id="event-title">Event Details</h2>
+        <p id="event-meta" class="career-project"></p>
+        <p id="event-summary"></p>
+        <p id="event-details"></p>
+      </section>
+    </div>
+  </main>
+
+  <script>
+    (async function () {
+      var params = new URLSearchParams(window.location.search);
+      var eventId = params.get("event");
+      var eventIdText = String(eventId || "").toLowerCase();
+      var titleEl = document.getElementById("event-title");
+      var metaEl = document.getElementById("event-meta");
+      var summaryEl = document.getElementById("event-summary");
+      var detailsEl = document.getElementById("event-details");
+
+      function isIccmpLike(text) {
+        var value = String(text || "").toLowerCase();
+        return (
+          value.indexOf("iccmp") !== -1 ||
+          value.indexOf("issmp") !== -1 ||
+          value.indexOf("condensed matter physics") !== -1 ||
+          (value.indexOf("condensed matter") !== -1 && value.indexOf("conference") !== -1)
+        );
+      }
+
+      if (!eventId) {
+        titleEl.textContent = "Event not found";
+        summaryEl.textContent = "No event id was provided.";
+        return;
+      }
+
+      if (isIccmpLike(eventIdText)) {
+        window.location.replace("./iccmp-2026.html");
+        return;
+      }
+
+      try {
+        var response = await fetch(window.location.origin + "/api/public/news-events/events/" + encodeURIComponent(eventId));
+        var data = await response.json();
+        if (!response.ok || !data.event) {
+          titleEl.textContent = "Event not found";
+          summaryEl.textContent = "The requested event is unavailable.";
+          return;
+        }
+
+        var event = data.event;
+        if (isIccmpLike(event.title)) {
+          window.location.replace("./iccmp-2026.html");
+          return;
+        }
+
+        titleEl.textContent = event.title || "Event Details";
+        metaEl.textContent = [event.date, event.location].filter(Boolean).join(" - ");
+        summaryEl.textContent = event.summary || "";
+        detailsEl.textContent = event.details || event.summary || "";
+      } catch (error) {
+        titleEl.textContent = "Unable to load event";
+        summaryEl.textContent = "Please try again later.";
+      }
+    })();
+  </script>
+</body>
+</html>

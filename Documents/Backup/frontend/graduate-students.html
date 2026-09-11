@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Graduate Students | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .alumni-upload-view {
+      grid-column: 1 / -1;
+      width: 100%;
+      border: 1px solid #dfe6f0;
+      background: #ffffff;
+      padding: 24px;
+    }
+    .alumni-upload-view h3 {
+      margin: 0 0 10px;
+      color: #0b2a55;
+      font-size: 24px;
+      line-height: 1.2;
+    }
+    .alumni-upload-view p {
+      margin: 0 0 18px;
+      color: #55647c;
+      line-height: 1.6;
+    }
+    .alumni-upload-actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .alumni-upload-actions a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 10px 16px;
+      border: 1px solid #0b2a55;
+      color: #0b2a55;
+      text-decoration: none;
+      font-weight: 700;
+    }
+    .alumni-upload-frame {
+      width: 100%;
+      min-height: 720px;
+      border: 1px solid #dfe6f0;
+      background: #f8fafc;
+    }
+    @media (max-width: 720px) {
+      .alumni-upload-view { padding: 18px; }
+      .alumni-upload-frame { min-height: 520px; }
+    }
+  </style>
+  <script src="./search.js" defer></script>
+</head>
+<body class="students-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html" class="active">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="students-hero">
+    <div class="students-hero-media" aria-label="Graduate students hero image placeholder">
+      <img id="graduate-students-hero-image" src="graduate-students-hero.png?v=20260706" alt="Graduate students banner" />
+    </div>
+  </section>
+
+  <main class="students-main">
+    <section class="students-filter-bar">
+      <div class="students-container">
+        <div class="students-filter-list" id="students-filter-list">
+          <a href="#" class="active" data-filter="all">All</a>
+          <a href="#" data-filter="Ph.D. Scholars">Ph.D. Scholars</a>
+          <a href="#" data-filter="M.Tech Students">M.Tech Students</a>
+          <a href="#" data-filter="MS (Research)">MS (Research)</a>
+          <a href="#" data-filter="Integrated M.Sc.">Integrated M.Sc.</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="students-section">
+      <div class="students-container">
+        <div class="students-heading-row">
+          <h2 id="graduate-overview-title">All Students</h2>
+          <p id="students-count-label">16 students</p>
+        </div>
+        <div class="students-grid" id="students-all-grid">
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Rahul Sharma</h3><p class="student-area">Condensed Matter Physics</p><p class="student-topic">Nanomaterials</p><p class="student-meta">Supervisor: Prof. A. Kumar</p><p class="student-meta">rahul.sharma[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Priya Nair</h3><p class="student-area">High Energy Physics</p><p class="student-topic">Particle Phenomenology</p><p class="student-meta">Supervisor: Prof. S. Banerjee</p><p class="student-meta">priya.nair[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Amit Das</h3><p class="student-area">Astrophysics</p><p class="student-topic">Compact Objects</p><p class="student-meta">Supervisor: Prof. R. Ghosh</p><p class="student-meta">amit.das[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Sneha Gupta</h3><p class="student-area">Materials Physics</p><p class="student-topic">Thin Films</p><p class="student-meta">Supervisor: Prof. M. Patel</p><p class="student-meta">sneha.gupta[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Vikram Singh</h3><p class="student-area">Quantum Information</p><p class="student-topic">Quantum Computing</p><p class="student-meta">Supervisor: Prof. D. Sen</p><p class="student-meta">vikram.singh[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Ananya Roy</h3><p class="student-area">Computational Physics</p><p class="student-topic">DFT Simulations</p><p class="student-meta">Supervisor: Prof. P. Mukherjee</p><p class="student-meta">ananya.roy[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Deepak Verma</h3><p class="student-area">Condensed Matter Physics</p><p class="student-topic">Superconductivity</p><p class="student-meta">Supervisor: Prof. A. Kumar</p><p class="student-meta">deepak.verma[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Meera Iyer</h3><p class="student-area">Astrophysics</p><p class="student-topic">Cosmology</p><p class="student-meta">Supervisor: Prof. R. Ghosh</p><p class="student-meta">meera.iyer[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Sourav Mondal</h3><p class="student-area">High Energy Physics</p><p class="student-topic">Lattice QCD</p><p class="student-meta">Supervisor: Prof. T. Bhattacharya</p><p class="student-meta">sourav.mondal[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Kavita Reddy</h3><p class="student-area">Materials Physics</p><p class="student-topic">Photovoltaics</p><p class="student-meta">Supervisor: Prof. M. Patel</p><p class="student-meta">kavita.reddy[at]iitkgp[dot]ac[dot]in</p></article>
+          <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Arjun Mehta</h3><p class="student-area">Quantum Information</p><p class="student-topic">Entanglement Theory</p><p class="student-meta">Supervisor: Prof. D. Sen</p><p class="student-meta">arjun.mehta[at]iitkgp[dot]ac[dot]in</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="students-area-section" id="students-area-section">
+      <div class="students-container" id="students-area-groups">
+        <div class="students-area-group">
+          <h3>Materials Physics</h3>
+          <div class="students-grid students-grid-compact students-grid-two">
+            <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Sneha Gupta</h3><p class="student-area">Materials Physics</p><p class="student-topic">Thin Films</p><p class="student-meta">Supervisor: Prof. M. Patel</p><p class="student-meta">sneha.gupta[at]iitkgp[dot]ac[dot]in</p></article>
+            <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Kavita Reddy</h3><p class="student-area">Materials Physics</p><p class="student-topic">Photovoltaics</p><p class="student-meta">Supervisor: Prof. M. Patel</p><p class="student-meta">kavita.reddy[at]iitkgp[dot]ac[dot]in</p></article>
+          </div>
+        </div>
+
+        <div class="students-area-group">
+          <h3>Computational Physics</h3>
+          <div class="students-grid students-grid-compact students-grid-two">
+            <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Ananya Roy</h3><p class="student-area">Computational Physics</p><p class="student-topic">DFT Simulations</p><p class="student-meta">Supervisor: Prof. P. Mukherjee</p><p class="student-meta">ananya.roy[at]iitkgp[dot]ac[dot]in</p></article>
+            <article class="student-card"><div class="student-avatar" aria-hidden="true">&#128100;</div><h3>Tanvi Joshi</h3><p class="student-area">Computational Physics</p><p class="student-topic">Molecular Dynamics</p><p class="student-meta">Supervisor: Prof. P. Mukherjee</p><p class="student-meta">tanvi.joshi[at]iitkgp[dot]ac[dot]in</p></article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="students-note-section">
+      <div class="students-container">
+        <p>
+          The Graduate Students of the Department of Physics are actively engaged in cutting-edge research across theoretical,
+          experimental, and computational domains. Many students participate in international collaborations and publish in
+          leading journals.
+        </p>
+      </div>
+    </section>
+
+    <section class="giving-contact">
+      <div class="giving-container giving-contact-inner">
+        <h2 id="giving-contact-title">Contact for Donations</h2>
+        <div class="giving-contact-card">
+          <p id="giving-contact-content" style="display:none;"></p>
+          <h3>Department of Physics</h3>
+          <p>Indian Institute of Technology Kharagpur</p>
+          <p>Kharagpur - 721302, West Bengal, India</p>
+          <p>physics[at]iitkgp[dot]ac[dot]in</p>
+          <p>+91-3222-XXXXX</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (async function () {
+      function getSections(page) {
+        var items = page && Array.isArray(page.sections) ? page.sections : [];
+        return items.reduce(function (result, item) {
+          if (item && item.id) {
+            result[item.id] = item;
+          }
+          return result;
+        }, {});
+      }
+
+      function flattenPeople(groups) {
+        var all = [];
+        (Array.isArray(groups) ? groups : []).forEach(function (group) {
+          var category = String((group && group.title) || "").trim();
+          (Array.isArray(group && group.items) ? group.items : []).forEach(function (item, index) {
+            all.push({
+              id: String((item && item.id) || ("student-" + index)),
+              name: String((item && item.name) || "").trim(),
+              area: String((item && item.designation) || "").trim(),
+              topic: String((item && item.topic) || "").trim(),
+              supervisor: String((item && item.office) || "").trim(),
+              email: String((item && item.email) || "").trim(),
+              category: String((item && item.category) || category || "Other").trim(),
+              photo: String((item && item.photo) || "").trim()
+            });
+          });
+        });
+        return all;
+      }
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+
+      function renderCard(person) {
+        var avatar = person.photo
+          ? '<img class="student-avatar-image" src="' + escapeHtml(person.photo) + '" alt="' + escapeHtml(person.name || "Student") + '" />'
+          : "&#128100;";
+        return [
+          '<article class="student-card">',
+          '<div class="student-avatar" aria-hidden="true">' + avatar + "</div>",
+          "<h3>" + escapeHtml(person.name) + "</h3>",
+          '<p class="student-area">' + escapeHtml(person.area) + "</p>",
+          '<p class="student-topic">' + escapeHtml(person.topic) + "</p>",
+          '<p class="student-meta">' + escapeHtml(person.supervisor) + "</p>",
+          '<p class="student-meta">' + escapeHtml(person.email) + "</p>",
+          "</article>"
+        ].join("");
+      }
+
+      function renderAreaGroups(people, root) {
+        var grouped = people.reduce(function (result, person) {
+          var area = person.area || "Other Research Area";
+          if (!result[area]) { result[area] = []; }
+          result[area].push(person);
+          return result;
+        }, {});
+        var areas = Object.keys(grouped);
+        if (!areas.length) {
+          root.innerHTML = "";
+          return;
+        }
+        root.innerHTML = areas.map(function (area) {
+          return [
+            '<div class="students-area-group">',
+            "<h3>" + escapeHtml(area) + "</h3>",
+            '<div class="students-grid students-grid-compact">',
+            grouped[area].map(renderCard).join(""),
+            "</div>",
+            "</div>"
+          ].join("");
+        }).join("");
+      }
+
+      function renderUploadedAlumniFile(upload, allGrid, countLabel, filterList, areaSection, noteSection) {
+        var fileName = String((upload && upload.fileName) || "Alumni file").trim();
+        var path = String((upload && upload.path) || "").trim();
+        var lowerPath = path.toLowerCase();
+        if (filterList) {
+          filterList.closest(".students-filter-bar").style.display = "none";
+        }
+        if (areaSection) {
+          areaSection.style.display = "none";
+        }
+        if (noteSection) {
+          noteSection.style.display = "none";
+        }
+        document.getElementById("graduate-overview-title").textContent = "Alumni File";
+        countLabel.textContent = fileName;
+        if (lowerPath.endsWith(".pdf")) {
+          allGrid.innerHTML = [
+            '<div class="alumni-upload-view">',
+            '<h3>' + escapeHtml(fileName) + '</h3>',
+            '<iframe class="alumni-upload-frame" src="' + escapeHtml(path) + '" title="' + escapeHtml(fileName) + '"></iframe>',
+            '<div class="alumni-upload-actions"><a href="' + escapeHtml(path) + '" target="_blank" rel="noopener noreferrer">Open File</a></div>',
+            '</div>'
+          ].join("");
+          return;
+        }
+        allGrid.innerHTML = [
+          '<div class="alumni-upload-view">',
+          '<h3>' + escapeHtml(fileName) + '</h3>',
+          '<p>The uploaded alumni Excel file is available below. Open it to view the full data.</p>',
+          '<div class="alumni-upload-actions">',
+          '<a href="' + escapeHtml(path) + '" target="_blank" rel="noopener noreferrer">Open File</a>',
+          '<a href="' + escapeHtml(path) + '" download>Download File</a>',
+          '</div>',
+          '</div>'
+        ].join("");
+      }
+
+      try {
+        var response = await fetch(window.location.origin + "/api/public/site-content");
+        var data = await response.json();
+        var pages = Array.isArray(data.pages) ? data.pages : [];
+        var page = pages.find(function (item) { return item.id === "page-graduate-students"; }) || null;
+        var sections = getSections(page);
+        var media = page && Array.isArray(page.media) ? page.media : [];
+        var hero = media.find(function (item) { return item.id === "graduate-students-hero"; });
+        var heroImage = document.getElementById("graduate-students-hero-image");
+        var overview = sections["graduate-overview"] || {};
+        var groups = page && Array.isArray(page.peopleGroups) ? page.peopleGroups : [];
+        var alumniUpload = page && page.alumniUpload && page.alumniUpload.path ? page.alumniUpload : null;
+        var uploadPath = alumniUpload ? String(alumniUpload.path || "").toLowerCase() : "";
+        var people = flattenPeople(groups);
+        var activeFilter = "all";
+        var filterList = document.getElementById("students-filter-list");
+        var allGrid = document.getElementById("students-all-grid");
+        var countLabel = document.getElementById("students-count-label");
+        var areaSection = document.getElementById("students-area-section");
+        var areaGroupsRoot = document.getElementById("students-area-groups");
+        var noteSection = document.querySelector(".students-note-section");
+
+        if (overview.title) {
+          document.getElementById("graduate-overview-title").textContent = overview.title;
+        }
+        if (hero && hero.src) {
+          heroImage.src = hero.src;
+          heroImage.alt = hero.alt || heroImage.alt;
+        }
+
+        if (alumniUpload && uploadPath.endsWith(".pdf")) {
+          renderUploadedAlumniFile(alumniUpload, allGrid, countLabel, filterList, areaSection, noteSection);
+          return;
+        }
+
+        if (people.length) {
+          var categories = groups.map(function (group) { return String((group && group.title) || "").trim(); }).filter(Boolean);
+          filterList.innerHTML = ['<a href="#" class="active" data-filter="all">All</a>'].concat(
+            categories.map(function (item) { return '<a href="#" data-filter="' + escapeHtml(item) + '">' + escapeHtml(item) + "</a>"; })
+          ).join("");
+
+          function renderFiltered() {
+            var filtered = activeFilter === "all"
+              ? people.slice()
+              : people.filter(function (person) { return person.category === activeFilter; });
+            allGrid.innerHTML = filtered.map(renderCard).join("");
+            countLabel.textContent = filtered.length + (filtered.length === 1 ? " student" : " students");
+            renderAreaGroups(filtered, areaGroupsRoot);
+          }
+
+          filterList.addEventListener("click", function (event) {
+            var link = event.target.closest("[data-filter]");
+            if (!link) { return; }
+            event.preventDefault();
+            activeFilter = String(link.getAttribute("data-filter") || "all");
+            Array.prototype.slice.call(filterList.querySelectorAll("a")).forEach(function (item) {
+              item.classList.toggle("active", item === link);
+            });
+            renderFiltered();
+          });
+
+          renderFiltered();
+        } else {
+          countLabel.textContent = String(document.querySelectorAll("#students-all-grid .student-card").length) + " students";
+        }
+      } catch (error) {
+        console.error("Failed to load Graduate Students page images.", error);
+      }
+    })();
+  </script>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body class="about-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html" class="active">ABOUT</a>
+            <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="about-hero" id="about-hero" aria-label="Department of Physics building"></section>
+
+  <main class="about-main">
+    <div class="about-container">
+      <section class="about-section about-history-section">
+        <h2 class="about-history-title" id="about-overview-title">Department Overview</h2>
+        <p id="about-overview-content">
+          The Department of Physics at the Indian Institute of Technology Kharagpur was established in 1951, alongside the inception of the institute. Beginning in the historic Hijli Detention Camp, the department quickly developed a strong foundation in teaching and research under pioneering faculty like Harsha Narayan Bose. Over the decades, the department expanded its academic programmes and research areas, building expertise across both theoretical and experimental physics. With the establishment of advanced laboratories and research facilities, it has grown into a major center for scientific research and education. Today, the department continues to contribute significantly to academic excellence, research output, and interdisciplinary initiatives, while adapting to emerging areas of science and technology.
+        </p>
+
+        <figure class="about-figure" id="about-overview-figure">
+          <img id="about-overview-image" src="about-history-classroom.png" alt="Students in a classroom" />
+          <figcaption id="about-overview-caption">A Physics Laboratory from the Department.</figcaption>
+        </figure>
+
+        <p>
+          A Physics Laboratory from the Department reflects the strong experimental tradition and evolving research culture that continue to shape the department's academic and scientific contributions.
+        </p>
+        <p>
+          Today, the department continues to contribute significantly to academic excellence, research output, and interdisciplinary
+          initiatives, while adapting to emerging areas of science and technology.
+        </p>
+
+        <figure class="about-figure about-figure-last" id="about-research-figure">
+          <img id="about-research-image" src="about-research-lab.png" alt="Laboratory glassware" />
+          <figcaption id="about-research-caption">Contemporary Research Facilities In The Department Of Physics.</figcaption>
+        </figure>
+      </section>
+
+      <section class="about-section about-hod-message">
+        <h2 id="about-vision-title">Message from the HOD</h2>
+        <p id="about-vision-content">
+          Welcome to the Department of Physics at the Indian Institute of Technology Kharagpur. It is a privilege to be part of a
+          department with a rich legacy of academic excellence and a vibrant research culture. We take pride in fostering an
+          environment where students are encouraged to question, explore, and grow, supported by dedicated faculty and strong
+          interdisciplinary collaboration. As we continue to evolve, our focus remains on nurturing thoughtful scientists and contributing
+          meaningfully to the advancement of knowledge and society.
+        </p>
+      </section>
+
+      <section class="about-section about-contact">
+        <h2 id="about-contact-title">Contact</h2>
+
+        <div class="contact-grid">
+          <div>
+            <h3>Contact Information</h3>
+            <p>Key contact and access information for visitors, students, and collaborators.</p>
+            <p>Phone: +91-3222-XXXXX</p>
+            <p>Email: physics@iitkgp.ac.in</p>
+          </div>
+
+          <div>
+            <h3>Office Information</h3>
+            <p>Office Hours: Monday to Friday, 9:00 AM - 5:30 PM</p>
+            <p>For academic queries, contact respective faculty members.</p>
+            <p>For administrative queries, contact the department office.</p>
+          </div>
+        </div>
+
+        <div class="location-block">
+          <h3>Location</h3>
+          <iframe
+            title="Map showing IIT Kharagpur location"
+            src="https://www.google.com/maps?q=22.3149,87.3105&z=15&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+          <p><a href="https://maps.app.goo.gl/j33tTUJmhSHenRoe8" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (async function () {
+      var overviewTitle = document.getElementById("about-overview-title");
+      var overviewContent = document.getElementById("about-overview-content");
+      var aboutHero = document.getElementById("about-hero");
+      var overviewFigure = document.getElementById("about-overview-figure");
+      var overviewImage = document.getElementById("about-overview-image");
+      var overviewCaption = document.getElementById("about-overview-caption");
+      var researchImage = document.getElementById("about-research-image");
+      var researchCaption = document.getElementById("about-research-caption");
+      var visionTitle = document.getElementById("about-vision-title");
+      var visionContent = document.getElementById("about-vision-content");
+      var contactTitle = document.getElementById("about-contact-title");
+
+      function getSections(page) {
+        var items = page && Array.isArray(page.sections) ? page.sections : [];
+        return items.reduce(function (result, item) {
+          if (item && item.id) {
+            result[item.id] = item;
+          }
+          return result;
+        }, {});
+      }
+
+      function getMedia(page) {
+        var items = page && Array.isArray(page.media) ? page.media : [];
+        return items.reduce(function (result, item) {
+          if (item && item.id) {
+            result[item.id] = item;
+          }
+          return result;
+        }, {});
+      }
+
+      try {
+        var response = await fetch(window.location.origin + "/api/public/site-content");
+        var data = await response.json();
+        var pages = Array.isArray(data.pages) ? data.pages : [];
+        var aboutPage = pages.find(function (item) { return item.id === "page-about"; }) || null;
+        var sections = getSections(aboutPage);
+        var media = getMedia(aboutPage);
+        var overview = sections["about-overview"] || {};
+        var vision = sections["about-vision"] || {};
+        var contact = sections["about-contact"] || {};
+        var heroMedia = media["about-hero"] || {};
+        var researchMedia = media["about-research-image"] || {};
+
+        if (heroMedia.src) {
+          aboutHero.style.backgroundImage = 'linear-gradient(180deg, rgba(5, 17, 36, 0.1), rgba(5, 17, 36, 0.38)), url("' + heroMedia.src + '")';
+        }
+
+        if (overview.title) { overviewTitle.textContent = overview.title; }
+        if (overview.content) { overviewContent.textContent = overview.content; }
+        if (overview.image) {
+          overviewImage.src = overview.image;
+          overviewImage.alt = overview.title || "About section image";
+          overviewCaption.textContent = overview.subtitle || "Managed section image";
+          overviewFigure.hidden = false;
+        }
+        if (researchMedia.src) {
+          researchImage.src = researchMedia.src;
+          researchImage.alt = researchMedia.alt || "Research facility image";
+          researchCaption.textContent = researchMedia.label || researchCaption.textContent;
+        }
+
+        if (vision.title) { visionTitle.textContent = vision.title; }
+        if (vision.content) { visionContent.textContent = vision.content; }
+
+        if (contact.title) { contactTitle.textContent = contact.title; }
+      } catch (error) {
+        console.error("Failed to load About page content.", error);
+      }
+    })();
+  </script>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

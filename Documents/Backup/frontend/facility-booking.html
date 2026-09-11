@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Facility Booking | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .facility-booking-shell {
+      width: 100%;
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 22px 0 42px;
+      font-size: 13px;
+      box-sizing: border-box;
+    }
+    .facility-booking-hero {
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      gap: 24px;
+      margin-bottom: 18px;
+    }
+    .facility-booking-hero h1 {
+      margin: 4px 0 8px;
+      font-size: 28px;
+      line-height: 1.1;
+    }
+    .facility-booking-hero p:not(.portal-page-eyebrow) {
+      margin: 0;
+      color: var(--grey-700);
+      max-width: 860px;
+      font-size: 15px;
+      line-height: 1.5;
+    }
+    .facility-booking-badges {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+    .facility-badge {
+      border-radius: 999px;
+      padding: 7px 12px;
+      font-size: 13px;
+      font-weight: 600;
+      border: 1px solid #d9dfeb;
+      background: #fff;
+      color: #22324a;
+    }
+    .facility-badge.is-approved { background: #effaf3; border-color: #b7e7c4; color: #2d8a55; }
+    .facility-badge.is-pending { background: #fff8ee; border-color: #ecd8b1; color: #9a6a18; }
+    .facility-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 420px) minmax(0, 1fr);
+      gap: 18px;
+      min-width: 0;
+    }
+    .facility-panel {
+      background: #fff;
+      border: 1px solid #e2e8f3;
+      border-radius: 18px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, 0.05);
+      padding: 20px;
+      min-width: 0;
+    }
+    .facility-panel h2 {
+      margin: 0 0 6px;
+      font-size: 18px;
+      line-height: 1.2;
+    }
+    .facility-panel > p,
+    .facility-panel .facility-subcopy {
+      margin: 0 0 18px;
+      color: var(--grey-500);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .facility-form {
+      display: grid;
+      gap: 14px;
+    }
+    .facility-form label {
+      display: grid;
+      gap: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--grey-700);
+    }
+    .facility-form input,
+    .facility-form select,
+    .facility-form textarea {
+      width: 100%;
+      border: 1px solid #d7deea;
+      border-radius: 10px;
+      padding: 10px 12px;
+      background: #fff;
+      color: var(--grey-900);
+      font: inherit;
+    }
+    .facility-form textarea { min-height: 96px; resize: vertical; }
+    .facility-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+    }
+    .facility-submit {
+      margin-top: 6px;
+      width: 100%;
+      border: 0;
+      border-radius: 12px;
+      padding: 12px 16px;
+      background: linear-gradient(90deg, #4b5ef2 0%, #6d3fe0 100%);
+      color: #fff;
+      font-size: 13px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+    .facility-section-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 14px;
+    }
+    .facility-section-head h2 { margin: 0; }
+    .facility-summary {
+      color: var(--grey-500);
+      font-size: 13px;
+    }
+    .facility-toolbar {
+      display: grid;
+      grid-template-columns: minmax(240px, 1fr) minmax(130px, 160px) minmax(130px, 160px);
+      gap: 10px;
+      margin-bottom: 14px;
+      min-width: 0;
+    }
+    .facility-toolbar input,
+    .facility-toolbar select {
+      min-width: 0;
+      width: 100%;
+      border: 1px solid #d7deea;
+      border-radius: 12px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font: inherit;
+      background: #fff;
+    }
+    .facility-table-wrap {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border: 1px solid #e2e8f3;
+      border-radius: 14px;
+    }
+    .facility-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 720px;
+      background: #fff;
+    }
+    .facility-table th,
+    .facility-table td {
+      padding: 12px;
+      border-bottom: 1px solid #edf1f7;
+      text-align: left;
+      vertical-align: top;
+      font-size: 13px;
+    }
+    .facility-table th {
+      background: #f7f9fc;
+      color: #64748b;
+      font-weight: 700;
+    }
+    .facility-table tr:last-child td { border-bottom: 0; }
+    .facility-title-cell strong { display: block; color: #1f2a44; }
+    .facility-title-cell span { display: block; color: #73829b; font-size: 12px; margin-top: 2px; }
+    .facility-status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 6px 10px;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .facility-status.is-approved { background: #effaf3; color: #2d8a55; }
+    .facility-status.is-pending { background: #fff8ee; color: #9a6a18; }
+    .facility-status.is-rejected { background: #fff0f0; color: #cc3d3d; }
+    .facility-actions {
+      border: 0;
+      background: transparent;
+      font-size: 18px;
+      line-height: 1;
+      color: #65748b;
+      cursor: pointer;
+    }
+    .facility-empty {
+      padding: 18px;
+      color: var(--grey-500);
+    }
+    .portal-inline-message { margin-top: 14px; }
+    .portal-main.portal-module-main {
+      min-width: 0;
+      overflow-x: hidden;
+    }
+    @media (max-width: 1100px) {
+      .facility-grid { grid-template-columns: 1fr; }
+      .facility-booking-hero { align-items: flex-start; flex-direction: column; }
+      .facility-booking-badges { justify-content: flex-start; }
+    }
+    @media (max-width: 720px) {
+      .facility-row,
+      .facility-toolbar { grid-template-columns: 1fr; }
+      .facility-panel { padding: 18px; }
+    }
+  </style>
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html">Notices</a><a href="./admin-notices.html?category=General">General Notices</a><a href="./admin-notices.html?category=Academic">Academic Notices</a><a href="./admin-notices.html?category=Administrative">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar" id="seminar-link">Seminar Requests</a><a href="./admin-bookings.html?type=zoom" id="zoom-link">Room Booking</a><a href="./admin-profile.html">Edit Profile</a><a href="./admin-notices.html?category=Faculty">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html?view=cmsts">CMSTS</a><a href="./admin-tickets.html?view=raise">Raise Ticket</a><a href="./admin-tickets.html?view=track">Track Status</a><a href="./facility-booking.html" class="is-active" id="services-facility-slot-link">Facility Booking</a><a href="./admin-module.html?module=computational-access&title=Computational%20Access">Computational Access</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+
+    <main class="portal-main portal-module-main">
+      <div class="facility-booking-shell">
+        <section class="facility-booking-hero">
+          <div>
+            <p class="portal-page-eyebrow">Auto Approval Flow</p>
+            <h1>Facility Booking</h1>
+            <p>Reserve campus facilities for departmental events. Bookings are auto-approved unless the slot is blocked by super admin.</p>
+          </div>
+          <div class="facility-booking-badges" id="facility-badges">
+            <span class="facility-badge">0 Total</span>
+            <span class="facility-badge is-approved">0 Approved</span>
+            <span class="facility-badge is-pending">0 Pending</span>
+          </div>
+        </section>
+
+        <section class="facility-grid">
+          <article class="facility-panel">
+            <h2>New Booking</h2>
+            <p class="facility-subcopy">Fill out the details below to reserve a facility.</p>
+            <form id="booking-form" class="facility-form">
+              <label>Facility Name
+                <select class="portal-input" name="resource" id="booking-resource" required>
+                  <option value="">Select facility</option>
+                </select>
+              </label>
+              <label>Booking Purpose
+                <input class="portal-input" name="purpose" placeholder="e.g. Departmental seminar" required />
+              </label>
+              <label>Date
+                <input class="portal-input" name="date" type="date" required />
+              </label>
+              <div class="facility-row">
+                <label>Start Time<input class="portal-input" name="startTime" type="time" required /></label>
+                <label>End Time<input class="portal-input" name="endTime" type="time" required /></label>
+              </div>
+              <label>Department
+                <input class="portal-input" name="department" placeholder="Department" />
+              </label>
+              <label>Requested By
+                <input class="portal-input" name="requestedBy" id="requested-by" placeholder="Your name" />
+              </label>
+              <label>Additional Notes
+                <textarea class="portal-textarea" name="notes" placeholder="Equipment requirements, setup notes, attendees..."></textarea>
+              </label>
+              <button class="facility-submit" type="submit">Submit Booking</button>
+            </form>
+            <p class="portal-inline-message" id="booking-message"></p>
+          </article>
+
+          <article class="facility-panel">
+            <div class="facility-section-head">
+              <div>
+                <h2>Facility Bookings</h2>
+                <div class="facility-summary" id="booking-summary">0 of 0 bookings</div>
+              </div>
+              <span class="facility-badge is-pending" id="booking-pending-pill">0 pending</span>
+            </div>
+            <div class="facility-toolbar">
+              <input id="booking-search" type="search" placeholder="Search by facility, requester, purpose" />
+              <select id="booking-status-filter">
+                <option value="all">All statuses</option>
+                <option value="Approved">Approved</option>
+                <option value="Pending">Pending</option>
+                <option value="Rejected">Rejected</option>
+              </select>
+              <select id="booking-resource-filter">
+                <option value="all">All facilities</option>
+              </select>
+            </div>
+            <div class="facility-table-wrap">
+              <table class="facility-table">
+                <thead>
+                  <tr>
+                    <th>Facility</th>
+                    <th>Requested By</th>
+                    <th>Date</th>
+                    <th>Time Slot</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="booking-list"><tr><td class="facility-empty" colspan="6">Loading bookings...</td></tr></tbody>
+              </table>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".portal-sidebar");
+        var menuButton = document.querySelector('.portal-menu-button');
+        if (!sidebar || !menuButton || menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) { sidebar.classList.remove("is-open"); }
+        });
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      setupMobileSidebar();
+
+      var bookingForm = document.getElementById("booking-form");
+      var bookingList = document.getElementById("booking-list");
+      var bookingMessage = document.getElementById("booking-message");
+      var bookingSearch = document.getElementById("booking-search");
+      var bookingStatusFilter = document.getElementById("booking-status-filter");
+      var bookingResourceFilter = document.getElementById("booking-resource-filter");
+      var bookingSummary = document.getElementById("booking-summary");
+      var bookingPendingPill = document.getElementById("booking-pending-pill");
+      var bookingBadges = document.getElementById("facility-badges");
+      var bookingResource = document.getElementById("booking-resource");
+      var requestedBy = document.getElementById("requested-by");
+      var cache = null;
+      var currentUser = null;
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {}));
+        var text = await response.text();
+        var data = text ? JSON.parse(text) : {};
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      async function loadUser() {
+        try {
+          var me = await api("/api/auth/me");
+          currentUser = me.user || null;
+          if (requestedBy) {
+            requestedBy.value = currentUser && currentUser.name ? currentUser.name : "";
+          }
+        } catch (error) {
+          currentUser = null;
+        }
+      }
+
+      function getRequests(data) {
+        return Array.isArray(data.requests) ? data.requests.slice() : [];
+      }
+
+      function updateBadges(requests) {
+        var approved = requests.filter(function (item) { return item.status === "Approved"; }).length;
+        var pending = requests.filter(function (item) { return item.status === "Pending"; }).length;
+        if (bookingBadges) {
+          bookingBadges.innerHTML = [
+            '<span class="facility-badge">' + requests.length + ' Total</span>',
+            '<span class="facility-badge is-approved">' + approved + ' Approved</span>',
+            '<span class="facility-badge is-pending">' + pending + ' Pending</span>'
+          ].join("");
+        }
+        if (bookingSummary) {
+          bookingSummary.textContent = requests.length + ' of ' + requests.length + ' bookings';
+        }
+        if (bookingPendingPill) {
+          bookingPendingPill.textContent = pending + ' pending';
+        }
+      }
+
+      function renderResources(resources) {
+        var facilities = Array.isArray(resources.facilityNames) ? resources.facilityNames : [];
+        bookingResource.innerHTML = ['<option value="">Select facility</option>'].concat(facilities.map(function (item) {
+          return '<option value="' + escapeHtml(item) + '">' + escapeHtml(item) + '</option>';
+        })).join("");
+        if (bookingResourceFilter) {
+          bookingResourceFilter.innerHTML = ['<option value="all">All facilities</option>'].concat(facilities.map(function (item) {
+            return '<option value="' + escapeHtml(item) + '">' + escapeHtml(item) + '</option>';
+          })).join("");
+        }
+      }
+
+      function renderTable(data) {
+        var requests = getRequests(data);
+        var query = String(bookingSearch && bookingSearch.value || "").trim().toLowerCase();
+        var statusFilter = bookingStatusFilter ? bookingStatusFilter.value : "all";
+        var resourceFilter = bookingResourceFilter ? bookingResourceFilter.value : "all";
+        var filtered = requests.filter(function (item) {
+          var resourceName = item.roomName || item.topic || item.purpose || "";
+          var requestedName = item.requesterName || item.requestedBy || "";
+          var haystack = [resourceName, requestedName, item.date, item.time, item.startTime, item.endTime, item.status, item.notes, item.department, item.purpose].join(" ").toLowerCase();
+          var matchesQuery = !query || haystack.indexOf(query) !== -1;
+          var matchesStatus = statusFilter === "all" || item.status === statusFilter;
+          var matchesResource = resourceFilter === "all" || resourceName === resourceFilter;
+          return matchesQuery && matchesStatus && matchesResource;
+        });
+
+        updateBadges(requests);
+
+        if (!filtered.length) {
+          bookingList.innerHTML = '<tr><td class="facility-empty" colspan="6">No bookings found for the selected filters.</td></tr>';
+          return;
+        }
+
+        bookingList.innerHTML = filtered.map(function (item) {
+          var resourceName = item.roomName || item.topic || item.purpose || 'Facility Booking';
+          var statusClass = item.status === 'Approved' ? 'is-approved' : (item.status === 'Rejected' ? 'is-rejected' : 'is-pending');
+          var timeRange = item.startTime && item.endTime ? item.startTime + ' - ' + item.endTime : (item.time || '-');
+          return [
+            '<tr>',
+            '<td class="facility-title-cell"><strong>' + escapeHtml(resourceName) + '</strong><span>' + escapeHtml(item.department || '') + '</span></td>',
+            '<td>' + escapeHtml(item.requesterName || item.requestedBy || 'Super Admin') + '</td>',
+            '<td>' + escapeHtml(item.date || '') + '</td>',
+            '<td>' + escapeHtml(timeRange) + '</td>',
+            '<td><span class="facility-status ' + statusClass + '">' + escapeHtml(item.status || 'Pending') + '</span></td>',
+            '<td><button type="button" class="facility-actions" aria-label="More actions">&hellip;</button></td>',
+            '</tr>'
+          ].join('');
+        }).join('');
+      }
+
+      async function load() {
+        var data = await api('/api/bookings/facilities');
+        cache = data;
+        renderResources(data.resources || {});
+        renderTable(data);
+      }
+
+      if (bookingSearch) {
+        bookingSearch.addEventListener('input', function () {
+          if (cache) { renderTable(cache); }
+        });
+      }
+      if (bookingStatusFilter) {
+        bookingStatusFilter.addEventListener('change', function () {
+          if (cache) { renderTable(cache); }
+        });
+      }
+      if (bookingResourceFilter) {
+        bookingResourceFilter.addEventListener('change', function () {
+          if (cache) { renderTable(cache); }
+        });
+      }
+
+      if (bookingForm) {
+        bookingForm.addEventListener('submit', async function (event) {
+          event.preventDefault();
+          var formData = new FormData(bookingForm);
+          var facilityName = String(formData.get('resource') || '').trim();
+          var date = String(formData.get('date') || '').trim();
+          var startTime = String(formData.get('startTime') || '').trim();
+          var endTime = String(formData.get('endTime') || '').trim();
+          var purpose = String(formData.get('purpose') || '').trim();
+          var department = String(formData.get('department') || '').trim();
+          var requestedByValue = String(formData.get('requestedBy') || '').trim();
+          var notes = String(formData.get('notes') || '').trim();
+          if (!facilityName || !date || !startTime || !endTime || !purpose) {
+            bookingMessage.textContent = 'Please complete the required fields.';
+            return;
+          }
+          try {
+            await api('/api/bookings/facilities', {
+              method: 'POST',
+              headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                date: date,
+                startTime: startTime,
+                endTime: endTime,
+                facilityName: facilityName,
+                purpose: purpose,
+                department: department,
+                requestedBy: requestedByValue,
+                notes: notes
+              })
+            });
+            bookingForm.reset();
+            if (currentUser && currentUser.name && requestedBy) {
+              requestedBy.value = currentUser.name;
+            }
+            bookingMessage.textContent = 'Booking submitted successfully.';
+            await load();
+          } catch (error) {
+            bookingMessage.textContent = error.message;
+          }
+        });
+      }
+
+      await Promise.all([loadUser(), load()]);
+    })();
+  </script>
+</body>
+</html>
+
+

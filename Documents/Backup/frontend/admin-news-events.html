@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manage News & Events | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html">Notices</a><a href="./admin-news-events.html" class="is-active">News &amp; Events</a><a href="./admin-notices.html?category=General">General Notices</a><a href="./admin-notices.html?category=Academic">Academic Notices</a><a href="./admin-notices.html?category=Administrative">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&amp;title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&amp;title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar">Seminar Requests</a><a href="./admin-bookings.html?type=zoom">Room Booking</a><a href="./admin-profile.html">Edit Profile</a><a href="./admin-notices.html?category=Faculty">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html">CMSTS</a><a href="./admin-tickets.html">Raise Ticket</a><a href="./admin-tickets.html">Track Status</a><a href="./admin-support-chat.html">Support Chat</a><a href="./facility-booking.html">Facility Booking</a><a href="./admin-module.html?module=computational-access&amp;title=Computational%20Access">Computational Access</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+
+    <main class="portal-main portal-module-main">
+      <section class="portal-page-shell">
+        <div class="portal-page-header">
+          <div>
+            <p class="portal-page-eyebrow">Website Publishing</p>
+            <h1 class="portal-page-title">News &amp; Events</h1>
+          </div>
+          <p class="portal-page-copy">Publish announcements, manage upcoming and past events, and keep the public page current.</p>
+        </div>
+
+        <div class="portal-module-grid">
+          <section class="portal-panel">
+            <h2 class="portal-panel-title">Push Announcement</h2>
+            <form class="portal-form-grid" id="announcement-form">
+              <label>Date<input class="portal-input" name="date" placeholder="8 Apr 2026" required /></label>
+              <label class="portal-form-span">Announcement<textarea class="portal-textarea" name="title" required></textarea></label>
+              <button class="portal-button" type="submit">Publish Announcement</button>
+            </form>
+            <p class="portal-inline-message" id="announcement-message"></p>
+          </section>
+
+          <section class="portal-panel">
+            <h2 class="portal-panel-title">Create Event</h2>
+            <form class="portal-form-grid" id="event-form">
+              <label>Type
+                <select class="portal-input" name="bucket">
+                  <option value="upcoming">Upcoming</option>
+                  <option value="past">Past</option>
+                </select>
+              </label>
+              <label>Category
+                <select class="portal-input" name="category">
+                  <option value="seminars">Seminars</option>
+                  <option value="workshops">Workshops</option>
+                  <option value="conferences">Conferences</option>
+                </select>
+              </label>
+              <label class="portal-form-span">Title<input class="portal-input" name="title" required /></label>
+              <label>Date<input class="portal-input" name="date" placeholder="22 Apr 2026 - 24 Apr 2026" required /></label>
+              <label>Location<input class="portal-input" name="location" placeholder="Computer Lab, Physics Building" /></label>
+              <label class="portal-form-span">Short Description<textarea class="portal-textarea" name="summary" required></textarea></label>
+              <label class="portal-form-span">Full Details<textarea class="portal-textarea" name="details" required></textarea></label>
+              <button class="portal-button" type="submit">Create Event</button>
+            </form>
+            <p class="portal-inline-message" id="event-message"></p>
+          </section>
+
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Announcements</h2></div>
+            <input class="portal-input" id="news-events-search" type="search" placeholder="Search announcements or events..." />
+            <div id="announcements-list" class="portal-card-list"></div>
+          </section>
+
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Upcoming Events</h2></div>
+            <div id="upcoming-list" class="portal-card-list"></div>
+          </section>
+
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2>Past Events</h2></div>
+            <div id="past-list" class="portal-card-list"></div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+
+      var announcementForm = document.getElementById("announcement-form");
+      var eventForm = document.getElementById("event-form");
+      var announcementMessage = document.getElementById("announcement-message");
+      var eventMessage = document.getElementById("event-message");
+      var announcementsList = document.getElementById("announcements-list");
+      var upcomingList = document.getElementById("upcoming-list");
+      var pastList = document.getElementById("past-list");
+      var searchInput = document.getElementById("news-events-search");
+      var cache = { announcements: [], upcomingEvents: [], pastEvents: [] };
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/\"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({
+          headers: { Authorization: "Bearer " + token }
+        }, options || {}));
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function renderDeleteCard(item, type) {
+        if (type === "announcement") {
+          return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.date || "") + '</p><h3>' + escapeHtml(item.title) + '</h3></div><button class="portal-button portal-button-secondary" data-delete-announcement="' + escapeHtml(item.id) + '">Delete</button></article>';
+        }
+        return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.date || "") + '</p><h3>' + escapeHtml(item.title) + '</h3><p>' + escapeHtml(item.location || "") + '</p></div><button class="portal-button portal-button-secondary" data-delete-event="' + escapeHtml(item.id) + '">Delete</button></article>';
+      }
+
+      function matchesQuery(item, query) {
+        if (!query) { return true; }
+        return [item.title, item.date, item.location, item.summary, item.details].join(" - ").toLowerCase().indexOf(query) !== -1;
+      }
+
+      function renderList(items, type, emptyMessage) {
+        var query = String(searchInput.value || "").trim().toLowerCase();
+        var filtered = items.filter(function (item) { return matchesQuery(item, query); });
+        return filtered.length ? filtered.map(function (item) { return renderDeleteCard(item, type); }).join("") : '<p class="portal-empty">' + escapeHtml(emptyMessage) + '</p>';
+      }
+
+      function render() {
+        announcementsList.innerHTML = renderList(cache.announcements, "announcement", "No announcements.");
+        upcomingList.innerHTML = renderList(cache.upcomingEvents, "event", "No upcoming events.");
+        pastList.innerHTML = renderList(cache.pastEvents, "event", "No past events.");
+      }
+
+      async function load() {
+        var data = await api("/api/admin/news-events");
+        cache.announcements = Array.isArray(data.announcements) ? data.announcements : [];
+        cache.upcomingEvents = Array.isArray(data.upcomingEvents) ? data.upcomingEvents : [];
+        cache.pastEvents = Array.isArray(data.pastEvents) ? data.pastEvents : [];
+        render();
+      }
+
+      announcementForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        announcementMessage.textContent = "";
+        var formData = new FormData(announcementForm);
+        try {
+          await api("/api/admin/news-events/announcements", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ date: formData.get("date"), title: formData.get("title") })
+          });
+          announcementForm.reset();
+          announcementMessage.textContent = "Announcement published successfully.";
+          await load();
+        } catch (error) {
+          announcementMessage.textContent = error.message;
+        }
+      });
+
+      eventForm.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        eventMessage.textContent = "";
+        var formData = new FormData(eventForm);
+        try {
+          await api("/api/admin/news-events/events", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              bucket: formData.get("bucket"),
+              category: formData.get("category"),
+              title: formData.get("title"),
+              date: formData.get("date"),
+              location: formData.get("location"),
+              summary: formData.get("summary"),
+              details: formData.get("details")
+            })
+          });
+          eventForm.reset();
+          eventMessage.textContent = "Event created successfully.";
+          await load();
+        } catch (error) {
+          eventMessage.textContent = error.message;
+        }
+      });
+
+      document.body.addEventListener("click", async function (event) {
+        var announcementId = event.target.getAttribute("data-delete-announcement");
+        var eventId = event.target.getAttribute("data-delete-event");
+        if (!announcementId && !eventId) { return; }
+        try {
+          if (announcementId) {
+            await api("/api/admin/news-events/announcements/" + encodeURIComponent(announcementId), { method: "DELETE" });
+          }
+          if (eventId) {
+            await api("/api/admin/news-events/events/" + encodeURIComponent(eventId), { method: "DELETE" });
+          }
+          await load();
+        } catch (error) {
+          eventMessage.textContent = error.message;
+        }
+      });
+
+      searchInput.addEventListener("input", render);
+      await load();
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

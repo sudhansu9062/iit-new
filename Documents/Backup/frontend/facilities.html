@@ -1,0 +1,675 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Labs &amp; Facilities | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .facilities-page {
+      background: #fff;
+    }
+
+    .facilities-page .facilities-hero {
+      height: 540px;
+      min-height: 540px;
+      overflow: hidden;
+    }
+
+    .facilities-page .facilities-hero img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .facilities-page .facilities-main {
+      background: #fff;
+    }
+
+    .facilities-page .facilities-section {
+      padding: 48px 0 46px;
+    }
+
+    .facilities-page .facilities-wrap {
+      width: min(960px, 88vw);
+      margin: 0 auto;
+    }
+
+    .facilities-page .facilities-title {
+      margin: 0 0 22px;
+      color: #142c59;
+      font-size: 36px;
+      font-weight: 700;
+      line-height: 1.2;
+    }
+
+    .facilities-page .facilities-copy {
+      margin: 0;
+      max-width: 1180px;
+      color: #616f85;
+      font-size: 16px;
+      line-height: 1.65;
+      text-align: left;
+    }
+
+    .facilities-page .facilities-card-grid {
+      margin-top: 32px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 22px;
+    }
+
+    .facilities-page .facility-card {
+      display: flex;
+      flex-direction: column;
+      min-height: 170px;
+      border: 1px solid #d5dbe5;
+      border-radius: 10px;
+      background: #fff;
+      padding: 22px 24px;
+      box-shadow: 0 2px 8px rgba(10, 25, 49, 0.06);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .facilities-page .facility-card:hover {
+      box-shadow: 0 6px 16px rgba(10, 25, 49, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .facilities-page .facility-card h2 {
+      margin: 0 0 10px;
+      color: #233250;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 1.25;
+    }
+
+    .facilities-page .facility-card p {
+      margin: 0;
+      color: #616f85;
+      font-size: 15px;
+      line-height: 1.55;
+      text-align: left;
+    }
+
+    .facilities-page .facility-card a {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      align-self: flex-start;
+      margin-top: auto;
+      padding-top: 18px;
+      color: #1d3668;
+      font-size: 14px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: color 0.15s ease, gap 0.15s ease;
+    }
+
+    .facilities-page .facility-card a:hover {
+      color: #0b2545;
+      gap: 11px;
+    }
+
+    @media (max-width: 900px) {
+      .facilities-page .facilities-hero {
+        height: 260px;
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .facilities-page .facilities-hero {
+        height: 260px;
+        min-height: 260px;
+      }
+
+      .facilities-page .facilities-section {
+        padding: 44px 0 54px;
+      }
+
+      .facilities-page .facilities-title {
+        font-size: 34px;
+      }
+
+      .facilities-page .facilities-wrap {
+        width: min(960px, 90vw);
+      }
+
+      .facilities-page .facilities-card-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .facilities-page .facilities-hero {
+        height: 220px;
+        min-height: 220px;
+      }
+    }
+
+    /* Experimental Facility Email Verification Modal */
+    .facility-modal-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: 1500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      background: rgba(10, 25, 49, 0.65);
+      backdrop-filter: blur(4px);
+      -webkit-backdrop-filter: blur(4px);
+      animation: expModalFadeIn 0.2s ease-out;
+    }
+
+    .facility-modal-backdrop[hidden] {
+      display: none !important;
+    }
+
+    @keyframes expModalFadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .facility-modal-dialog {
+      position: relative;
+      width: 100%;
+      max-width: 480px;
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 20px 48px rgba(10, 25, 49, 0.28), 0 4px 12px rgba(10, 25, 49, 0.12);
+      overflow: hidden;
+      animation: expModalScaleUp 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes expModalScaleUp {
+      from { transform: scale(0.94) translateY(8px); opacity: 0; }
+      to { transform: scale(1) translateY(0); opacity: 1; }
+    }
+
+    .facility-modal-accent {
+      height: 6px;
+      background: linear-gradient(90deg, #0b2545 0%, #1a4f8a 70%, #c9a84c 100%);
+    }
+
+    .facility-modal-close {
+      position: absolute;
+      top: 14px;
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      background: #f1f5f9;
+      color: #64748b;
+      font-size: 20px;
+      line-height: 1;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease;
+    }
+
+    .facility-modal-close:hover {
+      background: #e2e8f0;
+      color: #0f172a;
+    }
+
+    .facility-modal-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 22px 24px 0;
+    }
+
+    .facility-modal-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #e8f0fa;
+      color: #1a4f8a;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .facility-modal-icon svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .facility-modal-title {
+      margin: 0;
+      color: #142c59;
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .facility-modal-subtitle {
+      margin: 2px 0 0;
+      color: #616f85;
+      font-size: 12px;
+      font-weight: 500;
+    }
+
+    .facility-modal-body {
+      padding: 16px 24px 24px;
+    }
+
+    .facility-modal-desc {
+      margin: 0 0 18px;
+      color: #475569;
+      font-size: 14px;
+      line-height: 1.55;
+    }
+
+    .facility-modal-field {
+      margin-bottom: 20px;
+    }
+
+    .facility-modal-label {
+      display: block;
+      margin-bottom: 6px;
+      color: #1e293b;
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .facility-modal-label .req {
+      color: #d93025;
+      font-weight: 700;
+      margin-left: 3px;
+    }
+
+    .facility-modal-input {
+      width: 100%;
+      padding: 11px 14px;
+      font-family: inherit;
+      font-size: 14px;
+      color: #1e293b;
+      background: #ffffff;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 6px;
+      outline: none;
+      box-sizing: border-box;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .facility-modal-input:focus {
+      border-color: #1a4f8a;
+      box-shadow: 0 0 0 3px rgba(26, 79, 138, 0.15);
+    }
+
+    .facility-modal-input.is-invalid {
+      border-color: #d93025;
+      background-color: #fffbfa;
+    }
+
+    .facility-modal-input.is-invalid:focus {
+      box-shadow: 0 0 0 3px rgba(217, 48, 37, 0.15);
+    }
+
+    .facility-modal-hint {
+      margin: 6px 0 0;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .facility-modal-error {
+      display: none;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      padding: 8px 12px;
+      border-radius: 6px;
+      background: #fef2f2;
+      border: 1px solid #fee2e2;
+      color: #b91c1c;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 1.4;
+    }
+
+    .facility-modal-error svg {
+      flex-shrink: 0;
+    }
+
+    .facility-modal-actions {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .facility-modal-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 40px;
+      padding: 0 18px;
+      font-family: inherit;
+      font-size: 13px;
+      font-weight: 600;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    }
+
+    .facility-modal-btn.is-primary {
+      border: none;
+      background: #1a4f8a;
+      color: #ffffff;
+      box-shadow: 0 2px 6px rgba(26, 79, 138, 0.25);
+    }
+
+    .facility-modal-btn.is-primary:hover {
+      background: #123c69;
+      transform: translateY(-1px);
+    }
+
+    .facility-modal-btn.is-secondary {
+      border: 1px solid #cbd5e1;
+      background: #ffffff;
+      color: #475569;
+    }
+
+    .facility-modal-btn.is-secondary:hover {
+      background: #f8fafc;
+      color: #0f172a;
+    }
+
+    body.modal-open {
+      overflow: hidden;
+    }
+  </style>
+  <script src="./search.js" defer></script>
+</head>
+<body class="facilities-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html" class="active">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="facilities-hero">
+    <img id="facilities-hero-image" src="facilities-hero.png" alt="Facilities banner" />
+  </section>
+
+  <main class="facilities-main">
+    <section class="facilities-section">
+      <div class="facilities-wrap">
+        <h1 class="facilities-title">Facilities</h1>
+        <p class="facilities-copy">The Department of Physics at IIT Kharagpur provides advanced computational and experimental infrastructure that supports research, teaching, and interdisciplinary work across the institute. The facilities listed below are available to students, researchers, and faculty of the department and its collaborators.</p>
+
+        <div class="facilities-card-grid">
+          <article class="facility-card">
+            <h2>HPC Facility</h2>
+            <p>High-performance computing resources supporting computational physics, simulations, data-intensive research, and interdisciplinary scientific computing.</p>
+            <a href="./hpc-facility.html">Explore Facility <span aria-hidden="true">&rarr;</span></a>
+          </article>
+          <article class="facility-card">
+            <h2>Experimental Facility</h2>
+            <p>Advanced experimental infrastructure and instrumentation supporting research across multiple areas of physics.</p>
+            <a href="https://physicsbooking.fillout.com/kgp" id="experimental-facility-link" target="_blank" rel="noopener noreferrer">Explore Facility <span aria-hidden="true">&rarr;</span></a>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links"><a href="./privacy-policy.html">Privacy Policy</a><a href="./sitemap-page.html">Sitemap</a></div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+  <!-- Experimental Facility Email Verification Modal -->
+  <div class="facility-modal-backdrop" id="exp-facility-modal" hidden>
+    <div class="facility-modal-dialog" role="dialog" aria-modal="true" aria-labelledby="exp-modal-title">
+      <div class="facility-modal-accent" aria-hidden="true"></div>
+      <button type="button" class="facility-modal-close" id="exp-modal-close-btn" aria-label="Close dialog">&times;</button>
+      
+      <div class="facility-modal-header">
+        <div class="facility-modal-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+            <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+          </svg>
+        </div>
+        <div>
+          <h3 id="exp-modal-title" class="facility-modal-title">Experimental Facility Access</h3>
+          <p class="facility-modal-subtitle">Department of Physics &bull; IIT Kharagpur</p>
+        </div>
+      </div>
+
+      <div class="facility-modal-body">
+        <p class="facility-modal-desc">
+          Access to the Experimental Facility booking portal is restricted to members of the Department of Physics. Please enter your departmental email address to continue.
+        </p>
+
+        <form id="exp-email-form" novalidate>
+          <div class="facility-modal-field">
+            <label for="exp-email-input" class="facility-modal-label">
+              Department Email Address <span class="req" aria-hidden="true">*</span>
+            </label>
+            <input
+              type="email"
+              id="exp-email-input"
+              class="facility-modal-input"
+              placeholder="Enter your email address"
+              required
+              autocomplete="email"
+              spellcheck="false"
+            />
+            <div class="facility-modal-error" id="exp-email-error" role="alert" aria-live="polite">
+              <svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14">
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/>
+              </svg>
+              <span id="exp-error-text">Please use your IIT Kharagpur Physics department email address.</span>
+            </div>
+          </div>
+
+          <div class="facility-modal-actions">
+            <button type="button" class="facility-modal-btn is-secondary" id="exp-cancel-btn">Cancel</button>
+            <button type="submit" class="facility-modal-btn is-primary" id="exp-submit-btn">
+              <span>Continue to Portal</span>
+              <span aria-hidden="true">&rarr;</span>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var expLink = document.getElementById("experimental-facility-link");
+      var expModal = document.getElementById("exp-facility-modal");
+      var expForm = document.getElementById("exp-email-form");
+      var expInput = document.getElementById("exp-email-input");
+      var expError = document.getElementById("exp-email-error");
+      var expErrorText = document.getElementById("exp-error-text");
+      var expCloseBtn = document.getElementById("exp-modal-close-btn");
+      var expCancelBtn = document.getElementById("exp-cancel-btn");
+
+      if (!expLink || !expModal || !expForm || !expInput) return;
+
+      function openExpModal(e) {
+        if (e) e.preventDefault();
+        clearError();
+        expInput.value = "";
+        expModal.hidden = false;
+        document.body.classList.add("modal-open");
+        setTimeout(function () {
+          expInput.focus();
+        }, 100);
+      }
+
+      function closeExpModal() {
+        expModal.hidden = true;
+        document.body.classList.remove("modal-open");
+        clearError();
+      }
+
+      function showError(msg) {
+        if (expErrorText) expErrorText.textContent = msg;
+        if (expError) expError.style.display = "flex";
+        expInput.classList.add("is-invalid");
+        expInput.focus();
+      }
+
+      function clearError() {
+        if (expError) expError.style.display = "none";
+        expInput.classList.remove("is-invalid");
+      }
+
+      expLink.addEventListener("click", openExpModal);
+
+      if (expCloseBtn) expCloseBtn.addEventListener("click", closeExpModal);
+      if (expCancelBtn) expCancelBtn.addEventListener("click", closeExpModal);
+
+      expModal.addEventListener("click", function (e) {
+        if (e.target === expModal) {
+          closeExpModal();
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape" && !expModal.hidden) {
+          closeExpModal();
+        }
+      });
+
+      expInput.addEventListener("input", clearError);
+
+      expForm.addEventListener("submit", function (e) {
+        e.preventDefault();
+        var email = String(expInput.value || "").trim().toLowerCase();
+
+        // Validate email format
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!email) {
+          showError("Please enter your email address.");
+          return;
+        }
+        if (!emailRegex.test(email)) {
+          showError("Please enter a valid email format.");
+          return;
+        }
+
+        // Validate domain: must belong to @iitkgp.ac.in or @phy.iitkgp.ac.in
+        var allowedDomains = ["@iitkgp.ac.in", "@phy.iitkgp.ac.in"];
+        var isValidDomain = allowedDomains.some(function (d) { return email.endsWith(d) && email !== d; });
+        if (!isValidDomain) {
+          showError("Please use your IIT Kharagpur email address (@iitkgp.ac.in or @phy.iitkgp.ac.in).");
+          return;
+        }
+
+        // Email is valid and belongs to IIT Kharagpur
+        closeExpModal();
+        var targetUrl = expLink.getAttribute("href");
+        window.open(targetUrl, "_blank", "noopener,noreferrer");
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+

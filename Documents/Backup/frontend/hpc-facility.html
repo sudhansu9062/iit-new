@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HPC Facility | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    body.hpc-page {
+      background: #ffffff;
+      color: #1d2a3d;
+    }
+
+    .hpc-hero {
+      height: 540px;
+      min-height: 540px;
+      overflow: hidden;
+      background: #d9e3ec;
+    }
+
+    .hpc-hero img {
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .hpc-main {
+      background: #ffffff;
+      padding: 52px 0 70px;
+    }
+
+    .hpc-container {
+      width: min(1020px, 86vw);
+      margin: 0 auto;
+    }
+
+    .hpc-breadcrumb {
+      display: inline-block;
+      margin: 0 0 18px;
+      color: #2f67a4;
+      font-size: 11px;
+      line-height: 1.3;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .hpc-main h1,
+    .hpc-main h2,
+    .hpc-main h3 {
+      color: #152e57;
+      letter-spacing: 0;
+    }
+
+    .hpc-main h1 {
+      margin: 0 0 20px;
+      font-size: 36px;
+      line-height: 1.2;
+      font-weight: 700;
+    }
+
+    .hpc-lede {
+      margin: 0 0 46px;
+      color: #5d6c81;
+      font-size: 16px;
+      line-height: 1.65;
+      text-align: justify;
+      text-align-last: left;
+    }
+
+    .hpc-section {
+      margin-top: 40px;
+    }
+
+    .hpc-section h2 {
+      margin: 0 0 16px;
+      font-size: 22px;
+      line-height: 1.25;
+      font-weight: 700;
+    }
+
+    .hpc-section h3 {
+      margin: 20px 0 8px;
+      font-size: 16px;
+      line-height: 1.35;
+      font-weight: 700;
+    }
+
+    .hpc-section p,
+    .hpc-section li {
+      margin: 0 0 12px;
+      color: #536276;
+      font-size: 16px;
+      line-height: 1.55;
+      text-align: justify;
+      text-align-last: left;
+    }
+
+    .hpc-section strong {
+      color: #26364d;
+      font-weight: 700;
+    }
+
+    .hpc-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 38px;
+      margin-top: 12px;
+      padding: 0 18px;
+      border-radius: 4px;
+      background: #174d84;
+      color: #ffffff;
+      font-size: 13px;
+      line-height: 1;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .hpc-table-wrap {
+      margin: 14px 0 32px;
+      overflow-x: auto;
+      border: 1px solid #d9e1ec;
+      border-radius: 3px;
+    }
+
+    .hpc-table {
+      width: 100%;
+      min-width: 760px;
+      border-collapse: collapse;
+      background: #ffffff;
+    }
+
+    .hpc-table th,
+    .hpc-table td {
+      padding: 11px 14px;
+      border-bottom: 1px solid #dfe6ef;
+      color: #435168;
+      font-size: 12px;
+      line-height: 1.45;
+      text-align: left;
+    }
+
+    .hpc-table th {
+      background: #174d84;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .hpc-table tr:nth-child(even) td {
+      background: #f7f9fc;
+    }
+
+    .hpc-table tr:last-child td {
+      border-bottom: 0;
+    }
+
+    .hpc-code {
+      display: block;
+      margin: 12px 0 24px;
+      padding: 18px 20px;
+      overflow-x: auto;
+      border: 1px solid #dce3ed;
+      border-radius: 4px;
+      background: #f6f8fb;
+      color: #334258;
+      font-family: Consolas, "Liberation Mono", Menlo, monospace;
+      font-size: 12px;
+      line-height: 1.55;
+      white-space: pre;
+    }
+
+    .hpc-doc-link {
+      color: #174d84;
+      font-weight: 700;
+      text-decoration: none;
+    }
+
+    .hpc-doc-link:hover,
+    .hpc-button:hover {
+      color: #ffffff;
+      background: #123c69;
+    }
+
+    .hpc-account-cta {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-top: 24px;
+      color: #26364d;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+
+    .hpc-account-arrow {
+      color: #d89519;
+      font-size: 24px;
+      line-height: 1;
+    }
+
+    .hpc-account-link {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      padding: 0 28px;
+      border: 1px solid #d89519;
+      border-radius: 7px;
+      background: #ffd178;
+      color: #122a53;
+      font-size: 15px;
+      font-weight: 600;
+      text-decoration: none;
+      box-shadow: 0 2px 6px rgba(10, 25, 49, 0.08);
+      cursor: pointer;
+    }
+
+    .hpc-account-link:hover {
+      background: #f1b33c;
+      color: #122a53;
+      transform: translateY(-1px);
+    }
+
+    @media (max-width: 1000px) {
+      .hpc-container {
+        width: min(1020px, 90vw);
+      }
+    }
+
+    @media (max-width: 900px) {
+      .hpc-hero {
+        height: 260px;
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 760px) {
+      .hpc-hero {
+        height: 260px;
+        min-height: 260px;
+      }
+
+      .hpc-main {
+        padding: 42px 0 62px;
+      }
+
+      .hpc-container {
+        width: min(1020px, 90vw);
+      }
+
+      .hpc-main h1 {
+        font-size: 34px;
+      }
+
+      .hpc-lede {
+        margin-bottom: 42px;
+        font-size: 15px;
+      }
+
+      .hpc-section h2 {
+        font-size: 24px;
+      }
+
+      .hpc-account-cta {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .hpc-account-arrow {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .hpc-hero {
+        height: 220px;
+        min-height: 220px;
+      }
+    }
+  </style>
+  <script src="./search.js" defer></script>
+</head>
+<body class="hpc-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+        <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html" class="active">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="hpc-hero">
+    <img id="hpc-hero-image" src="hpc-hero.png" alt="HPC Facility banner" />
+  </section>
+
+  <main class="hpc-main">
+    <div class="hpc-container">
+      <a class="hpc-breadcrumb" href="./facilities.html">Back to Facilities</a>
+      <h1>HPC Facility</h1>
+      <p class="hpc-lede">The high-performance computing facility of the Department of Physics supports computational physics, large-scale simulations, data-intensive research, and interdisciplinary scientific computing carried out by students, researchers, and faculty.</p>
+
+      <section class="hpc-section">
+        <h2>About the Facility</h2>
+        <p>HPC Cluster at Physics department is a heterogeneous, hybrid HPC based on Intel Xeon processors designed and implemented for HPC Technology. It comprises 1 master node, 6 login nodes in each HPC.</p>
+      </section>
+
+      <section class="hpc-section">
+        <h2>Facilities Available</h2>
+        <h3>1. Hostname: snbose</h3>
+        <p>OS: Rocky Linux 8.5</p>
+        <p>Software: Matlab, openmpi, Intel compiler, Quantum Espresso, gromacs, gdt, fftw, xcrysden</p>
+        <div class="hpc-table-wrap">
+          <table class="hpc-table">
+            <thead>
+              <tr><th>Host Name</th><th>Processor</th><th>Cores</th><th>Memory</th><th>Disk Space</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>snbose</td><td>1 x Intel Xeon Silver 4210 CPU @ 2.20GHz</td><td>10</td><td>128 GB</td><td>75 TB</td></tr>
+              <tr><td>compute-0-0</td><td>4 x Intel Xeon CPU E7-4870 @ 2.40GHz</td><td>80</td><td>300 GB</td><td>1.08 TB</td></tr>
+              <tr><td>compute-0-1</td><td>4 x Intel Xeon CPU E7-4870 @ 2.40GHz</td><td>80</td><td>300 GB</td><td>1.08 TB</td></tr>
+              <tr><td>compute-0-2</td><td>4 x Intel Xeon Gold 6140 CPU @ 2.30GHz</td><td>80</td><td>768 GB</td><td>4.80 TB</td></tr>
+              <tr><td>compute-0-3</td><td>4 x Intel Xeon Gold 6140 CPU @ 2.30GHz</td><td>80</td><td>768 GB</td><td>4.80 TB</td></tr>
+              <tr><td>compute-0-4</td><td>4 x Intel Xeon Platinum 8160 CPU @ 2.10GHz</td><td>96</td><td>700 GB</td><td>12.0 TB</td></tr>
+              <tr><td>compute-0-5</td><td>4 x Intel Xeon Platinum 8160 CPU @ 2.10GHz</td><td>96</td><td>700 GB</td><td>12.0 TB</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>2. Hostname: prithvi</h3>
+        <p>OS: Rocky Linux 8.5</p>
+        <p>Software: Matlab, Material studio 2020, Intel compiler, Quantum Espresso, gromacs, FFTW etc.</p>
+        <div class="hpc-table-wrap">
+          <table class="hpc-table">
+            <thead>
+              <tr><th>Host Name</th><th>Processor</th><th>Cores</th><th>Memory</th><th>Disk Space</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>master</td><td>2 x Intel Xeon Silver 4214 CPU @ 2.20GHz</td><td>24</td><td>64 GB</td><td>54.4 TB</td></tr>
+              <tr><td>compute-0-1</td><td>2 x Intel Xeon E5-2670 CPU @ 2.60GHz</td><td>16</td><td>412 GB</td><td>1 TB</td></tr>
+              <tr><td>compute-0-2</td><td>2 x Intel(R) Xeon(R) Gold 6338 CPU @ 2.00GHz</td><td>64</td><td>512 GB</td><td>1 TB</td></tr>
+              <tr><td>compute-0-3</td><td>2 x Intel(R) Xeon(R) Gold 6338 CPU @ 2.00GHz</td><td>64</td><td>1000 GB</td><td>11 TB</td></tr>
+              <tr><td>compute-0-4</td><td>4 x Intel Xeon(R) Gold 6248 CPU @ 2.50GHz</td><td>80</td><td>512 GB</td><td>16.0 TB</td></tr>
+              <tr><td>compute-0-5</td><td>2 x Intel Xeon(R) Gold 6154 CPU @ 3.00GHz</td><td>36</td><td>256 GB</td><td>22.0 TB</td></tr>
+              <tr><td>compute-0-6</td><td>2 x Intel Xeon(R) CPU E5-2699 v3 @ 2.30GHz</td><td>36</td><td>256 GB</td><td>1.60 TB</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="hpc-section">
+        <h2>User Guidelines</h2>
+        <h3>Usage Policy and Guidelines</h3>
+        <p>We are trying to better organize the facility and to this end a survey is being conducted to gather two basic details from the users. It is mandatory for the users to take the survey.</p>
+        <p>A job scheduler is installed on the cluster to manage load and allocate resources. Users can submit jobs only via job scheduler for better optimization of resources. Any job submitted directly on the compute nodes would be killed without any notice, this applies to all the users.</p>
+        <p>There are several users on this cluster. Therefore, the best policy would be to submit short jobs and resubmit them as often as you want. This is possible if you create checkpoints/restarts in simulations, so that you can restart from the previous state of your simulations. This is just to ensure that the waiting time, before the job starts running, for you and other users is minimal. Kindly avoid running jobs for a long time.</p>
+        <p>Regularly take backup of your data and do not allow it to accumulate on the server storage for long time.</p>
+      </section>
+
+      <section class="hpc-section">
+        <h2>Tutorials</h2>
+        <h3>Accessing the cluster</h3>
+        <p>To access the HPC you need to "ssh" the login server.</p>
+        <p>The master node is primary gateway to the rest of the cluster, which has a job scheduler. You may submit jobs to the queue and they will run when the required resources are available.</p>
+        <p>Please do not run programs directly on login node. Login node is used to submit jobs, transfer data and to compile source code.</p>
+        <p>By default, user data save in /home directory. These directories are available on master node as well as the other nodes on the cluster.</p>
+
+        <h3>Remote access from Windows Computer</h3>
+        <p>Using any open source "ssh" client applications for Windows you can login and access the cluster. Enter the user name along with IP address or Hostname with which you wish to connect.</p>
+        <p>e.g. Username@10.33.1.18 / username @ 10.33.1.54</p>
+        <p>Enter your password when prompted, and press Enter.</p>
+
+        <h3>Remote access from Linux Computer</h3>
+        <p>Linux systems provide a built-in SSH client, so there is no need to install any additional package. Open the terminal, connect to an SSH server by typing the following command:</p>
+        <code class="hpc-code">ssh Username@hostname</code>
+
+        <h2>Scheduler</h2>
+        <p>PBS/Maui Shark uses Slurm 20.03.3 open-source as the workload manager for the HPC facility. The queues have been defined to meet different computational requirements.</p>
+        <h3>Storage Policy</h3>
+        <p><strong>Important: Users must submit jobs from the /scratch/USER directory.</strong></p>
+        <p>Users can check their /home and /scratch quota using the myquota command.</p>
+        <p>Users are advised to maintain local backups of their data. Storage and charging policies are subject to change.</p>
+      </section>
+
+      <section class="hpc-section">
+        <h2>General Procedure - Batch Script &amp; Job Submission</h2>
+        <p>HPC Cluster provides a well-defined software environment to compile and run applications using Environment Modules. These tools ensure that the correct versions of compilers, libraries, and applications are available during a user session and within SLURM batch jobs.</p>
+
+        <h3>Using Environment Modules</h3>
+        <code class="hpc-code">module avail              # list all available modules
+module load intel/version      # load the Intel compiler
+module unload intel/version    # remove Intel compiler from environment
+module show intel/version      # display module environment changes</code>
+
+        <h3>Sample Slurm Job Script</h3>
+        <code class="hpc-code">#!/bin/bash
+#SBATCH -J lammps-mpi              # job name
+#SBATCH -o %j.out-myjob            # stdout output file
+#SBATCH -e %j.err-myjob            # stderr error file
+#SBATCH -p shared                  # partition: shared, medium, large, gpu
+#SBATCH -N 2                       # total MPI tasks
+#SBATCH -n 2                       # threads per task
+#SBATCH --ntasks=80                # utilize 80 cores
+#SBATCH --mem=23000                # min memory per node in MB
+#SBATCH --mem-per-cpu=6000         # min memory per allocated CPU
+#SBATCH --mail-user=user@phy.iitkgp.ac.in # email for job status
+#SBATCH --mail-type=ALL            # send mail for all event types
+
+if [ -n "$SLURM_CPUS_PER_TASK" ]; then
+  omp_threads=$SLURM_CPUS_PER_TASK
+else
+  omp_threads=1
+fi
+
+module load apps/lammps/12Aug16/intel
+
+mpirun executable
+export OMP_NUM_THREADS=$omp_threads
+mpirun -bootstrap slurm -n $SLURM_NTASKS exe</code>
+
+        <h3>Submit the Job</h3>
+        <p>Once the required modules or Spark packages are loaded, prepare a SLURM batch script and submit with sbatch.</p>
+        <code class="hpc-code">$ sbatch slurm-job.sh
+Submitted batch job 108
+
+$ squeue
+JOBID PARTITION NAME USER ST TIME NODES NODELIST(REASON)
+108 standard simple user R 0:01 1 compute-0-2</code>
+        <p>For more information refer to the <a class="hpc-doc-link" href="https://slurm.schedmd.com/documentation.html" target="_blank" rel="noopener noreferrer">SLURM Documentation</a>.</p>
+        <div class="hpc-account-cta">
+          <span>Apply for an HPC account @ Physics</span>
+          <span class="hpc-account-arrow" aria-hidden="true">&rarr;</span>
+          <a class="hpc-account-link" href="/hpc-account">HPC Account</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+        </ul>
+      </section>
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links"><a href="./privacy-policy.html">Privacy Policy</a><a href="./sitemap-page.html">Sitemap</a></div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>User &amp; Admin Management | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur � Super Admin Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html" class="is-active"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input id="user-search" type="search" placeholder="Search admins and users..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+            <svg viewBox="0 0 24 24" style="width:14px;height:14px;stroke:#24334a;fill:none;stroke-width:2;"><path d="m6 9 6 6 6-6"></path></svg>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <h1>User &amp; Admin Management</h1>
+            <p>Invite Admin accounts, monitor invitation status, and manage access.</p>
+          </div>
+          <div class="superadmin-header-actions">
+            <button type="button" class="superadmin-button" id="invite-admin-button"><svg viewBox="0 0 24 24"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>Invite Admin</button>
+            <button type="button" class="superadmin-button-secondary" id="copy-credentials-button"><svg viewBox="0 0 24 24"><path d="M12 5H6a2 2 0 0 0-2 2v11"></path><rect x="8" y="3" width="12" height="16" rx="2"></rect></svg>Copy User List</button>
+          </div>
+        </section>
+
+        <section class="superadmin-summary-grid is-four" id="user-summary"></section>
+
+        <section class="superadmin-card">
+          <div class="superadmin-card-header">
+            <h2>Pending Admin Invitations</h2>
+          </div>
+          <div class="superadmin-card-body">
+            <div id="pending-user-list" class="superadmin-recent-list"></div>
+          </div>
+        </section>
+
+        <section class="superadmin-user-layout">
+          <article class="superadmin-user-table-card">
+            <div class="superadmin-user-table-head">
+              <div>Name</div>
+              <div>Role</div>
+              <div>Invite Status</div>
+              <div>Invitation Date</div>
+              <div>Last Login</div>
+              <div></div>
+            </div>
+            <div id="user-list"></div>
+          </article>
+
+          <aside class="superadmin-user-editor-card">
+            <div class="superadmin-card-header">
+              <h2>Edit User</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <div id="user-editor-empty" class="superadmin-empty">Select a user to review account details, invitation state, and permissions.</div>
+              <form id="user-editor-form" class="superadmin-form-grid" hidden>
+                <div class="superadmin-user-editor-profile">
+                  <div class="superadmin-user-editor-avatar" id="selected-user-avatar">U</div>
+                  <div>
+                    <strong id="selected-user-name">User Name</strong>
+                    <p id="selected-user-email">user@iitkgp.ac.in</p>
+                    <span class="superadmin-role-pill superadmin-role-admin" id="selected-user-role-pill">Admin</span>
+                  </div>
+                </div>
+                <label>Role
+                  <select name="role">
+                    <option value="faculty">Faculty</option>
+                    <option value="admin">Admin</option>
+                    <option value="editor">Content Editor</option>
+                    <option value="superadmin">Super Admin</option>
+                  </select>
+                </label>
+                <label>Status
+                  <select name="status">
+                    <option value="pending">Pending</option>
+                    <option value="active">Active</option>
+                    <option value="suspended">Inactive</option>
+                  </select>
+                </label>
+                <label>Permissions
+                  <input name="permissions" placeholder="permission1, permission2" />
+                </label>
+                <div class="superadmin-permission-panel">
+                  <p class="superadmin-permission-title">Quick Access Controls</p>
+                  <div class="superadmin-permission-grid" id="permission-checkbox-list">
+                    <label class="superadmin-permission-item"><input type="checkbox" value="view_dashboard" />Dashboard Access</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="edit_own_profile" />Edit Own Profile</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="raise_ticket" />Raise &amp; Track Tickets</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="create_booking" />Create Bookings</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="view_notifications" />View Notifications</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="publish_notice" />Publish Notices</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="delete_notice" />Delete Notices</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="manage_news_events" />Manage News &amp; Events</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="manage_content" />Content Management</label>
+                    <label class="superadmin-permission-item"><input type="checkbox" value="hpc_facility" />HPC Facility</label>
+                  </div>
+                </div>
+                <div class="superadmin-user-meta-grid">
+                  <div>
+                    <span>Login ID</span>
+                    <strong id="selected-user-login">-</strong>
+                  </div>
+                  <div>
+                    <span>Faculty ID</span>
+                    <strong id="selected-user-faculty">-</strong>
+                  </div>
+                  <div>
+                    <span>Invitation Date</span>
+                    <strong id="selected-user-invitation-date">-</strong>
+                  </div>
+                  <div>
+                    <span>Last Login</span>
+                    <strong id="selected-user-last-login">-</strong>
+                  </div>
+                </div>
+                <div class="superadmin-form-actions">
+                  <button class="superadmin-button" type="submit">Save Changes</button>
+                  <button class="superadmin-button-secondary superadmin-row-action-delete" type="button" id="delete-selected-user-button">Delete User</button>
+                </div>
+              </form>
+            </div>
+          </aside>
+        </section>
+
+        <p id="users-message" class="superadmin-inline-message"></p>
+      </div>
+    </main>
+  </div>
+
+  <div class="admin-signup-modal" id="invite-admin-modal" hidden>
+    <div class="admin-signup-backdrop"></div>
+    <section class="admin-signup-dialog" role="dialog" aria-modal="true" aria-labelledby="invite-admin-title">
+      <button type="button" class="admin-signup-close" aria-label="Close invite form">&times;</button>
+      <h2 id="invite-admin-title">Invite Admin</h2>
+      <p>Send a one-time password setup link to the new Admin.</p>
+      <form class="admin-signup-form" id="invite-admin-form">
+        <label for="invite-admin-name">Admin Name</label>
+        <input id="invite-admin-name" name="name" type="text" placeholder="Enter full name" />
+        <label for="invite-admin-email">Admin Email</label>
+        <input id="invite-admin-email" name="email" type="email" placeholder="name@iit.ac.in" />
+        <button type="submit" class="admin-signup-submit" id="invite-admin-submit" onclick="if (window.createAdminInvitation) { window.createAdminInvitation(); } return false;">Send Invitation</button>
+      </form>
+      <p class="admin-signup-message" id="invite-admin-message" aria-live="polite"></p>
+    </section>
+  </div>
+
+  <script>
+    function createAdminInvitation() {
+      var form = document.getElementById("invite-admin-form");
+      if (!form) { return false; }
+      if (typeof form.requestSubmit === "function") {
+        form.requestSubmit();
+      } else {
+        form.dispatchEvent(new Event("submit", { bubbles: true, cancelable: true }));
+      }
+      return false;
+    }
+    window.createAdminInvitation = createAdminInvitation;
+  </script>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton || menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) { sidebar.classList.remove("is-open"); }
+        });
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var summaryRoot = document.getElementById("user-summary");
+      var userListRoot = document.getElementById("user-list");
+      var message = document.getElementById("users-message");
+      var pendingRoot = document.getElementById("pending-user-list");
+      var searchInput = document.getElementById("user-search");
+      var copyButton = document.getElementById("copy-credentials-button");
+      var inviteButton = document.getElementById("invite-admin-button");
+      var userAvatar = document.getElementById("user-avatar");
+      var currentUserName = document.getElementById("current-user-name");
+      var editorEmpty = document.getElementById("user-editor-empty");
+      var editorForm = document.getElementById("user-editor-form");
+      var selectedUserName = document.getElementById("selected-user-name");
+      var selectedUserEmail = document.getElementById("selected-user-email");
+      var selectedUserAvatar = document.getElementById("selected-user-avatar");
+      var selectedUserRolePill = document.getElementById("selected-user-role-pill");
+      var selectedUserLogin = document.getElementById("selected-user-login");
+      var selectedUserFaculty = document.getElementById("selected-user-faculty");
+      var selectedUserInvitationDate = document.getElementById("selected-user-invitation-date");
+      var selectedUserLastLogin = document.getElementById("selected-user-last-login");
+      var deleteSelectedUserButton = document.getElementById("delete-selected-user-button");
+      var permissionCheckboxList = document.getElementById("permission-checkbox-list");
+      var inviteModal = document.getElementById("invite-admin-modal");
+      var inviteForm = document.getElementById("invite-admin-form");
+      var inviteMessage = document.getElementById("invite-admin-message");
+      var inviteSubmit = document.getElementById("invite-admin-submit");
+      var modalClose = inviteModal.querySelector(".admin-signup-close");
+      var modalBackdrop = inviteModal.querySelector(".admin-signup-backdrop");
+      var usersCache = [];
+      var selectedUserId = "";
+      var openMenuUserId = "";
+      var managedPermissions = [
+        "view_dashboard", "edit_own_profile", "raise_ticket", "create_booking", "view_notifications", "publish_notice", "delete_notice", "manage_news_events", "manage_content", "hpc_facility"
+      ];
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+
+      function roleClass(role) {
+        return role === "superadmin" ? "superadmin-role-superadmin" : role === "admin" ? "superadmin-role-admin" : role === "editor" ? "superadmin-role-editor" : "superadmin-role-faculty";
+      }
+
+      function roleLabel(role) {
+        return role === "superadmin" ? "Super Admin" : role === "admin" ? "Admin" : role === "editor" ? "Content Editor" : "Faculty";
+      }
+
+      function statusLabel(status) {
+        return status === "pending" ? "Pending" : status === "suspended" ? "Inactive" : "Active";
+      }
+
+      function formatDateTime(isoValue) {
+        if (!isoValue) { return " - "; }
+        var date = new Date(isoValue);
+        if (Number.isNaN(date.getTime())) { return " - "; }
+        return date.toLocaleString("en-IN", { day: "2-digit", month: "short", year: "numeric", hour: "2-digit", minute: "2-digit" });
+      }
+
+      function setInlineMessage(target, text, type) {
+        target.textContent = text || "";
+        target.classList.remove("is-error", "is-success");
+        if (type) { target.classList.add(type); }
+      }
+
+      async function api(path, options) {
+        var config = Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {});
+        var response = await fetch(window.location.origin + path, config);
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function invitedAdmins() {
+        return usersCache.filter(function (item) { return item.role === "admin"; });
+      }
+
+      function pendingInvites() {
+        return invitedAdmins().filter(function (item) { return item.invitationStatus === "pending"; });
+      }
+
+      function renderSummary() {
+        var admins = invitedAdmins();
+        summaryRoot.innerHTML = [
+          { label: "Total Users", value: usersCache.length },
+          { label: "Admin Accounts", value: admins.length },
+          { label: "Pending Invites", value: pendingInvites().length },
+          { label: "Active Admins", value: admins.filter(function (item) { return item.status === "active"; }).length }
+        ].map(function (item) {
+          return '<article class="superadmin-stat-card superadmin-users-stat-card"><strong>' + item.value + '</strong><p>' + item.label + '</p></article>';
+        }).join("");
+      }
+
+      function renderPendingInvitations() {
+        var pending = pendingInvites();
+        pendingRoot.innerHTML = pending.length ? pending.map(function (item) {
+          return '<article class="superadmin-recent-item superadmin-recent-item-invite"><div><strong>' + escapeHtml(item.name) + '</strong><p>' + escapeHtml(item.email || item.loginId || "") + '</p><small>' + escapeHtml(formatDateTime(item.invitationDate)) + '</small></div><div class="superadmin-inline-actions"><button type="button" class="superadmin-button-secondary" data-resend-invite="' + escapeHtml(item.id) + '">Resend Invitation</button></div></article>';
+        }).join("") : '<p class="superadmin-empty">No pending admin invitations.</p>';
+      }
+
+      function filteredUsers() {
+        var query = String(searchInput.value || "").trim().toLowerCase();
+        if (!query) { return usersCache.slice(); }
+        return usersCache.filter(function (item) {
+          return [item.name, item.email, item.loginId, item.facultyId, item.role, item.status, item.invitationStatus].join(" - ").toLowerCase().indexOf(query) !== -1;
+        });
+      }
+
+      function selectedUser() {
+        return usersCache.find(function (item) { return item.id === selectedUserId; }) || null;
+      }
+
+      function renderUserList() {
+        var users = filteredUsers();
+        userListRoot.innerHTML = users.length ? users.map(function (item, index) {
+          var activeClass = item.id === selectedUserId ? " is-selected" : "";
+          var isPendingAdmin = item.role === "admin" && item.invitationStatus === "pending";
+          var isMenuOpen = openMenuUserId === item.id;
+          var menuDirectionClass = index >= users.length - 2 ? " superadmin-row-action-menu-up" : "";
+          var actions = [];
+          if (isPendingAdmin) {
+            actions.push('<button type="button" class="superadmin-row-action-item" data-resend-invite="' + escapeHtml(item.id) + '">Resend Invitation</button>');
+          }
+          if (item.role !== "superadmin") {
+            actions.push('<button type="button" class="superadmin-row-action-item superadmin-row-action-delete" data-menu-delete-user="' + escapeHtml(item.id) + '">Delete</button>');
+          }
+          return [
+            '<article class="superadmin-user-row' + activeClass + '" data-user-id="' + escapeHtml(item.id) + '">',
+            '<div class="superadmin-user-name-cell"><strong>' + escapeHtml(item.name) + '</strong><small>' + escapeHtml(item.email || item.loginId || "") + '</small></div>',
+            '<div><span class="superadmin-role-pill ' + roleClass(item.role) + '">' + roleLabel(item.role) + '</span></div>',
+            '<div class="superadmin-user-status-cell">' + escapeHtml((item.invitationStatus || item.status || "active").replace(/^./, function (char) { return char.toUpperCase(); })) + '</div>',
+            '<div class="superadmin-user-last-active">' + escapeHtml(formatDateTime(item.invitationDate)) + '</div>',
+            '<div class="superadmin-user-last-active">' + escapeHtml(formatDateTime(item.lastLoginAt)) + '</div>',
+            '<div class="superadmin-user-actions-cell"><div class="superadmin-row-action-wrap"><button type="button" class="superadmin-row-menu" data-row-menu-user="' + escapeHtml(item.id) + '" aria-label="Open user actions"><span></span><span></span><span></span></button><div class="superadmin-row-action-menu' + menuDirectionClass + (isMenuOpen ? ' is-open' : '') + '">' + actions.join('') + '</div></div></div>',
+            '</article>'
+          ].join("");
+        }).join("") : '<p class="superadmin-empty superadmin-users-empty">No users match this search.</p>';
+      }
+
+      function fillEditor() {
+        var user = selectedUser();
+        if (!user) {
+          editorEmpty.hidden = false;
+          editorForm.hidden = true;
+          return;
+        }
+        editorEmpty.hidden = true;
+        editorForm.hidden = false;
+        selectedUserName.textContent = user.name;
+        selectedUserEmail.textContent = user.email || user.loginId || "";
+        selectedUserAvatar.textContent = String(user.name || "U").charAt(0).toUpperCase();
+        selectedUserRolePill.className = 'superadmin-role-pill ' + roleClass(user.role);
+        selectedUserRolePill.textContent = roleLabel(user.role);
+        selectedUserLogin.textContent = user.loginId || " - ";
+        selectedUserFaculty.textContent = user.facultyId || " - ";
+        selectedUserInvitationDate.textContent = formatDateTime(user.invitationDate);
+        selectedUserLastLogin.textContent = formatDateTime(user.lastLoginAt);
+        if (deleteSelectedUserButton) {
+          var canDelete = user.role !== "superadmin";
+          deleteSelectedUserButton.hidden = !canDelete;
+          deleteSelectedUserButton.disabled = !canDelete;
+        }
+        editorForm.role.value = user.role || "faculty";
+        editorForm.status.value = user.status || "active";
+        editorForm.permissions.value = (user.permissions || []).join(", ");
+        Array.prototype.slice.call(permissionCheckboxList.querySelectorAll('input[type="checkbox"]')).forEach(function (checkbox) {
+          checkbox.checked = (user.permissions || []).indexOf(checkbox.value) !== -1;
+        });
+      }
+
+      async function loadCurrentUser() {
+        var data = await api('/api/auth/me');
+        currentUserName.textContent = data.user.name;
+        userAvatar.textContent = String(data.user.name || 'S').charAt(0).toUpperCase();
+      }
+
+      async function loadUsers() {
+        var data = await api('/api/superadmin/users');
+        usersCache = data.users || [];
+        if (!selectedUserId && usersCache.length) { selectedUserId = usersCache[0].id; }
+        if (selectedUserId && !selectedUser()) { selectedUserId = usersCache[0] ? usersCache[0].id : ''; }
+        renderSummary();
+        renderPendingInvitations();
+        renderUserList();
+        fillEditor();
+      }
+
+      async function updateUser(id, payload, successMessage) {
+        await api('/api/superadmin/users/' + id, {
+          method: 'PATCH',
+          headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        setInlineMessage(message, successMessage, 'is-success');
+        await loadUsers();
+      }
+
+      async function resendInvitation(id) {
+        var result = await api('/api/superadmin/users/' + id + '/resend-invitation', { method: 'POST' });
+        setInlineMessage(message, result.message || 'Invitation resent successfully.', 'is-success');
+        await loadUsers();
+      }
+
+      async function deleteUser(id) {
+        var userToDelete = usersCache.find(function (item) { return item.id === id; }) || null;
+        if (!userToDelete) { return; }
+        if (!window.confirm('Delete ' + (userToDelete.name || 'this user') + '? This will permanently remove the user from the database.')) { return; }
+        var result = await api('/api/superadmin/users/' + id, { method: 'DELETE' });
+        setInlineMessage(message, result.message || 'User deleted successfully.', 'is-success');
+        if (selectedUserId === id) { selectedUserId = ''; }
+        openMenuUserId = '';
+        await loadUsers();
+      }
+
+      function openInviteModal() {
+        inviteModal.hidden = false;
+        document.body.classList.add('modal-open');
+      }
+
+      function closeInviteModal() {
+        inviteModal.hidden = true;
+        document.body.classList.remove('modal-open');
+        inviteForm.reset();
+        setInlineMessage(inviteMessage, '', '');
+      }
+
+      pendingRoot.addEventListener('click', function (event) {
+        var resend = event.target.closest('[data-resend-invite]');
+        if (!resend) { return; }
+        resendInvitation(resend.getAttribute('data-resend-invite')).catch(function (error) {
+          setInlineMessage(message, error.message, 'is-error');
+        });
+      });
+
+      userListRoot.addEventListener('click', function (event) {
+        var menuButton = event.target.closest('[data-row-menu-user]');
+        if (menuButton) {
+          var menuUserId = menuButton.getAttribute('data-row-menu-user');
+          openMenuUserId = openMenuUserId === menuUserId ? '' : menuUserId;
+          renderUserList();
+          return;
+        }
+        var resend = event.target.closest('[data-resend-invite]');
+        if (resend) {
+          resendInvitation(resend.getAttribute('data-resend-invite')).catch(function (error) {
+            setInlineMessage(message, error.message, 'is-error');
+          });
+          return;
+        }
+        var deleteButton = event.target.closest('[data-menu-delete-user]');
+        if (deleteButton) {
+          var deleteId = deleteButton.getAttribute('data-menu-delete-user');
+          deleteUser(deleteId).catch(function (error) {
+            setInlineMessage(message, error.message, 'is-error');
+          });
+          return;
+        }
+        var row = event.target.closest('[data-user-id]');
+        if (!row) { return; }
+        selectedUserId = row.getAttribute('data-user-id');
+        openMenuUserId = '';
+        renderUserList();
+        fillEditor();
+      });
+
+      document.addEventListener('click', function (event) {
+        if (event.target.closest('.superadmin-row-action-wrap') || event.target.closest('#invite-admin-modal .admin-signup-dialog')) { return; }
+        if (openMenuUserId) {
+          openMenuUserId = '';
+          renderUserList();
+        }
+      });
+
+      if (deleteSelectedUserButton) {
+        deleteSelectedUserButton.addEventListener('click', function () {
+          if (!selectedUserId) { return; }
+          deleteUser(selectedUserId).catch(function (error) {
+            setInlineMessage(message, error.message, 'is-error');
+          });
+        });
+      }
+
+      editorForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        if (!selectedUserId) { return; }
+        var fd = new FormData(editorForm);
+        var selectedPermissions = Array.prototype.slice.call(permissionCheckboxList.querySelectorAll('input[type="checkbox"]:checked')).map(function (checkbox) { return checkbox.value; });
+        var customPermissions = String(fd.get('permissions') || '').split(',').map(function (item) { return item.trim(); }).filter(function (item) {
+          return item && managedPermissions.indexOf(item) === -1;
+        });
+        var nextPermissions = selectedPermissions.concat(customPermissions).filter(function (value, index, list) {
+          return list.indexOf(value) === index;
+        });
+        updateUser(selectedUserId, {
+          role: fd.get('role'),
+          status: fd.get('status'),
+          permissions: nextPermissions
+        }, 'User updated successfully.').catch(function (error) {
+          setInlineMessage(message, error.message, 'is-error');
+        });
+      });
+
+      permissionCheckboxList.addEventListener('change', function () {
+        var current = String(editorForm.permissions.value || '').split(',').map(function (item) { return item.trim(); }).filter(Boolean).filter(function (item) {
+          return managedPermissions.indexOf(item) === -1;
+        });
+        Array.prototype.slice.call(permissionCheckboxList.querySelectorAll('input[type="checkbox"]:checked')).forEach(function (checkbox) {
+          current.push(checkbox.value);
+        });
+        editorForm.permissions.value = current.filter(function (value, index, list) { return list.indexOf(value) === index; }).join(', ');
+      });
+
+      inviteButton.addEventListener('click', openInviteModal);
+      modalClose.addEventListener('click', closeInviteModal);
+      modalBackdrop.addEventListener('click', closeInviteModal);
+      searchInput.addEventListener('input', renderUserList);
+
+      function createAdminInvitation() {
+        setInlineMessage(inviteMessage, '', '');
+        inviteSubmit.disabled = true;
+        inviteSubmit.textContent = 'Please wait...';
+        return api('/api/superadmin/users/invitations', {
+          method: 'POST',
+          headers: { Authorization: 'Bearer ' + token, 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: document.getElementById('invite-admin-name').value.trim(),
+            email: document.getElementById('invite-admin-email').value.trim()
+          })
+        }).then(function (result) {
+          setInlineMessage(inviteMessage, result.message || 'Invitation sent successfully.', 'is-success');
+          setInlineMessage(message, result.message || 'Invitation sent successfully.', 'is-success');
+          return loadUsers().then(function () {
+            window.setTimeout(closeInviteModal, 700);
+          });
+        }).catch(function (error) {
+          setInlineMessage(inviteMessage, error.message, 'is-error');
+          throw error;
+        }).finally(function () {
+          inviteSubmit.disabled = false;
+          inviteSubmit.textContent = 'Send Invitation';
+        });
+      }
+
+      window.createAdminInvitation = createAdminInvitation;
+
+      inviteForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        createAdminInvitation().catch(function () {});
+      });
+
+      copyButton.addEventListener('click', async function () {
+        try {
+          var text = usersCache.map(function (item) {
+            return [item.name, item.email || '-', roleLabel(item.role), statusLabel(item.status), item.invitationStatus || 'active', formatDateTime(item.lastLoginAt)].join(' | ');
+          }).join('\n');
+          await navigator.clipboard.writeText(text);
+          setInlineMessage(message, 'User list copied to clipboard.', 'is-success');
+        } catch (error) {
+          setInlineMessage(message, 'Clipboard access was blocked.', 'is-error');
+        }
+      });
+
+      try {
+        await Promise.all([loadCurrentUser(), loadUsers()]);
+      } catch (error) {
+        localStorage.removeItem('iitPortalToken');
+        localStorage.removeItem('iitPortalUser');
+        window.location.href = '/admin-login.html?role=superadmin';
+        return;
+      }
+      setupMobileSidebar();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+

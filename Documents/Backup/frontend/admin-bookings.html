@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookings | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .portal-popup[hidden] { display: none; }
+    .portal-popup {
+      position: fixed;
+      inset: 0;
+      z-index: 1200;
+      display: grid;
+      place-items: center;
+      padding: 20px;
+    }
+    .portal-popup-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(16, 24, 40, 0.45);
+    }
+    .portal-popup-dialog {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 520px);
+      background: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 24px 60px rgba(15, 23, 42, 0.28);
+      overflow: hidden;
+    }
+    .portal-popup-header {
+      margin: 0;
+      padding: 14px 18px;
+      background: linear-gradient(90deg, #4b5ef2 0%, #6d3fe0 100%);
+      color: #ffffff;
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .portal-popup-body {
+      margin: 0;
+      padding: 18px;
+      color: #2f3f61;
+      font-size: 30px;
+      line-height: 1.45;
+    }
+    .portal-popup-footer {
+      padding: 0 18px 16px;
+      display: flex;
+      justify-content: flex-end;
+    }
+    .portal-date-picker-wrap {
+      position: relative;
+    }
+    .portal-date-display {
+      cursor: pointer;
+      background: #ffffff;
+    }
+    .portal-date-popover[hidden] { display: none; }
+    .portal-date-popover {
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      z-index: 100;
+      width: 300px;
+      padding: 12px;
+      border: 1px solid #d7deea;
+      border-radius: 12px;
+      background: #ffffff;
+      box-shadow: 0 16px 32px rgba(15, 23, 42, 0.18);
+    }
+    .portal-date-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+    .portal-date-title {
+      font-weight: 700;
+      color: #22324a;
+    }
+    .portal-date-nav {
+      border: 0;
+      background: transparent;
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      cursor: pointer;
+      color: #30496b;
+      font-size: 16px;
+    }
+    .portal-date-nav:hover {
+      background: #edf2f8;
+    }
+    .portal-date-grid {
+      display: grid;
+      grid-template-columns: repeat(7, minmax(0, 1fr));
+      gap: 6px;
+    }
+    .portal-date-weekday,
+    .portal-date-day {
+      min-height: 34px;
+      border-radius: 10px;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+    }
+    .portal-date-weekday {
+      color: #8a99ad;
+      font-weight: 600;
+    }
+    .portal-date-day {
+      border: 0;
+      background: transparent;
+      color: #39485e;
+      cursor: pointer;
+    }
+    .portal-date-day.is-muted {
+      color: #b3bece;
+      cursor: default;
+    }
+    .portal-date-day.is-blocked {
+      background: #eef1f6;
+      color: #9aa8bb;
+      cursor: not-allowed;
+    }
+    .portal-date-day.is-selected {
+      background: #1f456f;
+      color: #ffffff;
+    }
+    .booking-schedule-summary { margin: -2px 0 16px; color: #7383a5; line-height: 1.5; }
+    .booking-schedule-group + .booking-schedule-group { margin-top: 24px; padding-top: 20px; border-top: 1px solid #e3eaf5; }
+    .booking-schedule-group h3 { margin: 0 0 6px; color: #122d55; font-size: 17px; }
+    .booking-schedule-list { display: grid; gap: 12px; max-height: 650px; overflow-y: auto; padding-right: 4px; }
+    .booking-schedule-item { padding: 14px; border: 1px solid #dce5f2; border-left: 4px solid #3d67a0; border-radius: 10px; background: #f9fbff; }
+    .booking-schedule-item h3 { margin: 0 0 6px; color: #122d55; font-size: 16px; }
+    .booking-schedule-item p { margin: 4px 0 0; color: #5c6f8d; font-size: 14px; }
+    .booking-schedule-item strong { color: #344a6c; }
+  </style>
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html">Notices</a><a href="./admin-notices.html?category=General">General Notices</a><a href="./admin-notices.html?category=Academic">Academic Notices</a><a href="./admin-notices.html?category=Administrative">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar" id="seminar-link">Seminar Requests</a><a href="./admin-bookings.html?type=zoom" id="zoom-link">Room Booking</a><a href="./admin-profile.html">Edit Profile</a><a href="./admin-notices.html?category=Faculty">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html?view=cmsts">CMSTS</a><a href="./admin-tickets.html?view=raise">Raise Ticket</a><a href="./admin-tickets.html?view=track">Track Status</a><a href="./facility-booking.html" id="services-facility-slot-link">Facility Booking</a><a href="./admin-module.html?module=computational-access&title=Computational%20Access">Computational Access</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+
+    <main class="portal-main portal-module-main">
+      <section class="portal-page-shell">
+        <div class="portal-page-header">
+          <div>
+            <p class="portal-page-eyebrow">Auto Approval Flow</p>
+            <h1 class="portal-page-title" id="booking-title">Seminar Requests</h1>
+          </div>
+          <p class="portal-page-copy">Requests are auto-approved unless the selected date or time is blocked by super admin. Blocked slots cannot be booked.</p>
+        </div>
+        <div class="portal-module-grid">
+          <section class="portal-panel">
+            <h2 class="portal-panel-title">New Request</h2>
+            <form id="booking-form" class="portal-form-grid">
+              <label id="booking-label">Seminar Hall
+                <select class="portal-input" name="resource" id="booking-resource" required>
+                  <option value="">Select option</option>
+                </select>
+              </label>
+              <label>Date
+                <div class="portal-date-picker-wrap">
+                  <input class="portal-input portal-date-display" id="booking-date-display" type="text" placeholder="Select date" readonly required />
+                  <input name="date" id="booking-date" type="hidden" required />
+                  <div id="booking-date-popover" class="portal-date-popover" hidden>
+                    <div class="portal-date-head">
+                      <button type="button" id="booking-date-prev" class="portal-date-nav" aria-label="Previous month">&#8592;</button>
+                      <strong id="booking-date-title" class="portal-date-title"></strong>
+                      <button type="button" id="booking-date-next" class="portal-date-nav" aria-label="Next month">&#8594;</button>
+                    </div>
+                    <div id="booking-date-grid" class="portal-date-grid"></div>
+                  </div>
+                </div>
+              </label>
+              <label>Start Time<input class="portal-input" name="startTime" type="time" required /></label>
+              <label>End Time<input class="portal-input" name="endTime" type="time" required /></label>
+              <label class="portal-form-span">Notes<textarea class="portal-textarea" name="notes"></textarea></label>
+              <button class="portal-button" type="submit">Submit Request</button>
+            </form>
+            <p class="portal-inline-message" id="booking-message"></p>
+            <div id="booking-popup" class="portal-popup" hidden>
+              <div class="portal-popup-backdrop" data-close-popup="true"></div>
+              <div class="portal-popup-dialog" role="dialog" aria-modal="true" aria-labelledby="booking-popup-title">
+                <h3 id="booking-popup-title" class="portal-popup-header">Submit Request</h3>
+                <p id="booking-popup-text" class="portal-popup-body"></p>
+                <div class="portal-popup-footer">
+                  <button type="button" id="booking-popup-close" class="portal-button">OK</button>
+                </div>
+              </div>
+            </div>
+            <div class="portal-tag-wrap"><strong>Blocked Dates:</strong><div id="blocked-dates" class="portal-tag-list"></div></div>
+            <div class="portal-tag-wrap"><strong>Blocked Slots:</strong><div id="blocked-slots" class="portal-tag-list"></div></div>
+          </section>
+          <section class="portal-panel">
+            <div class="portal-section-header"><h2 id="booking-schedule-title">Booked Seminar Halls</h2></div>
+            <div class="booking-schedule-group">
+              <h3>Your Bookings</h3>
+              <p id="my-booking-summary" class="booking-schedule-summary">Loading your bookings...</p>
+              <div id="my-booking-list" class="booking-schedule-list"></div>
+            </div>
+            <div class="booking-schedule-group">
+              <h3>Bookings by Other Users</h3>
+              <p id="other-booking-summary" class="booking-schedule-summary">Loading other bookings...</p>
+              <div id="other-booking-list" class="booking-schedule-list"></div>
+            </div>
+          </section>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      
+      function setupMobilePortalSidebar() {
+        var sidebar = document.querySelector(".portal-sidebar");
+        var menuButton = document.querySelector(".portal-menu-button");
+        if (!sidebar || !menuButton) { return; }
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      setupMobilePortalSidebar();
+
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+      var params = new URLSearchParams(window.location.search);
+      var type = params.get("type") === "zoom" ? "zoom" : "seminar";
+      var endpoint = type === "zoom" ? "/api/bookings/zoom" : "/api/bookings/seminars";
+      var title = type === "zoom" ? "Room Booking" : "Seminar Requests";
+      var resourceLabel = type === "zoom" ? "Room No" : "Seminar Hall";
+      var resourceField = document.getElementById("booking-resource");
+      var seminarLink = document.getElementById("seminar-link");
+      var zoomLink = document.getElementById("zoom-link");
+      var facilitySlotLink = document.getElementById("services-facility-slot-link");
+      document.getElementById("booking-title").textContent = title;
+      document.getElementById("booking-label").childNodes[0].textContent = resourceLabel;
+      document.getElementById("booking-schedule-title").textContent = type === "zoom" ? "Booked Rooms" : "Booked Seminar Halls";
+      document.title = title + " | IIT Portal";
+      var form = document.getElementById("booking-form");
+      var message = document.getElementById("booking-message");
+      var myBookingList = document.getElementById("my-booking-list");
+      var otherBookingList = document.getElementById("other-booking-list");
+      var myBookingSummary = document.getElementById("my-booking-summary");
+      var otherBookingSummary = document.getElementById("other-booking-summary");
+      var blocked = document.getElementById("blocked-dates");
+      var blockedSlots = document.getElementById("blocked-slots");
+      var popup = document.getElementById("booking-popup");
+      var popupText = document.getElementById("booking-popup-text");
+      var popupClose = document.getElementById("booking-popup-close");
+      var latestData = null;
+      var dateDisplay = document.getElementById("booking-date-display");
+      var dateInput = document.getElementById("booking-date");
+      var datePopover = document.getElementById("booking-date-popover");
+      var dateTitle = document.getElementById("booking-date-title");
+      var dateGrid = document.getElementById("booking-date-grid");
+      var datePrev = document.getElementById("booking-date-prev");
+      var dateNext = document.getElementById("booking-date-next");
+      var dateCursor = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+
+      function showPopup(text) {
+        if (!popup || !popupText) { return; }
+        popupText.textContent = String(text || "");
+        popup.hidden = false;
+      }
+
+      function closePopup() {
+        if (!popup) { return; }
+        popup.hidden = true;
+      }
+
+      if (popupClose) {
+        popupClose.addEventListener("click", closePopup);
+      }
+      if (popup) {
+        popup.addEventListener("click", function (event) {
+          if (event.target && event.target.getAttribute("data-close-popup") === "true") {
+            closePopup();
+          }
+        });
+      }
+
+      if (seminarLink) {
+        seminarLink.classList.toggle("is-active", type === "seminar");
+      }
+      if (zoomLink) {
+        zoomLink.classList.toggle("is-active", type === "zoom");
+      }
+      if (facilitySlotLink) {
+        facilitySlotLink.classList.remove("is-active");
+      }
+
+      if (type === "zoom" && resourceField) {
+        resourceField.outerHTML = '<select class="portal-input" name="resource" id="booking-resource" required><option value="">Select room number</option></select>';
+      }
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {}));
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function escapeHtml(value) {
+        return String(value == null ? "" : value).replace(/[&<>\"']/g, function (character) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[character];
+        });
+      }
+
+      function render(data) {
+        latestData = data || null;
+        var resources = data.resources || {};
+        var resourceNode = document.getElementById("booking-resource");
+        if (resourceNode && resourceNode.tagName === "SELECT") {
+          var options = type === "zoom" ? (resources.roomNumbers || []) : (resources.seminarHalls || []);
+          resourceNode.innerHTML = ['<option value="">Select option</option>'].concat(options.map(function (item) {
+            return '<option value="' + escapeHtml(item) + '">' + escapeHtml(item) + '</option>';
+          })).join("");
+        }
+        blocked.innerHTML = (data.blockedDates || []).map(function (item) { return '<span class="portal-tag">' + escapeHtml(item) + '</span>'; }).join("") || '<span class="portal-tag">No blocked dates</span>';
+        blockedSlots.innerHTML = (data.blockedSlots || []).map(function (item) { return '<span class="portal-tag">' + escapeHtml(item.date) + ' ' + escapeHtml(item.time) + '</span>'; }).join("") || '<span class="portal-tag">No blocked slots</span>';
+        function sortBookings(items) {
+          return items.slice().sort(function (first, second) {
+          return String(first.date || "").localeCompare(String(second.date || "")) || String(first.startTime || first.time || "").localeCompare(String(second.startTime || second.time || ""));
+          });
+        }
+
+        function bookingCard(item, includeRequester) {
+          var timeRange = item.startTime && item.endTime ? item.startTime + " - " + item.endTime : (item.time || "Time not specified");
+          return '<article class="booking-schedule-item"><h3>' + escapeHtml(item.roomName || item.topic || "Booking") + '</h3><p><strong>When:</strong> ' + escapeHtml((item.date || "Date not specified") + " • " + timeRange) + '</p>' + (includeRequester ? '<p><strong>Booked by:</strong> ' + escapeHtml(item.requesterName || "Unknown user") + '</p>' : '') + '</article>';
+        }
+
+        var facilityNameSet = (Array.isArray(resources.facilityNames) ? resources.facilityNames : []).map(function (name) {
+          return String(name || "").trim().toLowerCase();
+        });
+
+        function belongsOnCurrentBookingPage(item) {
+          if (type !== "seminar") { return true; }
+          return facilityNameSet.indexOf(String(item.roomName || "").trim().toLowerCase()) === -1;
+        }
+
+        var myBookings = sortBookings((data.requests || []).filter(belongsOnCurrentBookingPage));
+        var myEmails = myBookings.map(function (item) { return String(item.requesterEmail || "").trim().toLowerCase(); }).filter(Boolean);
+        var otherBookings = sortBookings((data.bookings || []).filter(belongsOnCurrentBookingPage).filter(function (item) {
+          return myEmails.indexOf(String(item.requesterEmail || "").trim().toLowerCase()) === -1;
+        }));
+
+        myBookingSummary.textContent = myBookings.length ? "Your submitted " + resourceLabel.toLowerCase() + " bookings." : "You have not made any bookings yet.";
+        otherBookingSummary.textContent = otherBookings.length ? "See which " + resourceLabel.toLowerCase() + " is booked by other users." : "No bookings by other users yet.";
+        myBookingList.innerHTML = myBookings.length ? myBookings.map(function (item) { return bookingCard(item, false); }).join("") : "";
+        otherBookingList.innerHTML = otherBookings.length ? otherBookings.map(function (item) { return bookingCard(item, true); }).join("") : "";
+        renderDateCalendar();
+      }
+
+      function toDateId(date) {
+        return date.getFullYear() + "-" + String(date.getMonth() + 1).padStart(2, "0") + "-" + String(date.getDate()).padStart(2, "0");
+      }
+
+      function isWeekend(dateId) {
+        var parts = String(dateId).split("-").map(Number);
+        var day = new Date(parts[0], parts[1] - 1, parts[2]).getDay();
+        return day === 0 || day === 6;
+      }
+
+      function isBlockedDate(dateId) {
+        return isWeekend(dateId) || (latestData && Array.isArray(latestData.blockedDates) && latestData.blockedDates.indexOf(dateId) !== -1);
+      }
+
+      function renderDateCalendar() {
+        if (!dateGrid || !dateTitle) { return; }
+        var weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
+        var firstDay = new Date(dateCursor.getFullYear(), dateCursor.getMonth(), 1);
+        var startDay = firstDay.getDay();
+        var daysInMonth = new Date(dateCursor.getFullYear(), dateCursor.getMonth() + 1, 0).getDate();
+        var prevDays = new Date(dateCursor.getFullYear(), dateCursor.getMonth(), 0).getDate();
+        dateTitle.textContent = dateCursor.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+        var cells = weekdays.map(function (day) {
+          return '<div class="portal-date-weekday">' + day + '</div>';
+        });
+
+        for (var i = 0; i < startDay; i += 1) {
+          cells.push('<span class="portal-date-day is-muted">' + (prevDays - startDay + i + 1) + '</span>');
+        }
+
+        for (var day = 1; day <= daysInMonth; day += 1) {
+          var current = new Date(dateCursor.getFullYear(), dateCursor.getMonth(), day);
+          var dateId = toDateId(current);
+          var classes = ["portal-date-day"];
+          if (isBlockedDate(dateId)) { classes.push("is-blocked"); }
+          if (dateInput.value === dateId) { classes.push("is-selected"); }
+          cells.push('<button type="button" class="' + classes.join(" ") + '" data-date="' + dateId + '"' + (isBlockedDate(dateId) ? " disabled" : "") + ">" + day + "</button>");
+        }
+
+        while (cells.length % 7 !== 0) {
+          cells.push('<span class="portal-date-day is-muted">' + (cells.length % 7) + "</span>");
+        }
+
+        dateGrid.innerHTML = cells.join("");
+      }
+
+      async function load() { render(await api(endpoint)); }
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var fd = new FormData(form);
+        var selectedDate = String(fd.get("date") || "");
+        if (!selectedDate) {
+          message.textContent = "Please select a date from the calendar.";
+          showPopup(message.textContent);
+          return;
+        }
+        if (latestData && Array.isArray(latestData.blockedDates) && latestData.blockedDates.indexOf(selectedDate) !== -1) {
+          message.textContent = "Selected date is a holiday/blocked date. Booking is not available.";
+          showPopup(message.textContent);
+          return;
+        }
+        var payload = { date: fd.get("date"), startTime: fd.get("startTime"), endTime: fd.get("endTime"), notes: fd.get("notes") };
+        if (type === "zoom") { payload.topic = fd.get("resource"); } else { payload.roomName = fd.get("resource"); }
+        try {
+          var response = await api(endpoint, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+          message.textContent = response.message;
+          form.reset();
+          await load();
+        } catch (error) {
+          message.textContent = error.message;
+          showPopup(message.textContent);
+        }
+      });
+
+      if (dateDisplay && datePopover) {
+        dateDisplay.addEventListener("click", function () {
+          datePopover.hidden = !datePopover.hidden;
+          if (!datePopover.hidden) { renderDateCalendar(); }
+        });
+      }
+      if (datePrev) {
+        datePrev.addEventListener("click", function () {
+          dateCursor = new Date(dateCursor.getFullYear(), dateCursor.getMonth() - 1, 1);
+          renderDateCalendar();
+        });
+      }
+      if (dateNext) {
+        dateNext.addEventListener("click", function () {
+          dateCursor = new Date(dateCursor.getFullYear(), dateCursor.getMonth() + 1, 1);
+          renderDateCalendar();
+        });
+      }
+      if (dateGrid) {
+        dateGrid.addEventListener("click", function (event) {
+          var button = event.target.closest("button[data-date]");
+          if (!button) { return; }
+          var selected = button.getAttribute("data-date");
+          if (!selected) { return; }
+          dateInput.value = selected;
+          if (dateDisplay) { dateDisplay.value = selected; }
+          datePopover.hidden = true;
+          renderDateCalendar();
+        });
+      }
+      document.addEventListener("click", function (event) {
+        if (!datePopover || datePopover.hidden) { return; }
+        if (event.target === dateDisplay || datePopover.contains(event.target)) { return; }
+        datePopover.hidden = true;
+      });
+
+      await load();
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+

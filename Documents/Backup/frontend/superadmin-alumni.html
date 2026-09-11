@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Alumni Section | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html" class="is-active"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input type="search" placeholder="Search..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <h1 id="people-title">Alumni Section</h1>
+            <p id="people-copy">Manage public Alumni student cards, profile photos, and Alumni file uploads.</p>
+          </div>
+        </section>
+
+        <section class="superadmin-card">
+          <div class="superadmin-card-body">
+            <div class="portal-people-switcher">
+              <button class="portal-people-tab is-active" type="button" data-type="alumni">Alumni</button>
+            </div>
+            <section class="portal-people-group" id="alumni-file-panel">
+              <div class="portal-section-header">
+                <div>
+                  <h2>Alumni File Upload</h2>
+                  <p class="portal-section-copy">Upload Excel to replace dummy cards with spreadsheet rows, or upload PDF to show the file on the public Alumni page.</p>
+                </div>
+              </div>
+              <div class="portal-form-grid">
+                <label class="portal-form-span">Upload PDF / Excel File
+                  <input id="alumni-file-input" class="portal-input" type="file" accept=".pdf,.xls,.xlsx,.csv,application/pdf,application/vnd.ms-excel,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv" />
+                </label>
+                <div class="portal-form-span" id="alumni-file-status"></div>
+                <div class="portal-form-span portal-people-actions">
+                  <button class="portal-button-secondary" id="alumni-file-delete" type="button" hidden>Delete Uploaded File</button>
+                </div>
+              </div>
+            </section>
+            <form id="people-form" class="portal-form-grid">
+              <label class="portal-form-span">Page Summary<textarea id="page-summary" class="portal-textarea portal-textarea-compact" placeholder="Short summary for this page"></textarea></label>
+              <div id="people-groups" class="portal-people-groups"></div>
+              <div class="portal-form-span portal-people-actions">
+                <button class="portal-button" type="submit">Save Changes</button>
+              </div>
+            </form>
+            <p id="people-message" class="portal-inline-message"></p>
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <template id="group-person-template">
+    <article class="portal-person-editor">
+      <div class="portal-person-editor-header">
+        <strong class="portal-person-editor-title">Person</strong>
+        <button class="portal-button-secondary portal-person-remove" type="button">Remove</button>
+      </div>
+      <div class="portal-person-grid">
+        <label>Name<input class="portal-input person-name" /></label>
+        <label>Designation<input class="portal-input person-designation" /></label>
+        <label>Office / Room<input class="portal-input person-office" /></label>
+        <label>Email<input class="portal-input person-email" type="email" /></label>
+      </div>
+    </article>
+  </template>
+
+  <template id="faculty-person-template">
+    <article class="portal-person-editor">
+      <div class="portal-person-editor-header">
+        <div>
+          <strong class="portal-person-editor-title faculty-card-name">Faculty Member</strong>
+          <p class="portal-person-editor-meta faculty-card-id">ID</p>
+        </div>
+        <button class="portal-button-secondary faculty-remove" type="button">Remove</button>
+      </div>
+      <div class="portal-person-grid portal-person-grid-wide">
+        <label>Faculty ID<input class="portal-input faculty-faculty-id" /></label>
+        <label>Login ID<input class="portal-input faculty-login-id" /></label>
+        <label>Name<input class="portal-input faculty-name" /></label>
+        <label>Designation<input class="portal-input faculty-designation" /></label>
+        <label>Email<input class="portal-input faculty-email" type="email" /></label>
+        <label>Phone<input class="portal-input faculty-phone" /></label>
+        <label>Office<input class="portal-input faculty-office" /></label>
+        <label>Specialization<input class="portal-input faculty-specialization" /></label>
+        <label>Password<input class="portal-input faculty-password" placeholder="Used for new faculty login" /></label>
+        <label class="portal-form-span">Biography<textarea class="portal-textarea portal-textarea-compact faculty-bio"></textarea></label>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var form = document.getElementById("people-form");
+      var groupsRoot = document.getElementById("people-groups");
+      var summaryInput = document.getElementById("page-summary");
+      var message = document.getElementById("people-message");
+      var peopleTitle = document.getElementById("people-title");
+      var peopleCopy = document.getElementById("people-copy");
+      var currentUserName = document.getElementById("current-user-name");
+      var userAvatar = document.getElementById("user-avatar");
+      var alumniFileInput = document.getElementById("alumni-file-input");
+      var alumniFileStatus = document.getElementById("alumni-file-status");
+      var alumniFileDelete = document.getElementById("alumni-file-delete");
+      var groupTemplate = document.getElementById("group-person-template");
+      var facultyTemplate = document.getElementById("faculty-person-template");
+      var tabButtons = Array.prototype.slice.call(document.querySelectorAll(".portal-people-tab"));
+      var typeMeta = {
+        alumni: { title: "Alumni Section", copy: "Manage public Alumni student cards, profile photos, and Alumni file uploads." }
+      };
+      var state = { type: "alumni", summary: "", page: null, peopleGroups: [], faculty: [], alumniUpload: null };
+
+      function setInfo(text, isError) {
+        message.classList.toggle("is-error", Boolean(isError));
+        message.textContent = text || "";
+      }
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {}));
+        var raw = await response.text();
+        var data = raw ? JSON.parse(raw) : {};
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+
+      async function uploadImageFile(file) {
+        var reader = new FileReader();
+        var dataUrl = await new Promise(function (resolve, reject) {
+          reader.onload = function () { resolve(String(reader.result || "")); };
+          reader.onerror = function () { reject(new Error("Image file could not be read.")); };
+          reader.readAsDataURL(file);
+        });
+        var response = await api("/api/superadmin/uploads/image", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: file.name,
+            dataUrl: dataUrl
+          })
+        });
+        return response.imagePath || "";
+      }
+
+      async function uploadAlumniFile(file) {
+        var reader = new FileReader();
+        var dataUrl = await new Promise(function (resolve, reject) {
+          reader.onload = function () { resolve(String(reader.result || "")); };
+          reader.onerror = function () { reject(new Error("File could not be read.")); };
+          reader.readAsDataURL(file);
+        });
+        var response = await api("/api/admin/people/alumni/upload", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: file.name,
+            dataUrl: dataUrl
+          })
+        });
+        return response.upload || null;
+      }
+
+      function normalizeGroups(groups) {
+        return (groups || []).map(function (group, groupIndex) {
+          return {
+            id: String(group.id || "group-" + (groupIndex + 1)),
+            title: String(group.title || "Group " + (groupIndex + 1)),
+            items: (group.items || []).map(function (item, itemIndex) {
+              return {
+                id: String(item.id || "person-" + (itemIndex + 1)),
+                name: String(item.name || ""),
+                designation: String(item.designation || ""),
+                office: String(item.office || ""),
+                email: String(item.email || ""),
+                topic: String(item.topic || ""),
+                category: String(item.category || ""),
+                photo: String(item.photo || "")
+              };
+            })
+          };
+        });
+      }
+
+      function normalizeFaculty(faculty) {
+        return (faculty || []).map(function (item) {
+          return {
+            facultyId: String(item.facultyId || ""),
+            loginId: String(item.loginId || ""),
+            initialPassword: String(item.initialPassword || ""),
+            name: String(item.name || ""),
+            designation: String(item.designation || ""),
+            email: String(item.email || ""),
+            phone: String(item.phone || ""),
+            office: String(item.office || ""),
+            specialization: String(item.specialization || ""),
+            bio: String(item.bio || "")
+          };
+        });
+      }
+
+      function createBlankPerson(groupId) {
+        return {
+          id: groupId + "-person-" + Date.now() + " - " + Math.random().toString(16).slice(2, 6),
+          name: "",
+          designation: "",
+          office: "",
+          email: "",
+          topic: "",
+          category: "",
+          photo: ""
+        };
+      }
+
+      function createBlankFaculty() {
+        return { facultyId: "", loginId: "", initialPassword: "", name: "", designation: "", email: "", phone: "", office: "", specialization: "", bio: "" };
+      }
+
+      function updateHeader() {
+        var meta = typeMeta[state.type];
+        peopleTitle.textContent = meta.title;
+        peopleCopy.textContent = meta.copy;
+        tabButtons.forEach(function (button) {
+          button.classList.toggle("is-active", button.getAttribute("data-type") === state.type);
+        });
+      }
+
+      function renderAlumniUploadPanel() {
+        if (!alumniFileStatus || !alumniFileDelete) { return; }
+        var upload = state.alumniUpload;
+        alumniFileDelete.hidden = !upload;
+        if (upload && upload.path) {
+          alumniFileStatus.innerHTML = [
+            '<div class="portal-empty">',
+            '<strong>Current uploaded file:</strong> ',
+            '<a href="' + escapeHtml(upload.path) + '" target="_blank" rel="noopener noreferrer">' + escapeHtml(upload.fileName || "Alumni file") + '</a>',
+            '<br /><span>Excel uploads are shown as alumni cards. PDF uploads are shown as a file. Delete it to show the default student cards again.</span>',
+            '</div>'
+          ].join("");
+        } else {
+          alumniFileStatus.innerHTML = '<p class="portal-empty">No alumni file uploaded. Default student cards are visible on the public page.</p>';
+        }
+      }
+
+      function renderGroupPersonCard(group, person, personIndex) {
+        var fragment = groupTemplate.content.cloneNode(true);
+        var card = fragment.querySelector(".portal-person-editor");
+        var title = fragment.querySelector(".portal-person-editor-title");
+        var removeButton = fragment.querySelector(".portal-person-remove");
+        var nameInput = fragment.querySelector(".person-name");
+        var designationInput = fragment.querySelector(".person-designation");
+        var officeInput = fragment.querySelector(".person-office");
+        var emailInput = fragment.querySelector(".person-email");
+        title.textContent = "Person " + (personIndex + 1);
+        nameInput.value = person.name;
+        designationInput.value = person.designation;
+        officeInput.value = person.office;
+        emailInput.value = person.email;
+        emailInput.type = "text";
+        if (state.type === "alumni") {
+          var fields = fragment.querySelector(".portal-person-grid");
+          var categoryField = document.createElement("label");
+          categoryField.innerHTML = "Program / Category<input class=\"portal-input person-category\" />";
+          var categoryInput = categoryField.querySelector("input");
+          categoryInput.value = person.category || group.title || "";
+          var topicField = document.createElement("label");
+          topicField.innerHTML = "Research Topic<input class=\"portal-input person-topic\" />";
+          var topicInput = topicField.querySelector("input");
+          topicInput.value = person.topic || "";
+          var photoPathField = document.createElement("label");
+          photoPathField.className = "portal-form-span";
+          photoPathField.innerHTML = "Photo Path<input class=\"portal-input person-photo\" placeholder=\"./uploads/student-photo.jpg\" />";
+          var photoPathInput = photoPathField.querySelector("input");
+          photoPathInput.value = person.photo || "";
+          var photoUploadField = document.createElement("label");
+          photoUploadField.className = "portal-form-span";
+          photoUploadField.innerHTML = "Upload Photo<input class=\"person-photo-upload\" type=\"file\" accept=\"image/*\" />";
+          var photoUploadInput = photoUploadField.querySelector("input");
+          var photoPreviewWrap = document.createElement("div");
+          photoPreviewWrap.className = "portal-form-span";
+          photoPreviewWrap.innerHTML = "<div class=\"superadmin-image-preview-wrap\"><img class=\"superadmin-image-preview person-photo-preview\" alt=\"Student photo preview\" /></div>";
+          var photoPreview = photoPreviewWrap.querySelector("img");
+          photoPreview.src = person.photo || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+          fields.appendChild(categoryField);
+          fields.appendChild(topicField);
+          fields.appendChild(photoPathField);
+          fields.appendChild(photoUploadField);
+          fields.appendChild(photoPreviewWrap);
+
+          categoryInput.addEventListener("input", function () { person.category = categoryInput.value; });
+          topicInput.addEventListener("input", function () { person.topic = topicInput.value; });
+          photoPathInput.addEventListener("input", function () {
+            person.photo = photoPathInput.value;
+            photoPreview.src = person.photo || "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+          });
+          photoUploadInput.addEventListener("change", function () {
+            var file = photoUploadInput.files && photoUploadInput.files[0];
+            if (!file) { return; }
+            setInfo("Uploading photo...", false);
+            uploadImageFile(file).then(function (imagePath) {
+              person.photo = imagePath;
+              photoPathInput.value = imagePath;
+              photoPreview.src = imagePath;
+              setInfo("Photo uploaded. Click Save Changes to publish.", false);
+            }).catch(function (error) {
+              setInfo(error.message, true);
+            });
+          });
+        }
+        nameInput.addEventListener("input", function () { person.name = nameInput.value; });
+        designationInput.addEventListener("input", function () { person.designation = designationInput.value; });
+        officeInput.addEventListener("input", function () { person.office = officeInput.value; });
+        emailInput.addEventListener("input", function () { person.email = emailInput.value; });
+        removeButton.addEventListener("click", function () {
+          group.items = group.items.filter(function (item) { return item.id !== person.id; });
+          render();
+          setInfo("Person removed from the editor. Click Save Changes to keep it.", false);
+        });
+        return card;
+      }
+
+      function renderFacultyCard(person) {
+        var fragment = facultyTemplate.content.cloneNode(true);
+        var card = fragment.querySelector(".portal-person-editor");
+        var nameLabel = fragment.querySelector(".faculty-card-name");
+        var idLabel = fragment.querySelector(".faculty-card-id");
+        var removeButton = fragment.querySelector(".faculty-remove");
+        var facultyIdInput = fragment.querySelector(".faculty-faculty-id");
+        var loginIdInput = fragment.querySelector(".faculty-login-id");
+        var nameInput = fragment.querySelector(".faculty-name");
+        var designationInput = fragment.querySelector(".faculty-designation");
+        var emailInput = fragment.querySelector(".faculty-email");
+        var phoneInput = fragment.querySelector(".faculty-phone");
+        var officeInput = fragment.querySelector(".faculty-office");
+        var specializationInput = fragment.querySelector(".faculty-specialization");
+        var passwordInput = fragment.querySelector(".faculty-password");
+        var bioInput = fragment.querySelector(".faculty-bio");
+        function updateMeta() {
+          idLabel.textContent = [person.facultyId, person.loginId].filter(Boolean).join(" - ") || "New faculty record";
+        }
+        nameLabel.textContent = person.name || "Faculty Member";
+        facultyIdInput.value = person.facultyId;
+        loginIdInput.value = person.loginId;
+        nameInput.value = person.name;
+        designationInput.value = person.designation;
+        emailInput.value = person.email;
+        phoneInput.value = person.phone;
+        officeInput.value = person.office;
+        specializationInput.value = person.specialization;
+        passwordInput.value = person.initialPassword;
+        bioInput.value = person.bio;
+        updateMeta();
+        facultyIdInput.addEventListener("input", function () { person.facultyId = facultyIdInput.value; updateMeta(); });
+        loginIdInput.addEventListener("input", function () { person.loginId = loginIdInput.value; updateMeta(); });
+        nameInput.addEventListener("input", function () { person.name = nameInput.value; nameLabel.textContent = person.name || "Faculty Member"; });
+        designationInput.addEventListener("input", function () { person.designation = designationInput.value; });
+        emailInput.addEventListener("input", function () { person.email = emailInput.value; });
+        phoneInput.addEventListener("input", function () { person.phone = phoneInput.value; });
+        officeInput.addEventListener("input", function () { person.office = officeInput.value; });
+        specializationInput.addEventListener("input", function () { person.specialization = specializationInput.value; });
+        passwordInput.addEventListener("input", function () { person.initialPassword = passwordInput.value; });
+        bioInput.addEventListener("input", function () { person.bio = bioInput.value; });
+        removeButton.addEventListener("click", function () {
+          state.faculty = state.faculty.filter(function (item) { return item !== person; });
+          render();
+          setInfo("Faculty record removed from the editor. Click Save Changes to keep it.", false);
+        });
+        return card;
+      }
+
+      function renderGroups() {
+        groupsRoot.innerHTML = "";
+        state.peopleGroups.forEach(function (group) {
+          var section = document.createElement("section");
+          section.className = "portal-people-group";
+          var header = document.createElement("div");
+          header.className = "portal-section-header";
+          header.innerHTML = "<h2>" + escapeHtml(group.title) + "</h2>";
+          var addButton = document.createElement("button");
+          addButton.type = "button";
+          addButton.className = "portal-button-secondary";
+          addButton.textContent = "Add Person";
+          addButton.addEventListener("click", function (event) {
+            event.preventDefault();
+            group.items.unshift(createBlankPerson(group.id));
+            render();
+            setInfo("New person added at the top. Click Save Changes to keep it.", false);
+          });
+          header.appendChild(addButton);
+          section.appendChild(header);
+          var list = document.createElement("div");
+          list.className = "portal-people-list";
+          if (!group.items.length) {
+            var empty = document.createElement("p");
+            empty.className = "portal-empty";
+            empty.textContent = "No people added in this section yet.";
+            list.appendChild(empty);
+          } else {
+            group.items.forEach(function (person, index) { list.appendChild(renderGroupPersonCard(group, person, index)); });
+          }
+          section.appendChild(list);
+          groupsRoot.appendChild(section);
+        });
+      }
+
+      function renderFaculty() {
+        groupsRoot.innerHTML = "";
+        var wrapper = document.createElement("section");
+        wrapper.className = "portal-people-group";
+        var header = document.createElement("div");
+        header.className = "portal-section-header";
+        header.innerHTML = "<h2>Faculty Directory Records</h2>";
+        var addButton = document.createElement("button");
+        addButton.type = "button";
+        addButton.className = "portal-button-secondary";
+        addButton.textContent = "Add Faculty";
+        addButton.addEventListener("click", function (event) {
+          event.preventDefault();
+          state.faculty.unshift(createBlankFaculty());
+          render();
+          setInfo("New faculty record added at the top. Fill it out and click Save Changes.", false);
+        });
+        header.appendChild(addButton);
+        wrapper.appendChild(header);
+        var list = document.createElement("div");
+        list.className = "portal-people-list";
+        if (!state.faculty.length) {
+          var empty = document.createElement("p");
+          empty.className = "portal-empty";
+          empty.textContent = "No faculty records are available.";
+          list.appendChild(empty);
+        } else {
+          state.faculty.forEach(function (person) { list.appendChild(renderFacultyCard(person)); });
+        }
+        wrapper.appendChild(list);
+        groupsRoot.appendChild(wrapper);
+      }
+
+      function render() {
+        updateHeader();
+        summaryInput.value = state.summary || "";
+        renderAlumniUploadPanel();
+        renderGroups();
+      }
+
+      async function loadType(type) {
+        state.type = type;
+        setInfo("Loading " + type + " records...", false);
+        var data = await api("/api/admin/people/" + type);
+        state.page = data.page || null;
+        state.summary = state.page && state.page.summary ? String(state.page.summary) : "";
+        state.peopleGroups = normalizeGroups((state.page && state.page.peopleGroups) || []);
+        state.alumniUpload = state.page && state.page.alumniUpload ? state.page.alumniUpload : null;
+        state.faculty = normalizeFaculty(data.faculty || []);
+        render();
+        setInfo("", false);
+      }
+
+      if (alumniFileInput) {
+        alumniFileInput.addEventListener("change", function () {
+          var file = alumniFileInput.files && alumniFileInput.files[0];
+          if (!file) { return; }
+          setInfo("Uploading alumni file...", false);
+          uploadAlumniFile(file).then(async function () {
+            alumniFileInput.value = "";
+            setInfo("Alumni file uploaded successfully.", false);
+            await loadType(state.type);
+          }).catch(function (error) {
+            setInfo(error.message, true);
+          });
+        });
+      }
+
+      if (alumniFileDelete) {
+        alumniFileDelete.addEventListener("click", async function () {
+          setInfo("Deleting alumni file...", false);
+          try {
+            var response = await api("/api/admin/people/alumni/upload", {
+              method: "DELETE",
+              headers: { Authorization: "Bearer " + token }
+            });
+            setInfo(response.message, false);
+            await loadType(state.type);
+          } catch (error) {
+            setInfo(error.message, true);
+          }
+        });
+      }
+
+      tabButtons.forEach(function (button) {
+        button.addEventListener("click", function () {
+          var nextType = button.getAttribute("data-type");
+          if (nextType === state.type) { return; }
+          loadType(nextType).catch(function (error) { setInfo(error.message, true); });
+        });
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        setInfo("Saving changes...", false);
+      try {
+          var payload = { summary: summaryInput.value };
+          payload.peopleGroups = state.peopleGroups.map(function (group) {
+            return {
+              id: group.id,
+              title: group.title,
+              items: group.items.map(function (person) {
+                return {
+                  id: person.id,
+                  name: person.name,
+                  designation: person.designation,
+                  office: person.office,
+                  email: person.email,
+                  topic: person.topic || "",
+                  category: person.category || "",
+                  photo: person.photo || ""
+                };
+              })
+            };
+          });
+          var response = await api("/api/admin/people/" + state.type, {
+            method: "PUT",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          setInfo(response.message, false);
+          await loadType(state.type);
+        } catch (error) {
+          setInfo(error.message, true);
+        }
+      });
+
+
+      try {
+        var me = await api("/api/auth/me");
+        if (String(me.user.role || "").toLowerCase() !== "superadmin") {
+          window.location.href = "./superadmin-dashboard.html";
+          return;
+        }
+        currentUserName.textContent = me.user.name;
+        userAvatar.textContent = String(me.user.name || "S").charAt(0).toUpperCase();
+        var requestedType = String(new URLSearchParams(window.location.search).get("type") || "alumni").trim().toLowerCase();
+        if (!typeMeta[requestedType]) { requestedType = "alumni"; }
+        await loadType(requestedType);
+      } catch (error) {
+        localStorage.removeItem("iitPortalToken");
+        localStorage.removeItem("iitPortalUser");
+        window.location.href = "/admin-login.html?role=superadmin";
+      }
+      setupMobileSidebar();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

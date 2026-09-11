@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Section Editor | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html" class="is-active"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input type="search" placeholder="Search..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <a class="superadmin-button-ghost" id="back-link" href="./superadmin-content.html">Back to Editor</a>
+            <h1 id="section-editor-title">Section Editor</h1>
+            <p id="section-editor-copy">Edit the full content and image for this section, with a live page preview below.</p>
+          </div>
+          <div class="superadmin-header-actions">
+            <a class="superadmin-button-secondary" id="preview-link" href="./index.html">Preview</a>
+          </div>
+        </section>
+
+        <section class="superadmin-card">
+          <div class="superadmin-card-header">
+            <h2>Live Page Preview</h2>
+          </div>
+          <div class="superadmin-card-body">
+            <div style="display:flex;gap:10px;align-items:center;justify-content:flex-end;margin-bottom:10px;">
+              <button class="superadmin-button-secondary" id="toggle-live-edit-button" type="button">Live Edit: ON</button>
+              <button class="superadmin-button-secondary" id="reload-preview-button" type="button">Reload Preview</button>
+              <a class="superadmin-button-secondary" id="open-preview-tab" href="./index.html" target="_blank" rel="noopener noreferrer">Open in New Tab</a>
+            </div>
+            <iframe id="section-page-preview" title="Live page preview" style="width:100%;height:420px;border:1px solid #dbe4f0;border-radius:10px;background:#fff;"></iframe>
+          </div>
+        </section>
+
+        <section class="superadmin-card">
+          <div class="superadmin-card-header">
+            <h2>Easy Image Picker</h2>
+          </div>
+          <div class="superadmin-card-body">
+            <p style="margin:0 0 10px;font-size:13px;color:#6f8099;">Pick any image from this page and apply it directly to section image.</p>
+            <div id="preview-image-picker" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;"></div>
+          </div>
+        </section>
+
+        <section class="superadmin-card">
+          <div class="superadmin-card-header">
+            <h2>Edit Full Section</h2>
+          </div>
+          <div class="superadmin-card-body">
+            <form id="section-editor-form" class="superadmin-form-grid columns-2">
+              <label>Page Title<input id="page-title-input" name="pageTitle" /></label>
+              <label>Page Status<select id="page-status-input" name="pageStatus"><option value="published">Published</option><option value="draft">Draft</option><option value="review">In Review</option></select></label>
+              <label>Section Title<input id="section-title-input" name="sectionTitle" /></label>
+              <label>Section Subtitle<input id="section-subtitle-input" name="sectionSubtitle" /></label>
+              <label class="superadmin-form-span">Full Section Content<textarea id="section-content-input" name="sectionContent" rows="16"></textarea></label>
+              <label class="superadmin-form-span">Change Image<input id="section-image-input" name="sectionImage" placeholder="image-name.png or image URL" /></label>
+              <label class="superadmin-form-span">Upload Image From Computer<input id="section-image-file-input" type="file" accept="image/*" /></label>
+              <div class="superadmin-form-span" id="iccmp-resource-fields" style="display:none;border:1px solid #dbe4f0;border-radius:8px;padding:14px;background:#f8fbff;">
+                <h3 style="margin:0 0 12px;font-size:15px;color:#10213a;">ICCMP Quick Link Resources</h3>
+                <div class="superadmin-form-grid columns-2">
+                  <label>YouTube Link<input id="section-youtube-link-input" name="sectionYoutubeLink" placeholder="https://www.youtube.com/watch?v=..." /></label>
+                  <label>PPT / Booklet Link<input id="section-ppt-link-input" name="sectionPptLink" placeholder="./uploads/programme.pptx or https://..." /></label>
+                  <label class="superadmin-form-span">Upload PPT / PPTX / PDF<input id="section-ppt-file-input" type="file" accept=".ppt,.pptx,.pdf,application/vnd.ms-powerpoint,application/vnd.openxmlformats-officedocument.presentationml.presentation,application/pdf" /></label>
+                </div>
+              </div>
+              <div class="superadmin-form-span superadmin-inline-actions">
+                <button class="superadmin-button-secondary" id="section-remove-image" type="button">Remove Image</button>
+                <button class="superadmin-button-secondary" id="section-restore-image" type="button">Restore Previous</button>
+              </div>
+              <label class="superadmin-form-span">Page Summary<textarea id="page-summary-input" name="pageSummary"></textarea></label>
+              <div class="superadmin-form-span superadmin-form-actions">
+                <button class="superadmin-button" type="submit">Save Section</button>
+              </div>
+            </form>
+            <p id="section-editor-message" class="superadmin-inline-message"></p>
+          </div>
+        </section>
+
+        <section class="superadmin-layout-split">
+          <article class="superadmin-card">
+            <div class="superadmin-card-header">
+              <h2>Section Overview</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <div class="superadmin-feed-item">
+                <div>
+                  <strong id="section-name">Selected Section</strong>
+                  <p id="section-route">/page.html</p>
+                </div>
+                <span class="superadmin-role-pill superadmin-role-superadmin" id="section-mode-pill">content</span>
+              </div>
+            </div>
+          </article>
+
+          <article class="superadmin-card">
+            <div class="superadmin-card-header">
+              <h2>Image Preview</h2>
+            </div>
+            <div class="superadmin-card-body">
+              <div class="superadmin-image-preview-wrap">
+                <img id="section-image-preview" class="superadmin-image-preview" alt="Section preview" />
+              </div>
+            </div>
+          </article>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var params = new URLSearchParams(window.location.search);
+      var pageId = String(params.get("page") || "").trim();
+      var sectionId = String(params.get("section") || "").trim();
+      var mode = String(params.get("mode") || "content").trim().toLowerCase();
+      if (!pageId || !sectionId) { window.location.href = "./superadmin-content.html"; return; }
+
+      var form = document.getElementById("section-editor-form");
+      var pageTitleInput = document.getElementById("page-title-input");
+      var pageStatusInput = document.getElementById("page-status-input");
+      var sectionTitleInput = document.getElementById("section-title-input");
+      var sectionSubtitleInput = document.getElementById("section-subtitle-input");
+      var sectionContentInput = document.getElementById("section-content-input");
+      var sectionImageInput = document.getElementById("section-image-input");
+      var sectionImageFileInput = document.getElementById("section-image-file-input");
+      var iccmpResourceFields = document.getElementById("iccmp-resource-fields");
+      var sectionYoutubeLinkInput = document.getElementById("section-youtube-link-input");
+      var sectionPptLinkInput = document.getElementById("section-ppt-link-input");
+      var sectionPptFileInput = document.getElementById("section-ppt-file-input");
+      var removeImageButton = document.getElementById("section-remove-image");
+      var restoreImageButton = document.getElementById("section-restore-image");
+      var pageSummaryInput = document.getElementById("page-summary-input");
+      var message = document.getElementById("section-editor-message");
+      var titleLabel = document.getElementById("section-editor-title");
+      var copyLabel = document.getElementById("section-editor-copy");
+      var sectionName = document.getElementById("section-name");
+      var sectionRoute = document.getElementById("section-route");
+      var modePill = document.getElementById("section-mode-pill");
+      var imagePreview = document.getElementById("section-image-preview");
+      var previewLink = document.getElementById("preview-link");
+      var openPreviewTab = document.getElementById("open-preview-tab");
+      var pagePreviewFrame = document.getElementById("section-page-preview");
+      var reloadPreviewButton = document.getElementById("reload-preview-button");
+      var toggleLiveEditButton = document.getElementById("toggle-live-edit-button");
+      var previewImagePicker = document.getElementById("preview-image-picker");
+      var backLink = document.getElementById("back-link");
+      var userName = document.getElementById("current-user-name");
+      var userAvatar = document.getElementById("user-avatar");
+      var pageCache = null;
+      var homepageCache = null;
+      var savedSectionImage = "";
+      var liveEditEnabled = true;
+      var selectedPreviewTextEl = null;
+      var selectedPreviewImageEl = null;
+
+      function updateLiveEditButton() {
+        toggleLiveEditButton.textContent = "Live Edit: " + (liveEditEnabled ? "ON" : "OFF");
+      }
+
+      function clearPreviewSelection() {
+        if (selectedPreviewTextEl) {
+          selectedPreviewTextEl.style.outline = "";
+          selectedPreviewTextEl.style.outlineOffset = "";
+        }
+        if (selectedPreviewImageEl) {
+          selectedPreviewImageEl.style.outline = "";
+          selectedPreviewImageEl.style.outlineOffset = "";
+        }
+        selectedPreviewTextEl = null;
+        selectedPreviewImageEl = null;
+      }
+
+      function highlightElement(el, color) {
+        if (!el) { return; }
+        el.style.outline = "2px solid " + color;
+        el.style.outlineOffset = "2px";
+      }
+
+      function bindPreviewLiveEditing() {
+        var doc = pagePreviewFrame.contentDocument;
+        if (!doc || !doc.body) { return; }
+        clearPreviewSelection();
+        doc.body.style.cursor = liveEditEnabled ? "crosshair" : "";
+
+        doc.addEventListener("click", function (event) {
+          if (!liveEditEnabled) { return; }
+          event.preventDefault();
+          event.stopPropagation();
+          var target = event.target;
+          if (!target) { return; }
+          clearPreviewSelection();
+
+          var img = target.closest && target.closest("img");
+          if (img) {
+            selectedPreviewImageEl = img;
+            highlightElement(img, "#2563eb");
+            sectionImageInput.value = img.getAttribute("src") || img.src || "";
+            refreshPreview(sectionImageInput.value);
+            message.classList.remove("is-error");
+            message.textContent = "Image selected from preview. Change image and save.";
+            return;
+          }
+
+          var textEl = target.closest && target.closest("h1,h2,h3,h4,h5,h6,p,li,span,a,strong,em,figcaption");
+          if (textEl) {
+            selectedPreviewTextEl = textEl;
+            highlightElement(textEl, "#16a34a");
+            var text = String(textEl.textContent || "").trim();
+            if (text) {
+              sectionContentInput.value = text;
+              if (/^h[1-6]$/i.test(textEl.tagName)) {
+                sectionTitleInput.value = text;
+              }
+            }
+            message.classList.remove("is-error");
+            message.textContent = "Text selected from preview. Edit content and save.";
+          }
+        }, true);
+      }
+
+      function renderPreviewImagePicker() {
+        var doc = pagePreviewFrame.contentDocument;
+        if (!doc || !doc.body) {
+          previewImagePicker.innerHTML = "";
+          return;
+        }
+        var images = Array.prototype.slice.call(doc.querySelectorAll("img"))
+          .map(function (img, index) {
+            return {
+              index: index + 1,
+              src: img.getAttribute("src") || img.src || "",
+              alt: img.getAttribute("alt") || "",
+              element: img
+            };
+          })
+          .filter(function (item) { return item.src; });
+
+        if (!images.length) {
+          previewImagePicker.innerHTML = '<p style="margin:0;color:#7a8ba3;">No images found on this page.</p>';
+          return;
+        }
+
+        previewImagePicker.innerHTML = images.map(function (item) {
+          return [
+            '<article style="border:1px solid #dbe4f0;border-radius:10px;padding:8px;background:#fff;">',
+            '<img src="' + item.src.replace(/"/g, "&quot;") + '" alt="' + String(item.alt || "Preview image").replace(/"/g, "&quot;") + '" style="width:100%;height:96px;object-fit:cover;border-radius:8px;border:1px solid #e5edf6;" />', 
+            '<p style="margin:8px 0 6px;font-size:12px;color:#6f8099;line-height:1.3;">Image ' + item.index + '</p>',
+            '<button class="superadmin-button-secondary" type="button" data-pick-preview-image="' + (item.index - 1) + '" style="width:100%;">Use This Image</button>',
+            '</article>'
+          ].join("");
+        }).join("");
+      }
+
+      function fallbackImage() {
+        return "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      }
+
+      function normalizeSections(page) {
+        return (page.sections || []).map(function (section, index) {
+          return {
+            id: String(section.id || "section-" + (index + 1)),
+            title: String(section.title || ""),
+            subtitle: String(section.subtitle || ""),
+            content: String(section.content || ""),
+            image: String(section.image || ""),
+            youtubeLink: String(section.youtubeLink || ""),
+            pptLink: String(section.pptLink || "")
+          };
+        });
+      }
+
+      function currentSection() {
+        if (!pageCache || !Array.isArray(pageCache.sections)) { return null; }
+        return pageCache.sections.find(function (section) { return section.id === sectionId; }) || null;
+      }
+
+      function refreshPreview(value) {
+        imagePreview.src = value || fallbackImage();
+      }
+
+      async function uploadImageFile(file) {
+        var reader = new FileReader();
+        var dataUrl = await new Promise(function (resolve, reject) {
+          reader.onload = function () { resolve(String(reader.result || "")); };
+          reader.onerror = function () { reject(new Error("Image file could not be read.")); };
+          reader.readAsDataURL(file);
+        });
+        var response = await api("/api/superadmin/uploads/image", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: file.name,
+            dataUrl: dataUrl
+          })
+        });
+        return response.imagePath || "";
+      }
+
+      async function uploadPresentationFile(file) {
+        var reader = new FileReader();
+        var dataUrl = await new Promise(function (resolve, reject) {
+          reader.onload = function () { resolve(String(reader.result || "")); };
+          reader.onerror = function () { reject(new Error("Presentation file could not be read.")); };
+          reader.readAsDataURL(file);
+        });
+        var response = await api("/api/superadmin/uploads/presentation", {
+          method: "POST",
+          headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+          body: JSON.stringify({
+            fileName: file.name,
+            dataUrl: dataUrl
+          })
+        });
+        return response.presentationPath || "";
+      }
+
+      function syncIccmpResourceLinks(section) {
+        var doc = pagePreviewFrame.contentDocument;
+        if (!doc || !section || pageId !== "page-iccmp-2026" || sectionId !== "iccmp-2026-overview") {
+          return;
+        }
+        var youtubeItem = doc.getElementById("iccmp-youtube-link-item");
+        var youtubeAnchor = doc.getElementById("iccmp-youtube-link");
+        var pptAnchor = doc.getElementById("iccmp-ppt-link");
+        if (youtubeItem && youtubeAnchor) {
+          youtubeItem.style.display = section.youtubeLink ? "" : "none";
+          youtubeAnchor.href = section.youtubeLink || "#";
+        }
+        if (pptAnchor) {
+          pptAnchor.href = section.pptLink || "#";
+          pptAnchor.textContent = section.pptLink ? "Programme Booklet / PPT" : "Programme Booklet";
+          if (section.pptLink) {
+            pptAnchor.setAttribute("target", "_blank");
+            pptAnchor.setAttribute("rel", "noopener noreferrer");
+          }
+        }
+      }
+
+      function syncHomepageHeroImage(section) {
+        if (!homepageCache || pageId !== "page-home" || !section) {
+          return;
+        }
+        homepageCache.heroImages = Array.isArray(homepageCache.heroImages) ? homepageCache.heroImages.slice(0, 3) : [];
+        while (homepageCache.heroImages.length < 3) {
+          homepageCache.heroImages.push("");
+        }
+        if (section.id === "home-hero") {
+          homepageCache.heroImages[0] = section.image || homepageCache.heroImages[0] || "";
+        } else if (section.id === "home-announcements") {
+          homepageCache.heroImages[1] = section.image || homepageCache.heroImages[1] || "";
+        } else if (section.id === "home-news") {
+          homepageCache.heroImages[2] = section.image || homepageCache.heroImages[2] || "";
+        }
+      }
+
+      function fill() {
+        var section = currentSection();
+        if (!pageCache || !section) { return; }
+        document.title = section.title + " | IIT Portal";
+        titleLabel.textContent = section.title + " Editor";
+        copyLabel.textContent = mode === "image"
+          ? "Change the image for this section and save your updates."
+          : (pageId === "page-about" && sectionId === "about-overview"
+            ? "Edit the full Department Overview text here. This section powers the main history content on the public About page."
+            : "Edit the full content and image for this section.");
+        sectionName.textContent = section.title || "Section";
+        sectionRoute.textContent = pageCache.route || "/page.html";
+        modePill.textContent = mode === "image" ? "image" : "content";
+        previewLink.href = pageCache.route || "./index.html";
+        openPreviewTab.href = pageCache.route || "./index.html";
+        pagePreviewFrame.src = (pageCache.route || "./index.html") + (String(pageCache.route || "").indexOf("?") === -1 ? "?" : "&") + "from=superadmin-preview";
+        backLink.href = "./superadmin-page-editor.html?id=" + encodeURIComponent(pageId);
+        pageTitleInput.value = pageCache.title || "";
+        pageStatusInput.value = pageCache.status || "draft";
+        pageSummaryInput.value = pageCache.summary || "";
+        sectionTitleInput.value = section.title || "";
+        sectionSubtitleInput.value = section.subtitle || "";
+        sectionContentInput.value = section.content || "";
+        sectionImageInput.value = section.image || "";
+        if (iccmpResourceFields) {
+          iccmpResourceFields.style.display = pageId === "page-iccmp-2026" && sectionId === "iccmp-2026-overview" ? "block" : "none";
+        }
+        if (sectionYoutubeLinkInput) {
+          sectionYoutubeLinkInput.value = section.youtubeLink || "";
+        }
+        if (sectionPptLinkInput) {
+          sectionPptLinkInput.value = section.pptLink || "";
+        }
+        refreshPreview(section.image);
+        restoreImageButton.disabled = !savedSectionImage;
+        if (mode === "image") {
+          window.setTimeout(function () { sectionImageInput.focus(); }, 0);
+        } else {
+          window.setTimeout(function () { sectionContentInput.focus(); }, 0);
+        }
+      }
+
+      async function api(path, options) {
+        var config = Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {});
+        var response = await fetch(window.location.origin + path, config);
+        var raw = await response.text();
+        var data = {};
+      try {
+          data = raw ? JSON.parse(raw) : {};
+        } catch (error) {
+          if (response.ok) {
+            throw new Error("Server returned an invalid response.");
+          }
+          if (raw && /<!doctype html|<html/i.test(raw)) {
+            throw new Error("Upload endpoint is unavailable. Restart the backend server and try again.");
+          }
+          throw new Error("Server returned an invalid response.");
+        }
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      async function load() {
+        var content = await api("/api/superadmin/content");
+        var pages = (content.content && content.content.pages) ? content.content.pages : [];
+        var page = pages.find(function (item) { return item.id === pageId; });
+        if (!page) { throw new Error("Page content item not found."); }
+        pageCache = {
+          id: page.id,
+          route: page.route || "",
+          title: page.title || "",
+          status: page.status || "draft",
+          summary: page.summary || "",
+          draft: page.draft || "",
+          sections: normalizeSections(page)
+        };
+        savedSectionImage = (currentSection() && currentSection().image) || "";
+        if (pageId === "page-home") {
+          homepageCache = content.content.homepage || {};
+        }
+        if (!currentSection()) { throw new Error("Section not found."); }
+        fill();
+      }
+
+      sectionImageInput.addEventListener("input", function () {
+        refreshPreview(sectionImageInput.value);
+        if (liveEditEnabled && selectedPreviewImageEl && sectionImageInput.value) {
+          selectedPreviewImageEl.src = sectionImageInput.value;
+        }
+      });
+
+      sectionContentInput.addEventListener("input", function () {
+        if (liveEditEnabled && selectedPreviewTextEl) {
+          selectedPreviewTextEl.textContent = sectionContentInput.value;
+        }
+      });
+
+      sectionImageFileInput.addEventListener("change", function () {
+        var file = sectionImageFileInput.files && sectionImageFileInput.files[0];
+        if (!file) { return; }
+        message.classList.remove("is-error");
+        message.textContent = "Uploading image...";
+        var localPreview = URL.createObjectURL(file);
+        refreshPreview(localPreview);
+        uploadImageFile(file).then(function (imagePath) {
+          sectionImageInput.value = imagePath;
+          refreshPreview(imagePath);
+          if (liveEditEnabled && selectedPreviewImageEl) {
+            selectedPreviewImageEl.src = imagePath;
+          }
+          message.classList.remove("is-error");
+          message.textContent = "Image uploaded. Save section to publish it.";
+          URL.revokeObjectURL(localPreview);
+        }).catch(function (error) {
+          URL.revokeObjectURL(localPreview);
+          refreshPreview(sectionImageInput.value);
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        });
+      });
+
+      if (sectionYoutubeLinkInput) {
+        sectionYoutubeLinkInput.addEventListener("input", function () {
+          var section = currentSection();
+          if (!section) { return; }
+          section.youtubeLink = sectionYoutubeLinkInput.value.trim();
+          syncIccmpResourceLinks(section);
+        });
+      }
+
+      if (sectionPptLinkInput) {
+        sectionPptLinkInput.addEventListener("input", function () {
+          var section = currentSection();
+          if (!section) { return; }
+          section.pptLink = sectionPptLinkInput.value.trim();
+          syncIccmpResourceLinks(section);
+        });
+      }
+
+      if (sectionPptFileInput) {
+        sectionPptFileInput.addEventListener("change", function () {
+          var file = sectionPptFileInput.files && sectionPptFileInput.files[0];
+          if (!file) { return; }
+          message.classList.remove("is-error");
+          message.textContent = "Uploading presentation...";
+          uploadPresentationFile(file).then(function (presentationPath) {
+            sectionPptLinkInput.value = presentationPath;
+            var section = currentSection();
+            if (section) {
+              section.pptLink = presentationPath;
+              syncIccmpResourceLinks(section);
+            }
+            message.classList.remove("is-error");
+            message.textContent = "Presentation uploaded. Save section to publish it.";
+          }).catch(function (error) {
+            message.classList.add("is-error");
+            message.textContent = error.message;
+          });
+        });
+      }
+
+      removeImageButton.addEventListener("click", function () {
+        sectionImageInput.value = "";
+        refreshPreview("");
+        message.classList.remove("is-error");
+        message.textContent = "Image removed. Save section to apply the change.";
+      });
+
+      restoreImageButton.addEventListener("click", function () {
+        sectionImageInput.value = savedSectionImage || "";
+        refreshPreview(sectionImageInput.value);
+        message.classList.remove("is-error");
+        message.textContent = "Previous saved image restored in the editor.";
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        var section = currentSection();
+        if (!section) { return; }
+
+      try {
+          pageCache.title = pageTitleInput.value;
+          pageCache.status = pageStatusInput.value;
+          pageCache.summary = pageSummaryInput.value;
+          section.title = sectionTitleInput.value;
+          section.subtitle = sectionSubtitleInput.value;
+          section.content = sectionContentInput.value;
+          section.image = sectionImageInput.value;
+          if (pageId === "page-iccmp-2026" && sectionId === "iccmp-2026-overview") {
+            section.youtubeLink = sectionYoutubeLinkInput.value.trim();
+            section.pptLink = sectionPptLinkInput.value.trim();
+          }
+          syncHomepageHeroImage(section);
+          syncIccmpResourceLinks(section);
+
+          await api("/api/superadmin/content/pages/" + pageId, {
+            method: "PUT",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({
+              title: pageCache.title,
+              status: pageCache.status,
+              summary: pageCache.summary,
+              draft: pageCache.sections.map(function (item) { return item.content; }).join("\n\n"),
+              sections: pageCache.sections
+            })
+          });
+
+          if (pageId === "page-home") {
+            homepageCache.heroTitle = pageTitleInput.value;
+            homepageCache.heroDescription = pageCache.sections[0] ? pageCache.sections[0].content : "";
+            await api("/api/superadmin/content/homepage", {
+              method: "PUT",
+              headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+              body: JSON.stringify({
+                heroTitle: homepageCache.heroTitle || "",
+                heroSubtitle: homepageCache.heroSubtitle || "",
+                heroPlacement: homepageCache.heroPlacement || "left",
+                heroDescription: homepageCache.heroDescription || "",
+                announcementsTitle: homepageCache.announcementsTitle || "",
+                heroImages: Array.isArray(homepageCache.heroImages) ? homepageCache.heroImages : []
+              })
+            });
+          }
+
+          savedSectionImage = section.image || "";
+          message.classList.remove("is-error");
+          message.textContent = "Section updated successfully.";
+          fill();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        }
+      });
+
+      reloadPreviewButton.addEventListener("click", function () {
+        if (!pagePreviewFrame.src) {
+          return;
+        }
+        pagePreviewFrame.src = pagePreviewFrame.src;
+      });
+
+      previewImagePicker.addEventListener("click", function (event) {
+        var button = event.target.closest("[data-pick-preview-image]");
+        if (!button) { return; }
+        var doc = pagePreviewFrame.contentDocument;
+        if (!doc) { return; }
+        var images = doc.querySelectorAll("img");
+        var index = Number(button.getAttribute("data-pick-preview-image"));
+        var targetImage = images[index];
+        if (!targetImage) { return; }
+        clearPreviewSelection();
+        selectedPreviewImageEl = targetImage;
+        highlightElement(selectedPreviewImageEl, "#2563eb");
+        sectionImageInput.value = targetImage.getAttribute("src") || targetImage.src || "";
+        refreshPreview(sectionImageInput.value);
+        message.classList.remove("is-error");
+        message.textContent = "Image selected from Easy Image Picker.";
+      });
+
+      toggleLiveEditButton.addEventListener("click", function () {
+        liveEditEnabled = !liveEditEnabled;
+        updateLiveEditButton();
+        var doc = pagePreviewFrame.contentDocument;
+        if (doc && doc.body) {
+          doc.body.style.cursor = liveEditEnabled ? "crosshair" : "";
+        }
+      });
+
+      pagePreviewFrame.addEventListener("load", function () {
+        bindPreviewLiveEditing();
+        renderPreviewImagePicker();
+        syncIccmpResourceLinks(currentSection());
+      });
+
+
+      try {
+        updateLiveEditButton();
+        var me = await api("/api/auth/me");
+        userName.textContent = me.user.name;
+        userAvatar.textContent = String(me.user.name || "S").charAt(0).toUpperCase();
+        await load();
+      } catch (error) {
+        localStorage.removeItem("iitPortalToken");
+        localStorage.removeItem("iitPortalUser");
+        window.location.href = "/admin-login.html?role=superadmin";
+      }
+      setupMobileSidebar();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

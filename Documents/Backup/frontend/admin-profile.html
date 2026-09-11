@@ -1,0 +1,855 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Edit Profile | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .portal-rich-field textarea {
+      display: none;
+    }
+    .portal-interest-field textarea {
+      display: none;
+    }
+    .portal-interest-picker {
+      position: relative;
+      border: 1px solid #c7d3e3;
+      border-radius: 12px;
+      background: #fff;
+      padding: 8px;
+      overflow: visible;
+    }
+    .portal-interest-picker > summary {
+      list-style: none;
+    }
+    .portal-interest-picker > summary::-webkit-details-marker {
+      display: none;
+    }
+    .portal-interest-display {
+      min-height: 42px;
+      border: 1px solid #d7e2f1;
+      border-radius: 10px;
+      padding: 6px 40px 6px 8px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      cursor: pointer;
+      position: relative;
+    }
+    .portal-interest-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 4px 9px;
+      border: 1px solid #c8d7f5;
+      background: #eef4ff;
+      font-size: 12px;
+      line-height: 1;
+      color: #1b3f8f;
+    }
+    .portal-interest-chip button {
+      border: 0;
+      background: transparent;
+      cursor: pointer;
+      color: inherit;
+      font-size: 12px;
+      line-height: 1;
+      padding: 0;
+    }
+    .portal-interest-placeholder {
+      color: #7a8699;
+      font-size: 14px;
+    }
+    .portal-interest-caret {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #6b7b92;
+      pointer-events: none;
+    }
+    .portal-interest-panel {
+      position: static;
+      margin-top: 8px;
+      border: 1px solid #d7e2f1;
+      border-radius: 10px;
+      background: #fff;
+      padding: 8px;
+      display: none;
+      z-index: 60;
+      box-shadow: 0 12px 24px rgba(27, 53, 96, 0.15);
+    }
+    .portal-interest-picker.is-open .portal-interest-panel {
+      display: block;
+    }
+    .portal-interest-search {
+      width: 100%;
+      border: 1px solid #d3deee;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font: inherit;
+      margin-bottom: 8px;
+    }
+    .portal-interest-options {
+      max-height: 180px;
+      overflow: auto;
+      border: 1px solid #e3eaf6;
+      border-radius: 8px;
+    }
+    .portal-interest-option {
+      padding: 8px 10px;
+      cursor: pointer;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .portal-interest-option:hover {
+      background: #f5f8ff;
+    }
+    .portal-interest-option.is-selected {
+      background: #eaf2ff;
+      color: #1b3f8f;
+      font-weight: 600;
+    }
+    .portal-interest-custom {
+      display: flex;
+      gap: 8px;
+      margin-top: 8px;
+    }
+    .portal-interest-custom input {
+      flex: 1;
+      border: 1px solid #d3deee;
+      border-radius: 8px;
+      padding: 8px 10px;
+      font: inherit;
+    }
+    .portal-interest-custom button {
+      border: 1px solid #c8d7f5;
+      background: #eef4ff;
+      color: #1b3f8f;
+      border-radius: 8px;
+      padding: 8px 10px;
+      cursor: pointer;
+      font-weight: 600;
+    }
+
+    .portal-rich-editor-wrap {
+      border: 1px solid #c7d3e3;
+      border-radius: 12px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .portal-rich-toolbar {
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 8px;
+      border-bottom: 1px solid #d8e2ef;
+      background: #f6f8fb;
+    }
+
+    .portal-rich-toolbar button {
+      border: 1px solid #c7d3e3;
+      background: #fff;
+      border-radius: 8px;
+      padding: 4px 8px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    .portal-rich-toolbar input[type="color"] {
+      width: 28px;
+      height: 28px;
+      border: 1px solid #c7d3e3;
+      border-radius: 6px;
+      padding: 0;
+      background: #fff;
+      cursor: pointer;
+    }
+
+    .portal-rich-editor {
+      min-height: 120px;
+      padding: 10px 12px;
+      outline: none;
+      line-height: 1.45;
+    }
+    .portal-custom-sections {
+      display: grid;
+      gap: 16px;
+    }
+    .portal-custom-section-card {
+      border: 1px solid #d8e2ef;
+      border-radius: 16px;
+      padding: 16px;
+      background: #f9fbff;
+      display: grid;
+      gap: 12px;
+    }
+    .portal-custom-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .portal-custom-section-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 600;
+      color: #183153;
+    }
+    .portal-custom-section-remove {
+      border: 1px solid #e3b7b7;
+      background: #fff5f5;
+      color: #a33a3a;
+      border-radius: 8px;
+      padding: 6px 10px;
+      cursor: pointer;
+      font: inherit;
+    }
+    .portal-custom-empty {
+      margin: 0;
+      color: #65748b;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body class="portal-dashboard-page">
+  <div class="portal-dashboard-layout">
+    <aside class="portal-sidebar">
+      <div class="portal-sidebar-brand"><div class="portal-sidebar-logo"><svg viewBox="0 0 24 24"><path d="M12 4 4 8l8 4 8-4-8-4Zm-5.5 6.25V14L12 17l5.5-3v-3.75L12 13l-5.5-2.75Z" /></svg></div><div><strong>IIT Portal</strong><span>Internal Dashboard</span></div></div>
+      <nav class="portal-sidebar-nav" aria-label="Sidebar navigation">
+        <div class="portal-sidebar-group"><p>Overview</p><a href="./admin-dashboard.html">Dashboard</a></div>
+        <div class="portal-sidebar-group"><p>Information</p><a href="./admin-notices.html">Notices</a><a href="./admin-notices.html?category=General">General Notices</a><a href="./admin-notices.html?category=Academic">Academic Notices</a><a href="./admin-notices.html?category=Administrative">Administrative Notices</a><a href="./admin-module.html?module=forms-documents&title=Forms%20%26%20Documents">Forms &amp; Documents</a></div>
+        <div class="portal-sidebar-group"><p>Faculty</p><a href="./admin-module.html?module=faculty-zone&title=Faculty%20Zone">Faculty Zone</a><a href="./admin-bookings.html?type=seminar">Seminar Requests</a><a href="./admin-bookings.html?type=zoom">Room Booking</a><a href="./admin-profile.html" class="is-active">Edit Profile</a><a href="./admin-notices.html?category=Faculty">Faculty Notices</a></div>
+        <div class="portal-sidebar-group"><p>Services</p><a href="./admin-tickets.html">CMSTS</a><a href="./admin-tickets.html">Raise Ticket</a><a href="./admin-tickets.html">Track Status</a><a href="./facility-booking.html">Facility Booking</a><a href="./admin-module.html?module=computational-access&title=Computational%20Access">Computational Access</a></div>
+      </nav>
+      <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
+    </aside>
+    <main class="portal-main portal-module-main">
+      <section class="portal-page-shell">
+        <div class="portal-page-header"><div><h1 class="portal-page-title">Edit Profile</h1></div><p class="portal-page-copy">Update your faculty profile and information.</p></div>
+        <section class="portal-panel portal-profile-panel">
+          <div class="portal-profile-card">
+            <div class="portal-profile-summary">
+              <div class="portal-profile-avatar" id="profile-avatar">U</div>
+              <div class="portal-profile-summary-copy">
+                <h2 id="profile-summary-name">Faculty Member</h2>
+                <p id="profile-summary-role">Department of Physics</p>
+              </div>
+            </div>
+            <form id="profile-form" class="portal-form-grid portal-profile-grid">
+              <label>Full Name*<input class="portal-input" name="name" required /></label>
+              <label>Email*<input class="portal-input" name="email" readonly /></label>
+              <label>Department*<input class="portal-input" name="department" required /></label>
+              <label>Designation*<input class="portal-input" name="designation" required /></label>
+              <label>Phone*<input class="portal-input" name="phone" required /></label>
+              <label>Office*<input class="portal-input" name="office" required /></label>
+              <label>Sub-group<input class="portal-input" name="subgroup" /></label>
+              <label class="portal-interest-field">Research Interest
+                <textarea class="portal-textarea portal-textarea-compact" name="researchInterest"></textarea>
+                <details id="interest-picker" class="portal-interest-picker">
+                  <summary id="interest-display" class="portal-interest-display" aria-expanded="false">
+                    <span class="portal-interest-placeholder">Select or type research interests</span>
+                    <span class="portal-interest-caret">v</span>
+                  </summary>
+                  <div class="portal-interest-panel">
+                    <input id="interest-search" class="portal-interest-search" type="text" placeholder="Search..." />
+                    <div id="interest-options" class="portal-interest-options"></div>
+                    <div class="portal-interest-custom">
+                      <input id="interest-custom-input" type="text" placeholder="Add custom interest" />
+                      <button id="interest-custom-add" type="button">Add</button>
+                    </div>
+                  </div>
+                </details>
+              </label>
+              <label class="portal-rich-field">Biography<textarea class="portal-textarea portal-textarea-compact" name="bio"></textarea></label>
+              <label class="portal-rich-field">Research Team (Postdocs)<textarea class="portal-textarea portal-textarea-compact" name="researchTeamPostdocs" placeholder="One entry per line: Name &lt;email@iitkgp.ac.in&gt; or Name"></textarea></label>
+              <label class="portal-rich-field">Research Team (Students)<textarea class="portal-textarea portal-textarea-compact" name="researchTeamStudents" placeholder="One entry per line: Name &lt;email@iitkgp.ac.in&gt; or Name"></textarea></label>
+              <label class="portal-rich-field">Publications<textarea class="portal-textarea portal-textarea-compact" name="publications" placeholder="One publication per line. Use URL directly or Title | URL"></textarea></label>
+              <label class="portal-form-span"><input type="checkbox" name="showCoursesTaught" /> Show Courses Taught on public faculty page</label>
+              <label class="portal-rich-field portal-form-span">Courses Taught<textarea class="portal-textarea portal-textarea-compact" name="coursesTaught" placeholder="Only shown when enabled above"></textarea></label>
+              <label class="portal-form-span"><input type="checkbox" name="showIndustryCollaborations" /> Show Industry Collaborations on public faculty page</label>
+              <label class="portal-rich-field portal-form-span">Industry Collaborations<textarea class="portal-textarea portal-textarea-compact" name="industryCollaborations" placeholder="Only shown when enabled above"></textarea></label>
+              <label class="portal-form-span"><input type="checkbox" name="showAwardsAndHonors" /> Show Awards and Honors on public faculty page</label>
+              <label class="portal-rich-field portal-form-span">Awards and Honors<textarea class="portal-textarea portal-textarea-compact" name="awardsAndHonors" placeholder="Only shown when enabled above"></textarea></label>
+              <div class="portal-form-span">
+                <div class="portal-custom-section-header">
+                  <div>
+                    <p class="portal-custom-section-title">Additional Sections</p>
+                    <p class="portal-custom-empty">Add extra profile sections. Empty ones will stay hidden on the public page.</p>
+                  </div>
+                  <button class="portal-button portal-button-secondary" id="add-custom-section-button" type="button">Add Section</button>
+                </div>
+                <div id="custom-sections-list" class="portal-custom-sections"></div>
+              </div>
+              <label class="portal-form-span">Profile Photo<input class="portal-input" id="photo-input" type="file" accept="image/*" /></label>
+              <div class="portal-profile-footer portal-form-span">
+                <div class="portal-photo-preview-wrap">
+                  <img id="photo-preview" class="portal-photo-preview" alt="Profile preview" />
+                  <button class="portal-button portal-button-secondary" id="remove-photo-button" type="button">Remove Photo</button>
+                </div>
+                <button class="portal-button portal-profile-submit" type="submit">Publish</button>
+              </div>
+            </form>
+            <p class="portal-inline-message" id="profile-message"></p>
+          </div>
+        </section>
+      </section>
+    </main>
+  </div>
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      
+      function setupMobilePortalSidebar() {
+        var sidebar = document.querySelector(".portal-sidebar");
+        var menuButton = document.querySelector(".portal-menu-button");
+        if (!sidebar || !menuButton) { return; }
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      setupMobilePortalSidebar();
+
+      if (!token) { window.location.href = "/admin-login.html"; return; }
+      var form = document.getElementById("profile-form");
+      var message = document.getElementById("profile-message");
+      var photoInput = document.getElementById("photo-input");
+      var preview = document.getElementById("photo-preview");
+      var removePhotoButton = document.getElementById("remove-photo-button");
+      var addCustomSectionButton = document.getElementById("add-custom-section-button");
+      var customSectionsList = document.getElementById("custom-sections-list");
+      var profileAvatar = document.getElementById("profile-avatar");
+      var profileSummaryName = document.getElementById("profile-summary-name");
+      var profileSummaryRole = document.getElementById("profile-summary-role");
+      var photoDataUrl = "";
+      var richEditors = [];
+      var customSectionEditors = [];
+      var customSectionIdCounter = 0;
+      var researchInterestOptions = [
+        "Artificial Intelligence",
+        "Quantum Computing",
+        "Data Science",
+        "Astro Physics",
+        "Machine Learning",
+        "Cybersecurity",
+        "Condensed Matter Physics",
+        "High Energy Physics",
+        "Nano Science",
+        "Biophysics"
+      ];
+      var selectedInterests = [];
+      var emptyPreview = "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==";
+      var interestPicker = document.getElementById("interest-picker");
+      var interestDisplay = document.getElementById("interest-display");
+      var interestPanel = interestPicker ? interestPicker.querySelector(".portal-interest-panel") : null;
+      var interestSearch = document.getElementById("interest-search");
+      var interestOptionsRoot = document.getElementById("interest-options");
+      var interestCustomInput = document.getElementById("interest-custom-input");
+      var interestCustomAdd = document.getElementById("interest-custom-add");
+      var fields = {
+        name: form.elements.namedItem("name"),
+        email: form.elements.namedItem("email"),
+        department: form.elements.namedItem("department"),
+        designation: form.elements.namedItem("designation"),
+        phone: form.elements.namedItem("phone"),
+        office: form.elements.namedItem("office"),
+        subgroup: form.elements.namedItem("subgroup"),
+        researchInterest: form.elements.namedItem("researchInterest"),
+        bio: form.elements.namedItem("bio"),
+        researchTeamPostdocs: form.elements.namedItem("researchTeamPostdocs"),
+        researchTeamStudents: form.elements.namedItem("researchTeamStudents"),
+        publications: form.elements.namedItem("publications"),
+        coursesTaught: form.elements.namedItem("coursesTaught"),
+        industryCollaborations: form.elements.namedItem("industryCollaborations"),
+        awardsAndHonors: form.elements.namedItem("awardsAndHonors"),
+        showCoursesTaught: form.elements.namedItem("showCoursesTaught"),
+        showIndustryCollaborations: form.elements.namedItem("showIndustryCollaborations"),
+        showAwardsAndHonors: form.elements.namedItem("showAwardsAndHonors")
+      };
+
+      async function api(path, options) {
+        var response = await fetch(window.location.origin + path, Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {}));
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function updateProfileSummary() {
+        var name = String(fields.name.value || "Faculty Member").trim();
+        var designation = String(fields.designation.value || "").trim();
+        var department = String(fields.department.value || "Department of Physics").trim();
+        var initials = name.split(/\s+/).filter(Boolean).slice(0, 2).map(function (part) { return part.charAt(0).toUpperCase(); }).join("") || "U";
+        profileAvatar.textContent = initials;
+        profileSummaryName.textContent = name;
+        profileSummaryRole.textContent = [designation, department].filter(Boolean).join(", ");
+      }
+
+      function normalizeInterest(value) {
+        return String(value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim();
+      }
+
+      function splitInterests(value) {
+        return String(value || "")
+          .split(/[,\n]/)
+          .map(function (item) { return normalizeInterest(item); })
+          .filter(Boolean);
+      }
+
+      function syncResearchInterestField() {
+        fields.researchInterest.value = selectedInterests.join(", ");
+      }
+
+      function renderInterestDisplay() {
+        if (!interestDisplay) { return; }
+        var chips = selectedInterests.map(function (item, index) {
+          return '<span class="portal-interest-chip">' + item.replace(/[&<>"']/g, function (char) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[char]; }) + '<button type="button" data-remove-index="' + index + '">x</button></span>';
+        }).join("");
+        interestDisplay.innerHTML = chips || '<span class="portal-interest-placeholder">Select or type research interests</span>';
+        interestDisplay.insertAdjacentHTML("beforeend", '<span class="portal-interest-caret">v</span>');
+      }
+
+      function renderInterestOptions() {
+        if (!interestOptionsRoot) { return; }
+        var searchValue = normalizeInterest(interestSearch.value).toLowerCase();
+        var available = researchInterestOptions.filter(function (option) {
+          return !searchValue || option.toLowerCase().indexOf(searchValue) !== -1;
+        });
+        interestOptionsRoot.innerHTML = available.length ? available.map(function (option) {
+          var selected = selectedInterests.indexOf(option) !== -1;
+          return '<div class="portal-interest-option' + (selected ? ' is-selected' : '') + '" data-option="' + option.replace(/"/g, "&quot;") + '"><input type="checkbox" ' + (selected ? "checked" : "") + " />" + option + '</div>';
+        }).join("") : '<div class="portal-interest-option">No results found</div>';
+      }
+
+      function setInterests(values) {
+        var seen = {};
+        selectedInterests = values.map(function (value) { return normalizeInterest(value); }).filter(function (value) {
+          var key = value.toLowerCase();
+          if (!value || seen[key]) { return false; }
+          seen[key] = true;
+          return true;
+        });
+        selectedInterests.forEach(function (value) {
+          if (researchInterestOptions.indexOf(value) === -1) {
+            researchInterestOptions.push(value);
+          }
+        });
+        syncResearchInterestField();
+        renderInterestDisplay();
+        renderInterestOptions();
+      }
+
+      function toggleInterest(option) {
+        if (!option) { return; }
+        var index = selectedInterests.indexOf(option);
+        if (index === -1) {
+          selectedInterests.push(option);
+        } else {
+          selectedInterests.splice(index, 1);
+        }
+        syncResearchInterestField();
+        renderInterestDisplay();
+        renderInterestOptions();
+      }
+
+      function openInterestPicker() {
+        if (!interestPicker || !interestPanel) { return; }
+        interestPicker.open = true;
+        interestPicker.classList.add("is-open");
+        interestDisplay.setAttribute("aria-expanded", "true");
+        renderInterestOptions();
+        if (interestSearch) { interestSearch.focus(); }
+      }
+
+      function closeInterestPicker() {
+        if (!interestPicker || !interestPanel) { return; }
+        interestPicker.open = false;
+        interestPicker.classList.remove("is-open");
+        interestDisplay.setAttribute("aria-expanded", "false");
+      }
+
+      function initInterestPicker() {
+        if (!interestPicker) { return; }
+        setInterests(splitInterests(fields.researchInterest.value));
+
+        interestDisplay.addEventListener("click", function (event) {
+          event.preventDefault();
+          if (interestPicker.classList.contains("is-open")) {
+            closeInterestPicker();
+          } else {
+            openInterestPicker();
+          }
+        });
+        interestDisplay.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            if (interestPicker.classList.contains("is-open")) {
+              closeInterestPicker();
+            } else {
+              openInterestPicker();
+            }
+          }
+        });
+        interestDisplay.addEventListener("click", function (event) {
+          var removeButton = event.target.closest("[data-remove-index]");
+          if (!removeButton) { return; }
+          event.stopPropagation();
+          var idx = Number(removeButton.getAttribute("data-remove-index"));
+          if (Number.isNaN(idx)) { return; }
+          selectedInterests.splice(idx, 1);
+          syncResearchInterestField();
+          renderInterestDisplay();
+          renderInterestOptions();
+        });
+
+        interestSearch.addEventListener("input", renderInterestOptions);
+        interestOptionsRoot.addEventListener("click", function (event) {
+          var optionNode = event.target.closest("[data-option]");
+          if (!optionNode) { return; }
+          toggleInterest(optionNode.getAttribute("data-option"));
+        });
+        interestCustomAdd.addEventListener("click", function () {
+          var custom = normalizeInterest(interestCustomInput.value);
+          if (!custom) { return; }
+          if (selectedInterests.indexOf(custom) === -1) {
+            selectedInterests.push(custom);
+          }
+          if (researchInterestOptions.indexOf(custom) === -1) {
+            researchInterestOptions.push(custom);
+          }
+          interestCustomInput.value = "";
+          syncResearchInterestField();
+          renderInterestDisplay();
+          renderInterestOptions();
+        });
+        interestCustomInput.addEventListener("keydown", function (event) {
+          if (event.key === "Enter") {
+            event.preventDefault();
+            interestCustomAdd.click();
+          }
+        });
+        interestPicker.addEventListener("toggle", function () {
+          if (interestPicker.open) {
+            interestPicker.classList.add("is-open");
+            interestDisplay.setAttribute("aria-expanded", "true");
+          } else {
+            interestPicker.classList.remove("is-open");
+            interestDisplay.setAttribute("aria-expanded", "false");
+          }
+        });
+        document.addEventListener("click", function (event) {
+          if (interestPicker.contains(event.target)) { return; }
+          closeInterestPicker();
+        });
+      }
+
+      function initRichTextEditors() {
+        var richFields = form.querySelectorAll(".portal-rich-field textarea");
+        richFields.forEach(function (textarea) {
+          var wrapper = document.createElement("div");
+          wrapper.className = "portal-rich-editor-wrap";
+
+          var toolbar = document.createElement("div");
+          toolbar.className = "portal-rich-toolbar";
+          toolbar.innerHTML = [
+            '<button type="button" data-cmd="bold"><strong>B</strong></button>',
+            '<button type="button" data-cmd="italic"><em>I</em></button>',
+            '<button type="button" data-cmd="underline"><u>U</u></button>',
+            '<button type="button" data-cmd="insertUnorderedList">• List</button>',
+            '<button type="button" data-cmd="insertOrderedList">1. List</button>',
+            '<button type="button" data-cmd="createLink">Link</button>',
+            '<input type="color" data-cmd="foreColor" title="Text color" />'
+          ].join("");
+
+          var editor = document.createElement("div");
+          editor.className = "portal-rich-editor";
+          editor.contentEditable = "true";
+          editor.innerHTML = textarea.value || "";
+
+          wrapper.appendChild(toolbar);
+          wrapper.appendChild(editor);
+          textarea.insertAdjacentElement("afterend", wrapper);
+
+          toolbar.addEventListener("click", function (event) {
+            var button = event.target.closest("button[data-cmd]");
+            if (!button) { return; }
+            event.preventDefault();
+            var cmd = button.getAttribute("data-cmd");
+            if (cmd === "createLink") {
+              var link = window.prompt("Enter URL (https://...)");
+              if (!link) { return; }
+              document.execCommand("createLink", false, link);
+              return;
+            }
+            document.execCommand(cmd, false, null);
+            editor.focus();
+          });
+
+          toolbar.addEventListener("input", function (event) {
+            if (!event.target.matches('input[type="color"][data-cmd="foreColor"]')) { return; }
+            document.execCommand("foreColor", false, event.target.value);
+            editor.focus();
+          });
+
+          editor.addEventListener("input", function () {
+            textarea.value = editor.innerHTML;
+          });
+
+          richEditors.push({ textarea: textarea, editor: editor });
+        });
+      }
+
+      function clearCustomSections() {
+        customSectionsList.innerHTML = "";
+        customSectionEditors = [];
+      }
+
+      function renderCustomSectionsEmptyState() {
+        if (!customSectionEditors.length) {
+          customSectionsList.innerHTML = '<div class="portal-custom-empty-state"><p class="portal-custom-empty">No extra sections added yet.</p></div>';
+        }
+      }
+
+      function addCustomSection(section) {
+        customSectionIdCounter += 1;
+        var data = section || {};
+        var id = String(data.id || ("custom-section-" + customSectionIdCounter));
+        var card = document.createElement("div");
+        card.className = "portal-custom-section-card";
+        card.innerHTML = [
+          '<div class="portal-custom-section-header">',
+          '<p class="portal-custom-section-title">Extra Section</p>',
+          '<button type="button" class="portal-custom-section-remove">Remove</button>',
+          '</div>',
+          '<label>Section Title<input class="portal-input" type="text" /></label>',
+          '<label>Section Content<textarea class="portal-textarea portal-textarea-compact" rows="6"></textarea></label>'
+        ].join("");
+        var emptyState = customSectionsList.querySelector(".portal-custom-empty-state");
+        if (emptyState) {
+          emptyState.remove();
+        }
+        customSectionsList.appendChild(card);
+
+        var titleInput = card.querySelector("input");
+        var textarea = card.querySelector("textarea");
+        titleInput.value = data.title || "";
+        textarea.value = data.content || "";
+
+        card.querySelector(".portal-custom-section-remove").addEventListener("click", function () {
+          card.remove();
+          customSectionEditors = customSectionEditors.filter(function (item) {
+            return item.id !== id;
+          });
+          renderCustomSectionsEmptyState();
+        });
+
+        customSectionEditors.push({
+          id: id,
+          card: card,
+          titleInput: titleInput,
+          textarea: textarea
+        });
+      }
+
+      function setCustomSections(sections) {
+        clearCustomSections();
+        customSectionIdCounter = 0;
+        (Array.isArray(sections) ? sections : []).forEach(function (section) {
+          addCustomSection(section);
+        });
+        renderCustomSectionsEmptyState();
+      }
+
+      function getCustomSectionsPayload() {
+        return customSectionEditors.map(function (item, index) {
+          return {
+            id: item.id || ("custom-section-" + (index + 1)),
+            title: String(item.titleInput.value || "").trim(),
+            content: String(item.textarea.value || "").trim()
+          };
+        }).filter(function (item) {
+          return item.title || item.content;
+        });
+      }
+
+      function fill(profile) {
+        fields.name.value = profile.name || "";
+        fields.designation.value = profile.designation || "";
+        fields.email.value = profile.email || "";
+        fields.department.value = profile.department || "Department of Physics";
+        fields.phone.value = profile.phone || "";
+        fields.office.value = profile.office || "";
+        fields.subgroup.value = profile.subgroup || "";
+        fields.researchInterest.value = profile.researchInterest || profile.specialization || "";
+        setInterests(splitInterests(fields.researchInterest.value));
+        fields.bio.value = profile.bio || "";
+        fields.researchTeamPostdocs.value = profile.researchTeamPostdocs || "";
+        fields.researchTeamStudents.value = profile.researchTeamStudents || "";
+        fields.publications.value = profile.publications || "";
+        fields.coursesTaught.value = profile.coursesTaught || "";
+        fields.industryCollaborations.value = profile.industryCollaborations || "";
+        fields.awardsAndHonors.value = profile.awardsAndHonors || "";
+        fields.showCoursesTaught.checked = Boolean(profile.showCoursesTaught);
+        fields.showIndustryCollaborations.checked = Boolean(profile.showIndustryCollaborations);
+        fields.showAwardsAndHonors.checked = Boolean(profile.showAwardsAndHonors);
+        richEditors.forEach(function (item) {
+          item.editor.innerHTML = item.textarea.value || "";
+        });
+        setCustomSections(profile.customSections || []);
+        photoDataUrl = profile.photoDataUrl || "";
+        preview.src = photoDataUrl || emptyPreview;
+        updateProfileSummary();
+      }
+
+      photoInput.addEventListener("change", function () {
+        var file = photoInput.files[0];
+        if (!file) { return; }
+        var reader = new FileReader();
+        reader.onload = function () {
+          photoDataUrl = reader.result;
+          preview.src = reader.result;
+        };
+        reader.readAsDataURL(file);
+      });
+
+      removePhotoButton.addEventListener("click", function () {
+        photoDataUrl = "";
+        photoInput.value = "";
+        preview.src = emptyPreview;
+        message.textContent = "Photo removed. Click Publish to save this change.";
+      });
+
+      ["name", "designation", "department"].forEach(function (field) {
+        fields[field].addEventListener("input", updateProfileSummary);
+      });
+
+      form.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        richEditors.forEach(function (item) {
+          item.textarea.value = item.editor.innerHTML;
+        });
+        if (!form.reportValidity()) {
+          message.textContent = "Please fill in all required fields before publishing.";
+          return;
+        }
+        try {
+          var payload = {
+            name: fields.name.value,
+            department: fields.department.value,
+            designation: fields.designation.value,
+            phone: fields.phone.value,
+            office: fields.office.value,
+            specialization: fields.researchInterest.value,
+            subgroup: fields.subgroup.value,
+            researchInterest: fields.researchInterest.value,
+            bio: fields.bio.value,
+            researchTeam: [fields.researchTeamPostdocs.value, fields.researchTeamStudents.value].filter(Boolean).join("\n"),
+            researchTeamPostdocs: fields.researchTeamPostdocs.value,
+            researchTeamStudents: fields.researchTeamStudents.value,
+            publications: fields.publications.value,
+            coursesTaught: fields.coursesTaught.value,
+            industryCollaborations: fields.industryCollaborations.value,
+            awardsAndHonors: fields.awardsAndHonors.value,
+            showCoursesTaught: fields.showCoursesTaught.checked,
+            showIndustryCollaborations: fields.showIndustryCollaborations.checked,
+            showAwardsAndHonors: fields.showAwardsAndHonors.checked,
+            photoDataUrl: photoDataUrl,
+            customSections: getCustomSectionsPayload()
+          };
+          var response = await api("/api/profile/me", {
+            method: "PUT",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify(payload)
+          });
+          message.textContent = response.message;
+        } catch (error) {
+          message.textContent = error.message;
+        }
+      });
+
+      initRichTextEditors();
+      initInterestPicker();
+      addCustomSectionButton.addEventListener("click", function () {
+        addCustomSection({ title: "", content: "" });
+      });
+      renderCustomSectionsEmptyState();
+      fill((await api("/api/profile/me")).profile || {});
+    })();
+  </script>
+  <script>
+    (function () {
+      var groups = document.querySelectorAll(".portal-sidebar-group");
+      groups.forEach(function (group) {
+        var heading = group.querySelector("p");
+        var links = Array.prototype.slice.call(group.querySelectorAll(":scope > a"));
+        if (!heading || links.length <= 1) { return; }
+
+        group.classList.add("is-collapsible");
+
+        var wrapper = document.createElement("div");
+        wrapper.className = "portal-sidebar-items";
+        links.forEach(function (link) { wrapper.appendChild(link); });
+        group.appendChild(wrapper);
+
+        var parentLink = wrapper.querySelector("a:first-child");
+        var hasActiveLink = links.some(function (link) { return link.classList.contains("is-active"); });
+        group.setAttribute("data-open", hasActiveLink ? "true" : "true");
+
+        function toggleGroup() {
+          var open = group.getAttribute("data-open") === "true";
+          group.setAttribute("data-open", (!open).toString());
+        }
+
+        heading.style.cursor = "pointer";
+        heading.addEventListener("click", toggleGroup);
+        heading.addEventListener("keydown", function (event) {
+          if (event.key === "Enter" || event.key === " ") {
+            event.preventDefault();
+            toggleGroup();
+          }
+        });
+        heading.setAttribute("role", "button");
+        heading.setAttribute("tabindex", "0");
+
+        if (parentLink) {
+          parentLink.addEventListener("click", function () {
+            group.setAttribute("data-open", "true");
+          });
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

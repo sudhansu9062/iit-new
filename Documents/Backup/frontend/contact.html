@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact Us | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body class="contact-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="contact-hero">
+    <img id="contact-hero-image" src="contact-hero.png" alt="Contact us banner" />
+  </section>
+
+  <main class="contact-main">
+    <section class="contact-section">
+      <div class="contact-container contact-info-grid">
+        <div class="contact-address-card">
+          <h2 id="contact-address-title">Department Address</h2>
+
+          <div class="contact-info-group">
+            <div class="contact-info-icon contact-info-icon-pin" aria-hidden="true">&#128205;</div>
+            <div>
+              <h3>Department of Physics</h3>
+              <p id="contact-address-content">Indian Institute of Technology Kharagpur</p>
+              <p>Kharagpur - 721302</p>
+              <p>West Bengal, India</p>
+            </div>
+          </div>
+
+          <div class="contact-inline-row">
+            <span class="contact-inline-icon" aria-hidden="true">&#128222;</span>
+            <p>+91-3222-XXXXX</p>
+          </div>
+
+          <div class="contact-inline-row">
+            <span class="contact-inline-icon" aria-hidden="true">&#9993;</span>
+            <p>physics[at]iitkgp[dot]ac[dot]in</p>
+          </div>
+
+          <div class="contact-hours">
+            <div class="contact-inline-row">
+              <span class="contact-inline-icon" aria-hidden="true">&#128339;</span>
+              <h3>Office Hours</h3>
+            </div>
+            <p>Monday - Friday: 9:00 AM - 5:30 PM</p>
+            <p>Saturday: 9:00 AM - 1:00 PM</p>
+            <p>Sunday &amp; Holidays: Closed</p>
+          </div>
+        </div>
+
+        <div class="contact-admin-card">
+          <h2 id="contact-admin-title">Administrative Contacts</h2>
+
+          <article class="contact-admin-item">
+            <h3>Head of Department</h3>
+            <p>Prof. [Name]</p>
+            <p>hod.physics[at]iitkgp[dot]ac[dot]in</p>
+            <p>+91-3222-XXXXX</p>
+          </article>
+
+          <article class="contact-admin-item">
+            <h3>Academic Office</h3>
+            <p>acad.physics[at]iitkgp[dot]ac[dot]in</p>
+            <p>+91-3222-XXXXX</p>
+          </article>
+
+          <article class="contact-admin-item">
+            <h3>PhD Admissions Enquiry</h3>
+            <p>phd.physics[at]iitkgp[dot]ac[dot]in</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section contact-location-section">
+      <div class="contact-container contact-location-wrap">
+        <h2 id="contact-location-title">Location</h2>
+        <div class="contact-map-placeholder">
+          <iframe
+            title="Map showing IIT Kharagpur location"
+            src="https://www.google.com/maps?q=22.3149,87.3105&z=15&output=embed"
+            loading="lazy"
+            referrerpolicy="no-referrer-when-downgrade"
+            allowfullscreen>
+          </iframe>
+        </div>
+        <p class="contact-map-link"><a href="https://maps.app.goo.gl/j33tTUJmhSHenRoe8" target="_blank" rel="noopener noreferrer">Open in Google Maps</a></p>
+        <div class="contact-directions">
+          <h3>Directions</h3>
+          <p id="contact-location-content">
+            The Department of Physics is located within the academic zone of IIT Kharagpur campus. The nearest railway
+            station is Kharagpur Junction (approx. 8 km). The campus is also accessible via NH-6 (Mumbai-Kolkata Highway).
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="contact-section contact-form-section">
+      <div class="contact-container contact-form-wrap">
+        <h2>Send an Enquiry</h2>
+        <p>Please fill in the form below and we will get back to you.</p>
+
+        <form class="contact-form">
+          <label for="contact-name">Name</label>
+          <input id="contact-name" type="text" placeholder="Your full name" />
+
+          <label for="contact-email">Email</label>
+          <input id="contact-email" type="email" placeholder="your.email@example.com" />
+
+          <label for="contact-subject">Subject</label>
+          <input id="contact-subject" type="text" placeholder="Enquiry subject" />
+
+          <label for="contact-message">Message</label>
+          <textarea id="contact-message" placeholder="Your message..."></textarea>
+
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

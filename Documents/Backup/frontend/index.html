@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body class="home-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html" class="active">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="hero" aria-label="Homepage banner">
+    <img id="hero-image-1" src="home-hero.png" alt="IIT Kharagpur campus building" fetchpriority="high" decoding="async" />
+    <img id="hero-image-2" src="home-hero-sign.png" alt="IIT Kharagpur entrance sign" loading="lazy" decoding="async" />
+    <img id="hero-image-3" src="home-hero-gate.png" alt="IIT Kharagpur campus gate at night" loading="lazy" decoding="async" />
+    <img id="hero-image-4" src="home-hero-people.png" alt="IIT Kharagpur Physics Departement" loading="lazy" decoding="async" />
+    <img id="hero-image-5" src="home-hero-sign1.png" alt="IIT Kharagpur sign" loading="lazy" decoding="async" />
+    <img id="hero-image-6" src="home-hero-gate1.png" alt="IIT Kharagpur gate" loading="lazy" decoding="async" />
+    <!-- <div class="hero-copy hero-copy-left" id="homepage-hero-copy"> -->
+    <!--   <p class="hero-kicker" id="homepage-hero-subtitle">Indian Institute of Technology Kharagpur</p> -->
+    <!--   <h2 id="homepage-hero-title">Department of Physics</h2> -->
+    <!--   <p class="hero-description" id="homepage-hero-description">Advance research, academic excellence, and interdisciplinary learning from one connected departmental hub.</p> -->
+    <!-- </div> -->
+  </section>
+
+  <main class="content-wrap">
+    <div class="container grid-layout">
+      <section class="cards" id="homepage-cards" aria-label="Programs and facilities"></section>
+
+      <aside class="announcements">
+        <h2 id="homepage-announcements-title">Announcements</h2>
+        <ul id="public-announcements-list"></ul>
+        <a class="view-all" href="./news-events.html">View All</a>
+      </aside>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+
+            <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (async function () {
+      var list = document.getElementById("public-announcements-list");
+      var cardsRoot = document.getElementById("homepage-cards");
+      var heroTitle = document.getElementById("homepage-hero-title");
+      var heroSubtitle = document.getElementById("homepage-hero-subtitle");
+      var heroDescription = document.getElementById("homepage-hero-description");
+      var heroCopy = document.getElementById("homepage-hero-copy");
+      var announcementsTitle = document.getElementById("homepage-announcements-title");
+      var heroSection = document.querySelector(".hero");
+      var heroImages = heroSection ? Array.prototype.slice.call(heroSection.querySelectorAll("img")) : [];
+      if (!list) {
+        return;
+      }
+
+      function configureHeroSlideshow() {
+        if (!heroSection || !heroImages.length) {
+          return;
+        }
+        var secondsPerSlide = 5;
+        var totalDuration = heroImages.length * secondsPerSlide;
+        heroSection.style.setProperty("--hero-slideshow-duration", totalDuration + "s");
+        heroImages.forEach(function (image, index) {
+          image.style.animationDelay = String(index * secondsPerSlide) + "s";
+        });
+      }
+
+      configureHeroSlideshow();
+
+      function defaultCards() {
+        return [
+          { title: "Research Areas", image: "research-areas.png", alt: "Research laboratory", href: "./research.html" },
+          { title: "Undergraduate Program", image: "undergraduate-program.png", alt: "Classroom session", href: "./undergraduate-program.html" },
+          { title: "Postgraduate Program", image: "postgraduate-program.png", alt: "Students at computer", href: "./postgraduate-program.html" },
+          { title: "Doctoral Program", image: "doctoral-program.png", alt: "Doctoral presentation", href: "./doctoral-program.html" },
+          { title: "Laboratories", image: "laboratories.png", alt: "Lab facilities", href: "./laboratories.html" },
+          { title: "Facilities", image: "facilities.png", alt: "Library hall", href: "./facilities.html" }
+        ];
+      }
+
+      function renderCards(items) {
+        if (!cardsRoot) {
+          return;
+        }
+        cardsRoot.innerHTML = "";
+        items.filter(function (item) {
+          var title = String((item && item.title) || "").trim();
+          var image = String((item && item.image) || "").trim();
+          var href = String((item && item.href) || "").trim();
+          return title || image || href;
+        }).forEach(function (item) {
+          var href = String(item.href || "").trim();
+          var hasLink = href && href !== "#";
+          var card = document.createElement(hasLink ? "a" : "article");
+          var image = document.createElement("img");
+          var body = document.createElement("div");
+          var heading = document.createElement("h3");
+          card.className = "card";
+          body.className = "card-body";
+          if (hasLink) {
+            card.href = href;
+          }
+          image.src = String(item.image || "");
+          image.alt = String(item.alt || item.title || "Homepage card");
+          heading.textContent = String(item.title || "Untitled");
+          card.appendChild(image);
+          body.appendChild(heading);
+          card.appendChild(body);
+          cardsRoot.appendChild(card);
+        });
+      }
+
+      renderCards(defaultCards());
+
+      try {
+        var contentResponse = await fetch(window.location.origin + "/api/public/homepage");
+        var contentData = await contentResponse.json();
+        var homepage = contentData.homepage || {};
+        var cards = Array.isArray(contentData.cards) ? contentData.cards : [];
+        if (cards.length) {
+          renderCards(cards);
+        }
+        if (heroTitle) { heroTitle.textContent = homepage.heroTitle || heroTitle.textContent; }
+        if (heroSubtitle) { heroSubtitle.textContent = homepage.heroSubtitle || heroSubtitle.textContent; }
+        if (heroDescription) { heroDescription.textContent = homepage.heroDescription || heroDescription.textContent; }
+        if (announcementsTitle) { announcementsTitle.textContent = homepage.announcementsTitle || announcementsTitle.textContent; }
+        if (heroCopy) {
+          heroCopy.classList.remove("hero-copy-left", "hero-copy-center", "hero-copy-right");
+          heroCopy.classList.add("hero-copy-" + (homepage.heroPlacement || "left"));
+        }
+        (homepage.heroImages || []).forEach(function (item, index) {
+          if (heroImages[index] && item) {
+            heroImages[index].src = item;
+          }
+        });
+
+        var notices = Array.isArray(contentData.notices) ? contentData.notices : [];
+        var announcementItems = notices.slice(0, 3);
+
+        if (!announcementItems.length) {
+          var newsEventsResponse = await fetch(window.location.origin + "/api/public/news-events");
+          var newsEventsData = await newsEventsResponse.json();
+          if (Array.isArray(newsEventsData.announcements) && newsEventsData.announcements.length) {
+            announcementItems = newsEventsData.announcements.slice(0, 3).map(function (item) {
+              return {
+                title: item.title,
+                publishedAt: item.date
+              };
+            });
+          }
+        }
+
+        function escapeHtml(value) {
+          return String(value == null ? "" : value).replace(/[&<>"']/g, function (char) {
+            return ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[char];
+          });
+        }
+
+        list.innerHTML = announcementItems.map(function (item) {
+          var date = new Date(item.publishedAt);
+          var hasValidDate = !Number.isNaN(date.getTime());
+          var dateLabel = hasValidDate
+            ? String(date.getDate()).padStart(2, "0") + " " + date.toLocaleString("en-GB", { month: "short" }) + "<br />" + date.getFullYear()
+            : "Latest<br />Update";
+          return [
+            "<li>",
+            '  <span class="date">' + dateLabel + "</span>",
+            '  <span class="announcement-divider" aria-hidden="true"></span>',
+            '  <a href="./news-events.html">' + escapeHtml(item.title) + "</a>",
+            "</li>"
+          ].join("");
+        }).join("");
+      } catch (error) {
+        list.innerHTML = '<li><a href="./news-events.html">Latest department notices are currently unavailable.</a></li>';
+      }
+    })();
+  </script>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>

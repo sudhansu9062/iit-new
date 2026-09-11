@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HPC Facility | Super Admin | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <style>
+    .hpc-stat-row { display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); gap:16px; margin-bottom:24px; }
+    .hpc-stat-card { background:#fff; border:1px solid #e5e7eb; border-radius:10px; padding:20px 18px; display:flex; flex-direction:column; gap:4px; }
+    .hpc-stat-card .hpc-stat-label { font-size:12px; font-weight:600; text-transform:uppercase; letter-spacing:.6px; color:#6b7280; }
+    .hpc-stat-card .hpc-stat-val { font-size:28px; font-weight:700; color:#111827; }
+    .hpc-stat-card .hpc-stat-detail { font-size:12px; color:#9ca3af; }
+    .hpc-stat-card.is-forwarded { border-left:4px solid #f59e0b; }
+    .hpc-stat-card.is-approved  { border-left:4px solid #10b981; }
+    .hpc-stat-card.is-total     { border-left:4px solid #6366f1; }
+    .hpc-stat-card.is-pending   { border-left:4px solid #ef4444; }
+
+    .hpc-filter-bar { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+    .hpc-filter-btn { padding:6px 14px; border-radius:20px; border:1px solid #d1d5db; background:#fff; font-size:13px; font-weight:500; cursor:pointer; transition:all .15s; color:#374151; }
+    .hpc-filter-btn:hover { background:#f3f4f6; }
+    .hpc-filter-btn.is-active { background:#1a4f8a; color:#fff; border-color:#1a4f8a; }
+    .hpc-search-box { margin-left:auto; padding:7px 13px; border:1px solid #d1d5db; border-radius:8px; font-size:13px; width:220px; outline:none; }
+    .hpc-search-box:focus { border-color:#1a4f8a; }
+
+    .hpc-table-wrap { overflow-x:auto; background:#fff; border:1px solid #e5e7eb; border-radius:10px; }
+    .hpc-table { width:100%; border-collapse:collapse; font-size:13.5px; }
+    .hpc-table th { padding:12px 16px; text-align:left; font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:.5px; color:#6b7280; background:#f9fafb; border-bottom:1px solid #e5e7eb; }
+    .hpc-table td { padding:12px 16px; border-bottom:1px solid #f3f4f6; vertical-align:middle; }
+    .hpc-table tr:last-child td { border-bottom:none; }
+    .hpc-table tr:hover td { background:#f9fafb; }
+    .hpc-badge { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:11px; font-weight:600; }
+    .hpc-badge.submitted  { background:#eff6ff; color:#1d4ed8; }
+    .hpc-badge.approved   { background:#d1fae5; color:#065f46; }
+    .hpc-badge.forwarded  { background:#fef3c7; color:#92400e; }
+    .hpc-badge.disagreed  { background:#fee2e2; color:#991b1b; }
+    .hpc-badge.allocated  { background:#d1fae5; color:#065f46; }
+    .hpc-action-btn { padding:5px 12px; border-radius:6px; border:1px solid #d1d5db; background:#fff; font-size:12px; font-weight:600; cursor:pointer; transition:all .15s; }
+    .hpc-action-btn:hover { background:#f3f4f6; }
+    .hpc-action-btn.primary { background:#1a4f8a; color:#fff; border-color:#1a4f8a; }
+    .hpc-action-btn.primary:hover { background:#123c69; }
+    .hpc-actions-cell { display:flex; gap:6px; align-items:center; }
+    .hpc-empty { text-align:center; padding:48px 24px; color:#9ca3af; font-size:14px; }
+
+    /* Modal */
+    .hpc-modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:200; display:flex; align-items:center; justify-content:center; }
+    .hpc-modal-overlay.is-hidden { display:none; }
+    .hpc-modal { background:#fff; border-radius:14px; width:100%; max-width:520px; padding:28px 30px; box-shadow:0 20px 60px rgba(0,0,0,.18); max-height:90vh; overflow-y:auto; }
+    .hpc-modal h2 { font-size:18px; font-weight:700; color:#111827; margin:0 0 4px; }
+    .hpc-modal-sub { font-size:13px; color:#6b7280; margin:0 0 20px; }
+    .hpc-modal-field { margin-bottom:16px; }
+    .hpc-modal-field label { display:block; font-size:12px; font-weight:600; color:#374151; margin-bottom:6px; }
+    .hpc-modal-field input, .hpc-modal-field textarea { width:100%; padding:9px 12px; border:1px solid #d1d5db; border-radius:8px; font-size:14px; outline:none; box-sizing:border-box; }
+    .hpc-modal-field input:focus, .hpc-modal-field textarea:focus { border-color:#1a4f8a; }
+    .hpc-modal-field textarea { resize:vertical; min-height:72px; }
+    .hpc-modal-actions { display:flex; gap:10px; justify-content:flex-end; margin-top:20px; }
+    .hpc-modal-close { position:absolute; top:14px; right:18px; background:none; border:none; font-size:22px; cursor:pointer; color:#6b7280; }
+    .hpc-section-header { display:flex; align-items:center; gap:10px; margin-bottom:6px; }
+    .hpc-section-header h2 { font-size:16px; font-weight:700; color:#111827; margin:0; }
+    .hpc-section-header .hpc-count-pill { background:#eff6ff; color:#1d4ed8; padding:2px 10px; border-radius:20px; font-size:12px; font-weight:600; }
+
+    /* Detail panel */
+    .hpc-detail-panel { background:#f8fafc; border:1px solid #e5e7eb; border-radius:10px; padding:20px; margin-top:20px; }
+    .hpc-detail-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px 24px; }
+    .hpc-detail-row { font-size:13px; }
+    .hpc-detail-row .label { font-size:11px; font-weight:600; text-transform:uppercase; letter-spacing:.4px; color:#9ca3af; margin-bottom:2px; }
+    .hpc-detail-row .val { color:#111827; font-weight:500; }
+    .hpc-routing-banner { background:#eff6ff; border:1px solid #bfdbfe; border-radius:8px; padding:10px 14px; margin-top:14px; display:flex; align-items:center; gap:10px; font-size:13px; color:#1e40af; }
+
+    @media(max-width:640px) { .hpc-detail-grid { grid-template-columns:1fr; } }
+  </style>
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-hpc.html" class="is-active"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2"></rect><path d="M8 21h8"></path><path d="M12 17v4"></path></svg><span>HPC Facility</span></a>
+        <a href="./superadmin-tickets.html"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input id="hpc-search" type="search" placeholder="Search HPC requests..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta"><strong id="current-user-name">Super Admin</strong></div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <h1>HPC Facility Management</h1>
+            <p>Review and process HPC cluster access requests. Allocate servers and login credentials.</p>
+          </div>
+        </section>
+
+        <!-- Stats -->
+        <div class="hpc-stat-row" id="hpc-stats"></div>
+
+        <!-- Filter bar -->
+        <div class="hpc-filter-bar">
+          <button class="hpc-filter-btn is-active" data-filter="all">All</button>
+          <button class="hpc-filter-btn" data-filter="submitted">Submitted</button>
+          <button class="hpc-filter-btn" data-filter="approved">Approved by Admin</button>
+          <button class="hpc-filter-btn" data-filter="allocated">Allocated</button>
+          <button class="hpc-filter-btn" data-filter="disagreed">Disagreed</button>
+          <input id="hpc-search" type="search" class="hpc-search-box" placeholder="Search name, email, ID..." />
+        </div>
+
+        <!-- Table -->
+        <div class="hpc-table-wrap">
+          <table class="hpc-table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Applicant</th>
+                <th>Institute ID</th>
+                <th>Email</th>
+                <th>Software</th>
+                <th>Status</th>
+                <th>Submitted</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="hpc-tbody"></tbody>
+          </table>
+          <div id="hpc-empty" class="hpc-empty" style="display:none">No HPC requests found.</div>
+        </div>
+
+        <!-- Detail panel -->
+        <div id="hpc-detail" class="hpc-detail-panel" style="display:none"></div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Allocate Modal -->
+  <div class="hpc-modal-overlay is-hidden" id="allocate-modal">
+    <div class="hpc-modal" style="position:relative;">
+      <button class="hpc-modal-close" id="allocate-close" aria-label="Close">&times;</button>
+      <h2>Allocate HPC Resources</h2>
+      <p class="hpc-modal-sub" id="allocate-for">For: —</p>
+      <input type="hidden" id="allocate-id" />
+      <div class="hpc-modal-field">
+        <label>Server Allotted</label>
+        <input type="text" id="allocate-server" placeholder="e.g. SNBOSE, PRITHVI" />
+      </div>
+      <div class="hpc-modal-field">
+        <label>Login ID Given</label>
+        <input type="text" id="allocate-login" placeholder="e.g. phd2024_ss" />
+      </div>
+      <div class="hpc-modal-field">
+        <label>In-Charge Signature / Note (optional)</label>
+        <textarea id="allocate-note" placeholder="Any notes for the record..."></textarea>
+      </div>
+      <div class="hpc-modal-actions">
+        <button class="hpc-action-btn" id="allocate-cancel">Cancel</button>
+        <button class="hpc-action-btn primary" id="allocate-save">Save Allocation</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector(".superadmin-icon-button[aria-label='Menu']");
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+        menuButton.addEventListener("click", function (e) { e.stopPropagation(); sidebar.classList.toggle("is-open"); });
+        sidebar.addEventListener("click", function (e) { if (e.target.closest("a")) sidebar.classList.remove("is-open"); });
+        document.addEventListener("click", function (e) {
+          if (!sidebar.classList.contains("is-open")) return;
+          if (sidebar.contains(e.target) || menuButton.contains(e.target)) return;
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      function escapeHtml(v) {
+        return String(v || "").replace(/[&<>"']/g, function (c) {
+          return { "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;" }[c];
+        });
+      }
+      function fmtDate(iso) {
+        if (!iso) return "—";
+        return new Date(iso).toLocaleDateString("en-IN", { day:"2-digit", month:"short", year:"numeric" });
+      }
+
+      async function api(path, opts) {
+        var cfg = Object.assign({ headers: { Authorization: "Bearer " + token } }, opts || {});
+        var res = await fetch(window.location.origin + path, cfg);
+        var data = await res.json();
+        if (!res.ok) throw new Error(data.message || "Request failed");
+        return data;
+      }
+
+      var requests = [];
+      var activeFilter = "all";
+      var tbody = document.getElementById("hpc-tbody");
+      var emptyEl = document.getElementById("hpc-empty");
+      var detailEl = document.getElementById("hpc-detail");
+      var statsEl = document.getElementById("hpc-stats");
+      var searchInput = document.getElementById("hpc-search");
+
+      function statusBadge(req) {
+        var s = (req.status || "").toLowerCase();
+        if (req.serverAllotted && req.loginIdGiven) return '<span class="hpc-badge allocated">&#10003; Allocated</span>';
+        if (s === "approved" || req.forwardedToSuperadmin) return '<span class="hpc-badge forwarded">&#9650; Sent to Superadmin</span>';
+        if (s === "disagreed") return '<span class="hpc-badge disagreed">&#10007; Disagreed</span>';
+        return '<span class="hpc-badge submitted">&#9679; Submitted</span>';
+      }
+
+      function matchFilter(req) {
+        var s = (req.status || "").toLowerCase();
+        var isAllocated = req.serverAllotted && req.loginIdGiven;
+        var isForwarded = s === "approved" || req.forwardedToSuperadmin;
+        if (activeFilter === "all") return true;
+        if (activeFilter === "submitted") return s === "submitted" && !isForwarded && !isAllocated;
+        if (activeFilter === "approved") return isForwarded && !isAllocated;
+        if (activeFilter === "allocated") return Boolean(isAllocated);
+        if (activeFilter === "disagreed") return s === "disagreed";
+        return true;
+      }
+
+      function matchSearch(req, q) {
+        if (!q) return true;
+        return [req.name, req.email, req.instituteId, req.softwareName, req.softwareType, req.department]
+          .join(" ").toLowerCase().indexOf(q) !== -1;
+      }
+
+      function renderStats() {
+        var total = requests.length;
+        var forwarded = requests.filter(function (r) { return (r.status||"").toLowerCase()==="approved"||r.forwardedToSuperadmin; }).length;
+        var allocated = requests.filter(function (r) { return r.serverAllotted&&r.loginIdGiven; }).length;
+        var pending = requests.filter(function (r) { var s=(r.status||"").toLowerCase(); return s==="submitted"&&!r.forwardedToSuperadmin; }).length;
+        statsEl.innerHTML = [
+          '<div class="hpc-stat-card is-total"><span class="hpc-stat-label">Total Requests</span><span class="hpc-stat-val">'+total+'</span><span class="hpc-stat-detail">All time submissions</span></div>',
+          '<div class="hpc-stat-card is-forwarded"><span class="hpc-stat-label">Pending Superadmin</span><span class="hpc-stat-val">'+forwarded+'</span><span class="hpc-stat-detail">Approved by admin, awaiting allocation</span></div>',
+          '<div class="hpc-stat-card is-approved"><span class="hpc-stat-label">Allocated</span><span class="hpc-stat-val">'+allocated+'</span><span class="hpc-stat-detail">Server &amp; login assigned</span></div>',
+          '<div class="hpc-stat-card is-pending"><span class="hpc-stat-label">New Submissions</span><span class="hpc-stat-val">'+pending+'</span><span class="hpc-stat-detail">Not yet reviewed by admin</span></div>'
+        ].join("");
+      }
+
+      function renderTable() {
+        var q = (searchInput.value||"").trim().toLowerCase();
+        var filtered = requests.filter(function (r) { return matchFilter(r) && matchSearch(r, q); });
+        if (!filtered.length) { tbody.innerHTML=""; emptyEl.style.display="block"; return; }
+        emptyEl.style.display="none";
+        tbody.innerHTML = filtered.map(function (r, i) {
+          var softStr = [r.softwareType, r.softwareName].filter(Boolean).join(" — ") || (r.resourcesRequired||"—");
+          var canAllocate = ((r.status||"").toLowerCase()==="approved"||r.forwardedToSuperadmin);
+          return '<tr>'
+            + '<td style="color:#9ca3af;font-size:12px;">' + (i+1) + '</td>'
+            + '<td><strong style="color:#111827;">' + escapeHtml(r.name||"—") + '</strong><br><span style="color:#6b7280;font-size:12px;">' + escapeHtml(r.department||"") + '</span></td>'
+            + '<td>' + escapeHtml(r.instituteId||"—") + '</td>'
+            + '<td style="font-size:12.5px;">' + escapeHtml(r.email||"—") + '</td>'
+            + '<td style="font-size:12.5px;">' + escapeHtml(softStr) + '</td>'
+            + '<td>' + statusBadge(r) + '</td>'
+            + '<td style="font-size:12px;color:#6b7280;">' + fmtDate(r.createdAt) + '</td>'
+            + '<td><div class="hpc-actions-cell">'
+            + '<button class="hpc-action-btn" data-view="'+escapeHtml(r.id)+'">View</button>'
+            + (canAllocate ? '<button class="hpc-action-btn primary" data-allocate="'+escapeHtml(r.id)+'">Allocate</button>' : '')
+            + '<button class="hpc-action-btn" data-download="'+escapeHtml(r.id)+'" title="Download Form">&#8595; PDF</button>'
+            + '<button class="hpc-action-btn" style="color:#dc2626;border-color:#fca5a5;" data-delete="'+escapeHtml(r.id)+'" title="Delete Request">&#128465; Delete</button>'
+            + '</div></td>'
+            + '</tr>';
+        }).join("");
+      }
+
+      function showDetail(req) {
+        if (!req) { detailEl.style.display="none"; return; }
+        var softStr = [req.softwareType, req.softwareName].filter(Boolean).join(" — ") || (req.resourcesRequired||"—");
+        detailEl.style.display="block";
+        detailEl.innerHTML = '<div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;margin-bottom:14px;">'
+          + '<div><strong style="font-size:15px;color:#111827;">' + escapeHtml(req.name||"Applicant") + '</strong> &nbsp;<span style="font-size:12px;color:#6b7280;">' + escapeHtml(req.instituteId||"") + '</span></div>'
+          + '<div style="display:flex;gap:8px;align-items:center;">'
+          + statusBadge(req)
+          + '<button class="hpc-action-btn" style="background:#1a4f8a;color:#fff;border-color:#1a4f8a;display:flex;align-items:center;gap:5px;font-size:12px;" data-dl-detail="'+escapeHtml(req.id)+'">&#8595; Download Form</button>'
+          + '</div>'
+          + '</div>'
+          + '<div class="hpc-detail-grid">'
+          + row("Email", req.email)
+          + row("Mobile", req.mobile)
+          + row("Department", req.department)
+          + row("Supervisor", req.supervisorName)
+          + row("Software Type", req.softwareType)
+          + row("Software Name", req.softwareName)
+          + row("Mode", req.mode)
+          + row("Hardware", req.hardware)
+          + row("Preferred Login ID", req.preferredLoginId)
+          + row("Submitted On", fmtDate(req.createdAt))
+          + row("Approved By (Admin)", req.approvedBy)
+          + row("Approved At", fmtDate(req.approvedAt))
+          + row("Server Allotted", req.serverAllotted)
+          + row("Login ID Given", req.loginIdGiven)
+          + row("Allocated By", req.allocatedBy)
+          + row("Allocated At", fmtDate(req.allocatedAt))
+          + '</div>'
+          + ((req.forwardedToSuperadmin||req.status==="Approved")
+              ? '<div class="hpc-routing-banner"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#2563eb" stroke-width="2"><path d="M22 2L11 13"></path><path d="M22 2l-7 20-4-9-9-4 20-7z"></path></svg><span><strong>Forwarded by Admin</strong> — This form was approved by an admin and sent to Superadmin for final server allocation.</span></div>'
+              : '');
+      }
+
+      function downloadForm(req) {
+        if (!req) return;
+        var statusText = req.serverAllotted && req.loginIdGiven ? 'Allocated' : (req.status||'Submitted');
+        var w = window.open('', '_blank', 'width=900,height=700');
+        w.document.write('<!DOCTYPE html><html><head><meta charset="UTF-8"/><title>HPC Form - '+escapeHtml(req.name||'Applicant')+'</title><style>'
+          + 'body{font-family:Arial,sans-serif;margin:0;padding:0;background:#fff;color:#111;font-size:13px;}'
+          + '.page{padding:28px 36px;max-width:800px;margin:0 auto;}'
+          + '.header{display:flex;align-items:center;justify-content:space-between;border-bottom:2px solid #1a4f8a;padding-bottom:14px;margin-bottom:20px;}'
+          + '.header-left{display:flex;flex-direction:column;}'
+          + '.header-left h1{font-size:16px;font-weight:700;color:#1a4f8a;margin:0 0 2px;}'
+          + '.header-left p{font-size:11px;color:#555;margin:0;}'
+          + '.header-right{text-align:right;font-size:11px;color:#555;}'
+          + '.status-badge{display:inline-block;padding:4px 14px;border-radius:20px;font-size:12px;font-weight:700;background:#d1fae5;color:#065f46;margin-bottom:16px;}'
+          + 'h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#1a4f8a;border-bottom:1px solid #e5e7eb;padding-bottom:5px;margin:18px 0 12px;}'
+          + '.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px 24px;margin-bottom:10px;}'
+          + '.field{padding:6px 0;border-bottom:1px dashed #f0f0f0;}'
+          + '.field .lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.4px;color:#888;margin-bottom:2px;}'
+          + '.field .val{font-size:13px;color:#111;font-weight:500;}'
+          + '.allocation-box{background:#f0fdf4;border:1px solid #6ee7b7;border-radius:8px;padding:16px 18px;margin-top:16px;}'
+          + '.allocation-box h2{color:#065f46;border-color:#6ee7b7;margin-top:0;}'
+          + '.sig-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px;}'
+          + '.sig-box{border-top:1.5px solid #bbb;padding-top:8px;font-size:11px;color:#555;text-align:center;}'
+          + '.footer{margin-top:30px;font-size:10px;color:#bbb;border-top:1px solid #eee;padding-top:10px;text-align:center;}'
+          + '@media print{body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}}'
+          + '</style></head><body><div class="page">'
+          + '<div class="header">'
+          + '<div class="header-left"><h1>Department of Physics — IIT Kharagpur</h1><p>High-Performance Computing (HPC) Facility Account Request Form</p></div>'
+          + '<div class="header-right"><strong>Form Ref:</strong> '+escapeHtml(req.id||'—')+'<br/><strong>Date:</strong> '+escapeHtml(fmtDate(req.createdAt))+'</div>'
+          + '</div>'
+          + '<span class="status-badge">Status: '+escapeHtml(statusText)+'</span>'
+
+          + '<h2>Section 1 — Applicant Information</h2>'
+          + '<div class="grid">'
+          + pfield('Full Name', req.name)
+          + pfield('Institute ID', req.instituteId)
+          + pfield('Email Address', req.email)
+          + pfield('Mobile Number', req.mobile)
+          + pfield('Department', req.department)
+          + pfield('Designation / Role', req.designation||req.role)
+          + pfield('Supervisor / Guide Name', req.supervisorName)
+          + pfield('Preferred Login ID', req.preferredLoginId)
+          + '</div>'
+
+          + '<h2>Section 2 — Software &amp; Resource Requirements</h2>'
+          + '<div class="grid">'
+          + pfield('Software Type', req.softwareType)
+          + pfield('Software Name', req.softwareName)
+          + pfield('Mode', req.mode)
+          + pfield('Hardware Requirements', req.hardware)
+          + pfield('Resources Required', req.resourcesRequired)
+          + '</div>'
+
+          + (req.supervisorTitle || req.supervisorSignatureDate ? '<h2>Section 3 — Supervisor Details</h2><div class="grid">'+pfield('Supervisor Title/Name', req.supervisorTitle)+pfield('Signature Date', fmtDate(req.supervisorSignatureDate))+'</div>' : '')
+
+          + '<h2>Section 4 — Administrative Processing</h2>'
+          + '<div class="grid">'
+          + pfield('Approved By (Admin)', req.approvedBy)
+          + pfield('Approved At', fmtDate(req.approvedAt))
+          + '</div>'
+
+          + (req.serverAllotted||req.loginIdGiven ? '<div class="allocation-box"><h2>Office Use — Server Allocation</h2><div class="grid">'+pfield('Server Allotted', req.serverAllotted)+pfield('Login ID Given', req.loginIdGiven)+pfield('Allocated By', req.allocatedBy)+pfield('Allocated At', fmtDate(req.allocatedAt))+(req.inChargeSignature?pfield('In-Charge Note', req.inChargeSignature):'')+'</div></div>' : '')
+
+          + '<div class="sig-row">'
+          + '<div class="sig-box">Applicant Signature &amp; Date</div>'
+          + '<div class="sig-box">Supervisor Signature &amp; Date</div>'
+          + '</div>'
+
+          + '<div class="footer">Department of Physics, Indian Institute of Technology Kharagpur &bull; Generated on '+new Date().toLocaleString('en-IN')+'</div>'
+          + '</div></body></html>');
+        w.document.close();
+        setTimeout(function () { w.focus(); w.print(); }, 600);
+      }
+
+      function pfield(label, val) {
+        return '<div class="field"><div class="lbl">'+escapeHtml(label)+'</div><div class="val">'+escapeHtml(val||'—')+'</div></div>';
+      }
+
+      function row(label, val) {
+        return '<div class="hpc-detail-row"><div class="label">'+escapeHtml(label)+'</div><div class="val">'+escapeHtml(val||"—")+'</div></div>';
+      }
+
+      // Filter buttons
+      document.querySelectorAll(".hpc-filter-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          document.querySelectorAll(".hpc-filter-btn").forEach(function (b) { b.classList.remove("is-active"); });
+          btn.classList.add("is-active");
+          activeFilter = btn.getAttribute("data-filter");
+          renderTable();
+        });
+      });
+
+      searchInput.addEventListener("input", renderTable);
+
+      // Table click: view / allocate / download / delete
+      tbody.addEventListener("click", function (e) {
+        var viewBtn = e.target.closest("[data-view]");
+        var allocBtn = e.target.closest("[data-allocate]");
+        var dlBtn = e.target.closest("[data-download]");
+        var delBtn = e.target.closest("[data-delete]");
+        if (viewBtn) {
+          var id = viewBtn.getAttribute("data-view");
+          var req = requests.find(function (r) { return r.id===id; });
+          showDetail(req);
+          detailEl.scrollIntoView({ behavior:"smooth", block:"nearest" });
+        }
+        if (allocBtn) {
+          var id = allocBtn.getAttribute("data-allocate");
+          var req = requests.find(function (r) { return r.id===id; });
+          if (!req) return;
+          document.getElementById("allocate-id").value = req.id;
+          document.getElementById("allocate-for").textContent = "For: " + (req.name||"Applicant") + " (" + (req.email||req.instituteId||"") + ")";
+          document.getElementById("allocate-server").value = req.serverAllotted||"";
+          document.getElementById("allocate-login").value = req.loginIdGiven||"";
+          document.getElementById("allocate-note").value = req.inChargeSignature||"";
+          document.getElementById("allocate-modal").classList.remove("is-hidden");
+        }
+        if (dlBtn) {
+          var id = dlBtn.getAttribute("data-download");
+          var req = requests.find(function (r) { return r.id===id; });
+          downloadForm(req);
+        }
+        if (delBtn) {
+          var id = delBtn.getAttribute("data-delete");
+          var req = requests.find(function (r) { return r.id===id; });
+          if (!req) return;
+          var confirmed = window.confirm("Delete this HPC request?\n\nApplicant: " + (req.name||"—") + "\nID: " + (req.instituteId||"—") + "\n\nThis action cannot be undone.");
+          if (!confirmed) return;
+          deleteRequest(id);
+        }
+      });
+
+      async function deleteRequest(id) {
+        try {
+          await api("/api/admin/hpc-account-requests/" + encodeURIComponent(id), { method: "DELETE" });
+          requests = requests.filter(function (r) { return r.id !== id; });
+          renderStats();
+          renderTable();
+          detailEl.style.display = "none";
+        } catch (err) {
+          alert("Failed to delete: " + err.message);
+        }
+      }
+
+      // Detail panel download button (event delegation)
+      detailEl.addEventListener("click", function (e) {
+        var btn = e.target.closest("[data-dl-detail]");
+        if (!btn) return;
+        var id = btn.getAttribute("data-dl-detail");
+        var req = requests.find(function (r) { return r.id===id; });
+        downloadForm(req);
+      });
+
+      // Modal close
+      document.getElementById("allocate-close").addEventListener("click", function () { document.getElementById("allocate-modal").classList.add("is-hidden"); });
+      document.getElementById("allocate-cancel").addEventListener("click", function () { document.getElementById("allocate-modal").classList.add("is-hidden"); });
+      document.getElementById("allocate-modal").addEventListener("click", function (e) { if (e.target===this) this.classList.add("is-hidden"); });
+
+      // Save allocation
+      document.getElementById("allocate-save").addEventListener("click", async function () {
+        var id = document.getElementById("allocate-id").value;
+        var server = document.getElementById("allocate-server").value.trim();
+        var login = document.getElementById("allocate-login").value.trim();
+        var note = document.getElementById("allocate-note").value.trim();
+        if (!server || !login) { alert("Please enter both Server Allotted and Login ID."); return; }
+        this.disabled = true; this.textContent = "Saving...";
+        try {
+          var res = await api("/api/admin/hpc-account-requests/" + encodeURIComponent(id) + "/allocate", {
+            method: "POST",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ serverAllotted: server, loginIdGiven: login, inChargeSignature: note })
+          });
+          var req = requests.find(function (r) { return r.id===id; });
+          if (req && res.request) { Object.assign(req, res.request); }
+          document.getElementById("allocate-modal").classList.add("is-hidden");
+          renderStats();
+          renderTable();
+          showDetail(req);
+          var doDownload = window.confirm("✓ Allocation saved successfully!\n\nWould you like to download the complete form as PDF now?");
+          if (doDownload) { downloadForm(req); }
+        } catch (err) {
+          alert(err.message||"Failed to save allocation.");
+        } finally {
+          this.disabled=false; this.textContent="Save Allocation";
+        }
+      });
+
+      // Load
+      try {
+        var data = await api("/api/auth/me");
+        document.getElementById("current-user-name").textContent = data.user.name;
+        document.getElementById("user-avatar").textContent = String(data.user.name||"S").charAt(0).toUpperCase();
+      } catch(e) {}
+
+      try {
+        var hpcData = await api("/api/admin/hpc-account-requests");
+        requests = Array.isArray(hpcData.requests) ? hpcData.requests : [];
+        renderStats();
+        renderTable();
+      } catch (err) {
+        document.querySelector(".superadmin-page-body").innerHTML += '<p style="color:#ef4444;padding:16px;">'+escapeHtml(err.message)+'</p>';
+      }
+
+      setupMobileSidebar();
+    })();
+  </script>
+</body>
+</html>

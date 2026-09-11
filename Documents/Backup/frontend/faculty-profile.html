@@ -1,0 +1,693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Faculty Profile | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body class="profile-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn active">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <main class="profile-main">
+    <div class="profile-wrap">
+      <a href="./faculty.html" class="back-link">&lsaquo; Back to Faculty</a>
+      <header class="profile-header">
+        <h2 id="profile-name">Faculty Member</h2>
+      </header>
+
+      <div class="profile-layout">
+        <aside class="profile-sidebar">
+          <div class="profile-photo" id="profile-photo" aria-hidden="true"></div>
+          <div class="contact-box" id="profile-contact-box">
+            <h3>Contact</h3>
+            <div class="contact-row" id="profile-office-row"><span>Office</span><p id="profile-office"></p></div>
+            <div class="contact-row" id="profile-phone-row"><span>Phone</span><p id="profile-phone"></p></div>
+            <div class="contact-row" id="profile-email-row"><span>Email</span><p id="profile-email"></p></div>
+          </div>
+        </aside>
+
+        <div class="profile-content">
+          <section class="profile-section profile-fact-section" id="profile-job-title-section" hidden>
+            <div class="profile-fact-row">
+              <span class="profile-fact-label">Job Title:</span>
+              <div class="profile-fact-value">
+                <p class="designation" id="profile-designation"></p>
+              </div>
+            </div>
+          </section>
+
+          <section class="profile-section" id="profile-specialization-section" hidden>
+            <h3>Research Area</h3>
+            <p id="profile-specialization"></p>
+          </section>
+
+          <section class="profile-section biography-section" id="profile-bio-section" hidden>
+            <h3>Bio/CV</h3>
+            <p id="profile-bio"></p>
+          </section>
+
+          <section class="profile-section" id="profile-research-interest-section" hidden>
+            <h3>Research Interests</h3>
+            <p id="profile-research-interest"></p>
+          </section>
+
+          <section class="profile-section" id="profile-research-team-section" hidden>
+            <h3>Research Team</h3>
+            <div id="profile-research-team" class="profile-team-grid">
+              <div id="profile-research-team-postdocs-wrap" hidden>
+                <h4>Postdocs</h4>
+                <p id="profile-research-team-postdocs"></p>
+              </div>
+              <div id="profile-research-team-students-wrap" hidden>
+                <h4>Students</h4>
+                <p id="profile-research-team-students"></p>
+              </div>
+            </div>
+          </section>
+
+          <section class="profile-section" id="profile-publications-section" hidden>
+            <h3>Publications</h3>
+            <p id="profile-publications"></p>
+          </section>
+
+          <section class="profile-section" id="profile-courses-taught-section" hidden>
+            <h3>Courses Taught</h3>
+            <p id="profile-courses-taught"></p>
+          </section>
+
+          <section class="profile-section" id="profile-industry-collaborations-section" hidden>
+            <h3>Industry Collaborations</h3>
+            <p id="profile-industry-collaborations"></p>
+          </section>
+
+          <section class="profile-section" id="profile-awards-and-honors-section" hidden>
+            <h3>Awards and Honors</h3>
+            <p id="profile-awards-and-honors"></p>
+          </section>
+          <div id="profile-custom-sections"></div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (async function () {
+      function esc(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function textValue(value, fallback) {
+        var trimmed = String(value || "").trim();
+        return trimmed || fallback;
+      }
+
+      function looksLikeHtml(value) {
+        return /<[^>]+>/.test(String(value || ""));
+      }
+
+      function sanitizeRichHtml(inputHtml) {
+        var template = document.createElement("template");
+        template.innerHTML = String(inputHtml || "");
+        var allowedTags = {
+          A: true, B: true, BR: true, EM: true, I: true, LI: true, OL: true,
+          P: true, SPAN: true, STRONG: true, U: true, UL: true
+        };
+        var allowedStyles = {
+          color: true,
+          "font-weight": true,
+          "font-style": true,
+          "text-decoration": true
+        };
+
+        function clean(node) {
+          var children = Array.prototype.slice.call(node.childNodes);
+          children.forEach(function (child) {
+            if (child.nodeType === 1) {
+              if (!allowedTags[child.tagName]) {
+                var text = document.createTextNode(child.textContent || "");
+                node.replaceChild(text, child);
+                return;
+              }
+
+              var attrs = Array.prototype.slice.call(child.attributes);
+              attrs.forEach(function (attr) {
+                var name = attr.name.toLowerCase();
+                if (child.tagName === "A" && name === "href") {
+                  var href = String(attr.value || "").trim();
+                  if (!/^https?:\/\//i.test(href) && !/^mailto:/i.test(href)) {
+                    child.removeAttribute(attr.name);
+                  } else {
+                    child.setAttribute("target", "_blank");
+                    child.setAttribute("rel", "noopener noreferrer");
+                  }
+                  return;
+                }
+                if (name === "style") {
+                  var safeStyle = [];
+                  String(attr.value || "").split(";").forEach(function (rule) {
+                    var parts = rule.split(":");
+                    if (parts.length < 2) { return; }
+                    var key = String(parts[0] || "").trim().toLowerCase();
+                    var val = String(parts.slice(1).join(":") || "").trim();
+                    if (!allowedStyles[key]) { return; }
+                    safeStyle.push(key + ":" + val);
+                  });
+                  if (safeStyle.length) {
+                    child.setAttribute("style", safeStyle.join(";"));
+                  } else {
+                    child.removeAttribute("style");
+                  }
+                  return;
+                }
+                child.removeAttribute(attr.name);
+              });
+            }
+            clean(child);
+          });
+        }
+
+        clean(template.content);
+        return template.innerHTML;
+      }
+
+      function renderRichText(node, value, fallback) {
+        if (!node) {
+          return;
+        }
+        var content = String(value || "").trim();
+        if (!content) {
+          node.textContent = fallback;
+          return;
+        }
+        if (looksLikeHtml(content)) {
+          node.innerHTML = sanitizeRichHtml(content);
+        } else {
+          node.innerHTML = plainTextToRichHtml(content);
+        }
+      }
+
+      function formatInlineText(value) {
+        var escaped = esc(String(value || ""));
+        escaped = escaped.replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>");
+        escaped = escaped.replace(/\*(.+?)\*/g, "<em>$1</em>");
+        escaped = escaped.replace(/__(.+?)__/g, "<u>$1</u>");
+        escaped = escaped.replace(/\[color:(#[0-9a-fA-F]{3,6}|[a-zA-Z]+)\]([\s\S]+?)\[\/color\]/g, '<span style="color:$1">$2</span>');
+        escaped = escaped.replace(/((https?:\/\/|www\.)[^\s<]+)/g, function (match) {
+          var href = /^https?:\/\//i.test(match) ? match : ("https://" + match);
+          return '<a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' + match + "</a>";
+        });
+        return escaped;
+      }
+
+      function plainTextToRichHtml(value) {
+        var lines = String(value || "").split(/\r?\n/);
+        var chunks = [];
+        var currentList = null;
+
+        function closeList() {
+          if (currentList) {
+            chunks.push("</" + currentList + ">");
+            currentList = null;
+          }
+        }
+
+        lines.forEach(function (line) {
+          var raw = String(line || "");
+          var trimmed = raw.trim();
+          if (!trimmed) {
+            closeList();
+            return;
+          }
+
+          var unorderedMatch = trimmed.match(/^[-*�]\s+(.+)$/);
+          if (unorderedMatch) {
+            if (currentList !== "ul") {
+              closeList();
+              currentList = "ul";
+              chunks.push("<ul>");
+            }
+            chunks.push("<li>" + formatInlineText(unorderedMatch[1]) + "</li>");
+            return;
+          }
+
+          var orderedMatch = trimmed.match(/^\d+[.)]\s+(.+)$/);
+          if (orderedMatch) {
+            if (currentList !== "ol") {
+              closeList();
+              currentList = "ol";
+              chunks.push("<ol>");
+            }
+            chunks.push("<li>" + formatInlineText(orderedMatch[1]) + "</li>");
+            return;
+          }
+
+          closeList();
+          chunks.push("<p>" + formatInlineText(trimmed) + "</p>");
+        });
+
+        closeList();
+        return chunks.join("");
+      }
+
+      var params = new URLSearchParams(window.location.search);
+      var requestedId = String(params.get("id") || "").trim();
+
+      var nameNode = document.getElementById("profile-name");
+      var contactBoxNode = document.getElementById("profile-contact-box");
+      var officeRowNode = document.getElementById("profile-office-row");
+      var phoneRowNode = document.getElementById("profile-phone-row");
+      var emailRowNode = document.getElementById("profile-email-row");
+      var jobTitleSectionNode = document.getElementById("profile-job-title-section");
+      var specializationSectionNode = document.getElementById("profile-specialization-section");
+      var bioSectionNode = document.getElementById("profile-bio-section");
+      var researchInterestSectionNode = document.getElementById("profile-research-interest-section");
+      var researchTeamSectionNode = document.getElementById("profile-research-team-section");
+      var teamPostdocsWrapNode = document.getElementById("profile-research-team-postdocs-wrap");
+      var teamStudentsWrapNode = document.getElementById("profile-research-team-students-wrap");
+      var publicationsSectionNode = document.getElementById("profile-publications-section");
+      var designationNode = document.getElementById("profile-designation");
+      var officeNode = document.getElementById("profile-office");
+      var phoneNode = document.getElementById("profile-phone");
+      var emailNode = document.getElementById("profile-email");
+      var specializationNode = document.getElementById("profile-specialization");
+      var bioNode = document.getElementById("profile-bio");
+      var researchNode = document.getElementById("profile-research-interest");
+      var teamPostdocsNode = document.getElementById("profile-research-team-postdocs");
+      var teamStudentsNode = document.getElementById("profile-research-team-students");
+      var publicationsNode = document.getElementById("profile-publications");
+      var coursesSectionNode = document.getElementById("profile-courses-taught-section");
+      var coursesNode = document.getElementById("profile-courses-taught");
+      var collaborationsSectionNode = document.getElementById("profile-industry-collaborations-section");
+      var collaborationsNode = document.getElementById("profile-industry-collaborations");
+      var awardsSectionNode = document.getElementById("profile-awards-and-honors-section");
+      var awardsNode = document.getElementById("profile-awards-and-honors");
+      var photoNode = document.getElementById("profile-photo");
+      var customSectionsNode = document.getElementById("profile-custom-sections");
+
+      function hasMeaningfulContent(value) {
+        return String(value || "").replace(/<[^>]+>/g, " ").replace(/\s+/g, " ").trim().length > 0;
+      }
+
+      function parseTeamEntries(value) {
+        var raw = String(value || "");
+        if (!raw.trim()) {
+          return [];
+        }
+
+        return raw
+          .split(/\r?\n|,/)
+          .map(function (part) { return String(part || "").trim(); })
+          .filter(Boolean)
+          .map(function (entry) {
+            var fullMatch = entry.match(/^(.+?)\s*<([^>]+@[^>]+)>$/);
+            if (fullMatch) {
+              return { name: fullMatch[1].trim(), email: fullMatch[2].trim().toLowerCase() };
+            }
+
+            var trailingEmailMatch = entry.match(/^(.+?)\s*\(([^)]+@[^)]+)\)$/);
+            if (trailingEmailMatch) {
+              return { name: trailingEmailMatch[1].trim(), email: trailingEmailMatch[2].trim().toLowerCase() };
+            }
+
+            if (/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(entry)) {
+              return { name: entry, email: entry.toLowerCase() };
+            }
+
+            return { name: entry, email: "" };
+          });
+      }
+
+      function renderTeamList(node, entries, peopleByEmail, fallback) {
+        if (!node) {
+          return;
+        }
+
+        if (!entries.length) {
+          node.textContent = fallback;
+          return;
+        }
+
+        var list = entries.map(function (entry) {
+          var emailKey = String(entry.email || "").trim().toLowerCase();
+          var matchedPerson = emailKey ? peopleByEmail[emailKey] : null;
+          if (matchedPerson) {
+            var profileKey = String(matchedPerson.facultyId || matchedPerson.loginId || matchedPerson.email || matchedPerson.name || "").trim();
+            if (profileKey) {
+              return '<a href="./faculty-profile.html?id=' + encodeURIComponent(profileKey) + '">' + esc(entry.name || matchedPerson.name || "Profile") + "</a>";
+            }
+          }
+          return esc(entry.name);
+        }).join(", ");
+
+        node.innerHTML = list;
+      }
+
+      function parsePublicationEntries(value) {
+        var raw = String(value || "").trim();
+        if (!raw) {
+          return [];
+        }
+
+        return raw
+          .split(/\r?\n/)
+          .map(function (line) { return String(line || "").trim(); })
+          .filter(Boolean)
+          .map(function (line) {
+            var parts = line.split("|");
+            if (parts.length >= 2) {
+              var title = String(parts[0] || "").trim();
+              var url = String(parts.slice(1).join("|") || "").trim();
+              return { title: title, url: url };
+            }
+            return { title: "", url: line };
+          });
+      }
+
+      function normalizeUrl(url) {
+        var value = String(url || "").trim();
+        if (!value) {
+          return "";
+        }
+        if (/^https?:\/\//i.test(value)) {
+          return value;
+        }
+        if (/^[^\s]+\.[^\s]+/.test(value)) {
+          return "https://" + value;
+        }
+        return "";
+      }
+
+      function renderPublications(node, value) {
+        if (!node) {
+          return;
+        }
+
+        var rawValue = String(value || "").trim();
+        if (!rawValue) {
+          node.textContent = "";
+          return;
+        }
+
+        if (looksLikeHtml(rawValue)) {
+          node.innerHTML = sanitizeRichHtml(rawValue);
+          return;
+        }
+
+        if (/\n/.test(rawValue) && !/[|]/.test(rawValue)) {
+          node.innerHTML = plainTextToRichHtml(rawValue);
+          return;
+        }
+
+        var entries = parsePublicationEntries(rawValue);
+
+        var listItems = entries.map(function (entry) {
+          var safeTitle = esc(entry.title || entry.url || "Publication link");
+          var normalizedUrl = normalizeUrl(entry.url);
+          if (!normalizedUrl) {
+            return "<li>" + safeTitle + "</li>";
+          }
+          return '<li><a href="' + esc(normalizedUrl) + '" target="_blank" rel="noopener noreferrer">' + safeTitle + "</a></li>";
+        }).join("");
+
+        node.innerHTML = "<ol>" + listItems + "</ol>";
+      }
+
+      function toggleContactRow(rowNode, contentNode, value, html) {
+        if (!rowNode || !contentNode) {
+          return false;
+        }
+        if (!hasMeaningfulContent(value)) {
+          rowNode.hidden = true;
+          contentNode.textContent = "";
+          return false;
+        }
+        rowNode.hidden = false;
+        if (html) {
+          contentNode.innerHTML = html;
+        } else {
+          contentNode.textContent = String(value || "").trim();
+        }
+        return true;
+      }
+
+      function renderAutoSection(sectionNode, contentNode, value) {
+        if (!sectionNode || !contentNode) {
+          return false;
+        }
+        if (!hasMeaningfulContent(value)) {
+          sectionNode.hidden = true;
+          contentNode.textContent = "";
+          return false;
+        }
+        sectionNode.hidden = false;
+        renderRichText(contentNode, value, "");
+        return true;
+      }
+
+      function renderOptionalSection(sectionNode, contentNode, shouldShow, value, fallback) {
+        if (!sectionNode || !contentNode) {
+          return;
+        }
+        if (!shouldShow || !String(value || "").trim()) {
+          sectionNode.hidden = true;
+          return;
+        }
+        sectionNode.hidden = false;
+        renderRichText(contentNode, value, fallback);
+      }
+
+      function renderCustomSections(sections) {
+        if (!customSectionsNode) {
+          return;
+        }
+        var items = Array.isArray(sections) ? sections.filter(function (section) {
+          return hasMeaningfulContent(section && (section.title || section.content));
+        }) : [];
+        customSectionsNode.innerHTML = "";
+        items.forEach(function (section, index) {
+          var wrapper = document.createElement("section");
+          wrapper.className = "profile-section";
+          wrapper.innerHTML = '<h3></h3><div class="profile-custom-section-body"></div>';
+          wrapper.querySelector("h3").textContent = String((section && section.title) || "").trim() || ("Additional Section " + (index + 1));
+          customSectionsNode.appendChild(wrapper);
+          renderRichText(wrapper.querySelector(".profile-custom-section-body"), section.content, "");
+        });
+      }
+
+      if (!requestedId) {
+        nameNode.textContent = "Profile not found";
+        designationNode.textContent = "Missing profile id";
+        return;
+      }
+
+      try {
+        var responses = await Promise.all([
+          fetch(window.location.origin + "/api/public/faculty", { cache: "no-store" }),
+          fetch(window.location.origin + "/api/public/postdocs", { cache: "no-store" })
+        ]);
+        var data = await responses[0].json();
+        var postdocData = await responses[1].json();
+        var faculty = Array.isArray(data.faculty) ? data.faculty : [];
+        var postdocPeople = [];
+        var groups = Array.isArray(postdocData.peopleGroups) ? postdocData.peopleGroups : [];
+        groups.forEach(function (group) {
+          (group.items || []).forEach(function (item) { postdocPeople.push(item); });
+        });
+        var everyone = faculty.concat(postdocPeople);
+        var peopleByEmail = {};
+        everyone.forEach(function (item) {
+          var email = String(item.email || "").trim().toLowerCase();
+          if (email) {
+            peopleByEmail[email] = item;
+          }
+        });
+        var person = everyone.find(function (item) {
+          return String(item.facultyId || "").trim() === requestedId
+            || String(item.loginId || "").trim() === requestedId
+            || String(item.email || "").trim() === requestedId
+            || String(item.name || "").trim() === requestedId;
+        });
+
+        if (!person) {
+          nameNode.textContent = "Profile not found";
+          designationNode.textContent = "No published profile found for this user";
+          return;
+        }
+
+        var safeName = textValue(person.name, "Faculty Member");
+        document.title = safeName + " | Department of Physics | IIT Kharagpur";
+        nameNode.textContent = safeName;
+        jobTitleSectionNode.hidden = !hasMeaningfulContent(person.designation);
+        designationNode.textContent = hasMeaningfulContent(person.designation) ? textValue(person.designation, "") : "";
+        var hasOffice = toggleContactRow(officeRowNode, officeNode, person.office, "");
+        var hasPhone = toggleContactRow(phoneRowNode, phoneNode, person.phone, person.phone ? '<a href="tel:' + esc(String(person.phone || "").replace(/\s+/g, "")) + '">' + esc(person.phone) + '</a>' : "");
+        var hasEmail = toggleContactRow(emailRowNode, emailNode, person.email, person.email ? '<a href="mailto:' + esc(person.email) + '">' + esc(person.email) + '</a>' : "");
+        contactBoxNode.hidden = !(hasOffice || hasPhone || hasEmail);
+        renderAutoSection(specializationSectionNode, specializationNode, person.specialization);
+        renderAutoSection(bioSectionNode, bioNode, person.bio);
+        renderAutoSection(researchInterestSectionNode, researchNode, person.researchInterest);
+
+        if (looksLikeHtml(person.researchTeamPostdocs) || looksLikeHtml(person.researchTeamStudents)) {
+          var hasPostdocHtml = hasMeaningfulContent(person.researchTeamPostdocs);
+          var hasStudentHtml = hasMeaningfulContent(person.researchTeamStudents);
+          teamPostdocsWrapNode.hidden = !hasPostdocHtml;
+          teamStudentsWrapNode.hidden = !hasStudentHtml;
+          if (hasPostdocHtml) {
+            renderRichText(teamPostdocsNode, person.researchTeamPostdocs, "");
+          }
+          if (hasStudentHtml) {
+            renderRichText(teamStudentsNode, person.researchTeamStudents, "");
+          }
+          researchTeamSectionNode.hidden = !(hasPostdocHtml || hasStudentHtml);
+        } else {
+          var postdocEntries = parseTeamEntries(person.researchTeamPostdocs);
+          var studentEntries = parseTeamEntries(person.researchTeamStudents);
+          if (!postdocEntries.length && !studentEntries.length && person.researchTeam) {
+            studentEntries = parseTeamEntries(person.researchTeam);
+          }
+          teamPostdocsWrapNode.hidden = !postdocEntries.length;
+          teamStudentsWrapNode.hidden = !studentEntries.length;
+          if (postdocEntries.length) {
+            renderTeamList(teamPostdocsNode, postdocEntries, peopleByEmail, "");
+          }
+          if (studentEntries.length) {
+            renderTeamList(teamStudentsNode, studentEntries, peopleByEmail, "");
+          }
+          researchTeamSectionNode.hidden = !(postdocEntries.length || studentEntries.length);
+        }
+        publicationsSectionNode.hidden = !hasMeaningfulContent(person.publications);
+        renderPublications(publicationsNode, person.publications);
+        renderOptionalSection(coursesSectionNode, coursesNode, person.showCoursesTaught, person.coursesTaught, "No courses published yet.");
+        renderOptionalSection(collaborationsSectionNode, collaborationsNode, person.showIndustryCollaborations, person.industryCollaborations, "No collaborations published yet.");
+        renderOptionalSection(awardsSectionNode, awardsNode, person.showAwardsAndHonors, person.awardsAndHonors, "No awards published yet.");
+        renderCustomSections(person.customSections);
+
+
+        if (person.photoDataUrl) {
+          photoNode.innerHTML = '<img src="' + esc(person.photoDataUrl) + '" alt="' + esc(safeName) + '" class="profile-photo-image" />';
+        }
+      } catch (error) {
+        nameNode.textContent = "Profile unavailable";
+        designationNode.textContent = "Could not load profile data";
+      }
+    })();
+  </script>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+

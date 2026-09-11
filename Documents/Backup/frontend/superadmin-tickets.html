@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support Tickets | IIT Portal</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body class="superadmin-page">
+  <div class="superadmin-shell">
+    <aside class="superadmin-sidebar">
+      <div class="superadmin-brand">
+        <h1>Department of Physics</h1>
+        <p>IIT Kharagpur · Super Admin</p>
+      </div>
+      <nav class="superadmin-nav" aria-label="Super admin navigation">
+        <a href="./superadmin-dashboard.html"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="6" height="6"></rect><rect x="14" y="4" width="6" height="6"></rect><rect x="4" y="14" width="6" height="6"></rect><rect x="14" y="14" width="6" height="6"></rect></svg><span>Dashboard Overview</span></a>
+        <a href="./superadmin-content.html"><svg viewBox="0 0 24 24"><path d="M7 4h7l5 5v11H7z"></path><path d="M14 4v5h5"></path><path d="M10 13h6"></path><path d="M10 17h6"></path></svg><span>Content Management</span></a>
+        <a href="./superadmin-news-events.html"><svg viewBox="0 0 24 24"><path d="M4 6h16"></path><path d="M4 12h16"></path><path d="M4 18h10"></path></svg><span>News &amp; Events</span></a>
+        <a href="./superadmin-people.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>People Section</span></a>
+        <a href="./superadmin-alumni.html"><svg viewBox="0 0 24 24"><path d="M3 20h18"></path><path d="M5 18V8l7-4 7 4v10"></path><path d="M9 12h6"></path></svg><span>Alumni Section</span></a>
+        <a href="./superadmin-users.html"><svg viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9.5" cy="7" r="3"></circle><path d="M20 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 4.13a3 3 0 0 1 0 5.74"></path></svg><span>User &amp; Admin</span></a>
+        <a href="./superadmin-bookings.html"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M16 3v4"></path><path d="M8 3v4"></path><path d="M3 11h18"></path></svg><span>Booking Calendar</span></a>
+        <a href="./superadmin-tickets.html" class="is-active"><svg viewBox="0 0 24 24"><path d="M4 7h16v5a2 2 0 0 0 0 4v1H4v-1a2 2 0 0 0 0-4z"></path><path d="M9 7v10"></path></svg><span>Tickets &amp; Support</span></a>
+        <a href="./superadmin-support-chat.html"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg><span>Admin Messages</span></a>
+        <a href="./superadmin-notifications.html"><svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg><span>Notifications</span></a>
+        <a href="./superadmin-settings.html"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 0 1 0 2.8 2 2 0 0 1-2.8 0l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 0 1-4 0v-.2a1.7 1.7 0 0 0-1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 0 1 0-4h.2a1.7 1.7 0 0 0 1.5-1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3h.1A1.7 1.7 0 0 0 10 3.2V3a2 2 0 0 1 4 0v.2a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8v.1a1.7 1.7 0 0 0 1.5 1.1H21a2 2 0 0 1 0 4h-.2a1.7 1.7 0 0 0-1.4 1z"></path></svg><span>Settings</span></a>
+      </nav>
+    </aside>
+
+    <main class="superadmin-main">
+      <header class="superadmin-topbar">
+        <div class="superadmin-topbar-left">
+          <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
+          <label class="superadmin-search">
+            <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
+            <input id="ticket-search" type="search" placeholder="Search pages, users, tickets..." />
+          </label>
+        </div>
+        <div class="superadmin-topbar-right">
+          <a class="superadmin-icon-button superadmin-notify" href="./superadmin-notifications.html" aria-label="Notifications">
+            <svg viewBox="0 0 24 24"><path d="M15 17h5l-1.4-1.4A2 2 0 0 1 18 14.2V11a6 6 0 1 0-12 0v3.2a2 2 0 0 1-.6 1.4L4 17h5"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+          </a>
+          <div class="superadmin-userbox">
+            <div class="superadmin-avatar" id="user-avatar">S</div>
+            <div class="superadmin-user-meta">
+              <strong id="current-user-name">Super Admin</strong>
+            </div>
+            <svg class="superadmin-userbox-toggle" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6"></path></svg>
+            <div class="superadmin-user-menu">
+              <button type="button" class="superadmin-logout">Logout</button>
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="superadmin-page-body">
+        <section class="superadmin-page-header">
+          <div>
+            <h1>Support Tickets</h1>
+            <p>Track and resolve submitted tickets</p>
+          </div>
+        </section>
+
+        <section class="superadmin-summary-grid is-three" id="ticket-summary"></section>
+
+        <section class="superadmin-ticket-toolbar">
+          <div class="superadmin-ticket-filters" id="ticket-filters">
+            <button type="button" class="is-active" data-filter="all">All</button>
+            <button type="button" data-filter="Pending">Open</button>
+            <button type="button" data-filter="In Progress">In Progress</button>
+            <button type="button" data-filter="Resolved">Resolved</button>
+          </div>
+        </section>
+
+        <section class="superadmin-user-table-card">
+          <div class="superadmin-ticket-table-head">
+            <div>ID</div>
+            <div>User</div>
+            <div>Issue</div>
+            <div>Date</div>
+            <div>Priority</div>
+            <div>Status</div>
+            <div></div>
+          </div>
+          <div id="ticket-list"></div>
+        </section>
+
+        <p id="ticket-message" class="superadmin-inline-message"></p>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    (async function () {
+      var token = localStorage.getItem("iitPortalToken");
+      if (!token) { window.location.href = "/admin-login.html?role=superadmin"; return; }
+      function setupMobileSidebar() {
+        var sidebar = document.querySelector(".superadmin-sidebar");
+        var menuButton = document.querySelector('.superadmin-icon-button[aria-label="Menu"]');
+        if (!sidebar || !menuButton) { return; }
+        if (menuButton.dataset.sidebarBound === "1") { return; }
+        menuButton.dataset.sidebarBound = "1";
+
+        menuButton.addEventListener("click", function (event) {
+          event.stopPropagation();
+          sidebar.classList.toggle("is-open");
+        });
+
+        sidebar.addEventListener("click", function (event) {
+          if (event.target.closest("a")) {
+            sidebar.classList.remove("is-open");
+          }
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!sidebar.classList.contains("is-open")) { return; }
+          if (sidebar.contains(event.target) || menuButton.contains(event.target)) { return; }
+          sidebar.classList.remove("is-open");
+        });
+      }
+
+      var summaryRoot = document.getElementById("ticket-summary");
+      var listRoot = document.getElementById("ticket-list");
+      var filters = document.getElementById("ticket-filters");
+      var searchInput = document.getElementById("ticket-search");
+      var message = document.getElementById("ticket-message");
+      var currentUserName = document.getElementById("current-user-name");
+      var userAvatar = document.getElementById("user-avatar");
+      var userMenu = document.querySelector(".superadmin-userbox");
+      var logoutButton = document.querySelector(".superadmin-logout");
+      var activeFilter = "all";
+      var ticketsCache = [];
+      var ticketStream = null;
+
+      function setupUserMenu() {
+        if (!userMenu || !logoutButton) { return; }
+
+        userMenu.addEventListener("click", function (event) {
+          if (event.target.closest(".superadmin-user-menu")) { return; }
+          userMenu.classList.toggle("is-open");
+        });
+
+        logoutButton.addEventListener("click", function (event) {
+          event.preventDefault();
+          event.stopPropagation();
+          localStorage.removeItem("iitPortalToken");
+          localStorage.removeItem("iitPortalUser");
+          window.location.href = "./index.html";
+        });
+
+        document.addEventListener("click", function (event) {
+          if (!userMenu.contains(event.target)) {
+            userMenu.classList.remove("is-open");
+          }
+        });
+      }
+
+      function escapeHtml(value) {
+        return String(value || "").replace(/[&<>"']/g, function (char) {
+          return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[char];
+        });
+      }
+
+      function priorityLevel(item) {
+        var text = [item.subject, item.description, item.category].join(" - ").toLowerCase();
+        if (text.indexOf("lab") !== -1 || text.indexOf("network") !== -1 || text.indexOf("access") !== -1 || text.indexOf("projector") !== -1) { return "high"; }
+        if (text.indexOf("notice") !== -1 || text.indexOf("page") !== -1 || text.indexOf("website") !== -1) { return "low"; }
+        return "medium";
+      }
+
+      function statusClass(status) {
+        if (status === "Pending") { return "superadmin-status-open"; }
+        if (status === "In Progress") { return "superadmin-status-progress"; }
+        if (status === "Resolved") { return "superadmin-status-resolved"; }
+        return "superadmin-status-rejected";
+      }
+
+      function statusLabel(status) {
+        if (status === "Pending") { return "open"; }
+        if (status === "In Progress") { return "in-progress"; }
+        if (status === "Resolved") { return "resolved"; }
+        return "rejected";
+      }
+
+      async function api(path, options) {
+        var config = Object.assign({ headers: { Authorization: "Bearer " + token } }, options || {});
+        var response = await fetch(window.location.origin + path, config);
+        var data = await response.json();
+        if (!response.ok) { throw new Error(data.message || "Request failed"); }
+        return data;
+      }
+
+      function renderSummary(data) {
+        var items = [
+          { label: "Open", value: data.open, className: "superadmin-status-open" },
+          { label: "In Progress", value: data.inProgress, className: "superadmin-status-progress" },
+          { label: "Resolved", value: data.resolved, className: "superadmin-status-resolved" }
+        ];
+        summaryRoot.innerHTML = items.map(function (item) {
+          return '<article class="superadmin-stat-card superadmin-users-stat-card"><strong class="' + item.className + '">' + escapeHtml(item.value) + '</strong><p>' + escapeHtml(item.label) + '</p></article>';
+        }).join("");
+      }
+
+      function filteredTickets() {
+        var query = String(searchInput.value || "").trim().toLowerCase();
+        return ticketsCache.filter(function (item) {
+          var statusMatch = activeFilter === "all" || item.status === activeFilter;
+          var queryMatch = !query || [item.id, item.requesterName, item.subject, item.description, item.category, item.status].join(" - ").toLowerCase().indexOf(query) !== -1;
+          return statusMatch && queryMatch;
+        });
+      }
+
+      function renderTickets() {
+        var tickets = filteredTickets();
+        listRoot.innerHTML = tickets.length ? tickets.map(function (item) {
+          var priority = priorityLevel(item);
+          return [
+            '<article class="superadmin-ticket-row">',
+            '<div>' + escapeHtml(item.id || "TKT") + '</div>',
+            '<div>' + escapeHtml(item.requesterName || "Unknown") + '</div>',
+            '<div>' + escapeHtml(item.subject || "Untitled issue") + '</div>',
+            '<div>' + escapeHtml(new Date(item.createdAt).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" })) + '</div>',
+            '<div><span class="superadmin-priority-pill superadmin-priority-' + priority + '">' + priority + '</span></div>',
+            '<div><span class="superadmin-status-pill ' + statusClass(item.status) + '">' + escapeHtml(statusLabel(item.status)) + '</span></div>',
+            '<div class="superadmin-ticket-actions">',
+            '<form class="superadmin-ticket-inline-form" data-id="' + escapeHtml(item.id) + '">',
+            '<select name="status"><option value="Pending"' + (item.status === "Pending" ? ' selected' : '') + '>Pending</option><option value="In Progress"' + (item.status === "In Progress" ? ' selected' : '') + '>In Progress</option><option value="Resolved"' + (item.status === "Resolved" ? ' selected' : '') + '>Resolved</option><option value="Rejected"' + (item.status === "Rejected" ? ' selected' : '') + '>Rejected</option></select>',
+            '<button class="superadmin-row-menu" type="submit" aria-label="Update ticket"><span></span><span></span><span></span></button>',
+            '</form>',
+            '</div>',
+            '</article>'
+          ].join("");
+        }).join("") : '<p class="superadmin-empty superadmin-users-empty">No tickets match this filter.</p>';
+      }
+
+      async function loadCurrentUser() {
+        var data = await api("/api/auth/me");
+        currentUserName.textContent = data.user.name;
+        userAvatar.textContent = String(data.user.name || "S").charAt(0).toUpperCase();
+      }
+
+      async function load() {
+        renderSummary(await api("/api/superadmin/tickets/summary"));
+        ticketsCache = (await api("/api/superadmin/tickets")).tickets || [];
+        renderTickets();
+      }
+
+      function connectTicketStream() {
+        if (ticketStream) {
+          ticketStream.close();
+        }
+
+        ticketStream = new EventSource(
+          window.location.origin + "/api/dashboard/stream?token=" + encodeURIComponent(token)
+        );
+
+        ticketStream.addEventListener("dashboard", function () {
+          load().catch(function () {});
+        });
+
+        ticketStream.onerror = function () {
+          if (ticketStream) {
+            ticketStream.close();
+          }
+
+          window.setTimeout(function () {
+            connectTicketStream();
+          }, 2000);
+        };
+      }
+
+      async function updateTicketStatus(form) {
+        if (!form || form.getAttribute("data-busy") === "true") {
+          return;
+        }
+
+        form.setAttribute("data-busy", "true");
+        var fd = new FormData(form);
+      try {
+          await api("/api/superadmin/tickets/" + form.getAttribute("data-id"), {
+            method: "PATCH",
+            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+            body: JSON.stringify({ status: fd.get("status") })
+          });
+          message.classList.remove("is-error");
+          message.textContent = "Ticket updated successfully.";
+          await load();
+        } catch (error) {
+          message.classList.add("is-error");
+          message.textContent = error.message;
+        } finally {
+          form.removeAttribute("data-busy");
+        }
+      }
+
+      listRoot.addEventListener("submit", async function (event) {
+        event.preventDefault();
+        await updateTicketStatus(event.target);
+      });
+
+      listRoot.addEventListener("change", async function (event) {
+        var select = event.target.closest('select[name="status"]');
+        if (!select) { return; }
+        await updateTicketStatus(select.form);
+      });
+
+      filters.addEventListener("click", function (event) {
+        var button = event.target.closest("[data-filter]");
+        if (!button) { return; }
+        activeFilter = button.getAttribute("data-filter");
+        Array.from(filters.querySelectorAll("button")).forEach(function (item) {
+          item.classList.toggle("is-active", item === button);
+        });
+        renderTickets();
+      });
+
+      searchInput.addEventListener("input", renderTickets);
+      setupUserMenu();
+
+
+      try {
+        await Promise.all([loadCurrentUser(), load()]);
+        connectTicketStream();
+      } catch (error) {
+        localStorage.removeItem("iitPortalToken");
+        localStorage.removeItem("iitPortalUser");
+        window.location.href = "/admin-login.html?role=superadmin";
+      }
+      setupMobileSidebar();
+    })();
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+

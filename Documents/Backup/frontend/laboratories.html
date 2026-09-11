@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Laboratories | Department of Physics | IIT Kharagpur</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="./styles.css" />
+  <script src="./search.js" defer></script>
+</head>
+<body class="facilities-page">
+  <header class="top-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+        <div class="brand-text">
+          <h1>Department of Physics</h1>
+          <p>Indian Institute of Technology Kharagpur</p>
+        </div>
+      </div>
+      <form class="search-box" role="search" aria-label="Search pages">
+        <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
+        <input class="search-input" type="search" name="q" placeholder="Search" />
+      </form>
+    </div>
+  </header>
+
+  <nav class="main-nav">
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <div class="container nav-inner" id="primary-navigation">
+      <a href="./index.html">HOME</a>
+      <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+                                <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
+      <a href="./research.html" class="active">RESEARCH</a>
+      <a href="./facilities.html">FACILITY</a>
+      <a href="./programs.html">PROGRAMS</a>
+      <a href="./news-events.html">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
+      <a href="./career.html">CAREER</a>
+    </div>
+  </nav>
+
+  <section class="facilities-hero">
+    <img src="./laboratories.png" alt="Research laboratory infrastructure" />
+    <div class="facilities-hero-copy">
+      <p class="facilities-kicker">Research / Labs &amp; Facilities</p>
+      <h1>Where physics happens</h1>
+      <p>Our laboratories and shared facilities span the spectrum from quantum materials cleanrooms to astrophysics observatories, built for collaborative frontier research.</p>
+    </div>
+  </section>
+
+  <main>
+    <section class="facilities-section">
+      <div class="facilities-wrap">
+        <p class="facilities-label">Laboratories</p>
+        <h2 class="facilities-title">Six flagship research labs</h2>
+
+        <div class="laboratories-grid">
+          <article class="laboratory-card">
+            <img src="./about-research-lab.png" alt="Condensed matter laboratory instruments" />
+            <div class="laboratory-card-body">
+              <p class="laboratory-kicker">Quantum Materials &amp; Low-Temperature Physics</p>
+              <h3>Condensed Matter Lab</h3>
+              <p>Dilution refrigerators, transport measurements and angle-resolved photoemission spectroscopy for the study of correlated electron systems.</p>
+            </div>
+          </article>
+
+          <article class="laboratory-card">
+            <img src="./facilities.png" alt="Optics and photonics laser setup" />
+            <div class="laboratory-card-body">
+              <p class="laboratory-kicker">Ultrafast Lasers &amp; Quantum Optics</p>
+              <h3>Optics &amp; Photonics Lab</h3>
+              <p>Femtosecond pump-probe systems, single-photon sources and integrated photonics testbeds for precision optical experiments.</p>
+            </div>
+          </article>
+
+          <article class="laboratory-card">
+            <img src="./research-areas.png" alt="Computational physics server environment" />
+            <div class="laboratory-card-body">
+              <p class="laboratory-kicker">Computational Frontier</p>
+              <h3>High Energy Physics Lab</h3>
+              <p>Dedicated GPU cluster for lattice QCD, event simulation and machine-learning analysis of collider and detector data.</p>
+            </div>
+          </article>
+
+          <article class="laboratory-card">
+            <img src="./postgraduate-program.png" alt="Nanoscience cleanroom and fabrication tools" />
+            <div class="laboratory-card-body">
+              <p class="laboratory-kicker">Class-100 Fabrication</p>
+              <h3>Nanoscience Cleanroom</h3>
+              <p>Electron-beam lithography, thin-film deposition and SEM/AFM imaging for nanoscale device fabrication and prototyping.</p>
+            </div>
+          </article>
+
+          <article class="laboratory-card">
+            <img src="./home-hero-gate.png" alt="Astrophysics observatory control room" />
+            <div class="laboratory-card-body">
+              <p class="laboratory-kicker">Optical &amp; Radio Observation</p>
+              <h3>Astrophysics Observatory</h3>
+              <p>On-campus telescope facility paired with remote access to international observatories for time-domain and cosmology studies.</p>
+            </div>
+          </article>
+
+          <article class="laboratory-card">
+            <img src="./doctoral-program.png" alt="Biophysics imaging and single molecule setup" />
+            <div class="laboratory-card-body">
+              <p class="laboratory-kicker">Imaging &amp; Single Molecule</p>
+              <h3>Biophysics Lab</h3>
+              <p>Confocal and super-resolution microscopy alongside optical-tweezer setups for soft-matter and biological physics research.</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span class="footer-contact-lines"><span class="footer-contact-line"><a href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a> (Head)</span></span></p>
+        </div>
+      </section>
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+
+        </ul>
+      </section>
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
+      </section>
+    </div>
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links"><a href="./privacy-policy.html">Privacy Policy</a><a href="./sitemap-page.html">Sitemap</a></div>
+    
+      <div class="visitor-counter-row" id="visitor-counter">
+        <span class="visitor-counter-label">Visitors:</span>
+        <div class="visitor-digits" id="visitor-digits"></div>
+      </div>
+    </div>
+  </footer>
+<script>
+(function(){
+  var SK = "__phy_visitor_sid";
+  function getSid(){var s=sessionStorage.getItem(SK);if(s)return s;s="";for(var i=0;i<32;i++)s+="abcdefghijklmnopqrstuvwxyz0123456789".charAt(Math.floor(Math.random()*36));sessionStorage.setItem(SK,s);return s;}
+  function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
+  var sid=getSid();
+  fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+</body>
+</html>
+
+
+
+
