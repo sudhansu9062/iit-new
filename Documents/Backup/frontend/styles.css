@@ -5927,21 +5927,31 @@ a.card:hover {
   }
 }
 
-/* Directory page */
-.directory-main {
+/* Directory, Faculty & Postdocs pages */
+body.page-white-bg,
+.directory-main,
+.faculty-main {
+  background: #ffffff;
+}
+
+.directory-main,
+.faculty-main {
   padding: 46px 0 36px;
 }
 
-.directory-wrap {
+.directory-wrap,
+.faculty-wrap {
   width: min(1140px, 86vw);
   margin: 0 auto;
 }
 
-.directory-section {
+.directory-section,
+.faculty-section {
   margin-bottom: 50px;
 }
 
-.directory-title {
+.directory-title,
+.faculty-title {
   margin: 0 0 16px;
   font-family: "Inter", sans-serif;
   font-size: 54px;
@@ -5950,7 +5960,8 @@ a.card:hover {
   font-weight: 700;
 }
 
-.directory-title.with-bar {
+.directory-title.with-bar,
+.faculty-title.with-bar {
   border-left: 4px solid #2e6ebd;
   padding-left: 16px;
 }
@@ -6006,29 +6017,40 @@ a.card:hover {
 }
 
 .search-input-wrap {
-  width: 420px;
-  height: 42px;
-  border: 1px solid var(--grey-300);
-  border-radius: var(--radius-md);
-  background: var(--white);
+  width: 320px;
+  max-width: 100%;
+  height: 38px;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  background: #ffffff;
   display: flex;
   align-items: center;
-  padding: 0 10px;
+  padding: 0 12px;
   gap: 8px;
+  box-sizing: border-box;
+}
+
+.search-input-wrap:focus-within {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
 }
 
 .search-input-wrap span {
-  color: #778292;
-  font-size: 13px;
+  color: #64748b;
+  font-size: 14px;
+  line-height: 1;
 }
 
 .search-input-wrap input {
   width: 100%;
   border: 0;
   outline: 0;
-  font-size: 26px;
-  color: #5f6a7a;
+  font-size: 14px;
+  line-height: 20px;
+  color: #334155;
   background: transparent;
+  padding: 0;
+  margin: 0;
 }
 
 .table-wrap {
@@ -6109,12 +6131,15 @@ a.card:hover {
 }
 
 .directory-main .directory-head-row p,
-.directory-main .search-input-wrap span,
-.directory-main .search-input-wrap input,
 .directory-main .directory-table thead th,
 .directory-main .table-footer-row p,
 .directory-main .pager a {
-  font-size: 18px;
+  font-size: 16px;
+}
+
+.directory-main .search-input-wrap span,
+.directory-main .search-input-wrap input {
+  font-size: 14px;
 }
 
 .pager a.active {
