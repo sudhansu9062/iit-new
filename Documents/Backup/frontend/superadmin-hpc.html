@@ -102,7 +102,7 @@
           <button type="button" class="superadmin-icon-button" aria-label="Menu"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="6" height="16" rx="1"></rect><rect x="13" y="4" width="6" height="16" rx="1"></rect></svg></button>
           <label class="superadmin-search">
             <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M20 20l-3.5-3.5"></path></svg>
-            <input id="hpc-search" type="search" placeholder="Search HPC requests..." />
+            <input id="hpc-top-search" type="search" placeholder="Search HPC requests..." />
           </label>
         </div>
         <div class="superadmin-topbar-right">
@@ -234,6 +234,7 @@
       var detailEl = document.getElementById("hpc-detail");
       var statsEl = document.getElementById("hpc-stats");
       var searchInput = document.getElementById("hpc-search");
+      var topSearchInput = document.getElementById("hpc-top-search");
 
       function statusBadge(req) {
         var s = (req.status || "").toLowerCase();
@@ -275,7 +276,7 @@
       }
 
       function renderTable() {
-        var q = (searchInput.value||"").trim().toLowerCase();
+        var q = ((searchInput ? searchInput.value : "") || (topSearchInput ? topSearchInput.value : "")).trim().toLowerCase();
         var filtered = requests.filter(function (r) { return matchFilter(r) && matchSearch(r, q); });
         if (!filtered.length) { tbody.innerHTML=""; emptyEl.style.display="block"; return; }
         emptyEl.style.display="none";
@@ -425,7 +426,18 @@
         });
       });
 
-      searchInput.addEventListener("input", renderTable);
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          if (topSearchInput) { topSearchInput.value = searchInput.value; }
+          renderTable();
+        });
+      }
+      if (topSearchInput) {
+        topSearchInput.addEventListener("input", function () {
+          if (searchInput) { searchInput.value = topSearchInput.value; }
+          renderTable();
+        });
+      }
 
       // Table click: view / allocate / download / delete
       tbody.addEventListener("click", function (e) {

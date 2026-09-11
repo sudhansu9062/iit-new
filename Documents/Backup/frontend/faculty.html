@@ -68,6 +68,13 @@
           Faculty members of the Department of Physics.
         </p>
 
+        <div class="faculty-filter-row" style="margin-bottom: 16px;">
+          <div class="search-input-wrap">
+            <span aria-hidden="true">&#128269;</span>
+            <input type="search" id="faculty-search-input" placeholder="Search faculty by name, designation, specialization, office, email..." aria-label="Search faculty" />
+          </div>
+        </div>
+
         <div class="table-wrap">
           <table class="directory-table faculty-table">
             <thead>
@@ -196,16 +203,38 @@
           .replace(/'/g, "&#39;");
       }
 
-      function renderFaculty(faculty) {
-        var visibleFaculty = faculty.filter(function (item) {
+      var allLoadedFaculty = [];
+      var searchInput = document.getElementById("faculty-search-input");
+      var topSearchInput = document.querySelector(".top-header .search-input");
+
+      function applyFilter() {
+        var q = String((searchInput && searchInput.value) || "").trim().toLowerCase();
+        var visibleFaculty = allLoadedFaculty.filter(function (item) {
           return !/^dr\.\s+/i.test(String((item && item.name) || "").trim());
         });
+
+        if (q) {
+          var words = q.split(" ").filter(Boolean);
+          visibleFaculty = visibleFaculty.filter(function (item) {
+            var haystack = [
+              item.name || "",
+              item.designation || "",
+              item.specialization || "",
+              item.office || "",
+              item.email || ""
+            ].join(" ").toLowerCase();
+            return words.every(function (w) { return haystack.indexOf(w) !== -1; });
+          });
+        }
+
         if (!visibleFaculty.length) {
-          body.innerHTML =
-            '<tr><td colspan="4">No published staff profiles available yet.</td></tr>';
-          count.textContent = "Showing 0 of 0";
+          body.innerHTML = q
+            ? '<tr><td colspan="4" style="text-align:center;padding:24px;color:#64748b;">No faculty members found matching "<b>' + esc(q) + '</b>".</td></tr>'
+            : '<tr><td colspan="4">No published staff profiles available yet.</td></tr>';
+          count.textContent = q ? "Showing 0 of " + allLoadedFaculty.length : "Showing 0 of 0";
           return;
         }
+
         body.innerHTML = visibleFaculty
           .map(function (item) {
             var profileKey =
@@ -282,11 +311,47 @@
             );
           })
           .join("");
-        count.textContent =
-          "Showing 1-" +
-          visibleFaculty.length +
-          " of " +
-          visibleFaculty.length;
+
+        if (q && visibleFaculty.length !== allLoadedFaculty.length) {
+          count.textContent =
+            "Showing 1-" +
+            visibleFaculty.length +
+            " of " +
+            visibleFaculty.length +
+            " (filtered from " +
+            allLoadedFaculty.length +
+            " faculty members)";
+        } else {
+          count.textContent =
+            "Showing 1-" +
+            visibleFaculty.length +
+            " of " +
+            visibleFaculty.length;
+        }
+      }
+
+      if (searchInput) {
+        searchInput.addEventListener("input", function () {
+          if (topSearchInput && topSearchInput !== searchInput) {
+            topSearchInput.value = searchInput.value;
+          }
+          applyFilter();
+        });
+      }
+
+      if (topSearchInput) {
+        topSearchInput.addEventListener("input", function () {
+          if (searchInput && searchInput !== topSearchInput) {
+            searchInput.value = topSearchInput.value;
+          }
+          applyFilter();
+        });
+      }
+
+      var urlQuery = new URLSearchParams(window.location.search).get("q");
+      if (urlQuery && searchInput) {
+        searchInput.value = urlQuery;
+        if (topSearchInput) { topSearchInput.value = urlQuery; }
       }
 
       async function loadFaculty() {
@@ -295,8 +360,8 @@
           { cache: "no-store" },
         );
         var data = await response.json();
-        var faculty = Array.isArray(data.faculty) ? data.faculty : [];
-        renderFaculty(faculty);
+        allLoadedFaculty = Array.isArray(data.faculty) ? data.faculty : [];
+        applyFilter();
       }
 
       try {

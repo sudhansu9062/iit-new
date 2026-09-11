@@ -1,79 +1,38 @@
 "use strict";
 
 (function () {
-  var pageIndex = [
-    {
-      url: "./index.html",
-      terms: [
-        "home",
-        "announcements",
-        "admissions",
-        "jrf",
-        "exam",
-        "research areas",
-        "undergraduate",
-        "postgraduate",
-        "doctoral",
-        "laboratories",
-        "facilities"
-      ]
-    },
-    {
-      url: "./about.html",
-      terms: [
-        "about",
-        "history",
-        "administration",
-        "head of department",
-        "contact",
-        "department of physics"
-      ]
-    },
-    {
-      url: "./administration.html",
-      terms: ["administration", "head of department", "administrative officer", "office superintendent", "committee", "faculty in-charge"]
-    },
-    {
-      url: "./research.html",
-      terms: ["research", "research areas", "condensed matter physics", "high energy physics", "astrophysics", "cosmology", "complex systems", "active matter"]
-    },
-    {
-      url: "./condensed-matter-physics.html",
-      terms: ["condensed matter", "quantum materials", "nanostructures", "soft matter physics", "electronic transport", "spintronics", "superconductivity"]
-    },
-    {
-      url: "./faculty.html",
-      terms: ["faculty", "staff", "people", "professor", "directory"]
-    },
-    {
-      url: "./postdocs.html",
-      terms: ["postdoc", "postdocs", "postdoctoral fellow", "postdoctoral researchers", "research fellows"]
-    },
-    {
-      url: "./graduate-students.html",
-      terms: ["graduate students", "students", "phd scholars", "research scholars", "mtech students", "ms research", "integrated msc"]
-    },
-    {
-      url: "./directory.html",
-      terms: ["directory", "contacts", "phone", "email", "office", "faculty search"]
-    },
-    {
-      url: "./contact.html",
-      terms: ["contact us", "contact", "administrative contacts", "department address", "location", "send enquiry"]
-    },
-    {
-      url: "./news-events.html",
-      terms: ["news", "events", "news and events", "seminars", "workshops", "conferences", "announcements", "upcoming events", "past events"]
-    },
-    {
-      url: "./career.html",
-      terms: ["career", "careers", "opportunities", "jobs", "openings", "jrf", "postdoctoral fellow", "technical staff", "application process"]
-    },
-    {
-      url: "./ujal-halder.html",
-      terms: ["ujal halder", "profile", "publications", "research interests", "biography"]
-    }
+  var staticPageIndex = [
+    { title: "Home", category: "Page", url: "./index.html", terms: ["home", "main", "welcome", "announcements", "department of physics", "iit kharagpur"] },
+    { title: "About the Department", category: "Page", url: "./about.html", terms: ["about", "history", "mission", "overview", "head of department", "hod", "department"] },
+    { title: "Faculty Members", category: "People", url: "./faculty.html", terms: ["faculty", "professors", "assistant professor", "associate professor", "teachers", "faculty members", "teaching staff"] },
+    { title: "Faculty & Staff Directory", category: "People", url: "./directory.html", terms: ["directory", "contacts", "phone", "email", "office", "faculty directory", "extensions", "phone numbers"] },
+    { title: "Researchers & Postdocs", category: "People", url: "./postdocs.html", terms: ["postdoc", "postdocs", "postdoctoral fellow", "postdoctoral researchers", "research fellows", "researchers"] },
+    { title: "Students", category: "People", url: "./students.html", terms: ["students", "phd scholars", "research scholars", "mtech students", "msc students", "undergraduate students"] },
+    { title: "Alumni & Graduates", category: "People", url: "./graduate-students.html", terms: ["alumni", "graduate students", "graduates", "phd alumni", "past students"] },
+    { title: "Department Administration", category: "Administration", url: "./administration.html", terms: ["administration", "head of department", "administrative officer", "office superintendent", "committee", "faculty in-charge", "staff"] },
+    { title: "Research Areas & Clusters", category: "Research", url: "./research.html", terms: ["research", "research areas", "clusters", "projects", "physics research", "publications", "laboratories"] },
+    { title: "Condensed Matter Physics", category: "Research", url: "./condensed-matter-physics.html", terms: ["condensed matter", "quantum materials", "nanostructures", "soft matter", "electronic transport", "spintronics", "superconductivity", "optics", "quantum"] },
+    { title: "Department Facilities", category: "Facility", url: "./facilities.html", terms: ["facilities", "facility", "experimental facilities", "laboratories", "labs", "instruments", "equipment"] },
+    { title: "Facility Slot Booking", category: "Facility", url: "./facility-booking.html", terms: ["facility booking", "booking", "slot booking", "lab booking", "equipment booking", "reserve room"] },
+    { title: "HPC Computing Facility", category: "Facility", url: "./hpc-facility.html", terms: ["hpc", "hpc facility", "high performance computing", "supercomputer", "computing cluster", "gpu", "nodes", "storage", "cluster"] },
+    { title: "HPC Account Application", category: "Facility", url: "./hpc-account.html", terms: ["hpc account", "apply hpc", "request hpc account", "cluster access", "hpc registration"] },
+    { title: "Academic Programs", category: "Programs", url: "./programs.html", terms: ["programs", "academic programs", "degrees", "curriculum", "courses", "academics"] },
+    { title: "Undergraduate Program (B.Tech / B.Sc)", category: "Programs", url: "./undergraduate-program.html", terms: ["undergraduate", "btech", "b.sc", "bachelor", "ug program", "ug curriculum"] },
+    { title: "Postgraduate Program (M.Tech / M.Sc)", category: "Programs", url: "./postgraduate-program.html", terms: ["postgraduate", "masters", "mtech", "msc", "pg program", "pg curriculum"] },
+    { title: "Doctoral Program (Ph.D)", category: "Programs", url: "./doctoral-program.html", terms: ["doctoral", "phd", "ph.d", "doctoral program", "research scholar", "phd admissions"] },
+    { title: "News & Events", category: "Events", url: "./news-events.html", terms: ["news", "events", "announcements", "seminars", "workshops", "conferences", "colloquium", "upcoming events"] },
+    { title: "Career & Openings", category: "Career", url: "./career.html", terms: ["career", "careers", "opportunities", "jobs", "openings", "recruitment", "faculty positions", "vacancies"] },
+    { title: "JRF & Project Positions", category: "Career", url: "./career-jrf-details.html", terms: ["jrf", "junior research fellow", "project assistant", "project positions", "research fellowship"] },
+    { title: "Contact Us", category: "Contact", url: "./contact.html", terms: ["contact us", "contact", "address", "location", "email", "phone", "how to reach"] },
+    { title: "Academic Calendar", category: "Events", url: "./index.html#calendar", terms: ["academic calendar", "calendar", "semester", "exams", "holidays", "dates"] },
+    { title: "Admin Portal Login", category: "Portal", url: "./admin-login.html", terms: ["admin login", "faculty login", "portal login", "sign in", "admin portal"] },
+    { title: "Super Admin Portal", category: "Portal", url: "./admin-login.html?role=superadmin", terms: ["super admin", "superadmin", "superadmin portal", "superadmin login"] },
+    { title: "ICCMP 2026 Conference", category: "Events", url: "./iccmp-2026.html", terms: ["iccmp", "conference", "iccmp 2026", "international conference", "condensed matter physics"] },
+    { title: "Transport & Travel", category: "Information", url: "./transport.html", terms: ["transport", "how to reach", "travel", "train", "airport", "directions"] },
+    { title: "Sports & Recreation", category: "Information", url: "./sports.html", terms: ["sports", "recreation", "gymkhana", "facilities"] }
   ];
+
+  var dynamicFaculty = [];
 
   function normalize(value) {
     return String(value || "")
@@ -82,51 +41,219 @@
       .trim();
   }
 
-  function findResult(query) {
-    var q = normalize(query);
-    if (!q) {
-      return null;
-    }
-
-    for (var i = 0; i < pageIndex.length; i += 1) {
-      var terms = pageIndex[i].terms;
-      for (var j = 0; j < terms.length; j += 1) {
-        var term = normalize(terms[j]);
-        if (term.indexOf(q) !== -1 || q.indexOf(term) !== -1) {
-          return pageIndex[i].url;
+  // Load faculty in background to index all professors dynamically
+  try {
+    fetch(window.location.origin + "/api/public/faculty", { cache: "no-store" })
+      .then(function (r) { return r.json(); })
+      .then(function (data) {
+        if (data && Array.isArray(data.faculty)) {
+          dynamicFaculty = data.faculty.map(function (f) {
+            var key = f.facultyId || f.loginId || f.email || "";
+            return {
+              title: f.name || "Faculty Member",
+              desc: (f.designation ? f.designation + " | " : "") + (f.specialization || "Physics"),
+              category: "Faculty",
+              url: "./faculty-profile.html?id=" + encodeURIComponent(key),
+              facultyName: f.name || "",
+              terms: [
+                f.name || "",
+                f.designation || "",
+                f.specialization || "",
+                f.office || "",
+                f.email || "",
+                "faculty",
+                "professor"
+              ]
+            };
+          });
         }
+      })
+      .catch(function () {});
+  } catch (e) {}
+
+  function searchAll(query) {
+    var q = normalize(query);
+    if (!q) { return []; }
+    var words = q.split(" ").filter(Boolean);
+    var results = [];
+    var seenUrls = {};
+
+    function checkItem(item) {
+      if (seenUrls[item.url]) { return; }
+      var score = 0;
+      var titleNorm = normalize(item.title);
+      if (titleNorm.indexOf(q) !== -1) { score += 20; }
+      if (titleNorm === q) { score += 50; }
+
+      var allTerms = (item.terms || []).join(" ").toLowerCase();
+      var allMatched = words.every(function (word) {
+        return allTerms.indexOf(word) !== -1 || titleNorm.indexOf(word) !== -1;
+      });
+
+      if (allMatched) {
+        score += 10;
+        for (var k = 0; k < (item.terms || []).length; k++) {
+          var t = normalize(item.terms[k]);
+          if (t === q) { score += 30; }
+          else if (t.indexOf(q) !== -1) { score += 15; }
+        }
+        seenUrls[item.url] = true;
+        results.push({
+          title: item.title,
+          desc: item.desc || (item.terms ? item.terms.slice(0, 4).join(", ") : ""),
+          category: item.category || "Page",
+          url: item.url,
+          score: score
+        });
       }
     }
 
-    return null;
+    // Check dynamic faculty first
+    for (var f = 0; f < dynamicFaculty.length; f++) {
+      checkItem(dynamicFaculty[f]);
+    }
+
+    // Check static index
+    for (var i = 0; i < staticPageIndex.length; i++) {
+      checkItem(staticPageIndex[i]);
+    }
+
+    results.sort(function (a, b) { return b.score - a.score; });
+    return results.slice(0, 6);
   }
 
-  function onSubmit(event) {
-    event.preventDefault();
+  function getDropdown(form) {
+    var dd = form.querySelector(".search-results-dropdown");
+    if (!dd) {
+      dd = document.createElement("div");
+      dd.className = "search-results-dropdown";
+      form.appendChild(dd);
+    }
+    return dd;
+  }
 
-    var form = event.currentTarget;
-    var input = form.querySelector(".search-input");
-    var query = input ? input.value : "";
-    var destination = findResult(query);
-
-    if (!destination) {
-      if (input) {
-        input.setCustomValidity("No matching page found. Try: home, about, faculty, directory, news, or ujal halder.");
-        input.reportValidity();
-        window.setTimeout(function () {
-          input.setCustomValidity("");
-        }, 1200);
+  function renderDropdown(form, results, query) {
+    var dd = getDropdown(form);
+    if (!query || results.length === 0) {
+      if (query && query.length >= 2) {
+        dd.innerHTML = '<div class="search-no-results">No exact matches for "<b>' +
+          escapeHtml(query) + '</b>".<br><a href="./faculty.html?q=' + encodeURIComponent(query) + '" style="color:#2563eb;text-decoration:underline;margin-top:6px;display:inline-block;">Search in Faculty &rarr;</a></div>';
+        dd.classList.add("is-open");
+      } else {
+        dd.classList.remove("is-open");
+        dd.innerHTML = "";
       }
       return;
     }
 
-    window.location.href = destination;
+    var badgeClassMap = {
+      "Faculty": "badge-faculty",
+      "Programs": "badge-program",
+      "Research": "badge-research",
+      "Facility": "badge-facility"
+    };
+
+    var html = results.map(function (res) {
+      var badgeClass = badgeClassMap[res.category] || "";
+      return '<a class="search-result-item" href="' + escapeHtml(res.url) + '">' +
+        '<span class="search-result-badge ' + badgeClass + '">' + escapeHtml(res.category) + '</span>' +
+        '<div class="search-result-title">' + escapeHtml(res.title) + '</div>' +
+        (res.desc ? '<div class="search-result-desc">' + escapeHtml(res.desc) + '</div>' : '') +
+        '</a>';
+    }).join("");
+
+    dd.innerHTML = html;
+    dd.classList.add("is-open");
+  }
+
+  function escapeHtml(str) {
+    return String(str || "").replace(/[&<>"']/g, function (m) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[m];
+    });
+  }
+
+  function onSubmit(event) {
+    event.preventDefault();
+    var form = event.currentTarget;
+    var input = form.querySelector(".search-input");
+    var query = input ? input.value.trim() : "";
+    if (!query) { return; }
+
+    // If currently on faculty.html, direct filter
+    var facultyInput = document.getElementById("faculty-search-input");
+    if (facultyInput) {
+      facultyInput.value = query;
+      facultyInput.dispatchEvent(new Event("input", { bubbles: true }));
+      var dd = form.querySelector(".search-results-dropdown");
+      if (dd) { dd.classList.remove("is-open"); }
+      return;
+    }
+
+    // If currently on directory.html, direct filter
+    var dirInput = document.getElementById("directory-search-input");
+    if (dirInput) {
+      dirInput.value = query;
+      dirInput.dispatchEvent(new Event("input", { bubbles: true }));
+      var dd2 = form.querySelector(".search-results-dropdown");
+      if (dd2) { dd2.classList.remove("is-open"); }
+      return;
+    }
+
+    var results = searchAll(query);
+    if (results.length > 0) {
+      window.location.href = results[0].url;
+    } else {
+      window.location.href = "./faculty.html?q=" + encodeURIComponent(query);
+    }
   }
 
   var searchForms = document.querySelectorAll("form.search-box");
   for (var i = 0; i < searchForms.length; i += 1) {
-    searchForms[i].addEventListener("submit", onSubmit);
+    var f = searchForms[i];
+    f.addEventListener("submit", onSubmit);
+    var input = f.querySelector(".search-input");
+    if (input) {
+      input.setAttribute("autocomplete", "off");
+      input.addEventListener("input", function (e) {
+        var thisForm = e.target.closest("form.search-box");
+        var val = e.target.value.trim();
+        // If on faculty.html, also sync table live
+        var facultyInput = document.getElementById("faculty-search-input");
+        if (facultyInput && facultyInput !== e.target) {
+          facultyInput.value = val;
+          facultyInput.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+        var results = searchAll(val);
+        renderDropdown(thisForm, results, val);
+      });
+      input.addEventListener("focus", function (e) {
+        var thisForm = e.target.closest("form.search-box");
+        var val = e.target.value.trim();
+        if (val) {
+          var results = searchAll(val);
+          renderDropdown(thisForm, results, val);
+        }
+      });
+    }
   }
+
+  document.addEventListener("click", function (e) {
+    if (!e.target.closest(".search-box")) {
+      var allDropdowns = document.querySelectorAll(".search-results-dropdown");
+      for (var d = 0; d < allDropdowns.length; d++) {
+        allDropdowns[d].classList.remove("is-open");
+      }
+    }
+  });
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape") {
+      var allDropdowns = document.querySelectorAll(".search-results-dropdown");
+      for (var d = 0; d < allDropdowns.length; d++) {
+        allDropdowns[d].classList.remove("is-open");
+      }
+    }
+  });
 
   var navToggles = document.querySelectorAll(".nav-toggle");
   for (var k = 0; k < navToggles.length; k += 1) {

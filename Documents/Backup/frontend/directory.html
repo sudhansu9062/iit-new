@@ -80,7 +80,7 @@
         <div class="faculty-filter-row">
           <div class="search-input-wrap">
             <span>&#128269;</span>
-            <input type="text" value="" placeholder="Search faculty..." />
+            <input type="search" id="directory-search-input" value="" placeholder="Search faculty..." />
           </div>
         </div>
 
@@ -211,6 +211,64 @@
   function render(n){var el=document.getElementById("visitor-digits");if(!el)return;var s=String(n);el.innerHTML="";for(var i=0;i<s.length;i++){var d=document.createElement("span");d.className="visitor-digit";d.textContent=s[i];el.appendChild(d);}}
   var sid=getSid();
   fetch("/api/public/visitor-hit",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({sessionToken:sid})}).then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){fetch("/api/public/visitor-count").then(function(r){return r.json();}).then(function(d){if(typeof d.count==="number")render(d.count);}).catch(function(){});});
+})();
+</script>
+<script>
+(function () {
+  var input = document.getElementById("directory-search-input");
+  var topInput = document.querySelector(".top-header .search-input");
+  var table = document.querySelector("#faculty .directory-table");
+  var countP = document.querySelector("#faculty .directory-head-row p");
+  var footerP = document.querySelector("#faculty .table-footer-row p");
+  if (!table) { return; }
+  var rows = Array.from(table.querySelectorAll("tbody tr"));
+  var totalCount = rows.length;
+
+  function filterDirectory(query) {
+    var q = String(query || "").trim().toLowerCase();
+    var words = q.split(" ").filter(Boolean);
+    var matchedCount = 0;
+
+    rows.forEach(function (row) {
+      if (!q) {
+        row.style.display = "";
+        matchedCount++;
+        return;
+      }
+      var text = row.textContent.toLowerCase();
+      var match = words.every(function (w) { return text.indexOf(w) !== -1; });
+      row.style.display = match ? "" : "none";
+      if (match) { matchedCount++; }
+    });
+
+    if (countP) {
+      countP.textContent = q ? (matchedCount + " of " + totalCount + " faculty members") : (totalCount + " faculty members");
+    }
+    if (footerP) {
+      footerP.textContent = q ? ("Showing " + matchedCount + " of " + totalCount) : ("Showing 1-" + totalCount + " of " + totalCount);
+    }
+  }
+
+  if (input) {
+    input.addEventListener("input", function () {
+      if (topInput && topInput !== input) { topInput.value = input.value; }
+      filterDirectory(input.value);
+    });
+  }
+
+  if (topInput) {
+    topInput.addEventListener("input", function () {
+      if (input && input !== topInput) { input.value = topInput.value; }
+      filterDirectory(topInput.value);
+    });
+  }
+
+  var urlQ = new URLSearchParams(window.location.search).get("q");
+  if (urlQ) {
+    if (input) { input.value = urlQ; }
+    if (topInput) { topInput.value = urlQ; }
+    filterDirectory(urlQ);
+  }
 })();
 </script>
 </body>
