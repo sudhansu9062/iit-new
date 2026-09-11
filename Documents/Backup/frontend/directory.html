@@ -75,12 +75,12 @@
       <section class="directory-section" id="faculty">
         <div class="directory-head-row">
           <h2 class="directory-title directory-sub-title">Faculty</h2>
-          <p>36 faculty members</p>
+          <p id="directory-faculty-count">Loading faculty members...</p>
         </div>
         <div class="faculty-filter-row">
           <div class="search-input-wrap">
             <span>&#128269;</span>
-            <input type="search" id="directory-search-input" value="" placeholder="Search faculty..." />
+            <input type="search" id="directory-search-input" value="" placeholder="Search faculty by name, office, email..." aria-label="Search faculty directory" />
           </div>
         </div>
 
@@ -93,31 +93,14 @@
                 <th>Email ^</th>
               </tr>
             </thead>
-            <tbody>
-              <tr><td>Banerjee Debamalya</td><td>83804</td><td><a href="#">debamalya@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Bhaktha S N B</td><td>83802</td><td><a href="#">kiranbhaktha@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Bharadwaj Somnath</td><td>83806</td><td><a href="#">somnath@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Bhattacharya J</td><td>84860</td><td><a href="#">jyoti@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Burada P S</td><td>83816</td><td><a href="#">psburada@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Chandra Amreesh</td><td>83820</td><td><a href="#">achandra@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Choudhury Debraj</td><td>82876</td><td><a href="#">debraj@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Das A K</td><td>83824</td><td><a href="#">amal@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Das S</td><td>83812</td><td><a href="#">saikat@phy.iitkgp.ac.in</a></td></tr>
-              <tr><td>Das S D</td><td>84858</td><td><a href="#">sitikantha.das@phy.iitkgp.ac.in</a></td></tr>
+            <tbody id="directory-faculty-tbody">
+              <tr><td colspan="3" style="text-align:center;padding:20px;color:#64748b;">Loading faculty directory...</td></tr>
             </tbody>
           </table>
         </div>
 
         <div class="table-footer-row">
-          <p>Showing 1-10 of 36</p>
-          <div class="pager">
-            <a href="#" class="disabled">&lt; Previous</a>
-            <a href="#" class="active">1</a>
-            <a href="#">2</a>
-            <a href="#">3</a>
-            <a href="#">4</a>
-            <a href="#">Next &gt;</a>
-          </div>
+          <p id="directory-footer-count"></p>
         </div>
       </section>
 
@@ -217,35 +200,84 @@
 (function () {
   var input = document.getElementById("directory-search-input");
   var topInput = document.querySelector(".top-header .search-input");
-  var table = document.querySelector("#faculty .directory-table");
-  var countP = document.querySelector("#faculty .directory-head-row p");
-  var footerP = document.querySelector("#faculty .table-footer-row p");
-  if (!table) { return; }
-  var rows = Array.from(table.querySelectorAll("tbody tr"));
-  var totalCount = rows.length;
+  var tbody = document.getElementById("directory-faculty-tbody");
+  var countP = document.getElementById("directory-faculty-count") || document.querySelector("#faculty .directory-head-row p");
+  var footerP = document.getElementById("directory-footer-count") || document.querySelector("#faculty .table-footer-row p");
+  var allFaculty = [];
+
+  function esc(s) {
+    return String(s || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function renderRows(list) {
+    if (!tbody) { return; }
+    if (!list.length) {
+      tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:#64748b;">No faculty members found.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = list.map(function (item) {
+      var key = item.facultyId || item.loginId || item.email || "";
+      var profileUrl = "./faculty-profile.html?id=" + encodeURIComponent(key);
+      var safeName = esc(item.name || "Faculty Member");
+      var safeOffice = esc(item.office || "-");
+      var safeEmail = esc(item.email || "");
+      var safeDesignation = esc(item.designation || "");
+      var safeSpec = esc(item.specialization || "");
+      var subtitle = [safeDesignation, safeSpec].filter(Boolean).join(" &middot; ");
+
+      return '<tr>' +
+        '<td>' +
+          '<strong><a href="' + esc(profileUrl) + '" style="color:#1d4ed8;font-weight:600;text-decoration:none;" onmouseover="this.style.textDecoration=\'underline\'" onmouseout="this.style.textDecoration=\'none\'">' + safeName + '</a></strong>' +
+          (subtitle ? '<br><span style="font-size:12px;color:#64748b;">' + subtitle + '</span>' : '') +
+        '</td>' +
+        '<td>' + safeOffice + '</td>' +
+        '<td>' + (safeEmail ? '<a href="mailto:' + safeEmail + '">' + safeEmail + '</a>' : '-') + '</td>' +
+      '</tr>';
+    }).join("");
+  }
 
   function filterDirectory(query) {
     var q = String(query || "").trim().toLowerCase();
     var words = q.split(" ").filter(Boolean);
-    var matchedCount = 0;
+    var filtered = allFaculty;
 
-    rows.forEach(function (row) {
-      if (!q) {
-        row.style.display = "";
-        matchedCount++;
-        return;
-      }
-      var text = row.textContent.toLowerCase();
-      var match = words.every(function (w) { return text.indexOf(w) !== -1; });
-      row.style.display = match ? "" : "none";
-      if (match) { matchedCount++; }
-    });
+    if (q) {
+      filtered = allFaculty.filter(function (item) {
+        var haystack = [
+          item.name || "",
+          item.designation || "",
+          item.specialization || "",
+          item.office || "",
+          item.email || ""
+        ].join(" ").toLowerCase();
+        return words.every(function (w) { return haystack.indexOf(w) !== -1; });
+      });
+    }
+
+    renderRows(filtered);
 
     if (countP) {
-      countP.textContent = q ? (matchedCount + " of " + totalCount + " faculty members") : (totalCount + " faculty members");
+      countP.textContent = q
+        ? (filtered.length + " of " + allFaculty.length + " faculty members")
+        : (allFaculty.length + " faculty members");
     }
     if (footerP) {
-      footerP.textContent = q ? ("Showing " + matchedCount + " of " + totalCount) : ("Showing 1-" + totalCount + " of " + totalCount);
+      footerP.textContent = q
+        ? ("Showing " + filtered.length + " of " + allFaculty.length)
+        : ("Showing 1-" + allFaculty.length + " of " + allFaculty.length);
+    }
+  }
+
+  async function loadFacultyDirectory() {
+    try {
+      var res = await fetch(window.location.origin + "/api/public/faculty", { cache: "no-store" });
+      var data = await res.json();
+      allFaculty = Array.isArray(data.faculty) ? data.faculty : [];
+      filterDirectory(input ? input.value : "");
+    } catch (e) {
+      if (tbody) {
+        tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:24px;color:#dc2626;">Unable to load faculty records.</td></tr>';
+      }
     }
   }
 
@@ -267,8 +299,9 @@
   if (urlQ) {
     if (input) { input.value = urlQ; }
     if (topInput) { topInput.value = urlQ; }
-    filterDirectory(urlQ);
   }
+
+  loadFacultyDirectory();
 })();
 </script>
 </body>
