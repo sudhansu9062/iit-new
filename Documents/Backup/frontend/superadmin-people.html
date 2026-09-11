@@ -168,6 +168,17 @@
         <label>Phone<input class="portal-input faculty-phone" /></label>
         <label>Office<input class="portal-input faculty-office" /></label>
         <label>Specialization<input class="portal-input faculty-specialization" /></label>
+        <label>Primary Research Cluster
+          <select class="portal-input faculty-research-cluster">
+            <option value="">-- None / Interdisciplinary --</option>
+            <option value="condensed-matter">Condensed Matter Physics</option>
+            <option value="high-energy">High Energy Physics</option>
+            <option value="astrophysics">Astrophysics &amp; Cosmology</option>
+            <option value="complex-systems">Complex Systems &amp; Active Matter</option>
+            <option value="nuclear">Nuclear Physics</option>
+            <option value="quantum-information">Quantum Information</option>
+          </select>
+        </label>
         <label>Password<input class="portal-input faculty-password" placeholder="Used for new faculty login" /></label>
         <label class="portal-form-span">Biography<textarea class="portal-textarea portal-textarea-compact faculty-bio"></textarea></label>
       </div>
@@ -535,7 +546,8 @@
             phone: String(item.phone || ""),
             office: String(item.office || ""),
             specialization: String(item.specialization || ""),
-            bio: stripHtmlTags(String(item.bio || ""))
+            bio: stripHtmlTags(String(item.bio || "")),
+            researchCluster: String(item.researchCluster || "")
           };
         });
       }
@@ -554,7 +566,7 @@
       }
 
       function createBlankFaculty() {
-        return { facultyId: "", loginId: "", initialPassword: "", name: "", designation: "", email: "", phone: "", office: "", specialization: "", bio: "" };
+        return { facultyId: "", loginId: "", initialPassword: "", name: "", designation: "", email: "", phone: "", office: "", specialization: "", bio: "", researchCluster: "" };
       }
 
       function updateHeader() {
@@ -720,6 +732,7 @@
         var phoneInput = fragment.querySelector(".faculty-phone");
         var officeInput = fragment.querySelector(".faculty-office");
         var specializationInput = fragment.querySelector(".faculty-specialization");
+        var researchClusterSelect = fragment.querySelector(".faculty-research-cluster");
         var passwordInput = fragment.querySelector(".faculty-password");
         var bioInput = fragment.querySelector(".faculty-bio");
         function updateMeta() {
@@ -734,6 +747,7 @@
         phoneInput.value = person.phone;
         officeInput.value = person.office;
         specializationInput.value = person.specialization;
+        researchClusterSelect.value = person.researchCluster || "";
         passwordInput.value = person.initialPassword;
         bioInput.value = stripHtmlTags(person.bio || "");
         updateMeta();
@@ -745,6 +759,7 @@
         phoneInput.addEventListener("input", function () { person.phone = phoneInput.value; });
         officeInput.addEventListener("input", function () { person.office = officeInput.value; });
         specializationInput.addEventListener("input", function () { person.specialization = specializationInput.value; });
+        researchClusterSelect.addEventListener("change", function () { person.researchCluster = researchClusterSelect.value; });
         passwordInput.addEventListener("input", function () { person.initialPassword = passwordInput.value; });
         bioInput.addEventListener("input", function () { person.bio = bioInput.value; });
         bioInput.addEventListener("change", function () {
@@ -1007,7 +1022,8 @@
                 phone: person.phone,
                 office: person.office,
                 specialization: person.specialization,
-                bio: person.bio
+                bio: person.bio,
+                researchCluster: person.researchCluster || ""
               };
             });
           } else {

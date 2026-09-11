@@ -3185,6 +3185,40 @@ a.card:hover {
   gap: 28px;
 }
 
+.research-detail-loading {
+  font-style: italic;
+  color: #999;
+  font-size: 14px;
+}
+
+/* Interdisciplinary section on Research page */
+.research-interdisciplinary {
+  margin-top: 56px;
+  padding: 36px 40px;
+  background: linear-gradient(135deg, #f0f4ff 0%, #e8edf8 100%);
+  border-radius: 12px;
+  border-left: 4px solid #355791;
+}
+
+.research-interdisciplinary-header {
+  margin-bottom: 24px;
+}
+
+.research-interdisciplinary-header h2 {
+  font-size: 20px;
+  font-weight: 700;
+  color: #17345d;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.research-interdisciplinary-header p {
+  font-size: 14px;
+  color: #5a6a7e;
+  line-height: 1.6;
+}
+
 /* Career page */
 .career-page {
   background: #ffffff;

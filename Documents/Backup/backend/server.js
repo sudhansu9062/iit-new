@@ -311,6 +311,7 @@ function normalizeFacultyEntries(entries) {
     showIndustryCollaborations: Boolean(item && item.showIndustryCollaborations),
     showAwardsAndHonors: Boolean(item && item.showAwardsAndHonors),
     otherLinks: String((item && item.otherLinks) || "").trim(),
+    researchCluster: String((item && item.researchCluster) || "").trim(),
     customSections: normalizeCustomSections(item && item.customSections)
   }));
 }
@@ -4897,6 +4898,7 @@ function createServer() {
                 showIndustryCollaborations: entry.showIndustryCollaborations,
                 showAwardsAndHonors: entry.showAwardsAndHonors,
                 otherLinks: entry.otherLinks,
+                researchCluster: entry.researchCluster || "",
                 customSections: normalizeCustomSections(entry.customSections)
               };
             });

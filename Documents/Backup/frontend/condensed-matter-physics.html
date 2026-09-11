@@ -84,21 +84,15 @@
 
         <section class="research-detail-section">
           <h2>FACULTY</h2>
-          <div class="research-detail-links">
-            <a href="#">Prof. A. K. Dutta</a>
-            <a href="#">Prof. S. Mukherjee</a>
-            <a href="#">Prof. R. Banerjee</a>
-            <a href="#">Prof. P. Chakraborty</a>
+          <div class="research-detail-links" id="cluster-faculty-list">
+            <span class="research-detail-loading">Loading faculty...</span>
           </div>
         </section>
 
         <section class="research-detail-section">
-          <h2>POST DOCS</h2>
-          <div class="research-detail-links">
-            <a href="#">Prof. A. K. Dutta</a>
-            <a href="#">Prof. S. Mukherjee</a>
-            <a href="#">Prof. R. Banerjee</a>
-            <a href="#">Prof. P. Chakraborty</a>
+          <h2>POST DOCS &amp; RESEARCHERS</h2>
+          <div class="research-detail-links" id="cluster-postdocs-list">
+            <span class="research-detail-loading">Loading researchers...</span>
           </div>
         </section>
 
@@ -175,6 +169,61 @@
       </div>
     </div>
   </footer>
+<script>
+(function () {
+  // Cluster key for this page — must match the value in the admin dropdown
+  var CLUSTER_KEY = "condensed-matter";
+  // Keyword fallback: if researchCluster is not set, check researchInterest for these keywords
+  var CLUSTER_KEYWORDS = ["condensed matter", "superconductivity", "spintronics", "magnetism", "quantum material", "nanostructure", "soft matter", "electronic transport"];
+
+  function facultyMatchesCluster(f) {
+    var cluster = String(f.researchCluster || "").trim().toLowerCase();
+    if (cluster) return cluster === CLUSTER_KEY;
+    // fallback: keyword match on researchInterest
+    var interest = String(f.researchInterest || "").toLowerCase();
+    return CLUSTER_KEYWORDS.some(function (kw) { return interest.indexOf(kw) !== -1; });
+  }
+
+  function buildProfileUrl(f) {
+    var id = String(f.facultyId || f.loginId || "").trim();
+    if (!id) return "./faculty-profile.html";
+    return "./faculty-profile.html?id=" + encodeURIComponent(id);
+  }
+
+  function renderList(containerId, people, emptyMsg) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = "";
+    if (!people || !people.length) {
+      var em = document.createElement("span");
+      em.style.color = "#666";
+      em.textContent = emptyMsg;
+      container.appendChild(em);
+      return;
+    }
+    people.forEach(function (f) {
+      var a = document.createElement("a");
+      a.href = buildProfileUrl(f);
+      a.textContent = f.name || "Unknown";
+      container.appendChild(a);
+    });
+  }
+
+  fetch("/api/public/faculty")
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var allFaculty = Array.isArray(data.faculty) ? data.faculty : [];
+      var faculty = allFaculty.filter(function (f) { return !f.isDrProfile && facultyMatchesCluster(f); });
+      var postdocs = allFaculty.filter(function (f) { return f.isDrProfile && facultyMatchesCluster(f); });
+      renderList("cluster-faculty-list", faculty, "No faculty assigned to this cluster yet.");
+      renderList("cluster-postdocs-list", postdocs, "No researchers assigned to this cluster yet.");
+    })
+    .catch(function () {
+      renderList("cluster-faculty-list", [], "Could not load faculty.");
+      renderList("cluster-postdocs-list", [], "Could not load researchers.");
+    });
+})();
+</script>
 <script>
 (function(){
   var SK = "__phy_visitor_sid";

@@ -91,6 +91,24 @@
         </article>
 
         <article class="research-card">
+          <h3>High Energy Physics</h3>
+          <p>Exploration of fundamental particles and interactions.</p>
+          <a href="./condensed-matter-physics.html">Explore Area <span aria-hidden="true">&rarr;</span></a>
+        </article>
+
+        <article class="research-card">
+          <h3>Astrophysics &amp; Cosmology</h3>
+          <p>Understanding the universe from stellar systems to large-scale structures.</p>
+          <a href="./condensed-matter-physics.html">Explore Area <span aria-hidden="true">&rarr;</span></a>
+        </article>
+
+        <article class="research-card">
+          <h3>Complex Systems &amp; Active Matter</h3>
+          <p>Study of collective behavior in biological and non-equilibrium systems.</p>
+          <a href="./condensed-matter-physics.html">Explore Area <span aria-hidden="true">&rarr;</span></a>
+        </article>
+
+        <article class="research-card">
           <h3>Nuclear Physics</h3>
           <p>Study of atomic nuclei, their structure, interactions, and energy processes.</p>
           <a href="./condensed-matter-physics.html">Explore Area <span aria-hidden="true">&rarr;</span></a>
@@ -101,6 +119,15 @@
           <p>Exploration of information processing using the principles of quantum mechanics.</p>
           <a href="./condensed-matter-physics.html">Explore Area <span aria-hidden="true">&rarr;</span></a>
         </article>
+      </section>
+
+      <!-- Interdisciplinary section — dynamically populated from API -->
+      <section class="research-interdisciplinary" id="research-interdisciplinary-section" style="display:none;">
+        <div class="research-interdisciplinary-header">
+          <h2>Interdisciplinary &amp; Emerging Research</h2>
+          <p>Faculty members working on research interests that span multiple areas or represent emerging fields not yet in a primary cluster.</p>
+        </div>
+        <div class="research-detail-links" id="research-interdisciplinary-faculty"></div>
       </section>
     </div>
   </main>
@@ -128,7 +155,6 @@
           <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
           <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
           <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
-
         </ul>
       </section>
 
@@ -150,7 +176,6 @@
         <a href="./privacy-policy.html">Privacy Policy</a>
         <a href="./sitemap-page.html">Sitemap</a>
       </div>
-    
       <div class="visitor-counter-row" id="visitor-counter">
         <span class="visitor-counter-label">Visitors:</span>
         <div class="visitor-digits" id="visitor-digits"></div>
@@ -161,7 +186,6 @@
   <script>
     (async function () {
       function getSections(page) {
-        var items = page && Array.isArray(page.sections) ? page.sections : [];
         return items.reduce(function (result, item) {
           if (item && item.id) {
             result[item.id] = item;
@@ -277,6 +301,50 @@
       }
     })();
   </script>
+<script>
+(function () {
+  // All known cluster keys
+  var KNOWN_CLUSTERS = ["condensed-matter", "high-energy", "astrophysics", "complex-systems", "nuclear", "quantum-information"];
+
+  function buildProfileUrl(f) {
+    var id = String(f.facultyId || f.loginId || "").trim();
+    if (!id) return "./faculty-profile.html";
+    return "./faculty-profile.html?id=" + encodeURIComponent(id);
+  }
+
+  function isInterdisciplinary(f) {
+    var cluster = String(f.researchCluster || "").trim().toLowerCase();
+    // If they have a valid cluster, they belong to that cluster page
+    if (cluster && KNOWN_CLUSTERS.indexOf(cluster) !== -1) return false;
+    // Show in interdisciplinary if they have any research interest
+    return Boolean(String(f.researchInterest || "").trim());
+  }
+
+  fetch("/api/public/faculty")
+    .then(function (r) { return r.json(); })
+    .then(function (data) {
+      var allFaculty = Array.isArray(data.faculty) ? data.faculty : [];
+      var interdisciplinary = allFaculty.filter(function (f) { return !f.isDrProfile && isInterdisciplinary(f); });
+      var section = document.getElementById("research-interdisciplinary-section");
+      var container = document.getElementById("research-interdisciplinary-faculty");
+      if (!section || !container) return;
+      if (!interdisciplinary.length) return; // keep hidden if none
+      container.innerHTML = "";
+      interdisciplinary.forEach(function (f) {
+        var a = document.createElement("a");
+        a.href = buildProfileUrl(f);
+        a.textContent = f.name || "Unknown";
+        var span = document.createElement("span");
+        span.className = "research-interest-tag";
+        span.textContent = f.researchInterest;
+        a.title = f.researchInterest;
+        container.appendChild(a);
+      });
+      section.style.display = "";
+    })
+    .catch(function () { /* silently hide section on error */ });
+})();
+</script>
 <script>
 (function(){
   var SK = "__phy_visitor_sid";
