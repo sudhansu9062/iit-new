@@ -33,6 +33,13 @@
     .portal-date-day:disabled, .portal-date-day.is-past { color: #cbd5e1 !important; background: #f8fafc !important; cursor: not-allowed !important; text-decoration: line-through !important; opacity: 0.5 !important; pointer-events: none; }
     .portal-date-day.is-blocked { background: #fee2e2 !important; color: #991b1b !important; text-decoration: line-through !important; cursor: not-allowed !important; opacity: 1 !important; pointer-events: none; }
     .portal-date-day.is-selected { background: #1f456f !important; color: #ffffff !important; text-decoration: none !important; opacity: 1 !important; pointer-events: auto; }
+    .portal-date-day.is-custom-selected { background: #0284c7 !important; color: #ffffff !important; text-decoration: none !important; opacity: 1 !important; font-weight: 700; box-shadow: 0 0 0 2px #38bdf8; }
+    .selected-date-chip { display: inline-flex; align-items: center; gap: 5px; padding: 3px 8px; background: #0284c7; color: #ffffff; border-radius: 14px; font-size: 11px; font-weight: 700; line-height: 1.2; }
+    .selected-date-chip-del { border: none; background: transparent; color: #bae6fd; cursor: pointer; font-size: 14px; line-height: 1; padding: 0; font-weight: 700; }
+    .selected-date-chip-del:hover { color: #ffffff; }
+    .portal-mode-toggle { border: none; border-radius: 6px; padding: 5px 12px; font-size: 12px; font-weight: 700; cursor: pointer; transition: all 0.15s; }
+    .portal-mode-toggle.is-active { background: #1f456f !important; color: #ffffff !important; }
+    .portal-mode-toggle:not(.is-active) { background: transparent !important; color: #475569 !important; }
     .booking-schedule-summary { margin: -2px 0 16px; color: #7383a5; line-height: 1.5; }
     .booking-schedule-group + .booking-schedule-group { margin-top: 24px; padding-top: 20px; border-top: 1px solid #e3eaf5; }
     .booking-schedule-group h3 { margin: 0 0 6px; color: #122d55; font-size: 17px; }
@@ -194,7 +201,14 @@
             <div class="portal-section-header"><h2 id="booking-form-title">New Request</h2></div>
             <form id="booking-form" class="portal-form-grid">
               <label id="booking-label">Seminar Hall<select class="portal-input" name="resource" id="booking-resource" required><option value="">Select option</option></select></label>
-              <label>Date
+              <div id="booking-mode-row" style="display:none; margin-bottom: 2px;">
+                <label style="font-size: 11px; font-weight: 700; color: #475569; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 5px; display: block;">Booking Mode</label>
+                <div style="display: inline-flex; border: 1px solid #cbd5e1; border-radius: 8px; padding: 3px; background: #f8fafc; gap: 4px;">
+                  <button type="button" id="btn-mode-range" class="portal-mode-toggle is-active">📅 Date Range (Continuous)</button>
+                  <button type="button" id="btn-mode-specific" class="portal-mode-toggle">🗓️ Specific Dates (Non-Consecutive)</button>
+                </div>
+              </div>
+              <label id="booking-date-label">Date
                 <div class="portal-date-field">
                   <input class="portal-input portal-date-display" id="booking-date-display" type="text" placeholder="Select date" readonly required />
                   <input type="hidden" name="date" id="booking-date" required />
@@ -208,6 +222,16 @@
                   </div>
                 </div>
               </label>
+              <div id="booking-custom-dates-wrap" style="display:none; background: #f0fdf4; border: 1px solid #86efac; border-radius: 8px; padding: 10px 12px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                  <span style="font-size: 12px; font-weight: 700; color: #166534;" id="custom-dates-count-label">Selected Dates (0)</span>
+                  <button type="button" id="clear-custom-dates-btn" style="border:none; background:transparent; font-size: 11px; color: #b91c1c; font-weight: 600; cursor: pointer; text-decoration: underline;">Clear all</button>
+                </div>
+                <div id="selected-dates-chips" style="display: flex; flex-wrap: wrap; gap: 6px; min-height: 28px; align-items: center;">
+                  <span style="font-size: 11px; color: #64748b; font-style: italic;" id="custom-dates-empty-hint">Click dates in the calendar to add multiple dates...</span>
+                </div>
+                <p id="custom-dates-window-hint" style="font-size: 11px; color: #15803d; margin: 6px 0 0; font-weight: 500;"></p>
+              </div>
               <div id="booking-end-date-row" class="portal-end-date-row" style="display:none;">
                 <label>End Date <span style="font-size:11px;font-weight:400;color:#7a8da8;">(leave blank for single-day booking)</span>
                   <input class="portal-input" name="endDate" id="booking-end-date" type="date" />
@@ -354,6 +378,128 @@
       var roomStatusDateCaption = document.getElementById("room-status-date-caption");
       var roomStatusHeading = document.getElementById("room-status-heading");
       var roomStatusColHeader = document.getElementById("room-status-col-header");
+      var bookingModeRow = document.getElementById("booking-mode-row");
+      var btnModeRange = document.getElementById("btn-mode-range");
+      var btnModeSpecific = document.getElementById("btn-mode-specific");
+      var customDatesWrap = document.getElementById("booking-custom-dates-wrap");
+      var customDatesCountLabel = document.getElementById("custom-dates-count-label");
+      var selectedDatesChips = document.getElementById("selected-dates-chips");
+      var clearCustomDatesBtn = document.getElementById("clear-custom-dates-btn");
+      var customDatesWindowHint = document.getElementById("custom-dates-window-hint");
+      var bookingDateLabel = document.getElementById("booking-date-label");
+      var currentBookingMode = "range";
+      var selectedCustomDates = [];
+      var userHasPrivilege = false;
+
+      function renderCustomDatesChips() {
+        if (!selectedDatesChips) { return; }
+        selectedCustomDates.sort();
+        var count = selectedCustomDates.length;
+        if (customDatesCountLabel) {
+          customDatesCountLabel.textContent = "Selected Dates (" + count + ")";
+        }
+        if (dateDisplay) {
+          dateDisplay.placeholder = count > 0 ? (count + " date(s) selected") : "Click to pick dates...";
+          if (currentBookingMode === "specific") {
+            dateDisplay.value = count > 0 ? selectedCustomDates.join(", ") : "";
+            dateInput.value = count > 0 ? selectedCustomDates[0] : "";
+          }
+        }
+        var activePriv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
+        var maxDays = (activePriv && activePriv.maxDays) || 42;
+
+        if (count === 0) {
+          selectedDatesChips.innerHTML = '<span style="font-size: 11px; color: #64748b; font-style: italic;" id="custom-dates-empty-hint">Click dates in the calendar to add multiple dates...</span>';
+          if (customDatesWindowHint) {
+            customDatesWindowHint.textContent = "Max allowed window span: " + maxDays + " days between earliest and latest date.";
+          }
+          return;
+        }
+
+        var earliest = selectedCustomDates[0];
+        var latest = selectedCustomDates[selectedCustomDates.length - 1];
+        var startD = new Date(earliest + "T00:00:00Z");
+        var endD = new Date(latest + "T00:00:00Z");
+        var spanDays = Math.round((endD.getTime() - startD.getTime()) / 86400000) + 1;
+
+        if (customDatesWindowHint) {
+          customDatesWindowHint.textContent = "Span: " + spanDays + " / " + maxDays + " days allowed (" + earliest + " to " + latest + ").";
+        }
+
+        selectedDatesChips.innerHTML = selectedCustomDates.map(function (d) {
+          return '<span class="selected-date-chip">' + escapeHtml(d) +
+            '<button type="button" class="selected-date-chip-del" data-chip-date="' + escapeHtml(d) + '" title="Remove date">&times;</button>' +
+            '</span>';
+        }).join("");
+      }
+
+      function updateBookingModeUI() {
+        var endDateRow = document.getElementById("booking-end-date-row");
+        if (currentBookingMode === "specific") {
+          if (btnModeRange) { btnModeRange.classList.remove("is-active"); }
+          if (btnModeSpecific) { btnModeSpecific.classList.add("is-active"); }
+          if (endDateRow) { endDateRow.style.display = "none"; }
+          if (customDatesWrap) { customDatesWrap.style.display = "block"; }
+          if (bookingDateLabel && bookingDateLabel.childNodes[0]) {
+            bookingDateLabel.childNodes[0].textContent = "Select Dates from Calendar";
+          }
+          renderCustomDatesChips();
+        } else {
+          if (btnModeRange) { btnModeRange.classList.add("is-active"); }
+          if (btnModeSpecific) { btnModeSpecific.classList.remove("is-active"); }
+          if (endDateRow) { endDateRow.style.display = userHasPrivilege ? "grid" : "none"; }
+          if (customDatesWrap) { customDatesWrap.style.display = "none"; }
+          if (bookingDateLabel && bookingDateLabel.childNodes[0]) {
+            bookingDateLabel.childNodes[0].textContent = "Date";
+          }
+          if (dateDisplay) {
+            dateDisplay.placeholder = "Select date";
+            dateDisplay.value = dateInput.value || "";
+          }
+        }
+        renderDateCalendar();
+      }
+
+      if (btnModeRange) {
+        btnModeRange.addEventListener("click", function () {
+          if (currentBookingMode === "range") { return; }
+          currentBookingMode = "range";
+          updateBookingModeUI();
+        });
+      }
+
+      if (btnModeSpecific) {
+        btnModeSpecific.addEventListener("click", function () {
+          if (currentBookingMode === "specific") { return; }
+          currentBookingMode = "specific";
+          if (dateInput.value && selectedCustomDates.indexOf(dateInput.value) === -1) {
+            selectedCustomDates.push(dateInput.value);
+            selectedCustomDates.sort();
+          }
+          updateBookingModeUI();
+        });
+      }
+
+      if (clearCustomDatesBtn) {
+        clearCustomDatesBtn.addEventListener("click", function () {
+          selectedCustomDates = [];
+          renderCustomDatesChips();
+          renderDateCalendar();
+        });
+      }
+
+      if (selectedDatesChips) {
+        selectedDatesChips.addEventListener("click", function (e) {
+          var delBtn = e.target.closest(".selected-date-chip-del");
+          if (!delBtn) { return; }
+          var d = delBtn.getAttribute("data-chip-date");
+          if (d) {
+            selectedCustomDates = selectedCustomDates.filter(function (x) { return x !== d; });
+            renderCustomDatesChips();
+            renderDateCalendar();
+          }
+        });
+      }
 
       var roomDescriptions = {
         "Room 101": "Ground Floor • Lecture & Meeting (Cap: 40)",
@@ -613,8 +759,12 @@
         var privilegeHint = document.getElementById("booking-privilege-hint");
         var endDateInput = document.getElementById("booking-end-date");
 
-        var hasPrivilege = Boolean(privilegeInfo && (privilegeInfo.hasPrivilege || (privilegeInfo.maxDays && privilegeInfo.maxDays > 1)));
-        if (hasPrivilege) {
+        userHasPrivilege = Boolean(privilegeInfo && (privilegeInfo.hasPrivilege || (privilegeInfo.maxDays && privilegeInfo.maxDays > 1)));
+        if (bookingModeRow) {
+          bookingModeRow.style.display = userHasPrivilege ? "block" : "none";
+        }
+
+        if (userHasPrivilege) {
           if (badgeWrap && badgeText) {
             badgeWrap.style.display = "block";
             badgeText.textContent = privilegeInfo.label + " (Multi-date booking up to " + privilegeInfo.maxDays + " days)";
@@ -623,7 +773,7 @@
             }
           }
           if (endDateRow) {
-            endDateRow.style.display = "grid";
+            endDateRow.style.display = currentBookingMode === "range" ? "grid" : "none";
             if (privilegeHint) {
               privilegeHint.textContent = "As " + privilegeInfo.label + ", you can book up to " + privilegeInfo.maxDays + " days at once by setting an End Date.";
             }
@@ -637,7 +787,9 @@
         } else {
           if (badgeWrap) { badgeWrap.style.display = "none"; }
           if (endDateRow) { endDateRow.style.display = "none"; }
+          currentBookingMode = "range";
         }
+        updateBookingModeUI();
 
         function sortBookings(items) {
           return items.slice().sort(function (first, second) {
@@ -740,7 +892,11 @@
           var classes = ["portal-date-day"];
           if (isPast) { classes.push("is-past"); }
           if (isBlocked) { classes.push("is-blocked"); }
-          if (dateInput.value === dateId) { classes.push("is-selected"); }
+          if (currentBookingMode === "specific") {
+            if (selectedCustomDates.indexOf(dateId) !== -1) { classes.push("is-custom-selected"); }
+          } else {
+            if (dateInput.value === dateId) { classes.push("is-selected"); }
+          }
           var tooltip = isPast ? ' title="Past date cannot be booked"' : (isBlocked ? ' title="Blocked / holiday date"' : '');
           cells.push('<button type="button" class="' + classes.join(" ") + '" data-date="' + dateId + '"' + (isDisabled ? " disabled" : "") + tooltip + ">" + day + "</button>");
         }
@@ -790,57 +946,81 @@
       form.addEventListener("submit", async function (event) {
         event.preventDefault();
         var fd = new FormData(form);
-        var selectedDate = String(fd.get("date") || "");
-        if (!selectedDate) {
-          message.textContent = "Please select a date from the calendar.";
-          showPopup(message.textContent);
-          return;
-        }
 
-        // Validate past date
-        var todayId = toDateId(new Date());
-        if (selectedDate < todayId) {
-          message.textContent = "Cannot book a date in the past. Please select today or a future date.";
-          showPopup(message.textContent);
-          return;
-        }
-
-        if (latestData && Array.isArray(latestData.blockedDates) && latestData.blockedDates.indexOf(selectedDate) !== -1) {
-          message.textContent = "Selected date is a holiday/blocked date. Booking is not available.";
-          showPopup(message.textContent);
-          return;
-        }
-
-        var endDateVal = String(fd.get("endDate") || "").trim();
-        if (endDateVal && endDateVal < selectedDate) {
-          message.textContent = "End Date cannot be before start date.";
-          showPopup(message.textContent);
-          return;
-        }
-        var activePriv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
-        if (endDateVal && activePriv && activePriv.maxDays) {
-          var startD = new Date(selectedDate + "T00:00:00Z");
-          var endD = new Date(endDateVal + "T00:00:00Z");
-          var daysCount = Math.round((endD.getTime() - startD.getTime()) / 86400000) + 1;
-          if (daysCount > activePriv.maxDays) {
-            message.textContent = "Date range (" + daysCount + " days) exceeds your allowed maximum of " + activePriv.maxDays + " days (" + activePriv.label + ").";
-            showPopup(message.textContent);
-            return;
-          }
-        }
         var payload = {
-          date: fd.get("date"),
           startTime: fd.get("startTime"),
           endTime: fd.get("endTime"),
           notes: fd.get("notes")
         };
-        if (endDateVal) {
-          payload.endDate = endDateVal;
-        }
         if (type === "zoom") {
           payload.topic = fd.get("resource");
         } else {
           payload.roomName = fd.get("resource");
+        }
+
+        if (currentBookingMode === "specific") {
+          if (!selectedCustomDates || selectedCustomDates.length === 0) {
+            message.textContent = "Please select at least one date from the calendar.";
+            message.classList.add("is-error");
+            showPopup(message.textContent);
+            return;
+          }
+          var todayId = toDateId(new Date());
+          if (selectedCustomDates.some(function (d) { return d < todayId; })) {
+            message.textContent = "Cannot book dates in the past. Please select today or future dates.";
+            message.classList.add("is-error");
+            showPopup(message.textContent);
+            return;
+          }
+          payload.dates = selectedCustomDates.slice().sort();
+        } else {
+          var selectedDate = String(fd.get("date") || "");
+          if (!selectedDate) {
+            message.textContent = "Please select a date from the calendar.";
+            message.classList.add("is-error");
+            showPopup(message.textContent);
+            return;
+          }
+
+          // Validate past date
+          var todayId = toDateId(new Date());
+          if (selectedDate < todayId) {
+            message.textContent = "Cannot book a date in the past. Please select today or a future date.";
+            message.classList.add("is-error");
+            showPopup(message.textContent);
+            return;
+          }
+
+          if (latestData && Array.isArray(latestData.blockedDates) && latestData.blockedDates.indexOf(selectedDate) !== -1) {
+            message.textContent = "Selected date is a holiday/blocked date. Booking is not available.";
+            message.classList.add("is-error");
+            showPopup(message.textContent);
+            return;
+          }
+
+          var endDateVal = String(fd.get("endDate") || "").trim();
+          if (endDateVal && endDateVal < selectedDate) {
+            message.textContent = "End Date cannot be before start date.";
+            message.classList.add("is-error");
+            showPopup(message.textContent);
+            return;
+          }
+          var activePriv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
+          if (endDateVal && activePriv && activePriv.maxDays) {
+            var startD = new Date(selectedDate + "T00:00:00Z");
+            var endD = new Date(endDateVal + "T00:00:00Z");
+            var daysCount = Math.round((endD.getTime() - startD.getTime()) / 86400000) + 1;
+            if (daysCount > activePriv.maxDays) {
+              message.textContent = "Date range (" + daysCount + " days) exceeds your allowed maximum of " + activePriv.maxDays + " days (" + activePriv.label + ").";
+              message.classList.add("is-error");
+              showPopup(message.textContent);
+              return;
+            }
+          }
+          payload.date = selectedDate;
+          if (endDateVal) {
+            payload.endDate = endDateVal;
+          }
         }
 
         try {
@@ -853,7 +1033,9 @@
           message.classList.remove("is-error");
           showPopup(response.message);
           form.reset();
+          selectedCustomDates = [];
           if (dateDisplay) { dateDisplay.value = ""; }
+          updateBookingModeUI();
           await load();
         } catch (error) {
           message.textContent = error.message;
@@ -894,22 +1076,49 @@
           if (!selected) { return; }
           var todayId = toDateId(new Date());
           if (selected < todayId) { return; }
-          dateInput.value = selected;
-          if (dateDisplay) { dateDisplay.value = selected; }
-          datePopover.hidden = true;
-          renderDateCalendar();
-          renderRoomStatusTable(selected);
-          var endDateInput = document.getElementById("booking-end-date");
-          if (endDateInput) {
-            endDateInput.min = selected;
-            var priv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
-            if (priv && priv.maxDays) {
-              var s = new Date(selected + "T00:00:00Z");
-              s.setUTCDate(s.getUTCDate() + (priv.maxDays - 1));
-              endDateInput.max = s.toISOString().slice(0, 10);
+
+          if (currentBookingMode === "specific") {
+            var idx = selectedCustomDates.indexOf(selected);
+            if (idx !== -1) {
+              selectedCustomDates.splice(idx, 1);
+            } else {
+              var activePriv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
+              var maxDays = (activePriv && activePriv.maxDays) || 42;
+              var testDates = selectedCustomDates.concat([selected]).sort();
+              var firstD = new Date(testDates[0] + "T00:00:00Z");
+              var lastD = new Date(testDates[testDates.length - 1] + "T00:00:00Z");
+              var span = Math.round((lastD.getTime() - firstD.getTime()) / 86400000) + 1;
+              if (span > maxDays) {
+                var errText = "Cannot add " + selected + ". The total window span from " + testDates[0] + " to " + testDates[testDates.length - 1] + " would be " + span + " days, which exceeds your allowed maximum of " + maxDays + " days.";
+                message.textContent = errText;
+                message.classList.add("is-error");
+                showPopup(errText);
+                return;
+              }
+              selectedCustomDates.push(selected);
+              selectedCustomDates.sort();
             }
-            if (endDateInput.value && endDateInput.value < selected) {
-              endDateInput.value = selected;
+            renderCustomDatesChips();
+            renderDateCalendar();
+            renderRoomStatusTable(selected);
+          } else {
+            dateInput.value = selected;
+            if (dateDisplay) { dateDisplay.value = selected; }
+            datePopover.hidden = true;
+            renderDateCalendar();
+            renderRoomStatusTable(selected);
+            var endDateInput = document.getElementById("booking-end-date");
+            if (endDateInput) {
+              endDateInput.min = selected;
+              var priv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
+              if (priv && priv.maxDays) {
+                var s = new Date(selected + "T00:00:00Z");
+                s.setUTCDate(s.getUTCDate() + (priv.maxDays - 1));
+                endDateInput.max = s.toISOString().slice(0, 10);
+              }
+              if (endDateInput.value && endDateInput.value < selected) {
+                endDateInput.value = selected;
+              }
             }
           }
         });

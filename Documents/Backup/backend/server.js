@@ -5216,27 +5216,65 @@ function createServer() {
         const body = await parseBody(req);
         const bookingDate = String(body.date || "").trim();
         const bookingEndDate = String(body.endDate || "").trim();
-        if (bookingDate < getTodayDateString()) {
-          sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
-          return;
-        }
-        // Validate date range privilege
-        if (bookingEndDate && bookingEndDate !== bookingDate) {
-          const privilege = getBookingPrivilege(user);
-          if (!privilege || !privilege.hasPrivilege) {
-            sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+        const rawDates = Array.isArray(body.dates) ? body.dates : [];
+        const customDates = Array.from(new Set(rawDates.map(d => String(d || "").trim()).filter(Boolean))).sort();
+        const today = getTodayDateString();
+
+        let datesToBook = [];
+        if (customDates.length > 0) {
+          if (customDates.some(d => d < today)) {
+            sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
             return;
           }
-          const start = new Date(bookingDate + "T00:00:00Z");
-          const end = new Date(bookingEndDate + "T00:00:00Z");
-          const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000);
-          if (diffDays < 0) {
-            sendJson(res, 400, { message: "End date must be on or after start date." });
+          if (customDates.length > 1) {
+            const privilege = getBookingPrivilege(user);
+            if (!privilege || !privilege.hasPrivilege) {
+              sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+              return;
+            }
+            const first = new Date(customDates[0] + "T00:00:00Z");
+            const last = new Date(customDates[customDates.length - 1] + "T00:00:00Z");
+            const spanDays = Math.round((last.getTime() - first.getTime()) / 86400000) + 1;
+            if (spanDays > privilege.maxDays) {
+              sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum window of ${privilege.maxDays} days. Selected span is ${spanDays} days.` });
+              return;
+            }
+          }
+          datesToBook = customDates;
+        } else {
+          if (!bookingDate) {
+            sendJson(res, 400, { message: "Date is required." });
             return;
           }
-          if (diffDays + 1 > privilege.maxDays) {
-            sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum range of ${privilege.maxDays} days.` });
+          if (bookingDate < today) {
+            sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
             return;
+          }
+          // Validate date range privilege
+          if (bookingEndDate && bookingEndDate !== bookingDate) {
+            const privilege = getBookingPrivilege(user);
+            if (!privilege || !privilege.hasPrivilege) {
+              sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+              return;
+            }
+            const start = new Date(bookingDate + "T00:00:00Z");
+            const end = new Date(bookingEndDate + "T00:00:00Z");
+            const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000);
+            if (diffDays < 0) {
+              sendJson(res, 400, { message: "End date must be on or after start date." });
+              return;
+            }
+            if (diffDays + 1 > privilege.maxDays) {
+              sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum range of ${privilege.maxDays} days.` });
+              return;
+            }
+          }
+          const rangeEnd = (bookingEndDate && bookingEndDate >= bookingDate) ? bookingEndDate : bookingDate;
+          let cursor = new Date(bookingDate + "T00:00:00Z");
+          const rangeEndDate = new Date(rangeEnd + "T00:00:00Z");
+          while (cursor.getTime() <= rangeEndDate.getTime()) {
+            datesToBook.push(cursor.toISOString().slice(0, 10));
+            cursor.setUTCDate(cursor.getUTCDate() + 1);
           }
         }
         const portalStore = await readPortalStore();
@@ -5244,18 +5282,9 @@ function createServer() {
         const endTime = String(body.endTime || "").trim();
         const roomName = String(body.roomName || "").trim();
         const notes = String(body.notes || "").trim();
-        if (!roomName || !bookingDate || !startTime || !endTime) {
+        if (!roomName || datesToBook.length === 0 || !startTime || !endTime) {
           sendJson(res, 400, { message: "Seminar hall, date, start time, and end time are required." });
           return;
-        }
-        // Build list of dates to book
-        const datesToBook = [];
-        const rangeEnd = (bookingEndDate && bookingEndDate >= bookingDate) ? bookingEndDate : bookingDate;
-        let cursor = new Date(bookingDate + "T00:00:00Z");
-        const rangeEndDate = new Date(rangeEnd + "T00:00:00Z");
-        while (cursor.getTime() <= rangeEndDate.getTime()) {
-          datesToBook.push(cursor.toISOString().slice(0, 10));
-          cursor.setUTCDate(cursor.getUTCDate() + 1);
         }
         const createdBookings = [];
         const skippedDates = [];
@@ -5444,27 +5473,65 @@ function createServer() {
         const body = await parseBody(req);
         const bookingDate = String(body.date || "").trim();
         const bookingEndDate = String(body.endDate || "").trim();
-        if (bookingDate < getTodayDateString()) {
-          sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
-          return;
-        }
-        // Validate date range privilege
-        if (bookingEndDate && bookingEndDate !== bookingDate) {
-          const privilege = getBookingPrivilege(user);
-          if (!privilege || !privilege.hasPrivilege) {
-            sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+        const rawDates = Array.isArray(body.dates) ? body.dates : [];
+        const customDates = Array.from(new Set(rawDates.map(d => String(d || "").trim()).filter(Boolean))).sort();
+        const today = getTodayDateString();
+
+        let datesToBook = [];
+        if (customDates.length > 0) {
+          if (customDates.some(d => d < today)) {
+            sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
             return;
           }
-          const start = new Date(bookingDate + "T00:00:00Z");
-          const end = new Date(bookingEndDate + "T00:00:00Z");
-          const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000);
-          if (diffDays < 0) {
-            sendJson(res, 400, { message: "End date must be on or after start date." });
+          if (customDates.length > 1) {
+            const privilege = getBookingPrivilege(user);
+            if (!privilege || !privilege.hasPrivilege) {
+              sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+              return;
+            }
+            const first = new Date(customDates[0] + "T00:00:00Z");
+            const last = new Date(customDates[customDates.length - 1] + "T00:00:00Z");
+            const spanDays = Math.round((last.getTime() - first.getTime()) / 86400000) + 1;
+            if (spanDays > privilege.maxDays) {
+              sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum window of ${privilege.maxDays} days. Selected span is ${spanDays} days.` });
+              return;
+            }
+          }
+          datesToBook = customDates;
+        } else {
+          if (!bookingDate) {
+            sendJson(res, 400, { message: "Date is required." });
             return;
           }
-          if (diffDays + 1 > privilege.maxDays) {
-            sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum range of ${privilege.maxDays} days.` });
+          if (bookingDate < today) {
+            sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
             return;
+          }
+          // Validate date range privilege
+          if (bookingEndDate && bookingEndDate !== bookingDate) {
+            const privilege = getBookingPrivilege(user);
+            if (!privilege || !privilege.hasPrivilege) {
+              sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+              return;
+            }
+            const start = new Date(bookingDate + "T00:00:00Z");
+            const end = new Date(bookingEndDate + "T00:00:00Z");
+            const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000);
+            if (diffDays < 0) {
+              sendJson(res, 400, { message: "End date must be on or after start date." });
+              return;
+            }
+            if (diffDays + 1 > privilege.maxDays) {
+              sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum range of ${privilege.maxDays} days.` });
+              return;
+            }
+          }
+          const rangeEnd = (bookingEndDate && bookingEndDate >= bookingDate) ? bookingEndDate : bookingDate;
+          let cursor = new Date(bookingDate + "T00:00:00Z");
+          const rangeEndDate = new Date(rangeEnd + "T00:00:00Z");
+          while (cursor.getTime() <= rangeEndDate.getTime()) {
+            datesToBook.push(cursor.toISOString().slice(0, 10));
+            cursor.setUTCDate(cursor.getUTCDate() + 1);
           }
         }
         const portalStore = await readPortalStore();
@@ -5472,18 +5539,9 @@ function createServer() {
         const endTime = String(body.endTime || "").trim();
         const roomTopic = String(body.topic || "").trim();
         const notes = String(body.notes || "").trim();
-        if (!roomTopic || !bookingDate || !startTime || !endTime) {
+        if (!roomTopic || datesToBook.length === 0 || !startTime || !endTime) {
           sendJson(res, 400, { message: "Room number, date, start time, and end time are required." });
           return;
-        }
-        // Build list of dates to book
-        const datesToBook = [];
-        const rangeEnd = (bookingEndDate && bookingEndDate >= bookingDate) ? bookingEndDate : bookingDate;
-        let cursor = new Date(bookingDate + "T00:00:00Z");
-        const rangeEndDate = new Date(rangeEnd + "T00:00:00Z");
-        while (cursor.getTime() <= rangeEndDate.getTime()) {
-          datesToBook.push(cursor.toISOString().slice(0, 10));
-          cursor.setUTCDate(cursor.getUTCDate() + 1);
         }
         const createdBookings = [];
         const skippedDates = [];
