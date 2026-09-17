@@ -604,19 +604,21 @@
         blockedSlots.innerHTML = (data.blockedSlots || []).map(function (item) { return '<span class="portal-tag">' + escapeHtml(item.date) + ' ' + escapeHtml(item.time) + '</span>'; }).join("") || '<span class="portal-tag">No blocked slots</span>';
         
         // Privilege Info rendering
-        var privilegeInfo = data.privilegeInfo || (data.user && data.user.privilegeInfo);
+        var privilegeInfo = data.privilegeInfo || data.bookingPrivilege || (data.user && (data.user.privilegeInfo || data.user.bookingPrivilege));
         var badgeWrap = document.getElementById("booking-privilege-badge-wrap");
         var badgeEl = document.getElementById("booking-privilege-badge");
         var badgeText = document.getElementById("booking-privilege-text");
         var endDateRow = document.getElementById("booking-end-date-row");
         var privilegeHint = document.getElementById("booking-privilege-hint");
+        var endDateInput = document.getElementById("booking-end-date");
 
-        if (privilegeInfo && privilegeInfo.hasPrivilege) {
+        var hasPrivilege = Boolean(privilegeInfo && (privilegeInfo.hasPrivilege || (privilegeInfo.maxDays && privilegeInfo.maxDays > 1)));
+        if (hasPrivilege) {
           if (badgeWrap && badgeText) {
             badgeWrap.style.display = "block";
             badgeText.textContent = privilegeInfo.label + " (Multi-date booking up to " + privilegeInfo.maxDays + " days)";
             if (badgeEl) {
-              badgeEl.classList.toggle("is-timetable", privilegeInfo.privilege === "timetable");
+              badgeEl.classList.toggle("is-timetable", privilegeInfo.privilege === "timetable" || privilegeInfo.type === "timetable_incharge" || privilegeInfo.maxDays >= 120);
             }
           }
           if (endDateRow) {
@@ -624,6 +626,12 @@
             if (privilegeHint) {
               privilegeHint.textContent = "As " + privilegeInfo.label + ", you can book up to " + privilegeInfo.maxDays + " days at once by setting an End Date.";
             }
+          }
+          if (endDateInput && dateInput && dateInput.value) {
+            endDateInput.min = dateInput.value;
+            var s = new Date(dateInput.value + "T00:00:00Z");
+            s.setUTCDate(s.getUTCDate() + (privilegeInfo.maxDays - 1));
+            endDateInput.max = s.toISOString().slice(0, 10);
           }
         } else {
           if (badgeWrap) { badgeWrap.style.display = "none"; }
@@ -772,6 +780,22 @@
         }
 
         var endDateVal = String(fd.get("endDate") || "").trim();
+        if (endDateVal && endDateVal < selectedDate) {
+          message.textContent = "End Date cannot be before start date.";
+          showPopup(message.textContent);
+          return;
+        }
+        var activePriv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
+        if (endDateVal && activePriv && activePriv.maxDays) {
+          var startD = new Date(selectedDate + "T00:00:00Z");
+          var endD = new Date(endDateVal + "T00:00:00Z");
+          var daysCount = Math.round((endD.getTime() - startD.getTime()) / 86400000) + 1;
+          if (daysCount > activePriv.maxDays) {
+            message.textContent = "Date range (" + daysCount + " days) exceeds your allowed maximum of " + activePriv.maxDays + " days (" + activePriv.label + ").";
+            showPopup(message.textContent);
+            return;
+          }
+        }
         var payload = {
           date: fd.get("date"),
           startTime: fd.get("startTime"),
@@ -795,6 +819,7 @@
           });
           message.textContent = response.message;
           message.classList.remove("is-error");
+          showPopup(response.message);
           form.reset();
           if (dateDisplay) { dateDisplay.value = ""; }
           await load();
@@ -834,6 +859,19 @@
           datePopover.hidden = true;
           renderDateCalendar();
           renderRoomStatusTable(selected);
+          var endDateInput = document.getElementById("booking-end-date");
+          if (endDateInput) {
+            endDateInput.min = selected;
+            var priv = latestData && (latestData.privilegeInfo || latestData.bookingPrivilege);
+            if (priv && priv.maxDays) {
+              var s = new Date(selected + "T00:00:00Z");
+              s.setUTCDate(s.getUTCDate() + (priv.maxDays - 1));
+              endDateInput.max = s.toISOString().slice(0, 10);
+            }
+            if (endDateInput.value && endDateInput.value < selected) {
+              endDateInput.value = selected;
+            }
+          }
         });
       }
       if (dateInput) {

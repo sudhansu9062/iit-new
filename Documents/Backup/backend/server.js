@@ -1679,6 +1679,7 @@ function sendSseEvent(res, eventName, payload) {
 
 function createPublicUser(user) {
   const account = normalizeManagedUser(user);
+  const priv = getBookingPrivilege(account);
   return {
     id: account.id,
     name: account.name,
@@ -1690,7 +1691,9 @@ function createPublicUser(user) {
     permissions: Array.isArray(account.permissions) ? account.permissions : [],
     invitationStatus: account.invitationStatus || "active",
     invitedAt: account.invitation ? account.invitation.invitedAt : "",
-    lastLoginAt: account.lastLoginAt || ""
+    lastLoginAt: account.lastLoginAt || "",
+    privilegeInfo: priv,
+    bookingPrivilege: priv
   };
 }
 
@@ -2881,18 +2884,57 @@ function hasPermission(user, permission, siteStore) {
 
 // Returns booking privilege info for a user based on their special booking permissions
 function getBookingPrivilege(user) {
+  if (!user) return null;
   const perms = Array.isArray(user.permissions) ? user.permissions : [];
   if (perms.includes("booking_timetable_incharge")) {
-    return { type: "timetable_incharge", label: "Timetable In-Charge", maxDays: 120, description: "Semester-wide booking (up to 120 days range)" };
+    return {
+      hasPrivilege: true,
+      privilege: "timetable",
+      type: "timetable_incharge",
+      label: "Timetable In-Charge",
+      maxDays: 120,
+      description: "Semester-wide booking (up to 120 days range)"
+    };
   }
   if (perms.includes("booking_conference_incharge")) {
-    return { type: "conference_incharge", label: "Conference/Seminar Organizer", maxDays: 42, description: "Extended booking (up to 6 weeks range)" };
+    return {
+      hasPrivilege: true,
+      privilege: "conference",
+      type: "conference_incharge",
+      label: "Conference/Seminar Organizer",
+      maxDays: 42,
+      description: "Extended booking (up to 42 days / 6 weeks range)"
+    };
   }
   if (perms.includes("booking_exam_incharge")) {
-    return { type: "exam_incharge", label: "Exam In-Charge", maxDays: 7, description: "Weekly booking (up to 7 days range)" };
+    return {
+      hasPrivilege: true,
+      privilege: "exam",
+      type: "exam_incharge",
+      label: "Exam In-Charge",
+      maxDays: 7,
+      description: "Weekly booking (up to 7 days range)"
+    };
   }
   if (perms.includes("booking_seminar_incharge")) {
-    return { type: "seminar_incharge", label: "Seminar In-Charge", maxDays: 7, description: "Multi-day booking (up to 7 days range)" };
+    return {
+      hasPrivilege: true,
+      privilege: "seminar",
+      type: "seminar_incharge",
+      label: "Seminar In-Charge",
+      maxDays: 7,
+      description: "Multi-day booking (up to 7 days range)"
+    };
+  }
+  if (user.role === "superadmin") {
+    return {
+      hasPrivilege: true,
+      privilege: "timetable",
+      type: "timetable_incharge",
+      label: "Super Admin (Semester Privilege)",
+      maxDays: 120,
+      description: "Semester-wide booking (up to 120 days range)"
+    };
   }
   return null;
 }
@@ -5133,13 +5175,15 @@ function createServer() {
           return;
         }
         const portalStore = await readPortalStore();
+        const priv = getBookingPrivilege(user);
         sendJson(res, 200, {
           resources: portalStore.bookingResources,
           blockedDates: portalStore.blockedDates,
           blockedSlots: portalStore.blockedSlots,
           requests: portalStore.seminarRequests.filter((item) => normalizeEmail(item.requesterEmail) === normalizeEmail(user.email)),
           bookings: portalStore.seminarRequests.filter((item) => item.status === "Approved"),
-          bookingPrivilege: getBookingPrivilege(user)
+          bookingPrivilege: priv,
+          privilegeInfo: priv
         });
         return;
       }
@@ -5160,13 +5204,13 @@ function createServer() {
         // Validate date range privilege
         if (bookingEndDate && bookingEndDate !== bookingDate) {
           const privilege = getBookingPrivilege(user);
-          if (!privilege) {
+          if (!privilege || !privilege.hasPrivilege) {
             sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
             return;
           }
-          const start = new Date(bookingDate);
-          const end = new Date(bookingEndDate);
-          const diffDays = Math.round((end - start) / 86400000);
+          const start = new Date(bookingDate + "T00:00:00Z");
+          const end = new Date(bookingEndDate + "T00:00:00Z");
+          const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000);
           if (diffDays < 0) {
             sendJson(res, 400, { message: "End date must be on or after start date." });
             return;
@@ -5187,13 +5231,12 @@ function createServer() {
         }
         // Build list of dates to book
         const datesToBook = [];
-        const rangeEnd = bookingEndDate && bookingEndDate >= bookingDate ? bookingEndDate : bookingDate;
-        let cursor = new Date(bookingDate);
-        const rangeEndDate = new Date(rangeEnd);
-        while (cursor <= rangeEndDate) {
-          const d = cursor.toISOString().slice(0, 10);
-          datesToBook.push(d);
-          cursor.setDate(cursor.getDate() + 1);
+        const rangeEnd = (bookingEndDate && bookingEndDate >= bookingDate) ? bookingEndDate : bookingDate;
+        let cursor = new Date(bookingDate + "T00:00:00Z");
+        const rangeEndDate = new Date(rangeEnd + "T00:00:00Z");
+        while (cursor.getTime() <= rangeEndDate.getTime()) {
+          datesToBook.push(cursor.toISOString().slice(0, 10));
+          cursor.setUTCDate(cursor.getUTCDate() + 1);
         }
         const createdBookings = [];
         const skippedDates = [];
@@ -5330,13 +5373,15 @@ function createServer() {
           return;
         }
         const portalStore = await readPortalStore();
+        const priv = getBookingPrivilege(user);
         sendJson(res, 200, {
           resources: portalStore.bookingResources,
           blockedDates: portalStore.blockedDates,
           blockedSlots: portalStore.blockedSlots,
           requests: portalStore.zoomBookings.filter((item) => normalizeEmail(item.requesterEmail) === normalizeEmail(user.email)),
           bookings: portalStore.zoomBookings.filter((item) => item.status === "Approved"),
-          bookingPrivilege: getBookingPrivilege(user)
+          bookingPrivilege: priv,
+          privilegeInfo: priv
         });
         return;
       }
@@ -5387,13 +5432,13 @@ function createServer() {
         // Validate date range privilege
         if (bookingEndDate && bookingEndDate !== bookingDate) {
           const privilege = getBookingPrivilege(user);
-          if (!privilege) {
+          if (!privilege || !privilege.hasPrivilege) {
             sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
             return;
           }
-          const start = new Date(bookingDate);
-          const end = new Date(bookingEndDate);
-          const diffDays = Math.round((end - start) / 86400000);
+          const start = new Date(bookingDate + "T00:00:00Z");
+          const end = new Date(bookingEndDate + "T00:00:00Z");
+          const diffDays = Math.round((end.getTime() - start.getTime()) / 86400000);
           if (diffDays < 0) {
             sendJson(res, 400, { message: "End date must be on or after start date." });
             return;
@@ -5414,13 +5459,12 @@ function createServer() {
         }
         // Build list of dates to book
         const datesToBook = [];
-        const rangeEnd = bookingEndDate && bookingEndDate >= bookingDate ? bookingEndDate : bookingDate;
-        let cursor = new Date(bookingDate);
-        const rangeEndDate = new Date(rangeEnd);
-        while (cursor <= rangeEndDate) {
-          const d = cursor.toISOString().slice(0, 10);
-          datesToBook.push(d);
-          cursor.setDate(cursor.getDate() + 1);
+        const rangeEnd = (bookingEndDate && bookingEndDate >= bookingDate) ? bookingEndDate : bookingDate;
+        let cursor = new Date(bookingDate + "T00:00:00Z");
+        const rangeEndDate = new Date(rangeEnd + "T00:00:00Z");
+        while (cursor.getTime() <= rangeEndDate.getTime()) {
+          datesToBook.push(cursor.toISOString().slice(0, 10));
+          cursor.setUTCDate(cursor.getUTCDate() + 1);
         }
         const createdBookings = [];
         const skippedDates = [];
