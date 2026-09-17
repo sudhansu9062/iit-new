@@ -2879,6 +2879,24 @@ function hasPermission(user, permission, siteStore) {
   return permissions.includes("all") || permissions.includes(permission);
 }
 
+// Returns booking privilege info for a user based on their special booking permissions
+function getBookingPrivilege(user) {
+  const perms = Array.isArray(user.permissions) ? user.permissions : [];
+  if (perms.includes("booking_timetable_incharge")) {
+    return { type: "timetable_incharge", label: "Timetable In-Charge", maxDays: 120, description: "Semester-wide booking (up to 120 days range)" };
+  }
+  if (perms.includes("booking_conference_incharge")) {
+    return { type: "conference_incharge", label: "Conference/Seminar Organizer", maxDays: 42, description: "Extended booking (up to 6 weeks range)" };
+  }
+  if (perms.includes("booking_exam_incharge")) {
+    return { type: "exam_incharge", label: "Exam In-Charge", maxDays: 7, description: "Weekly booking (up to 7 days range)" };
+  }
+  if (perms.includes("booking_seminar_incharge")) {
+    return { type: "seminar_incharge", label: "Seminar In-Charge", maxDays: 7, description: "Multi-day booking (up to 7 days range)" };
+  }
+  return null;
+}
+
 function purgeExpiredTokens(user) {
   if (!Array.isArray(user.tokens) || !user.tokens.length) {
     return false;
@@ -5120,7 +5138,8 @@ function createServer() {
           blockedDates: portalStore.blockedDates,
           blockedSlots: portalStore.blockedSlots,
           requests: portalStore.seminarRequests.filter((item) => normalizeEmail(item.requesterEmail) === normalizeEmail(user.email)),
-          bookings: portalStore.seminarRequests.filter((item) => item.status === "Approved")
+          bookings: portalStore.seminarRequests.filter((item) => item.status === "Approved"),
+          bookingPrivilege: getBookingPrivilege(user)
         });
         return;
       }
@@ -5133,67 +5152,92 @@ function createServer() {
         }
         const body = await parseBody(req);
         const bookingDate = String(body.date || "").trim();
+        const bookingEndDate = String(body.endDate || "").trim();
         if (bookingDate < getTodayDateString()) {
           sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
           return;
         }
+        // Validate date range privilege
+        if (bookingEndDate && bookingEndDate !== bookingDate) {
+          const privilege = getBookingPrivilege(user);
+          if (!privilege) {
+            sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+            return;
+          }
+          const start = new Date(bookingDate);
+          const end = new Date(bookingEndDate);
+          const diffDays = Math.round((end - start) / 86400000);
+          if (diffDays < 0) {
+            sendJson(res, 400, { message: "End date must be on or after start date." });
+            return;
+          }
+          if (diffDays + 1 > privilege.maxDays) {
+            sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum range of ${privilege.maxDays} days.` });
+            return;
+          }
+        }
         const portalStore = await readPortalStore();
         const startTime = String(body.startTime || body.time || "").trim();
         const endTime = String(body.endTime || "").trim();
-        const blocked = isBlockedSlot(bookingDate, startTime, portalStore);
-        if (blocked) {
-          sendJson(res, 409, { message: "This date or time slot has been blocked by super admin. Booking is not allowed." });
-          return;
-        }
-        const conflictResult = findBookingConflict(portalStore, {
-          type: "seminar",
-          roomName: String(body.roomName || "").trim(),
-          date: String(body.date || "").trim(),
-          startTime,
-          endTime
-        });
-        if (conflictResult.invalid) {
-          sendJson(res, 400, { message: "Valid start and end time are required, and end time must be after start time." });
-          return;
-        }
-        if (conflictResult.conflict) {
-          sendJson(res, 409, { message: "This seminar hall is already booked for the selected date and time range." });
-          return;
-        }
-        const request = {
-          id: createId("seminar"),
-          requesterName: user.name,
-          requesterEmail: user.email,
-          roomName: String(body.roomName || "").trim(),
-          date: String(body.date || "").trim(),
-          time: startTime,
-          startTime,
-          endTime,
-          notes: String(body.notes || "").trim(),
-          status: "Approved",
-          createdAt: nowIso(),
-          updatedAt: nowIso()
-        };
-        if (!request.roomName || !request.date || !request.startTime || !request.endTime) {
+        const roomName = String(body.roomName || "").trim();
+        const notes = String(body.notes || "").trim();
+        if (!roomName || !bookingDate || !startTime || !endTime) {
           sendJson(res, 400, { message: "Seminar hall, date, start time, and end time are required." });
           return;
         }
-        portalStore.seminarRequests.unshift(request);
+        // Build list of dates to book
+        const datesToBook = [];
+        const rangeEnd = bookingEndDate && bookingEndDate >= bookingDate ? bookingEndDate : bookingDate;
+        let cursor = new Date(bookingDate);
+        const rangeEndDate = new Date(rangeEnd);
+        while (cursor <= rangeEndDate) {
+          const d = cursor.toISOString().slice(0, 10);
+          datesToBook.push(d);
+          cursor.setDate(cursor.getDate() + 1);
+        }
+        const createdBookings = [];
+        const skippedDates = [];
+        for (const d of datesToBook) {
+          if (isBlockedSlot(d, startTime, portalStore)) { skippedDates.push(d); continue; }
+          const conflictResult = findBookingConflict(portalStore, { type: "seminar", roomName, date: d, startTime, endTime });
+          if (conflictResult.invalid) { sendJson(res, 400, { message: "Valid start and end time are required, and end time must be after start time." }); return; }
+          if (conflictResult.conflict) { skippedDates.push(d); continue; }
+          const request = {
+            id: createId("seminar"),
+            requesterName: user.name,
+            requesterEmail: user.email,
+            roomName,
+            date: d,
+            time: startTime,
+            startTime,
+            endTime,
+            notes,
+            status: "Approved",
+            createdAt: nowIso(),
+            updatedAt: nowIso()
+          };
+          portalStore.seminarRequests.unshift(request);
+          createdBookings.push(d);
+        }
+        if (createdBookings.length === 0) {
+          sendJson(res, 409, { message: "All selected dates are blocked or already booked." });
+          return;
+        }
         addNotification(portalStore, {
           targetRole: "superadmin",
           title: "New seminar request",
-          message: `${user.name} requested ${request.roomName} for ${request.date} ${request.startTime}-${request.endTime}.`,
+          message: `${user.name} requested ${roomName} for ${createdBookings.length} date(s) (${createdBookings[0]}${createdBookings.length > 1 ? ' to ' + createdBookings[createdBookings.length - 1] : ''}) ${startTime}-${endTime}.`,
           kind: "booking"
         });
         addNotification(portalStore, {
           targetEmail: user.email,
           title: "Seminar request submitted",
-          message: "Your seminar request was auto-approved.",
+          message: `Your seminar request for ${createdBookings.length} date(s) was auto-approved.${skippedDates.length ? ' ' + skippedDates.length + ' date(s) were skipped (blocked/conflict).' : ''}`,
           kind: "booking"
         });
         await writePortalStore(portalStore);
         await broadcastDashboardUpdate(user.email);
-        sendJson(res, 201, { message: "Request auto-approved successfully." });
+        sendJson(res, 201, { message: `Request auto-approved for ${createdBookings.length} date(s).${skippedDates.length ? ' ' + skippedDates.length + ' date(s) skipped due to conflicts.' : ''}` });
         return;
       }
 
@@ -5291,7 +5335,8 @@ function createServer() {
           blockedDates: portalStore.blockedDates,
           blockedSlots: portalStore.blockedSlots,
           requests: portalStore.zoomBookings.filter((item) => normalizeEmail(item.requesterEmail) === normalizeEmail(user.email)),
-          bookings: portalStore.zoomBookings.filter((item) => item.status === "Approved")
+          bookings: portalStore.zoomBookings.filter((item) => item.status === "Approved"),
+          bookingPrivilege: getBookingPrivilege(user)
         });
         return;
       }
@@ -5334,67 +5379,92 @@ function createServer() {
         }
         const body = await parseBody(req);
         const bookingDate = String(body.date || "").trim();
+        const bookingEndDate = String(body.endDate || "").trim();
         if (bookingDate < getTodayDateString()) {
           sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
           return;
         }
+        // Validate date range privilege
+        if (bookingEndDate && bookingEndDate !== bookingDate) {
+          const privilege = getBookingPrivilege(user);
+          if (!privilege) {
+            sendJson(res, 403, { message: "You do not have privilege to make multi-date bookings." });
+            return;
+          }
+          const start = new Date(bookingDate);
+          const end = new Date(bookingEndDate);
+          const diffDays = Math.round((end - start) / 86400000);
+          if (diffDays < 0) {
+            sendJson(res, 400, { message: "End date must be on or after start date." });
+            return;
+          }
+          if (diffDays + 1 > privilege.maxDays) {
+            sendJson(res, 400, { message: `Your privilege (${privilege.label}) allows a maximum range of ${privilege.maxDays} days.` });
+            return;
+          }
+        }
         const portalStore = await readPortalStore();
         const startTime = String(body.startTime || body.time || "").trim();
         const endTime = String(body.endTime || "").trim();
-        const blocked = isBlockedSlot(bookingDate, startTime, portalStore);
-        if (blocked) {
-          sendJson(res, 409, { message: "This date or time slot has been blocked by super admin. Booking is not allowed." });
-          return;
-        }
-        const conflictResult = findBookingConflict(portalStore, {
-          type: "zoom",
-          topic: String(body.topic || "").trim(),
-          date: String(body.date || "").trim(),
-          startTime,
-          endTime
-        });
-        if (conflictResult.invalid) {
-          sendJson(res, 400, { message: "Valid start and end time are required, and end time must be after start time." });
-          return;
-        }
-        if (conflictResult.conflict) {
-          sendJson(res, 409, { message: "This room is already booked for the selected date and time range." });
-          return;
-        }
-        const request = {
-          id: createId("zoom"),
-          requesterName: user.name,
-          requesterEmail: user.email,
-          topic: String(body.topic || "").trim(),
-          date: String(body.date || "").trim(),
-          time: startTime,
-          startTime,
-          endTime,
-          notes: String(body.notes || "").trim(),
-          status: "Approved",
-          createdAt: nowIso(),
-          updatedAt: nowIso()
-        };
-        if (!request.topic || !request.date || !request.startTime || !request.endTime) {
+        const roomTopic = String(body.topic || "").trim();
+        const notes = String(body.notes || "").trim();
+        if (!roomTopic || !bookingDate || !startTime || !endTime) {
           sendJson(res, 400, { message: "Room number, date, start time, and end time are required." });
           return;
         }
-        portalStore.zoomBookings.unshift(request);
+        // Build list of dates to book
+        const datesToBook = [];
+        const rangeEnd = bookingEndDate && bookingEndDate >= bookingDate ? bookingEndDate : bookingDate;
+        let cursor = new Date(bookingDate);
+        const rangeEndDate = new Date(rangeEnd);
+        while (cursor <= rangeEndDate) {
+          const d = cursor.toISOString().slice(0, 10);
+          datesToBook.push(d);
+          cursor.setDate(cursor.getDate() + 1);
+        }
+        const createdBookings = [];
+        const skippedDates = [];
+        for (const d of datesToBook) {
+          if (isBlockedSlot(d, startTime, portalStore)) { skippedDates.push(d); continue; }
+          const conflictResult = findBookingConflict(portalStore, { type: "zoom", topic: roomTopic, date: d, startTime, endTime });
+          if (conflictResult.invalid) { sendJson(res, 400, { message: "Valid start and end time are required, and end time must be after start time." }); return; }
+          if (conflictResult.conflict) { skippedDates.push(d); continue; }
+          const request = {
+            id: createId("zoom"),
+            requesterName: user.name,
+            requesterEmail: user.email,
+            topic: roomTopic,
+            date: d,
+            time: startTime,
+            startTime,
+            endTime,
+            notes,
+            status: "Approved",
+            createdAt: nowIso(),
+            updatedAt: nowIso()
+          };
+          portalStore.zoomBookings.unshift(request);
+          createdBookings.push(d);
+        }
+        if (createdBookings.length === 0) {
+          sendJson(res, 409, { message: "All selected dates are blocked or already booked." });
+          return;
+        }
         addNotification(portalStore, {
           targetRole: "superadmin",
           title: "New room booking request",
-          message: `${user.name} requested room "${request.topic}" for ${request.date} ${request.startTime}-${request.endTime}.`,
+          message: `${user.name} requested room "${roomTopic}" for ${createdBookings.length} date(s) (${createdBookings[0]}${createdBookings.length > 1 ? ' to ' + createdBookings[createdBookings.length - 1] : ''}) ${startTime}-${endTime}.`,
           kind: "booking"
         });
         addNotification(portalStore, {
           targetEmail: user.email,
           title: "Room booking submitted",
-          message: "Your room booking was auto-approved.",
+          message: `Your room booking for ${createdBookings.length} date(s) was auto-approved.${skippedDates.length ? ' ' + skippedDates.length + ' date(s) were skipped (blocked/conflict).' : ''}`,
           kind: "booking"
         });
         await writePortalStore(portalStore);
         await broadcastDashboardUpdate(user.email);
-        sendJson(res, 201, { message: "Request auto-approved successfully." });
+        sendJson(res, 201, { message: `Request auto-approved for ${createdBookings.length} date(s).${skippedDates.length ? ' ' + skippedDates.length + ' date(s) skipped due to conflicts.' : ''}` });
         return;
       }
 

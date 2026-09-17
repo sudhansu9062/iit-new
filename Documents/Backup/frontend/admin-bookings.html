@@ -167,6 +167,23 @@
       opacity: 0.6;
       cursor: not-allowed;
     }
+    .portal-privilege-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: linear-gradient(90deg, #e8f4ff 0%, #eaf0fb 100%);
+      border: 1px solid #b6d4f5;
+      border-radius: 20px;
+      padding: 4px 12px 4px 8px;
+      font-size: 12px;
+      font-weight: 600;
+      color: #2a5298;
+      margin-bottom: 12px;
+    }
+    .portal-privilege-badge svg { flex-shrink: 0; }
+    .portal-privilege-badge.is-timetable { background: linear-gradient(90deg, #edfaf4 0%, #d8f5e8 100%); border-color: #7ecba8; color: #1a6643; }
+    .portal-end-date-row { display: grid; gap: 6px; }
+    .portal-end-date-row .portal-hint { font-size: 11px; color: #7a8da8; }
   </style>
 </head>
 <body class="portal-dashboard-page">
@@ -214,6 +231,12 @@
                   </div>
                 </div>
               </label>
+              <div id="booking-end-date-row" class="portal-end-date-row" style="display:none;">
+                <label>End Date <span style="font-size:11px;font-weight:400;color:#7a8da8;">(leave blank for single-day booking)</span>
+                  <input class="portal-input" name="endDate" id="booking-end-date" type="date" />
+                </label>
+                <p class="portal-hint" id="booking-privilege-hint"></p>
+              </div>
               <label>Start Time<input class="portal-input" name="startTime" type="time" required /></label>
               <label>End Time<input class="portal-input" name="endTime" type="time" required /></label>
               <label class="portal-form-span">Notes<textarea class="portal-textarea" name="notes"></textarea></label>
@@ -373,6 +396,25 @@
             return '<option value="' + escapeHtml(item) + '">' + escapeHtml(item) + '</option>';
           })).join("");
         }
+        // Show booking privilege badge and end-date row
+        var privilege = data.bookingPrivilege || null;
+        var endDateRow = document.getElementById("booking-end-date-row");
+        var privilegeHint = document.getElementById("booking-privilege-hint");
+        var existingBadge = document.getElementById("booking-privilege-badge");
+        if (existingBadge) { existingBadge.parentNode.removeChild(existingBadge); }
+        if (privilege && endDateRow) {
+          endDateRow.style.display = "";
+          if (privilegeHint) { privilegeHint.textContent = "Your privilege: " + privilege.label + " — " + privilege.description; }
+          var badge = document.createElement("div");
+          badge.id = "booking-privilege-badge";
+          badge.className = "portal-privilege-badge" + (privilege.type === "timetable_incharge" ? " is-timetable" : "");
+          badge.innerHTML = '<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg> ' + escapeHtml(privilege.label);
+          var form = document.getElementById("booking-form");
+          if (form) { form.parentNode.insertBefore(badge, form); }
+        } else if (endDateRow) {
+          endDateRow.style.display = "none";
+          if (privilegeHint) { privilegeHint.textContent = ""; }
+        }
         blocked.innerHTML = (data.blockedDates || []).map(function (item) { return '<span class="portal-tag">' + escapeHtml(item) + '</span>'; }).join("") || '<span class="portal-tag">No blocked dates</span>';
         blockedSlots.innerHTML = (data.blockedSlots || []).map(function (item) { return '<span class="portal-tag">' + escapeHtml(item.date) + ' ' + escapeHtml(item.time) + '</span>'; }).join("") || '<span class="portal-tag">No blocked slots</span>';
         function sortBookings(items) {
@@ -493,6 +535,8 @@
           return;
         }
         var payload = { date: fd.get("date"), startTime: fd.get("startTime"), endTime: fd.get("endTime"), notes: fd.get("notes") };
+        var endDate = String(fd.get("endDate") || "").trim();
+        if (endDate && endDate >= selectedDate) { payload.endDate = endDate; }
         if (type === "zoom") { payload.topic = fd.get("resource"); } else { payload.roomName = fd.get("resource"); }
         try {
           var response = await api(endpoint, { method: "POST", headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" }, body: JSON.stringify(payload) });

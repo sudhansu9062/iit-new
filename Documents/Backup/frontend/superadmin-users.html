@@ -138,6 +138,32 @@
                     <label class="superadmin-permission-item"><input type="checkbox" value="hpc_facility" />HPC Facility</label>
                   </div>
                 </div>
+                <div class="superadmin-permission-panel" style="margin-top:14px;border-top:2px solid #e7eef8;padding-top:14px;">
+                  <p class="superadmin-permission-title" style="color:#1e3a5f;font-weight:700;">&#128467; Booking Privilege <span style="font-weight:400;font-size:12px;color:#7a8da8;">(Grant extended booking rights)</span></p>
+                  <p style="font-size:12px;color:#7a8da8;margin:4px 0 10px;">Allows the user to book across multiple dates in one submission. Only one privilege can be active at a time.</p>
+                  <div id="booking-privilege-list" style="display:grid;gap:7px;">
+                    <label class="superadmin-permission-item" style="border:1px solid #e0e9f5;border-radius:8px;padding:8px 12px;background:#f8faff;cursor:pointer;">
+                      <input type="radio" name="booking_privilege" value="none" style="margin-right:8px;"/>
+                      <span><strong>None</strong> &mdash; Single-date booking only (default)</span>
+                    </label>
+                    <label class="superadmin-permission-item" style="border:1px solid #e0e9f5;border-radius:8px;padding:8px 12px;background:#f8faff;cursor:pointer;">
+                      <input type="radio" name="booking_privilege" value="booking_exam_incharge" style="margin-right:8px;"/>
+                      <span><strong>Exam In-Charge</strong> &mdash; Weekly booking (up to 7 days at a time)</span>
+                    </label>
+                    <label class="superadmin-permission-item" style="border:1px solid #e0e9f5;border-radius:8px;padding:8px 12px;background:#f8faff;cursor:pointer;">
+                      <input type="radio" name="booking_privilege" value="booking_seminar_incharge" style="margin-right:8px;"/>
+                      <span><strong>Seminar In-Charge</strong> &mdash; Multi-day booking (up to 7 days at a time)</span>
+                    </label>
+                    <label class="superadmin-permission-item" style="border:1px solid #e0e9f5;border-radius:8px;padding:8px 12px;background:#f8faff;cursor:pointer;">
+                      <input type="radio" name="booking_privilege" value="booking_conference_incharge" style="margin-right:8px;"/>
+                      <span><strong>Conference/Seminar Organizer</strong> &mdash; Extended booking (up to 6 weeks / 42 days)</span>
+                    </label>
+                    <label class="superadmin-permission-item" style="border:1px solid #d4ebe0;border-radius:8px;padding:8px 12px;background:#f3fbf7;cursor:pointer;">
+                      <input type="radio" name="booking_privilege" value="booking_timetable_incharge" style="margin-right:8px;"/>
+                      <span><strong>Timetable In-Charge</strong> &mdash; Semester-wide booking (up to 120 days / full semester)</span>
+                    </label>
+                  </div>
+                </div>
                 <div class="superadmin-user-meta-grid">
                   <div>
                     <span>Login ID</span>
@@ -393,6 +419,16 @@
         Array.prototype.slice.call(permissionCheckboxList.querySelectorAll('input[type="checkbox"]')).forEach(function (checkbox) {
           checkbox.checked = (user.permissions || []).indexOf(checkbox.value) !== -1;
         });
+        // Set booking privilege radio
+        var privilegePerms = ["booking_timetable_incharge", "booking_exam_incharge", "booking_seminar_incharge", "booking_conference_incharge"];
+        var activePrivilege = "none";
+        for (var pi = 0; pi < privilegePerms.length; pi++) {
+          if ((user.permissions || []).indexOf(privilegePerms[pi]) !== -1) { activePrivilege = privilegePerms[pi]; break; }
+        }
+        var privilegeRadios = document.querySelectorAll('[name="booking_privilege"]');
+        Array.prototype.slice.call(privilegeRadios).forEach(function (radio) {
+          radio.checked = radio.value === activePrivilege;
+        });
       }
 
       async function loadCurrentUser() {
@@ -518,10 +554,19 @@
         var nextPermissions = selectedPermissions.concat(customPermissions).filter(function (value, index, list) {
           return list.indexOf(value) === index;
         });
+        // Get selected booking privilege from radio buttons
+        var privilegePerms = ["booking_timetable_incharge", "booking_exam_incharge", "booking_seminar_incharge", "booking_conference_incharge"];
+        var selectedPrivilegeRadio = document.querySelector('[name="booking_privilege"]:checked');
+        var selectedPrivilege = selectedPrivilegeRadio ? selectedPrivilegeRadio.value : "none";
+        // Remove any existing privilege permissions, then add the newly selected one
+        var nextPermissionsWithPrivilege = nextPermissions.filter(function (p) { return privilegePerms.indexOf(p) === -1; });
+        if (selectedPrivilege && selectedPrivilege !== "none") {
+          nextPermissionsWithPrivilege.push(selectedPrivilege);
+        }
         updateUser(selectedUserId, {
           role: fd.get('role'),
           status: fd.get('status'),
-          permissions: nextPermissions
+          permissions: nextPermissionsWithPrivilege
         }, 'User updated successfully.').catch(function (error) {
           setInlineMessage(message, error.message, 'is-error');
         });
