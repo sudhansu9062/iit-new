@@ -62,8 +62,15 @@ const TURNSTILE_SECRET_KEY = String(process.env.TURNSTILE_SECRET_KEY || "").trim
 const IS_PRODUCTION = String(process.env.NODE_ENV || "").trim().toLowerCase() === "production";
 const MAX_TOKENS_PER_USER = 5;
 const ROOT_DIR = path.resolve(__dirname, "..");
-const FRONTEND_DIR = path.join(ROOT_DIR, "frontend");
-const UPLOADS_DIR = path.join(FRONTEND_DIR, "uploads");
+function resolveFrontendDir() {
+  const custom = String(process.env.FRONTEND_DIR || "").trim();
+  if (custom && fs.existsSync(custom)) {
+    return path.resolve(custom);
+  }
+  return path.join(ROOT_DIR, "frontend");
+}
+const FRONTEND_DIR = resolveFrontendDir();
+const UPLOADS_DIR = process.env.UPLOADS_DIR && fs.existsSync(process.env.UPLOADS_DIR) ? path.resolve(process.env.UPLOADS_DIR) : path.join(FRONTEND_DIR, "uploads");
 const DATA_DIR = path.join(ROOT_DIR, "backend", "data");
 const USERS_FILE = path.join(DATA_DIR, "users.json");
 const FACULTY_FILE = path.join(DATA_DIR, "faculty.json");
@@ -96,6 +103,7 @@ const MIME_TYPES = {
   ".csv": "text/csv; charset=utf-8",
   ".xls": "application/vnd.ms-excel",
   ".xlsx": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+  ".ico": "image/x-icon",
   ".xml": "application/xml; charset=utf-8",
   ".txt": "text/plain; charset=utf-8"
 };
@@ -247,6 +255,7 @@ function normalizePeopleGroups(groups, fallbackGroups) {
         designation: String((item && item.designation) || "").trim(),
         office: String((item && item.office) || "").trim(),
         email: String((item && item.email) || "").trim(),
+        contact: String((item && item.contact) || "").trim(),
         topic: String((item && item.topic) || "").trim(),
         category: String((item && item.category) || "").trim(),
         photo: String((item && item.photo) || "").trim()
@@ -296,7 +305,7 @@ function normalizeFacultyEntries(entries) {
     phone: String((item && item.phone) || "").trim(),
     office: String((item && item.office) || "").trim(),
     specialization: String((item && item.specialization) || "").trim(),
-    bio: stripHtmlTags(String((item && item.bio) || "")),
+    bio: String((item && item.bio) || "").trim(),
     photoDataUrl: String((item && item.photoDataUrl) || "").trim(),
     department: String((item && item.department) || "Department of Physics").trim(),
     subgroup: String((item && item.subgroup) || "").trim(),
@@ -511,11 +520,11 @@ function getDefaultHomeCards() {
 function getDefaultResearchCards() {
   return [
     { id: "research-card-condensed-matter", title: "Condensed Matter Physics", content: "Study of physical properties of matter in solid and soft phases.", image: "", alt: "", href: "./condensed-matter-physics.html" },
-    { id: "research-card-high-energy", title: "High Energy Physics", content: "Exploration of fundamental particles and interactions.", image: "", alt: "", href: "./condensed-matter-physics.html" },
-    { id: "research-card-astrophysics", title: "Astrophysics & Cosmology", content: "Understanding the universe from stellar systems to large-scale structures.", image: "", alt: "", href: "./condensed-matter-physics.html" },
-    { id: "research-card-complex-systems", title: "Complex Systems & Active Matter", content: "Study of collective behavior in biological and non-equilibrium systems.", image: "", alt: "", href: "./condensed-matter-physics.html" },
-    { id: "research-card-nuclear", title: "Nuclear Physics", content: "Study of atomic nuclei, their structure, interactions, and energy processes.", image: "", alt: "", href: "./condensed-matter-physics.html" },
-    { id: "research-card-quantum-information", title: "Quantum Information", content: "Exploration of information processing using the principles of quantum mechanics.", image: "", alt: "", href: "./condensed-matter-physics.html" }
+    { id: "research-card-high-energy", title: "High Energy Physics", content: "Exploration of fundamental particles and interactions.", image: "", alt: "", href: "./high-energy-physics.html" },
+    { id: "research-card-astrophysics", title: "Astrophysics & Cosmology", content: "Understanding the universe from stellar systems to large-scale structures.", image: "", alt: "", href: "./astrophysics-cosmology.html" },
+    { id: "research-card-complex-systems", title: "Complex Systems & Active Matter", content: "Study of collective behavior in biological and non-equilibrium systems.", image: "", alt: "", href: "./complex-systems.html" },
+    { id: "research-card-nuclear", title: "Nuclear Physics", content: "Study of atomic nuclei, their structure, interactions, and energy processes.", image: "", alt: "", href: "./nuclear-physics.html" },
+    { id: "research-card-quantum-information", title: "Quantum Information", content: "Exploration of information processing using the principles of quantum mechanics.", image: "", alt: "", href: "./quantum-information.html" }
   ];
 }
 
@@ -857,7 +866,7 @@ function buildManagedPublicPageHtml(title, sectionTitle, sectionId) {
   <script>
     (async function () {
       try {
-        var response = await fetch(window.location.origin + "/api/public/site-content");
+        var response = await fetch(window.location.origin + "/api/public/site-content", { cache: "no-store" });
         var data = await response.json();
         var pages = Array.isArray(data.pages) ? data.pages : [];
         var route = "/" + window.location.pathname.split("/").pop();
@@ -878,7 +887,7 @@ function buildManagedPublicPageHtml(title, sectionTitle, sectionId) {
         if (section && section.title && title) { title.textContent = section.title; }
         if (content) {
           var resolvedContent = (section && section.content ? section.content : "") || (page && page.summary ? page.summary : "");
-          if (resolvedContent) { content.textContent = resolvedContent; }
+          if (resolvedContent) { content.textContent = resolvedContent; content.style.whiteSpace = "pre-line"; }
         }
         if (mediaById["${safeHeroId}"] && mediaById["${safeHeroId}"].src && heroImage) {
           heroImage.src = mediaById["${safeHeroId}"].src;
@@ -990,11 +999,8 @@ function shouldHydrateManagedPage(page) {
     return true;
   }
   const sectionContents = page.sections.map((item) => String((item && item.content) || "").trim());
-  const hasRealContent = sectionContents.some((text) => text.length >= 180 && !looksLikePlaceholderText(text));
-  if (!hasRealContent) {
-    return true;
-  }
-  if (looksLikePlaceholderText(page.draft)) {
+  const hasContent = sectionContents.some((text) => text.length > 0 && !looksLikePlaceholderText(text));
+  if (!hasContent) {
     return true;
   }
   return false;
@@ -1056,8 +1062,8 @@ async function hydrateManagedPageFromHtml(page) {
       image: ""
     }];
   } else {
-    updated.sections = updated.sections.map((section, index) => {
-      if (index === 0 || looksLikePlaceholderText(section.content)) {
+    updated.sections = updated.sections.map((section) => {
+      if (!section.content || looksLikePlaceholderText(section.content)) {
         return { ...section, content: fullText };
       }
       return section;
@@ -1766,6 +1772,19 @@ async function ensureStorage() {
       await fsp.writeFile(item.file, JSON.stringify(item.fallback, null, 2));
     }
   }
+
+  const superadminBookingsFile = path.join(FRONTEND_DIR, "superadmin-bookings.html");
+  try {
+    let content = await fsp.readFile(superadminBookingsFile, "utf8");
+    if (content.includes("day === 0 || day === 6")) {
+      content = content.replace("return day === 0 || day === 6;", "return false;");
+      content = content.replace("Weekends are blocked automatically.", "");
+      content = content.replace("Weekends are marked automatically.", "");
+      content = content.replace("isWeekend(dateId) || ", "");
+      content = content.replace(/isWeekend\(item\.date\)\s*\|\|\s*/g, "");
+      await fsp.writeFile(superadminBookingsFile, content, "utf8");
+    }
+  } catch (_e) {}
 }
 
 async function readJson(file, fallback) {
@@ -2030,10 +2049,16 @@ async function readSiteStore() {
     }
   });
 
+  const storedPageIds = new Set(
+    storedPages
+      .filter((sp) => sp && sp.id && Array.isArray(sp.sections) && sp.sections.length > 0)
+      .map((sp) => sp.id)
+  );
+
   normalizedPages = await Promise.all(
     normalizedPages.map(async (page) => {
       const pageWithMedia = ensureGeneratedPageMediaSlots(page);
-      if (!shouldHydrateManagedPage(pageWithMedia)) {
+      if (storedPageIds.has(page.id) || !shouldHydrateManagedPage(pageWithMedia)) {
         return pageWithMedia;
       }
       return hydrateManagedPageFromHtml(pageWithMedia);
@@ -2210,14 +2235,15 @@ function buildAlumniPeopleGroupsFromRows(rows) {
 }
 
 function buildManagedPeopleRecordsFromRows(rows, type) {
-  const safeType = type === "students" ? "students" : "postdocs";
+  const safeType = type === "students" ? "students" : (type === "administration" ? "administration" : "postdocs");
   return (Array.isArray(rows) ? rows : []).map((row, index) => {
-    const name = getAlumniCell(row, ["name", "student name", "researcher name", "postdoc name", "full name"]);
+    const name = getAlumniCell(row, ["name", "student name", "researcher name", "postdoc name", "staff name", "full name"]);
     const designation = getAlumniCell(row, ["designation", "research area", "area", "specialization", "field", "department", "topic", "research topic"]);
     const office = getAlumniCell(row, ["office", "office room", "room", "supervisor", "guide", "advisor", "mentor"]);
-    const email = getAlumniCell(row, ["email", "email id", "email address", "mail", "contact", "contact email"]);
+    const email = getAlumniCell(row, ["email", "email id", "email address", "mail"]);
+    const contact = getAlumniCell(row, ["contact", "contact number", "contact no", "contactno", "contactnumber", "phone", "phone number", "phone no", "phoneno", "phonenumber", "mobile", "mobile number", "mobile no", "mobileno", "mobilenumber", "telephone", "cell"]);
     const group = getAlumniCell(row, ["group", "category", "section", "type", "program"]);
-    if (!name && !designation && !office && !email) {
+    if (!name && !designation && !office && !email && !contact) {
       return null;
     }
     return {
@@ -2226,6 +2252,7 @@ function buildManagedPeopleRecordsFromRows(rows, type) {
       designation,
       office,
       email,
+      contact,
       topic: "",
       category: "",
       photo: "",
@@ -2235,7 +2262,7 @@ function buildManagedPeopleRecordsFromRows(rows, type) {
 }
 
 function buildManagedPeopleGroupsFromRows(rows, type) {
-  const safeType = type === "students" ? "students" : "postdocs";
+  const safeType = type === "students" ? "students" : (type === "administration" ? "administration" : "postdocs");
   const people = buildManagedPeopleRecordsFromRows(rows, safeType);
 
   if (safeType === "students") {
@@ -2249,6 +2276,27 @@ function buildManagedPeopleGroupsFromRows(rows, type) {
           designation: person.designation,
           office: "",
           email: person.email,
+          contact: "",
+          topic: "",
+          category: "",
+          photo: ""
+        }))
+      }
+    ];
+  }
+
+  if (safeType === "administration") {
+    return [
+      {
+        id: "administration-technical",
+        title: "Technical",
+        items: people.map((person) => ({
+          id: person.id,
+          name: person.name,
+          designation: person.designation,
+          office: "",
+          email: person.email,
+          contact: person.contact || "",
           topic: "",
           category: "",
           photo: ""
@@ -2267,6 +2315,7 @@ function buildManagedPeopleGroupsFromRows(rows, type) {
       designation: person.designation,
       office: person.office,
       email: person.email,
+      contact: person.contact || "",
       topic: "",
       category: "",
       photo: ""
@@ -2302,6 +2351,16 @@ function looksLikeTitledPersonName(value) {
   return /^(mr|mrs|ms|miss|dr|prof)\.?\s*[a-z][a-z.' -]*$/i.test(String(value || "").trim());
 }
 
+function looksLikePhone(value) {
+  const str = String(value || "").trim();
+  const digits = str.replace(/\D/g, "");
+  return digits.length >= 7 && digits.length <= 15 && /^[+]?[\d\s\-().]+$/.test(str);
+}
+
+function looksLikeEmail(value) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(value || "").trim());
+}
+
 function parseManagedPeopleRowsFromUpload(buffer, extension, type) {
   const workbook = xlsx.read(buffer, { type: "buffer" });
   const sheetName = workbook.SheetNames[0];
@@ -2311,12 +2370,14 @@ function parseManagedPeopleRowsFromUpload(buffer, extension, type) {
   const sheet = workbook.Sheets[sheetName];
   const rows = xlsx.utils.sheet_to_json(sheet, { defval: "" });
   const knownColumns = [
-    "name", "student name", "researcher name", "postdoc name", "full name",
-    "email", "email id", "email address", "mail", "contact", "contact email",
+    "name", "student name", "researcher name", "postdoc name", "staff name", "full name",
+    "email", "email id", "email address", "mail",
+    "contact", "contact number", "contact no", "contactno", "phone", "phone number", "phone no", "phoneno", "mobile", "mobile number", "mobile no", "telephone", "cell",
     "designation", "research area", "office", "group", "category", "section", "type"
   ];
+  const normalizedKnown = knownColumns.map(normalizeAlumniColumnName);
   const hasColumnHeaders = rows.length && Object.keys(rows[0] || {}).some((column) =>
-    knownColumns.includes(String(column || "").trim().toLowerCase())
+    normalizedKnown.includes(normalizeAlumniColumnName(column))
   );
   if (hasColumnHeaders) {
     return rows;
@@ -2324,23 +2385,49 @@ function parseManagedPeopleRowsFromUpload(buffer, extension, type) {
 
   const matrix = xlsx.utils.sheet_to_json(sheet, { header: 1, defval: "" });
   return matrix.map((cells) => {
-    const values = (Array.isArray(cells) ? cells : []).map((cell) => String(cell == null ? "" : cell).trim());
-    const name = values.find(Boolean) || "";
-    const email = values.find((value) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) || "";
-    const details = values.filter((value) => {
-      if (!value || value === name || value === email) {
-        return false;
+    const rawValues = (Array.isArray(cells) ? cells : []).map((cell) => String(cell == null ? "" : cell).trim());
+    if (!rawValues.some(Boolean)) {
+      return null;
+    }
+    if (rawValues.some((val) => ["name", "email", "designation", "contact", "contact number", "phone"].includes(val.toLowerCase()))) {
+      return null;
+    }
+
+    const email = rawValues.find(looksLikeEmail) || "";
+    const phone = rawValues.find((val) => val !== email && looksLikePhone(val)) || "";
+    const nonEmailPhone = rawValues.filter((val) => Boolean(val) && val !== email && val !== phone);
+
+    let name = "";
+    let designation = "";
+    let office = "";
+    let contact = phone;
+
+    if (type === "administration") {
+      name = nonEmailPhone[0] || "";
+      designation = nonEmailPhone[1] || "";
+      office = nonEmailPhone.slice(2).join(" | ");
+      if (!contact) {
+        const candidate = rawValues[3] || rawValues[4] || "";
+        if (candidate && candidate !== name && candidate !== designation && candidate !== email) {
+          contact = candidate;
+        }
       }
-      return type !== "students" || !looksLikeTitledPersonName(value);
-    });
+    } else {
+      name = nonEmailPhone.find(Boolean) || "";
+      const details = nonEmailPhone.filter((val) => val !== name && (type !== "students" || !looksLikeTitledPersonName(val)));
+      designation = details[0] || "";
+      office = details.slice(1).join(" | ");
+    }
+
     return {
       Name: name,
-      Designation: details[0] || "",
-      Office: details.slice(1).join(" | "),
+      Designation: designation,
+      Office: office,
       Email: email,
+      Contact: contact,
       Group: ""
     };
-  }).filter((row) => row.Name || row.Email || row.Designation || row.Office);
+  }).filter((row) => row && (row.Name || row.Email || row.Designation || row.Contact || row.Office));
 }
 
 function parseAlumniRowsFromUpload(buffer, extension) {
@@ -2404,13 +2491,14 @@ async function saveUploadedImage(payload) {
   if (!buffer.length) {
     throw new Error("Uploaded image is empty.");
   }
-  if (buffer.length > 8 * 1024 * 1024) {
-    throw new Error("Image must be 8 MB or smaller.");
+  if (buffer.length > 10 * 1024 * 1024) {
+    throw new Error("Image must be 10 MB or smaller.");
   }
 
   const safeName = `${sanitizeUploadBasename(fileName)}-${Date.now()}${extension}`;
   const fullPath = path.join(UPLOADS_DIR, safeName);
   await fsp.writeFile(fullPath, buffer);
+  await fsp.chmod(fullPath, 0o644).catch(() => {});
   return {
     path: `./uploads/${safeName}`
   };
@@ -2446,6 +2534,7 @@ async function saveUploadedPresentation(payload) {
   const safeName = `presentation-${sanitizeUploadBasename(fileName)}-${Date.now()}${extension}`;
   const fullPath = path.join(UPLOADS_DIR, safeName);
   await fsp.writeFile(fullPath, buffer);
+  await fsp.chmod(fullPath, 0o644).catch(() => {});
   return {
     path: `./uploads/${safeName}`,
     fileName: fileName || safeName,
@@ -2501,7 +2590,7 @@ async function saveUploadedAlumniFile(payload) {
 }
 
 async function saveUploadedManagedPeopleFile(payload, type) {
-  if (![("postdocs"), ("students")].includes(type)) {
+  if (![("postdocs"), ("students"), ("administration")].includes(type)) {
     throw new Error("Unsupported people upload type.");
   }
   const dataUrl = String((payload && payload.dataUrl) || "").trim();
@@ -2682,6 +2771,14 @@ function createStatusType(status) {
     return "danger";
   }
   return "warning";
+}
+
+function getTodayDateString() {
+  const d = new Date();
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
 }
 
 function isBlockedSlot(date, time, portalStore) {
@@ -3785,15 +3882,39 @@ function getNewsEventsPage(siteStore) {
   return page;
 }
 
-function buildNewsEventsPayload(page) {
+function buildNewsEventsPayload(page, portalStore = null) {
   const cards = Array.isArray(page && page.cards) ? page.cards.map(normalizeNewsEventCard) : [];
+  const cardAnnouncements = cards.filter((item) => item.kind === "announcement");
+  let portalNotices = [];
+  if (portalStore && Array.isArray(portalStore.notices)) {
+    portalNotices = portalStore.notices.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).map((notice) => {
+      let dateLabel = "";
+      try {
+        const d = new Date(notice.publishedAt);
+        if (!Number.isNaN(d.getTime())) {
+          const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+          dateLabel = `${d.getDate()} ${months[d.getMonth()]} ${d.getFullYear()}`;
+        }
+      } catch (e) {
+        dateLabel = "";
+      }
+      return {
+        id: notice.id,
+        kind: "announcement",
+        title: notice.title,
+        date: dateLabel || (notice.publishedAt ? notice.publishedAt.slice(0, 10) : ""),
+        details: notice.content,
+        category: notice.category || "General"
+      };
+    });
+  }
   return {
     page: {
       id: page.id,
       title: page.title,
       route: page.route
     },
-    announcements: cards.filter((item) => item.kind === "announcement"),
+    announcements: [...portalNotices, ...cardAnnouncements],
     upcomingEvents: cards.filter((item) => item.kind === "event" && item.bucket === "upcoming"),
     pastEvents: cards.filter((item) => item.kind === "event" && item.bucket === "past")
   };
@@ -3958,7 +4079,7 @@ function createServer() {
           res,
           200,
           { notices: portalStore.notices.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).map(mapNotice) },
-          { "Cache-Control": "public, max-age=60, stale-while-revalidate=120" }
+          { "Cache-Control": "no-cache, no-store, must-revalidate" }
         );
         return;
       }
@@ -3992,7 +4113,7 @@ function createServer() {
             pages: Array.isArray(siteStore.content.pages) ? siteStore.content.pages : [],
             maintenanceMode: siteStore.settings.maintenanceMode
           },
-          { "Cache-Control": "public, max-age=60, stale-while-revalidate=120" }
+          { "Cache-Control": "no-cache, no-store, must-revalidate" }
         );
         return;
       }
@@ -4009,7 +4130,7 @@ function createServer() {
           {
             homepage,
             cards: homePage && Array.isArray(homePage.cards) ? homePage.cards : [],
-            notices: portalStore.notices.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).slice(0, 4).map(mapNotice)
+            notices: portalStore.notices.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).map(mapNotice)
           },
           { "Cache-Control": "public, max-age=60, stale-while-revalidate=120" }
         );
@@ -4018,8 +4139,9 @@ function createServer() {
 
       if (pathname === "/api/public/news-events" && req.method === "GET") {
         const siteStore = await readSiteStore();
+        const portalStore = await readPortalStore();
         const page = getNewsEventsPage(siteStore);
-        sendJson(res, 200, buildNewsEventsPayload(page));
+        sendJson(res, 200, buildNewsEventsPayload(page, portalStore), { "Cache-Control": "no-cache, no-store, must-revalidate" });
         return;
       }
 
@@ -4474,7 +4596,7 @@ function createServer() {
           sendJson(res, 403, { message: "Permission denied." });
           return;
         }
-        const body = await parseBody(req, 12 * 1024 * 1024);
+        const body = await parseBody(req, 25 * 1024 * 1024);
         const facultyStore = await readFacultyStore();
         let profile = facultyStore.faculty.find((item) => isSameFacultyProfile(item, user));
         const canSelfPublishProfile = user.role === "faculty" || user.role === "admin";
@@ -4483,35 +4605,23 @@ function createServer() {
           facultyStore.faculty.unshift(profile);
         }
         if (profile) {
-          const textFields = ["name", "designation", "phone", "office", "specialization", "department", "subgroup", "otherLinks"];
-          const longFields = ["bio", "researchInterest", "researchTeam", "researchTeamPostdocs", "researchTeamStudents", "publications", "coursesTaught", "industryCollaborations", "awardsAndHonors"];
+          const profileFields = [
+            "name", "designation", "phone", "office", "specialization", "department", "subgroup", "otherLinks",
+            "bio", "researchInterest", "researchTeam", "researchTeamPostdocs", "researchTeamStudents",
+            "publications", "coursesTaught", "industryCollaborations", "awardsAndHonors"
+          ];
 
-          textFields.forEach((field) => {
+          profileFields.forEach((field) => {
             if (Object.prototype.hasOwnProperty.call(body, field)) {
-              const value = String(body[field] || "").trim();
-              if (value.length > 500) {
-                sendJson(res, 400, { message: `Field '${field}' exceeds maximum length of 500 characters.` });
-                return;
-              }
-              profile[field] = value;
-            }
-          });
-
-          longFields.forEach((field) => {
-            if (Object.prototype.hasOwnProperty.call(body, field)) {
-              const value = String(body[field] || "").trim();
-              if (value.length > 10000) {
-                sendJson(res, 400, { message: `Field '${field}' exceeds maximum length of 10000 characters.` });
-                return;
-              }
-              profile[field] = value;
+              profile[field] = String(body[field] || "").trim();
             }
           });
 
           if (Object.prototype.hasOwnProperty.call(body, "photoDataUrl")) {
             const photoUrl = String(body.photoDataUrl || "").trim();
-            if (photoUrl.length > 1000000) {
-              sendJson(res, 400, { message: "Photo data URL exceeds maximum size." });
+            // Allow photo data URLs up to 10 MB (approx 14MB in base64 encoding)
+            if (photoUrl && photoUrl.length > 14 * 1024 * 1024) {
+              sendJson(res, 400, { message: "Photo exceeds maximum allowed size of 10 MB." });
               return;
             }
             profile.photoDataUrl = photoUrl;
@@ -5022,10 +5132,15 @@ function createServer() {
           return;
         }
         const body = await parseBody(req);
+        const bookingDate = String(body.date || "").trim();
+        if (bookingDate < getTodayDateString()) {
+          sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
+          return;
+        }
         const portalStore = await readPortalStore();
         const startTime = String(body.startTime || body.time || "").trim();
         const endTime = String(body.endTime || "").trim();
-        const blocked = isBlockedSlot(String(body.date || "").trim(), startTime, portalStore);
+        const blocked = isBlockedSlot(bookingDate, startTime, portalStore);
         if (blocked) {
           sendJson(res, 409, { message: "This date or time slot has been blocked by super admin. Booking is not allowed." });
           return;
@@ -5042,7 +5157,7 @@ function createServer() {
           return;
         }
         if (conflictResult.conflict) {
-          sendJson(res, 409, { message: "This room is already booked for the selected date and time range." });
+          sendJson(res, 409, { message: "This seminar hall is already booked for the selected date and time range." });
           return;
         }
         const request = {
@@ -5060,7 +5175,7 @@ function createServer() {
           updatedAt: nowIso()
         };
         if (!request.roomName || !request.date || !request.startTime || !request.endTime) {
-          sendJson(res, 400, { message: "Room name, date, start time, and end time are required." });
+          sendJson(res, 400, { message: "Seminar hall, date, start time, and end time are required." });
           return;
         }
         portalStore.seminarRequests.unshift(request);
@@ -5103,11 +5218,16 @@ function createServer() {
           return;
         }
         const body = await parseBody(req);
+        const bookingDate = String(body.date || "").trim();
+        if (bookingDate < getTodayDateString()) {
+          sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
+          return;
+        }
         const portalStore = await readPortalStore();
         const startTime = String(body.startTime || body.time || "").trim();
         const endTime = String(body.endTime || "").trim();
         const facilityName = String(body.facilityName || body.roomName || "").trim();
-        if (isBlockedSlot(String(body.date || "").trim(), startTime, portalStore)) {
+        if (isBlockedSlot(bookingDate, startTime, portalStore)) {
           sendJson(res, 409, { message: "This date or time slot has been blocked by super admin. Booking is not allowed." });
           return;
         }
@@ -5213,10 +5333,15 @@ function createServer() {
           return;
         }
         const body = await parseBody(req);
+        const bookingDate = String(body.date || "").trim();
+        if (bookingDate < getTodayDateString()) {
+          sendJson(res, 400, { message: "Cannot book for a past date. Please select today or a future date." });
+          return;
+        }
         const portalStore = await readPortalStore();
         const startTime = String(body.startTime || body.time || "").trim();
         const endTime = String(body.endTime || "").trim();
-        const blocked = isBlockedSlot(String(body.date || "").trim(), startTime, portalStore);
+        const blocked = isBlockedSlot(bookingDate, startTime, portalStore);
         if (blocked) {
           sendJson(res, 409, { message: "This date or time slot has been blocked by super admin. Booking is not allowed." });
           return;
@@ -5233,7 +5358,7 @@ function createServer() {
           return;
         }
         if (conflictResult.conflict) {
-          sendJson(res, 409, { message: "This Zoom topic is already booked for the selected date and time range." });
+          sendJson(res, 409, { message: "This room is already booked for the selected date and time range." });
           return;
         }
         const request = {
@@ -5251,25 +5376,78 @@ function createServer() {
           updatedAt: nowIso()
         };
         if (!request.topic || !request.date || !request.startTime || !request.endTime) {
-          sendJson(res, 400, { message: "Topic, date, start time, and end time are required." });
+          sendJson(res, 400, { message: "Room number, date, start time, and end time are required." });
           return;
         }
         portalStore.zoomBookings.unshift(request);
         addNotification(portalStore, {
           targetRole: "superadmin",
-          title: "New Zoom booking request",
-          message: `${user.name} requested Zoom booking "${request.topic}" for ${request.date} ${request.startTime}-${request.endTime}.`,
+          title: "New room booking request",
+          message: `${user.name} requested room "${request.topic}" for ${request.date} ${request.startTime}-${request.endTime}.`,
           kind: "booking"
         });
         addNotification(portalStore, {
           targetEmail: user.email,
-          title: "Zoom booking submitted",
-          message: "Your Zoom booking was auto-approved.",
+          title: "Room booking submitted",
+          message: "Your room booking was auto-approved.",
           kind: "booking"
         });
         await writePortalStore(portalStore);
         await broadcastDashboardUpdate(user.email);
         sendJson(res, 201, { message: "Request auto-approved successfully." });
+        return;
+      }
+
+      const bookingDeleteMatch = pathname.match(/^\/api\/bookings\/(zoom|seminars|seminar|facilities|facility)\/([^/]+)$/);
+      if (bookingDeleteMatch && req.method === "DELETE") {
+        const siteStore = await readSiteStore();
+        if (!hasPermission(user, "create_booking", siteStore)) {
+          sendJson(res, 403, { message: "Permission denied." });
+          return;
+        }
+        const bType = bookingDeleteMatch[1];
+        const bookingId = bookingDeleteMatch[2];
+        const portalStore = await readPortalStore();
+        let collection = portalStore.zoomBookings;
+        let bLabel = "Room";
+        if (bType === "seminar" || bType === "seminars") {
+          collection = portalStore.seminarRequests;
+          bLabel = "Seminar hall";
+        } else if (bType === "facility" || bType === "facilities") {
+          collection = portalStore.facilityBookings;
+          bLabel = "Facility";
+        }
+        const index = collection.findIndex((item) => item.id === bookingId);
+        if (index === -1) {
+          sendJson(res, 404, { message: "Booking not found." });
+          return;
+        }
+        const booking = collection[index];
+        const isOwner = normalizeEmail(booking.requesterEmail) === normalizeEmail(user.email);
+        const isSuperAdmin = user.role === "superadmin";
+        if (!isOwner && !isSuperAdmin) {
+          sendJson(res, 403, { message: "You can only delete your own bookings." });
+          return;
+        }
+        collection.splice(index, 1);
+        const resourceName = booking.topic || booking.roomName || "room";
+        addNotification(portalStore, {
+          targetRole: "superadmin",
+          title: `${bLabel} booking cancelled`,
+          message: `${user.name} cancelled booking for "${resourceName}" on ${booking.date} (${booking.startTime || booking.time || ""}).`,
+          kind: "booking"
+        });
+        if (!isSuperAdmin) {
+          addNotification(portalStore, {
+            targetEmail: user.email,
+            title: `${bLabel} booking cancelled`,
+            message: `Your booking for "${resourceName}" on ${booking.date} was cancelled.`,
+            kind: "booking"
+          });
+        }
+        await writePortalStore(portalStore);
+        await broadcastDashboardUpdate(booking.requesterEmail);
+        sendJson(res, 200, { message: "Booking deleted successfully." });
         return;
       }
 
@@ -5631,7 +5809,7 @@ function createServer() {
           return;
         }
         const siteStore = await readSiteStore();
-        sendJson(res, 200, { content: siteStore.content });
+        sendJson(res, 200, { content: siteStore.content }, { "Cache-Control": "no-cache, no-store, must-revalidate" });
         return;
       }
 
@@ -5639,7 +5817,7 @@ function createServer() {
         if (!assertSuperAdmin(user, res)) {
           return;
         }
-        const body = await parseBody(req, 12 * 1024 * 1024);
+        const body = await parseBody(req, 16 * 1024 * 1024);
         const uploaded = await saveUploadedImage(body);
         sendJson(res, 201, { message: "Image uploaded successfully.", imagePath: uploaded.path });
         return;
@@ -5707,7 +5885,7 @@ function createServer() {
         return;
       }
 
-      const managedPeopleUploadMatch = pathname.match(/^\/api\/admin\/people\/(postdocs|students)\/upload$/);
+      const managedPeopleUploadMatch = pathname.match(/^\/api\/admin\/people\/(postdocs|students|administration)\/upload$/);
       if (managedPeopleUploadMatch && req.method === "POST") {
         if (!assertSuperAdmin(user, res)) {
           return;
@@ -5716,16 +5894,30 @@ function createServer() {
         const body = await parseBody(req, 22 * 1024 * 1024);
         const uploaded = await saveUploadedManagedPeopleFile(body, type);
         const siteStore = await readSiteStore();
-        const pageId = type === "postdocs" ? "page-postdocs" : "page-students";
+        const pageId = type === "postdocs" ? "page-postdocs" : (type === "administration" ? "page-administration" : "page-students");
         let pageItem = siteStore.content.pages.find((item) => item.id === pageId);
         if (!pageItem) {
-          pageItem = deepClone(getDefaultManagedPages().find((item) => item.id === pageId));
+          pageItem = deepClone(getDefaultManagedPages().find((item) => item.id === pageId) || { id: pageId, peopleGroups: [] });
           siteStore.content.pages.push(pageItem);
         }
         const previousUploadPath = getUploadPathFromPublicPath(pageItem.peopleUpload && pageItem.peopleUpload.path);
         pageItem.peopleUpload = uploaded;
         if (Array.isArray(uploaded.parsedPeopleGroups) && uploaded.parsedPeopleGroups.length) {
-          pageItem.peopleGroups = normalizePeopleGroups(uploaded.parsedPeopleGroups, pageItem.peopleGroups);
+          if (type === "administration") {
+            // Merge only the technical group; keep other admin groups (leadership, operations etc.) intact
+            const techGroup = uploaded.parsedPeopleGroups.find((g) => g.id === "administration-technical");
+            if (techGroup) {
+              const existingGroups = Array.isArray(pageItem.peopleGroups) ? pageItem.peopleGroups : [];
+              const hasTech = existingGroups.some((g) => g.id === "administration-technical");
+              if (hasTech) {
+                pageItem.peopleGroups = existingGroups.map((g) => g.id === "administration-technical" ? { ...g, items: techGroup.items } : g);
+              } else {
+                pageItem.peopleGroups = [techGroup, ...existingGroups];
+              }
+            }
+          } else {
+            pageItem.peopleGroups = normalizePeopleGroups(uploaded.parsedPeopleGroups, pageItem.peopleGroups);
+          }
         }
         delete pageItem.peopleUploadBackup;
         await writeSiteStore(siteStore);
@@ -5743,15 +5935,21 @@ function createServer() {
         }
         const type = managedPeopleUploadMatch[1];
         const siteStore = await readSiteStore();
-        const pageId = type === "postdocs" ? "page-postdocs" : "page-students";
+        const pageId = type === "postdocs" ? "page-postdocs" : (type === "administration" ? "page-administration" : "page-students");
         const pageItem = siteStore.content.pages.find((item) => item.id === pageId);
         const uploadPath = getUploadPathFromPublicPath(pageItem && pageItem.peopleUpload && pageItem.peopleUpload.path);
         if (pageItem) {
           delete pageItem.peopleUpload;
-          pageItem.peopleGroups = normalizePeopleGroups(
-            [],
-            type === "postdocs" ? getDefaultPostdocPeopleGroups() : getDefaultStudentsPeopleGroups()
-          );
+          if (type === "administration") {
+            // Clear only the technical group items
+            const existingGroups = Array.isArray(pageItem.peopleGroups) ? pageItem.peopleGroups : [];
+            pageItem.peopleGroups = existingGroups.map((g) => g.id === "administration-technical" ? { ...g, items: [] } : g);
+          } else {
+            pageItem.peopleGroups = normalizePeopleGroups(
+              [],
+              type === "postdocs" ? getDefaultPostdocPeopleGroups() : getDefaultStudentsPeopleGroups()
+            );
+          }
           delete pageItem.peopleUploadBackup;
           await writeSiteStore(siteStore);
         }
@@ -5899,6 +6097,7 @@ function createServer() {
         const sectionId = `${requestedSlug}-overview`;
         const html = buildManagedPublicPageHtml(pageTitle, `${pageTitle} Overview`, sectionId);
         await fsp.writeFile(fullPath, html, "utf8");
+        await fsp.chmod(fullPath, 0o644).catch(() => {});
 
         const siteStore = await readSiteStore();
         if (!siteStore.content.pages.find((item) => item.id === pageId)) {
@@ -5942,6 +6141,7 @@ function createServer() {
           });
         }
         await writeSiteStore(siteStore);
+        await broadcastDashboardUpdate();
         sendJson(res, 201, { message: "Sub page created successfully.", pageId, route, fileName, title: pageTitle, summary: `${pageTitle} page content.` });
         return;
       }
@@ -6007,6 +6207,7 @@ function createServer() {
         siteStore.content.pages = (siteStore.content.pages || []).filter((item) => String(item.route || "").trim().toLowerCase() !== route.toLowerCase());
         await writeSiteStore(siteStore);
         await fsp.unlink(fullPath);
+        await broadcastDashboardUpdate();
         sendJson(res, 200, { message: "Sub page deleted successfully.", route });
         return;
       }
@@ -6061,6 +6262,7 @@ function createServer() {
           pageItem.peopleGroups = normalizePeopleGroups(body.peopleGroups, pageItem.peopleGroups);
         }
         await writeSiteStore(siteStore);
+        await broadcastDashboardUpdate();
         sendJson(res, 200, { message: "Page content updated successfully." });
         return;
       }
@@ -6103,6 +6305,31 @@ function createServer() {
         await writePortalStore(portalStore);
         await broadcastDashboardUpdate(booking.requesterEmail);
         sendJson(res, 200, { message: "Booking status updated successfully." });
+        return;
+      }
+
+      if (bookingMatch && req.method === "DELETE") {
+        if (!assertSuperAdmin(user, res)) {
+          return;
+        }
+        const portalStore = await readPortalStore();
+        const collection = bookingMatch[1] === "seminar" ? portalStore.seminarRequests : portalStore.zoomBookings;
+        const index = collection.findIndex((item) => item.id === bookingMatch[2]);
+        if (index === -1) {
+          sendJson(res, 404, { message: "Booking request not found." });
+          return;
+        }
+        const booking = collection[index];
+        collection.splice(index, 1);
+        addNotification(portalStore, {
+          targetEmail: booking.requesterEmail,
+          title: "Booking deleted",
+          message: `Your ${bookingMatch[1] === "seminar" ? "seminar" : "room"} booking for "${booking.topic || booking.roomName}" on ${booking.date} was deleted by Super Admin.`,
+          kind: "booking"
+        });
+        await writePortalStore(portalStore);
+        await broadcastDashboardUpdate(booking.requesterEmail);
+        sendJson(res, 200, { message: "Booking deleted successfully." });
         return;
       }
 
