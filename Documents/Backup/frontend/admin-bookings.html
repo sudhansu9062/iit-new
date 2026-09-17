@@ -93,6 +93,24 @@
       display: grid;
       gap: 14px;
     }
+    html, body {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    .portal-dashboard-layout {
+      overflow-x: hidden;
+      max-width: 100%;
+    }
+    .portal-main {
+      overflow-x: hidden;
+      max-width: 100%;
+      min-width: 0;
+    }
+    .portal-page-shell {
+      overflow-x: hidden;
+      max-width: 100%;
+      min-width: 0;
+    }
   </style>
 </head>
 <body class="portal-dashboard-page">
@@ -109,19 +127,12 @@
     </aside>
 
     <main class="portal-main portal-module-main">
-      <header class="portal-topbar">
-        <button class="portal-menu-button" type="button" aria-label="Toggle menu">☰</button>
-        <div class="portal-topbar-title">Room &amp; Hall Bookings</div>
-        <a href="./admin-profile.html" class="portal-profile-button">Profile</a>
-      </header>
-
       <section class="portal-page-shell">
         <div class="portal-page-header">
           <div>
             <p class="portal-page-eyebrow">Auto Approval Flow</p>
             <h1 class="portal-page-title" id="booking-title">Seminar Requests</h1>
           </div>
-          <p class="portal-page-copy">Requests are auto-approved unless the selected date or time is blocked by super admin. Blocked slots cannot be booked.</p>
         </div>
 
         <div id="booking-privilege-badge-wrap" style="display:none;">
