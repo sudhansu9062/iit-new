@@ -78,6 +78,21 @@
     .portal-privilege-badge.is-timetable { background: linear-gradient(90deg, #edfaf4 0%, #d8f5e8 100%); border-color: #7ecba8; color: #1a6643; }
     .portal-end-date-row { display: grid; gap: 6px; }
     .portal-end-date-row .portal-hint { font-size: 11px; color: #7a8da8; margin: 2px 0 0; }
+    .portal-module-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 0.95fr) minmax(360px, 1.05fr);
+      gap: 20px;
+      align-items: start;
+    }
+    @media (max-width: 960px) {
+      .portal-module-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .portal-form-grid {
+      display: grid;
+      gap: 14px;
+    }
   </style>
 </head>
 <body class="portal-dashboard-page">
@@ -93,14 +108,14 @@
       <a href="./admin-profile.html" class="portal-sidebar-profile">My Profile</a>
     </aside>
 
-    <main class="portal-main">
+    <main class="portal-main portal-module-main">
       <header class="portal-topbar">
         <button class="portal-menu-button" type="button" aria-label="Toggle menu">☰</button>
         <div class="portal-topbar-title">Room &amp; Hall Bookings</div>
         <a href="./admin-profile.html" class="portal-profile-button">Profile</a>
       </header>
 
-      <section class="portal-content">
+      <section class="portal-page-shell">
         <div class="portal-page-header">
           <div>
             <p class="portal-page-eyebrow">Auto Approval Flow</p>
@@ -116,10 +131,10 @@
           </div>
         </div>
 
-        <div class="portal-grid-2">
+        <div class="portal-module-grid">
           <section class="portal-panel">
             <div class="portal-section-header"><h2 id="booking-form-title">New Request</h2></div>
-            <form id="booking-form" class="portal-form">
+            <form id="booking-form" class="portal-form-grid">
               <label id="booking-label">Seminar Hall<select class="portal-input" name="resource" id="booking-resource" required><option value="">Select option</option></select></label>
               <label>Date
                 <div class="portal-date-field">
