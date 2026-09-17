@@ -27,11 +27,12 @@
     .portal-date-nav:hover { background: #eef3fb; color: #17345d; }
     .portal-date-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; }
     .portal-date-weekday { font-size: 11px; font-weight: 700; color: #7383a5; text-align: center; padding: 4px 0; }
-    .portal-date-day { height: 30px; border-radius: 6px; border: none; background: transparent; color: #223c63; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .portal-date-day { height: 30px; border-radius: 6px; border: none; background: transparent; color: #223c63; font-size: 12px; font-weight: 600; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: background 0.12s, color 0.12s; }
     .portal-date-day:hover:not(:disabled) { background: #eef3fb; }
     .portal-date-day.is-muted { color: #b2c0d5; cursor: default; }
-    .portal-date-day.is-blocked { background: #fee2e2; color: #991b1b; text-decoration: line-through; cursor: not-allowed; }
-    .portal-date-day.is-selected { background: #1f456f; color: #ffffff; }
+    .portal-date-day:disabled, .portal-date-day.is-past { color: #cbd5e1 !important; background: #f8fafc !important; cursor: not-allowed !important; text-decoration: line-through !important; opacity: 0.5 !important; pointer-events: none; }
+    .portal-date-day.is-blocked { background: #fee2e2 !important; color: #991b1b !important; text-decoration: line-through !important; cursor: not-allowed !important; opacity: 1 !important; pointer-events: none; }
+    .portal-date-day.is-selected { background: #1f456f !important; color: #ffffff !important; text-decoration: none !important; opacity: 1 !important; pointer-events: auto; }
     .booking-schedule-summary { margin: -2px 0 16px; color: #7383a5; line-height: 1.5; }
     .booking-schedule-group + .booking-schedule-group { margin-top: 24px; padding-top: 20px; border-top: 1px solid #e3eaf5; }
     .booking-schedule-group h3 { margin: 0 0 6px; color: #122d55; font-size: 17px; }
@@ -688,6 +689,22 @@
         return Boolean(latestData && Array.isArray(latestData.blockedDates) && latestData.blockedDates.indexOf(dateId) !== -1);
       }
 
+      function updateDateNavButtons() {
+        if (!datePrev) { return; }
+        var now = new Date();
+        var currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+        var viewingMonthStart = new Date(dateCursor.getFullYear(), dateCursor.getMonth(), 1);
+        if (viewingMonthStart <= currentMonthStart) {
+          datePrev.disabled = true;
+          datePrev.style.opacity = "0.25";
+          datePrev.style.cursor = "not-allowed";
+        } else {
+          datePrev.disabled = false;
+          datePrev.style.opacity = "1";
+          datePrev.style.cursor = "pointer";
+        }
+      }
+
       function renderDateCalendar() {
         if (!dateGrid || !dateTitle) { return; }
         var weekdays = ["Su", "Mo", "Tu", "We", "Th", "Fr", "Sa"];
@@ -696,6 +713,8 @@
         var daysInMonth = new Date(dateCursor.getFullYear(), dateCursor.getMonth() + 1, 0).getDate();
         var prevDays = new Date(dateCursor.getFullYear(), dateCursor.getMonth(), 0).getDate();
         dateTitle.textContent = dateCursor.toLocaleDateString(undefined, { month: "long", year: "numeric" });
+        updateDateNavButtons();
+
         var cells = weekdays.map(function (day) {
           return '<div class="portal-date-weekday">' + day + '</div>';
         });
@@ -704,13 +723,20 @@
           cells.push('<span class="portal-date-day is-muted">' + (prevDays - startDay + i + 1) + '</span>');
         }
 
+        var todayId = toDateId(new Date());
+
         for (var day = 1; day <= daysInMonth; day += 1) {
           var current = new Date(dateCursor.getFullYear(), dateCursor.getMonth(), day);
           var dateId = toDateId(current);
+          var isPast = dateId < todayId;
+          var isBlocked = isBlockedDate(dateId);
+          var isDisabled = isPast || isBlocked;
           var classes = ["portal-date-day"];
-          if (isBlockedDate(dateId)) { classes.push("is-blocked"); }
+          if (isPast) { classes.push("is-past"); }
+          if (isBlocked) { classes.push("is-blocked"); }
           if (dateInput.value === dateId) { classes.push("is-selected"); }
-          cells.push('<button type="button" class="' + classes.join(" ") + '" data-date="' + dateId + '"' + (isBlockedDate(dateId) ? " disabled" : "") + ">" + day + "</button>");
+          var tooltip = isPast ? ' title="Past date cannot be booked"' : (isBlocked ? ' title="Blocked / holiday date"' : '');
+          cells.push('<button type="button" class="' + classes.join(" ") + '" data-date="' + dateId + '"' + (isDisabled ? " disabled" : "") + tooltip + ">" + day + "</button>");
         }
 
         while (cells.length % 7 !== 0) {
@@ -838,7 +864,13 @@
       }
       if (datePrev) {
         datePrev.addEventListener("click", function () {
-          dateCursor = new Date(dateCursor.getFullYear(), dateCursor.getMonth() - 1, 1);
+          var now = new Date();
+          var currentMonthStart = new Date(now.getFullYear(), now.getMonth(), 1);
+          var prevMonth = new Date(dateCursor.getFullYear(), dateCursor.getMonth() - 1, 1);
+          if (prevMonth < currentMonthStart) {
+            return;
+          }
+          dateCursor = prevMonth;
           renderDateCalendar();
         });
       }
@@ -851,9 +883,11 @@
       if (dateGrid) {
         dateGrid.addEventListener("click", function (event) {
           var button = event.target.closest("button[data-date]");
-          if (!button) { return; }
+          if (!button || button.disabled) { return; }
           var selected = button.getAttribute("data-date");
           if (!selected) { return; }
+          var todayId = toDateId(new Date());
+          if (selected < todayId) { return; }
           dateInput.value = selected;
           if (dateDisplay) { dateDisplay.value = selected; }
           datePopover.hidden = true;
