@@ -1878,13 +1878,32 @@ async function readPortalStore() {
   const legacyFacilityIds = new Set(legacyFacilityBookings.map((item) => item.id));
   const storedFacilityBookings = Array.isArray(data.facilityBookings) ? data.facilityBookings : [];
 
+  const today = getTodayDateString();
+  const rawSeminarRequests = (Array.isArray(data.seminarRequests) ? data.seminarRequests : []).filter((item) => !legacyFacilityIds.has(item.id));
+  const rawZoomBookings = Array.isArray(data.zoomBookings) ? data.zoomBookings : [];
+  const rawFacilityBookings = storedFacilityBookings.concat(legacyFacilityBookings.filter((item) => !storedFacilityBookings.some((stored) => stored.id === item.id)));
+
+  // Automatically delete past bookings whose date has passed (< today)
+  const seminarRequests = rawSeminarRequests.filter((item) => !item.date || item.date >= today);
+  const zoomBookings = rawZoomBookings.filter((item) => !item.date || item.date >= today);
+  const facilityBookings = rawFacilityBookings.filter((item) => !item.date || item.date >= today);
+
+  if (seminarRequests.length !== rawSeminarRequests.length || zoomBookings.length !== rawZoomBookings.length || facilityBookings.length !== rawFacilityBookings.length) {
+    writeJson(PORTAL_FILE, {
+      ...data,
+      seminarRequests,
+      zoomBookings,
+      facilityBookings
+    }).catch(() => {});
+  }
+
   return {
     notices: Array.isArray(data.notices) ? data.notices : [],
     blockedDates: Array.isArray(data.blockedDates) ? data.blockedDates : [],
     blockedSlots: Array.isArray(data.blockedSlots) ? data.blockedSlots : [],
-    seminarRequests: (Array.isArray(data.seminarRequests) ? data.seminarRequests : []).filter((item) => !legacyFacilityIds.has(item.id)),
-    zoomBookings: Array.isArray(data.zoomBookings) ? data.zoomBookings : [],
-    facilityBookings: storedFacilityBookings.concat(legacyFacilityBookings.filter((item) => !storedFacilityBookings.some((stored) => stored.id === item.id))),
+    seminarRequests,
+    zoomBookings,
+    facilityBookings,
     hpcAccountRequests: Array.isArray(data.hpcAccountRequests) ? data.hpcAccountRequests : [],
     tickets: Array.isArray(data.tickets) ? data.tickets : [],
     notifications: Array.isArray(data.notifications) ? data.notifications : [],

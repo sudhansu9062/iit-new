@@ -667,9 +667,15 @@
           return facilityNameSet.indexOf(String(item.roomName || "").trim().toLowerCase()) === -1;
         }
 
-        var myBookings = sortBookings((data.requests || []).filter(belongsOnCurrentBookingPage));
+        var todayId = toDateId(new Date());
+
+        function notInPast(item) {
+          return !item.date || item.date >= todayId;
+        }
+
+        var myBookings = sortBookings((data.requests || []).filter(belongsOnCurrentBookingPage).filter(notInPast));
         var myEmails = myBookings.map(function (item) { return String(item.requesterEmail || "").trim().toLowerCase(); }).filter(Boolean);
-        var otherBookings = sortBookings((data.bookings || []).filter(belongsOnCurrentBookingPage).filter(function (item) {
+        var otherBookings = sortBookings((data.bookings || []).filter(belongsOnCurrentBookingPage).filter(notInPast).filter(function (item) {
           return myEmails.indexOf(String(item.requesterEmail || "").trim().toLowerCase()) === -1;
         }));
 
