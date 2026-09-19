@@ -165,7 +165,7 @@
           var nameBlock = '<div class="faculty-person-block"><strong class="faculty-person-name">' + escapeHtml(item.name || "Research Fellow") + "</strong></div>";
           var researchArea = item.researchArea || item.designation || item.topic || "";
           var detailsBlock = '<div class="faculty-detail-stack">' +
-            (researchArea ? '<p>' + escapeHtml(researchArea) + '</p>' : '<p>-</p>') +
+            (researchArea ? '<p style="color:#1f2f49;font-weight:500;">' + escapeHtml(researchArea) + '</p>' : '<p style="color:#1f2f49;">-</p>') +
             '</div>';
           var contactBlock = '<div class="faculty-detail-stack">' +
             (item.email ? '<p><strong>Email:</strong> <a href="mailto:' + escapeHtml(item.email) + '">' + escapeHtml(item.email) + '</a></p>' : '') +

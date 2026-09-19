@@ -6321,7 +6321,7 @@ body.page-white-bg,
 }
 
 .faculty-table tbody td:nth-child(3) {
-  color: #5e6e81;
+  color: #1f2f49;
 }
 
 .faculty-profile-thumb {
@@ -6355,7 +6355,7 @@ body.page-white-bg,
 .faculty-person-bio,
 .faculty-detail-stack p {
   margin: 0;
-  color: #5e6e81;
+  color: #1f2f49;
   font-size: 15px;
   line-height: 1.5;
 }
@@ -10045,7 +10045,7 @@ figcaption {
 }
 
 .students-page .students-table tbody td:nth-child(3) {
-  color: #5e6e81;
+  color: #1f2f49;
 }
 
 .students-page .students-table tbody tr:nth-child(even) td {
