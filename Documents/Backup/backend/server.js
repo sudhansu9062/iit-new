@@ -1636,7 +1636,7 @@ function getSecurityHeaders() {
     "X-Frame-Options": "SAMEORIGIN",
     "Referrer-Policy": "strict-origin-when-cross-origin",
     "X-XSS-Protection": "1; mode=block",
-    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com https://www.google.com https://maps.google.com https://*.google.com; object-src 'none'; base-uri 'self';",
+    "Content-Security-Policy": "default-src 'self'; script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https:; connect-src 'self' https://challenges.cloudflare.com; frame-src 'self' https://challenges.cloudflare.com https://www.google.com https://maps.google.com https://*.google.com https://www.youtube.com https://www.youtube-nocookie.com https://youtube.com https://*.youtube.com https://*.youtube-nocookie.com; object-src 'none'; base-uri 'self';",
     "X-Powered-By": ""
   };
 }
@@ -1787,7 +1787,7 @@ async function ensureStorage() {
       content = content.replace(/isWeekend\(item\.date\)\s*\|\|\s*/g, "");
       await fsp.writeFile(superadminBookingsFile, content, "utf8");
     }
-  } catch (_e) {}
+  } catch (_e) { }
 }
 
 async function readJson(file, fallback) {
@@ -1894,7 +1894,7 @@ async function readPortalStore() {
       seminarRequests,
       zoomBookings,
       facilityBookings
-    }).catch(() => {});
+    }).catch(() => { });
   }
 
   return {
@@ -2520,7 +2520,7 @@ async function saveUploadedImage(payload) {
   const safeName = `${sanitizeUploadBasename(fileName)}-${Date.now()}${extension}`;
   const fullPath = path.join(UPLOADS_DIR, safeName);
   await fsp.writeFile(fullPath, buffer);
-  await fsp.chmod(fullPath, 0o644).catch(() => {});
+  await fsp.chmod(fullPath, 0o644).catch(() => { });
   return {
     path: `./uploads/${safeName}`
   };
@@ -2556,7 +2556,7 @@ async function saveUploadedPresentation(payload) {
   const safeName = `presentation-${sanitizeUploadBasename(fileName)}-${Date.now()}${extension}`;
   const fullPath = path.join(UPLOADS_DIR, safeName);
   await fsp.writeFile(fullPath, buffer);
-  await fsp.chmod(fullPath, 0o644).catch(() => {});
+  await fsp.chmod(fullPath, 0o644).catch(() => { });
   return {
     path: `./uploads/${safeName}`,
     fileName: fileName || safeName,
@@ -3618,8 +3618,8 @@ async function loginUser(payload) {
     return { status: 403, body: { message: 'This account has been suspended by super admin.' } };
   }
 
-  // Session regeneration: invalidate all previous tokens on fresh login
-  user.tokens = [];
+  // Keep active sessions up to MAX_TOKENS_PER_USER
+  user.tokens = Array.isArray(user.tokens) ? user.tokens.slice(-(MAX_TOKENS_PER_USER - 1)) : [];
   const token = createToken();
   user.tokens.push(createTokenRecord(token));
   user.lastLoginAt = nowIso();
@@ -3804,7 +3804,9 @@ function mapNotice(item) {
     category: item.category,
     content: item.content,
     publishedAt: item.publishedAt,
-    authorName: item.authorName
+    authorName: item.authorName,
+    authorLoginId: item.authorLoginId || "",
+    authorEmail: item.authorEmail || ""
   };
 }
 
@@ -3935,7 +3937,18 @@ function normalizeNewsEventCard(item, index) {
     location: String((item && item.location) || "").trim(),
     summary: String((item && item.summary) || "").trim(),
     details: String((item && item.details) || "").trim(),
-    actionLabel: String((item && item.actionLabel) || "Details").trim()
+    actionLabel: String((item && item.actionLabel) || "Details").trim(),
+    bannerImage: String((item && item.bannerImage) || "").trim(),
+    about: String((item && item.about) || "").trim(),
+    speakers: String((item && item.speakers) || "").trim(),
+    schedule: String((item && item.schedule) || "").trim(),
+    registrationLink: String((item && item.registrationLink) || "").trim(),
+    registrationDeadline: String((item && item.registrationDeadline) || "").trim(),
+    contactName: String((item && item.contactName) || "").trim(),
+    contactEmail: String((item && item.contactEmail) || "").trim(),
+    contactPhone: String((item && item.contactPhone) || "").trim(),
+    documents: String((item && item.documents) || "").trim(),
+    youtubeLink: String((item && item.youtubeLink) || "").trim()
   };
 }
 
@@ -3966,7 +3979,9 @@ function buildNewsEventsPayload(page, portalStore = null) {
   const cardAnnouncements = cards.filter((item) => item.kind === "announcement");
   let portalNotices = [];
   if (portalStore && Array.isArray(portalStore.notices)) {
-    portalNotices = portalStore.notices.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).map((notice) => {
+    portalNotices = portalStore.notices
+      .filter((notice) => String(notice.category || "").trim() !== "Faculty")
+      .slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).map((notice) => {
       let dateLabel = "";
       try {
         const d = new Date(notice.publishedAt);
@@ -4154,12 +4169,38 @@ function createServer() {
 
       if (pathname === "/api/public/notices" && req.method === "GET") {
         const portalStore = await readPortalStore();
+        const publicNotices = portalStore.notices
+          .filter((item) => String(item.category || "").trim() !== "Faculty")
+          .slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+          .map(mapNotice);
         sendJson(
           res,
           200,
-          { notices: portalStore.notices.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).map(mapNotice) },
+          { notices: publicNotices },
           { "Cache-Control": "no-cache, no-store, must-revalidate" }
         );
+        return;
+      }
+
+      if (pathname === "/api/public/faculty-notices" && req.method === "GET") {
+        const qParams = new URLSearchParams(url.search);
+        const qId = String(qParams.get("id") || "").trim().toLowerCase();
+        if (!qId) {
+          sendJson(res, 400, { message: "Missing id parameter." });
+          return;
+        }
+        const portalStore = await readPortalStore();
+        const facultyNotices = portalStore.notices
+          .filter((item) => {
+            if (String(item.category || "").trim() !== "Faculty") { return false; }
+            const loginId = String(item.authorLoginId || "").trim().toLowerCase();
+            const email = String(item.authorEmail || "").trim().toLowerCase();
+            const name = String(item.authorName || "").trim().toLowerCase();
+            return loginId === qId || email === qId || name === qId;
+          })
+          .sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+          .map(mapNotice);
+        sendJson(res, 200, { notices: facultyNotices }, { "Cache-Control": "no-cache, no-store, must-revalidate" });
         return;
       }
 
@@ -4209,7 +4250,10 @@ function createServer() {
           {
             homepage,
             cards: homePage && Array.isArray(homePage.cards) ? homePage.cards : [],
-            notices: portalStore.notices.slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt)).map(mapNotice)
+            notices: portalStore.notices
+              .filter((item) => String(item.category || "").trim() !== "Faculty")
+              .slice().sort((a, b) => new Date(b.publishedAt) - new Date(a.publishedAt))
+              .map(mapNotice)
           },
           { "Cache-Control": "public, max-age=60, stale-while-revalidate=120" }
         );
@@ -4625,7 +4669,9 @@ function createServer() {
           category: String(body.category || "General").trim(),
           content: String(body.content).trim(),
           publishedAt: nowIso(),
-          authorName: user.name
+          authorName: user.name,
+          authorLoginId: String(user.loginId || "").trim(),
+          authorEmail: String(user.email || "").trim()
         });
         addNotification(portalStore, {
           targetRole: "superadmin",
@@ -4831,6 +4877,28 @@ function createServer() {
         return;
       }
 
+      if (pathname === "/api/admin/news-events/upload-image" && req.method === "POST") {
+        const siteStore = await readSiteStore();
+        if (!assertNewsEventsEditor(user, res, siteStore)) {
+          return;
+        }
+        const body = await parseBody(req, 12 * 1024 * 1024);
+        const uploaded = await saveUploadedImage(body);
+        sendJson(res, 201, { message: "Image uploaded successfully.", imagePath: uploaded.path });
+        return;
+      }
+
+      if (pathname === "/api/admin/news-events/upload-document" && req.method === "POST") {
+        const siteStore = await readSiteStore();
+        if (!assertNewsEventsEditor(user, res, siteStore)) {
+          return;
+        }
+        const body = await parseBody(req, 25 * 1024 * 1024);
+        const uploaded = await saveUploadedPresentation(body);
+        sendJson(res, 201, { message: "Document uploaded successfully.", documentPath: uploaded.path, fileName: uploaded.fileName });
+        return;
+      }
+
       if (pathname === "/api/admin/news-events/events" && req.method === "POST") {
         const body = await parseBody(req);
         if (!String(body.title || "").trim() || !String(body.date || "").trim()) {
@@ -4852,7 +4920,18 @@ function createServer() {
           location: String(body.location || "").trim(),
           summary: String(body.summary || "").trim(),
           details: String(body.details || "").trim(),
-          actionLabel: "Details"
+          actionLabel: String(body.actionLabel || "Details").trim(),
+          bannerImage: String(body.bannerImage || "").trim(),
+          about: String(body.about || "").trim(),
+          speakers: String(body.speakers || "").trim(),
+          schedule: String(body.schedule || "").trim(),
+          registrationLink: String(body.registrationLink || "").trim(),
+          registrationDeadline: String(body.registrationDeadline || "").trim(),
+          contactName: String(body.contactName || "").trim(),
+          contactEmail: String(body.contactEmail || "").trim(),
+          contactPhone: String(body.contactPhone || "").trim(),
+          documents: String(body.documents || "").trim(),
+          youtubeLink: String(body.youtubeLink || "").trim()
         }, 0);
         page.cards = [event].concat((page.cards || []).map(normalizeNewsEventCard));
         await writeSiteStore(siteStore);
@@ -4882,6 +4961,53 @@ function createServer() {
       }
 
       const adminEventMatch = pathname.match(/^\/api\/admin\/news-events\/events\/([^/]+)$/);
+      if (adminEventMatch && req.method === "PUT") {
+        const targetId = decodeURIComponent(adminEventMatch[1]);
+        const body = await parseBody(req);
+        if (!String(body.title || "").trim() || !String(body.date || "").trim()) {
+          sendJson(res, 400, { message: "Event title and date are required." });
+          return;
+        }
+        const siteStore = await readSiteStore();
+        if (!assertNewsEventsEditor(user, res, siteStore)) {
+          return;
+        }
+        const page = getNewsEventsPage(siteStore);
+        const idx = (page.cards || []).findIndex((item) => item.kind === "event" && item.id === targetId);
+        if (idx === -1) {
+          sendJson(res, 404, { message: "Event not found." });
+          return;
+        }
+        const existing = page.cards[idx];
+        const updated = normalizeNewsEventCard({
+          ...existing,
+          bucket: String(body.bucket !== undefined ? body.bucket : existing.bucket || "upcoming"),
+          category: String(body.category !== undefined ? body.category : existing.category || "seminars"),
+          title: String(body.title !== undefined ? body.title : existing.title || "").trim(),
+          date: String(body.date !== undefined ? body.date : existing.date || "").trim(),
+          location: String(body.location !== undefined ? body.location : existing.location || "").trim(),
+          summary: String(body.summary !== undefined ? body.summary : existing.summary || "").trim(),
+          details: String(body.details !== undefined ? body.details : existing.details || "").trim(),
+          actionLabel: String(body.actionLabel !== undefined ? body.actionLabel : existing.actionLabel || "Details").trim(),
+          bannerImage: String(body.bannerImage !== undefined ? body.bannerImage : existing.bannerImage || "").trim(),
+          about: String(body.about !== undefined ? body.about : existing.about || "").trim(),
+          speakers: String(body.speakers !== undefined ? body.speakers : existing.speakers || "").trim(),
+          schedule: String(body.schedule !== undefined ? body.schedule : existing.schedule || "").trim(),
+          registrationLink: String(body.registrationLink !== undefined ? body.registrationLink : existing.registrationLink || "").trim(),
+          registrationDeadline: String(body.registrationDeadline !== undefined ? body.registrationDeadline : existing.registrationDeadline || "").trim(),
+          contactName: String(body.contactName !== undefined ? body.contactName : existing.contactName || "").trim(),
+          contactEmail: String(body.contactEmail !== undefined ? body.contactEmail : existing.contactEmail || "").trim(),
+          contactPhone: String(body.contactPhone !== undefined ? body.contactPhone : existing.contactPhone || "").trim(),
+          documents: String(body.documents !== undefined ? body.documents : existing.documents || "").trim(),
+          youtubeLink: String(body.youtubeLink !== undefined ? body.youtubeLink : existing.youtubeLink || "").trim()
+        }, idx);
+        page.cards[idx] = updated;
+        await writeSiteStore(siteStore);
+        await broadcastDashboardUpdate();
+        sendJson(res, 200, { message: "Event updated successfully.", event: updated });
+        return;
+      }
+
       if (adminEventMatch && req.method === "DELETE") {
         const targetId = decodeURIComponent(adminEventMatch[1]);
         const siteStore = await readSiteStore();
@@ -6288,7 +6414,7 @@ function createServer() {
         const sectionId = `${requestedSlug}-overview`;
         const html = buildManagedPublicPageHtml(pageTitle, `${pageTitle} Overview`, sectionId);
         await fsp.writeFile(fullPath, html, "utf8");
-        await fsp.chmod(fullPath, 0o644).catch(() => {});
+        await fsp.chmod(fullPath, 0o644).catch(() => { });
 
         const siteStore = await readSiteStore();
         if (!siteStore.content.pages.find((item) => item.id === pageId)) {

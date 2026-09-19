@@ -3,22 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Event Details | Department of Physics | IIT Kharagpur</title>
+  <title id="page-title">Event Details | Department of Physics | IIT Kharagpur</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <script src="./search.js" defer></script>
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
 </head>
-<body class="career-page">
+<body class="event-detail-page">
+  <!-- Top Header -->
   <header class="top-header">
     <div class="container header-inner">
       <div class="brand">
-        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
-        <div class="brand-text">
-          <h1>Department of Physics</h1>
-          <p>Indian Institute of Technology Kharagpur</p>
-        </div>
+        <a href="./index.html" style="display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit;">
+          <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur Logo" class="brand-logo" />
+          <div class="brand-text">
+            <h1>Department of Physics</h1>
+            <p>Indian Institute of Technology Kharagpur</p>
+          </div>
+        </a>
       </div>
       <form class="search-box" role="search" aria-label="Search pages">
         <button type="submit" class="search-icon" aria-label="Search">&#128269;</button>
@@ -27,40 +31,267 @@
     </div>
   </header>
 
+  <!-- Main Navigation -->
   <nav class="main-nav">
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="primary-navigation" aria-label="Toggle navigation"><span></span><span></span><span></span></button>
     <div class="container nav-inner" id="primary-navigation">
       <a href="./index.html">HOME</a>
       <a href="./about.html">ABOUT</a>
+      <div class="nav-dropdown">
+        <a href="#" class="nav-dropbtn">PEOPLE</a>
+        <div class="nav-dropdown-menu">
+          <a href="./faculty.html">Faculty</a>
+          <a href="./postdocs.html">Researchers</a>
+          <a href="./students.html">Students</a>
+          <a href="./administration.html">Staff</a>
+        </div>
+      </div>
       <a href="./research.html">RESEARCH</a>
       <a href="./facilities.html">FACILITY</a>
       <a href="./programs.html">PROGRAMS</a>
       <a href="./news-events.html" class="active">NEWS &amp; EVENTS</a>
+      <a href="./graduate-students.html">ALUMNI</a>
       <a href="./career.html">CAREER</a>
     </div>
   </nav>
 
-  <main class="career-main">
-    <div class="career-container">
-      <section class="career-section">
-        <p class="career-detail-breadcrumb"><a href="./index.html">Home</a> <span>&rsaquo;</span> <a href="./news-events.html">News &amp; Events</a> <span>&rsaquo;</span> Event Details</p>
-        <h2 id="event-title">Event Details</h2>
-        <p id="event-meta" class="career-project"></p>
-        <p id="event-summary"></p>
-        <p id="event-details"></p>
+  <!-- Loading Placeholder -->
+  <div id="loading-state" style="padding: 100px 20px; text-align: center;">
+    <div style="display:inline-block; width: 44px; height: 44px; border: 4px solid #e2e8f0; border-top-color: #1e3a8a; border-radius: 50%; animation: spin 0.9s linear infinite;"></div>
+    <p style="margin-top: 16px; color: #64748b; font-size: 15px;">Loading event details...</p>
+    <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+  </div>
+
+  <!-- Error / Not Found State -->
+  <div id="error-state" style="display: none;">
+    <div class="event-not-found-box">
+      <h2 id="error-title">Event Not Found</h2>
+      <p id="error-message">The requested event could not be located or has ended.</p>
+      <a href="./news-events.html" class="portal-button" style="display:inline-block; text-decoration:none; padding: 10px 22px;">&larr; Back to News &amp; Events</a>
+    </div>
+  </div>
+
+  <!-- Event Main View (populated by JS) -->
+  <div id="event-view" style="display: none;">
+    <!-- Hero Banner -->
+    <section class="event-hero-banner" id="event-hero">
+      <div class="event-hero-container">
+        <div class="event-breadcrumb">
+          <a href="./index.html">Home</a>
+          <span>&rsaquo;</span>
+          <a href="./news-events.html">News &amp; Events</a>
+          <span>&rsaquo;</span>
+          <span id="breadcrumb-title">Event Details</span>
+        </div>
+
+        <div class="event-badge-row">
+          <span class="event-badge" id="event-badge-category">Event</span>
+          <span class="event-status-badge" id="event-badge-bucket">Upcoming</span>
+        </div>
+
+        <h1 class="event-hero-title" id="event-title">Event Title</h1>
+
+        <div class="event-hero-meta-bar">
+          <div class="event-hero-meta-item" id="meta-date-wrap">
+            <span class="meta-icon">&#128197;</span>
+            <span id="event-date">Date to be announced</span>
+          </div>
+          <div class="event-hero-meta-item" id="meta-location-wrap">
+            <span class="meta-icon">&#128205;</span>
+            <span id="event-location">IIT Kharagpur</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content Grid -->
+    <main class="event-detail-main">
+      <div class="event-detail-grid">
+        <!-- Left Content Column -->
+        <div class="event-content-col">
+          <!-- Short Overview / Summary Card -->
+          <article class="event-section-card" id="card-summary" style="display: none;">
+            <h2>Overview</h2>
+            <div class="event-prose" id="event-summary-text"></div>
+          </article>
+
+          <!-- About the Event Card -->
+          <article class="event-section-card" id="card-about" style="display: none;">
+            <h2>About the Event</h2>
+            <div class="event-prose" id="event-about-text"></div>
+          </article>
+
+          <!-- Additional Details Card -->
+          <article class="event-section-card" id="card-details" style="display: none;">
+            <h2>Event Details</h2>
+            <div class="event-prose" id="event-details-text"></div>
+          </article>
+
+          <!-- Speakers Section -->
+          <article class="event-section-card" id="card-speakers" style="display: none;">
+            <h2>Keynote Speakers &amp; Guests</h2>
+            <div class="event-speakers-list" id="event-speakers-container"></div>
+          </article>
+
+          <!-- Schedule / Program Agenda Section -->
+          <article class="event-section-card" id="card-schedule" style="display: none;">
+            <h2>Program &amp; Schedule</h2>
+            <div class="event-schedule-wrapper" id="event-schedule-container"></div>
+          </article>
+
+
+        </div>
+
+        <!-- Right Sidebar Column -->
+        <aside class="event-sidebar-col">
+          <!-- Registration CTA Card -->
+          <div class="event-side-card register-card" id="card-registration" style="display: none;">
+            <h3>Registration</h3>
+            <p style="font-size: 14px; color: #475569; margin: 0 0 16px;">Participation is open to faculty, researchers, and students.</p>
+            <a href="#" id="event-reg-btn" target="_blank" rel="noopener noreferrer" class="event-reg-btn">Register Now &rarr;</a>
+            <p class="event-reg-deadline" id="event-reg-deadline" style="display: none;"></p>
+          </div>
+
+          <!-- Quick Information Card -->
+          <div class="event-side-card">
+            <h3>Event Information</h3>
+            <ul class="event-info-list">
+              <li>
+                <span class="info-label">Category</span>
+                <span class="info-value" id="side-category">-</span>
+              </li>
+              <li>
+                <span class="info-label">Date &amp; Timing</span>
+                <span class="info-value" id="side-date">-</span>
+              </li>
+              <li id="side-location-item" style="display: none;">
+                <span class="info-label">Venue / Room</span>
+                <span class="info-value" id="side-location">-</span>
+              </li>
+              <li>
+                <span class="info-label">Organized By</span>
+                <span class="info-value">Department of Physics, IIT Kharagpur</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Contact Information Card -->
+          <div class="event-side-card" id="card-contact" style="display: none;">
+            <h3>Contact Information</h3>
+            <div id="contact-name-item" class="event-contact-item" style="display: none;">
+              <span>&#128100;</span>
+              <strong id="contact-name"></strong>
+            </div>
+            <div id="contact-email-item" class="event-contact-item" style="display: none;">
+              <span>&#9993;</span>
+              <a href="#" id="contact-email"></a>
+            </div>
+            <div id="contact-phone-item" class="event-contact-item" style="display: none;">
+              <span>&#128222;</span>
+              <a href="#" id="contact-phone"></a>
+            </div>
+          </div>
+
+          <!-- Documents & Downloads Card -->
+          <div class="event-side-card" id="card-documents" style="display: none;">
+            <h3>Documents &amp; Downloads</h3>
+            <div id="event-documents-container"></div>
+          </div>
+
+          <!-- Video & Recording Card (Right Sidebar) -->
+          <div class="event-side-card" id="card-video-side" style="display: none;">
+            <h3>Event Video &amp; Recording</h3>
+            <div class="event-video-wrap" id="event-video-container-side"></div>
+            <div id="event-video-link-side" style="margin-top: 12px;"></div>
+          </div>
+
+          <!-- Share & Back Card -->
+          <div class="event-side-card" style="text-align: center;">
+            <button id="btn-share-event" type="button" class="portal-button portal-button-secondary" style="width: 100%; margin-bottom: 12px; font-size: 14px; cursor: pointer;">
+              &#128279; Share This Event
+            </button>
+            <a href="./news-events.html" style="font-size: 13px; color: #2563eb; text-decoration: none; font-weight: 500;">
+              &larr; View All News &amp; Events
+            </a>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <!-- Standard Footer -->
+  <footer class="footer footer-about">
+    <div class="container footer-grid">
+      <section class="footer-brand">
+        <img src="https://upload.wikimedia.org/wikipedia/en/1/1c/IIT_Kharagpur_Logo.svg" alt="IIT Kharagpur logo" />
+        <div class="footer-brand-text">
+          <p>Department of Physics<br />Indian Institute of Technology Kharagpur<br />Kharagpur - 721302, India</p>
+          <p class="footer-contact"><span class="footer-contact-label">Phone:</span><span
+              class="footer-contact-lines"><span class="footer-contact-line"><a
+                  href="tel:+913222281285">+91-3222-281285</a> (Office)</span><span class="footer-contact-line"><a
+                  href="tel:+913222282286">+91-3222-282286</a> (Head)</span></span></p>
+          <p class="footer-contact"><span class="footer-contact-label">Email:</span><span
+              class="footer-contact-lines"><span class="footer-contact-line"><a
+                  href="mailto:phyoffice@phy.iitkgp.ac.in">phyoffice@phy.iitkgp.ac.in</a> (Office)</span><span
+                class="footer-contact-line"><a href="mailto:hod@phy.iitkgp.ac.in">hod@phy.iitkgp.ac.in</a>
+                (Head)</span></span></p>
+        </div>
+      </section>
+
+      <section class="quick-links">
+        <h4>Quick Links</h4>
+        <ul>
+          <li class="icon-calendar"><a href="https://www.iitkgp.ac.in/assets/pdf/AcademicCalendar2025-26.pdf" target="_blank" rel="noopener noreferrer">Academic Calendar</a></li>
+          <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
+          <li class="icon-cap"><a href="https://www.iitkgp.ac.in/navpage/admissions" target="_blank" rel="noopener noreferrer">Admissions</a></li>
+          <li class="icon-directory"><a href="./directory.html">Directory</a></li>
+          <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
+          <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
+          <li class="icon-doc"><a href="https://erp.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">ERP</a></li>
+          <li class="icon-mail"><a href="https://webmail.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">Webmail</a></li>
+          <li class="icon-directory"><a href="https://www.iitkgp.ac.in/" target="_blank" rel="noopener noreferrer">IIT Kharagpur</a></li>
+        </ul>
+      </section>
+
+      <section>
+        <h4>Quick Navigation</h4>
+        <ul>
+          <li><a href="./about.html">About the Department</a></li>
+          <li><a href="./programs.html">Academic Programs</a></li>
+          <li><a href="./research.html">Research Areas</a></li>
+          <li><a href="./faculty.html">Faculty &amp; Staff</a></li>
+          <li><a href="https://www.iitkgp.ac.in" target="_blank" rel="noopener noreferrer">IIT Kharagpur Main Site</a></li>
+        </ul>
       </section>
     </div>
-  </main>
+
+    <div class="container footer-bottom">
+      <p>&copy; 2026 Department of Physics, IIT Kharagpur. All rights reserved.</p>
+      <div class="legal-links">
+        <a href="./privacy-policy.html">Privacy Policy</a>
+        <a href="./sitemap-page.html">Sitemap</a>
+      </div>
+    </div>
+  </footer>
 
   <script>
     (async function () {
       var params = new URLSearchParams(window.location.search);
-      var eventId = params.get("event");
+      var eventId = params.get("id") || params.get("event");
       var eventIdText = String(eventId || "").toLowerCase();
-      var titleEl = document.getElementById("event-title");
-      var metaEl = document.getElementById("event-meta");
-      var summaryEl = document.getElementById("event-summary");
-      var detailsEl = document.getElementById("event-details");
+
+      var loadingEl = document.getElementById("loading-state");
+      var errorEl = document.getElementById("error-state");
+      var eventViewEl = document.getElementById("event-view");
+
+      function escapeHtml(value) {
+        return String(value || "")
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
 
       function isIccmpLike(text) {
         var value = String(text || "").toLowerCase();
@@ -72,9 +303,16 @@
         );
       }
 
+      function showError(title, message) {
+        loadingEl.style.display = "none";
+        eventViewEl.style.display = "none";
+        errorEl.style.display = "block";
+        if (title) document.getElementById("error-title").textContent = title;
+        if (message) document.getElementById("error-message").textContent = message;
+      }
+
       if (!eventId) {
-        titleEl.textContent = "Event not found";
-        summaryEl.textContent = "No event id was provided.";
+        showError("Event Not Specified", "No event identifier was provided. Please choose an event from the News & Events page.");
         return;
       }
 
@@ -86,25 +324,398 @@
       try {
         var response = await fetch(window.location.origin + "/api/public/news-events/events/" + encodeURIComponent(eventId));
         var data = await response.json();
+
         if (!response.ok || !data.event) {
-          titleEl.textContent = "Event not found";
-          summaryEl.textContent = "The requested event is unavailable.";
+          showError("Event Not Found", "The requested event could not be found or has been removed.");
           return;
         }
 
-        var event = data.event;
-        if (isIccmpLike(event.title)) {
+        var ev = data.event;
+
+        // ICCMP redirect check
+        if (isIccmpLike(ev.title)) {
           window.location.replace("./iccmp-2026.html");
           return;
         }
 
-        titleEl.textContent = event.title || "Event Details";
-        metaEl.textContent = [event.date, event.location].filter(Boolean).join(" - ");
-        summaryEl.textContent = event.summary || "";
-        detailsEl.textContent = event.details || event.summary || "";
-      } catch (error) {
-        titleEl.textContent = "Unable to load event";
-        summaryEl.textContent = "Please try again later.";
+        // Update Page Title
+        document.title = (ev.title ? ev.title + " | " : "") + "Department of Physics | IIT Kharagpur";
+
+        // Breadcrumb & Hero
+        document.getElementById("breadcrumb-title").textContent = ev.title || "Event Details";
+        document.getElementById("event-title").textContent = ev.title || "Untitled Event";
+
+        // Category & Bucket badges
+        var catBadge = document.getElementById("event-badge-category");
+        var category = String(ev.category || "seminars").toLowerCase();
+        catBadge.textContent = category.charAt(0).toUpperCase() + category.slice(1);
+        catBadge.className = "event-badge " + category;
+
+        var bucketBadge = document.getElementById("event-badge-bucket");
+        var isPast = String(ev.bucket || "").toLowerCase() === "past";
+        bucketBadge.textContent = isPast ? "Past Event" : "Upcoming";
+        if (isPast) {
+          bucketBadge.className = "event-status-badge past";
+          bucketBadge.style.background = "#64748b";
+          bucketBadge.style.color = "#ffffff";
+          bucketBadge.style.border = "none";
+        } else {
+          bucketBadge.className = "event-status-badge";
+          bucketBadge.style.background = "";
+          bucketBadge.style.color = "";
+          bucketBadge.style.border = "";
+        }
+
+        // Banner Image
+        var heroEl = document.getElementById("event-hero");
+        if (ev.bannerImage && ev.bannerImage.trim()) {
+          heroEl.style.backgroundImage = "url('" + ev.bannerImage.trim().replace(/'/g, "\\'") + "')";
+        }
+
+        // Meta Bar
+        if (ev.date && ev.date.trim()) {
+          document.getElementById("event-date").textContent = ev.date.trim();
+          document.getElementById("side-date").textContent = ev.date.trim();
+        } else {
+          document.getElementById("meta-date-wrap").style.display = "none";
+          document.getElementById("side-date").textContent = "To be announced";
+        }
+
+        if (ev.location && ev.location.trim()) {
+          document.getElementById("event-location").textContent = ev.location.trim();
+          document.getElementById("side-location").textContent = ev.location.trim();
+          document.getElementById("side-location-item").style.display = "flex";
+        } else {
+          document.getElementById("meta-location-wrap").style.display = "none";
+        }
+
+        document.getElementById("side-category").textContent = category.charAt(0).toUpperCase() + category.slice(1);
+
+        // Content Sections
+        // Summary
+        if (ev.summary && ev.summary.trim()) {
+          document.getElementById("card-summary").style.display = "block";
+          document.getElementById("event-summary-text").innerHTML = "<p>" + escapeHtml(ev.summary.trim()).replace(/\n\n+/g, "</p><p>").replace(/\n/g, "<br />") + "</p>";
+        }
+
+        // About the Event (Rich in-depth description)
+        if (ev.about && ev.about.trim()) {
+          document.getElementById("card-about").style.display = "block";
+          document.getElementById("event-about-text").innerHTML = "<p>" + escapeHtml(ev.about.trim()).replace(/\n\n+/g, "</p><p>").replace(/\n/g, "<br />") + "</p>";
+        }
+
+        // Full Details (if provided and different from summary and about)
+        if (ev.details && ev.details.trim() && ev.details.trim() !== ev.summary && ev.details.trim() !== ev.about) {
+          document.getElementById("card-details").style.display = "block";
+          document.getElementById("event-details-text").innerHTML = "<p>" + escapeHtml(ev.details.trim()).replace(/\n\n+/g, "</p><p>").replace(/\n/g, "<br />") + "</p>";
+        } else if (!ev.about && !ev.summary && ev.details && ev.details.trim()) {
+          document.getElementById("card-details").style.display = "block";
+          document.getElementById("event-details-text").innerHTML = "<p>" + escapeHtml(ev.details.trim()).replace(/\n\n+/g, "</p><p>").replace(/\n/g, "<br />") + "</p>";
+        }
+
+        // Speakers
+        if (ev.speakers && ev.speakers.trim()) {
+          var speakersList = ev.speakers.split(/\r?\n/).map(function(s) { return s.trim(); }).filter(Boolean);
+          if (speakersList.length) {
+            var speakersContainer = document.getElementById("event-speakers-container");
+            speakersContainer.innerHTML = speakersList.map(function (speakerText) {
+              var parts = speakerText.split(/\s*[-–—|]\s*/);
+              var name = parts[0] || speakerText;
+              var role = parts.slice(1).join(" — ");
+              var initials = name.replace(/[^A-Za-z]/g, "").slice(0, 2).toUpperCase() || "SP";
+              return [
+                '<div class="event-speaker-card">',
+                '  <div class="event-speaker-avatar">' + escapeHtml(initials) + '</div>',
+                '  <div class="event-speaker-info">',
+                '    <h3>' + escapeHtml(name) + '</h3>',
+                role ? '    <p>' + escapeHtml(role) + '</p>' : '',
+                '  </div>',
+                '</div>'
+              ].join("");
+            }).join("");
+            document.getElementById("card-speakers").style.display = "block";
+          }
+        }
+
+        // Schedule / Timeline Parsing & Rendering
+        function parseEventSchedule(scheduleText) {
+          if (!scheduleText || !scheduleText.trim()) return [];
+          var lines = scheduleText.split(/\r?\n/).map(function (s) { return s.trim(); }).filter(Boolean);
+          if (!lines.length) return [];
+
+          var timeRangePattern = /^((?:(?:0?[1-9]|1[0-2])[:.][0-5]\d\s*(?:AM|PM|am|pm)?|(?:[01]?\d|2[0-3])[:.][0-5]\d|(?:0?[1-9]|1[0-2])\s*(?:AM|PM|am|pm))\s*(?:[-–—]|to)\s*(?:(?:0?[1-9]|1[0-2])[:.][0-5]\d\s*(?:AM|PM|am|pm)?|(?:[01]?\d|2[0-3])[:.][0-5]\d|(?:0?[1-9]|1[0-2])\s*(?:AM|PM|am|pm)))\s*(?:[-–—:|]\s*|\s+)?(.*)$/i;
+          var singleTimePattern = /^((?:(?:0?[1-9]|1[0-2])[:.][0-5]\d\s*(?:AM|PM|am|pm)?|(?:[01]?\d|2[0-3])[:.][0-5]\d|(?:0?[1-9]|1[0-2])\s*(?:AM|PM|am|pm)))\s*(?:[-–—:|]\s*|\s+)?(.*)$/i;
+          var dayPrefixPattern = /^Day\s*(\d+|[A-Za-z]+)\s*[:\-–—]\s*(.*)$/i;
+
+          function isTimeLike(str) {
+            if (!str) return false;
+            return timeRangePattern.test(str) || singleTimePattern.test(str);
+          }
+
+          function parseTimeAndBody(str) {
+            var timeStr = "";
+            var bodyStr = str;
+            var rangeMatch = str.match(timeRangePattern);
+            if (rangeMatch) {
+              timeStr = rangeMatch[1].trim();
+              bodyStr = (rangeMatch[2] || "").trim();
+            } else {
+              var singleMatch = str.match(singleTimePattern);
+              if (singleMatch) {
+                timeStr = singleMatch[1].trim();
+                bodyStr = (singleMatch[2] || "").trim();
+              } else {
+                var dashMatch = str.match(/\s+[-–—]\s+/);
+                if (dashMatch && dashMatch.index) {
+                  var p1 = str.slice(0, dashMatch.index).trim();
+                  var p2 = str.slice(dashMatch.index + dashMatch[0].length).trim();
+                  if (/\d/.test(p1) && p1.length <= 25) {
+                    timeStr = p1;
+                    bodyStr = p2;
+                  }
+                }
+              }
+            }
+            bodyStr = bodyStr.replace(/^[-–—:|]\s*/, "").trim();
+            if (!bodyStr && timeStr && !/am|pm|\d{1,2}[:.]\d{2}/i.test(str.trim())) {
+              bodyStr = timeStr;
+              timeStr = "";
+            }
+            return { time: timeStr, body: bodyStr };
+          }
+
+          var dayGroups = [];
+          var currentDay = null;
+
+          lines.forEach(function (rawLine) {
+            var prefixMatch = rawLine.match(dayPrefixPattern);
+            if (prefixMatch) {
+              var remainder = prefixMatch[2].trim();
+              if (isTimeLike(remainder)) {
+                var dayName = "Day " + prefixMatch[1].trim();
+                if (!currentDay || currentDay.day.toLowerCase() !== dayName.toLowerCase()) {
+                  currentDay = { day: dayName, title: "", items: [] };
+                  dayGroups.push(currentDay);
+                }
+                currentDay.items.push(parseTimeAndBody(remainder));
+                return;
+              }
+            }
+
+            if (/^Day\s*(\d+|[A-Za-z]+)\b/i.test(rawLine)) {
+              var afterDay = rawLine.replace(/^Day\s*(\d+|[A-Za-z]+)\s*[:\-–—]?\s*/i, "").trim();
+              if (!isTimeLike(afterDay)) {
+                var dayNumMatch = rawLine.match(/^Day\s*(\d+|[A-Za-z]+)/i);
+                var dayLabel = dayNumMatch ? ("Day " + dayNumMatch[1].trim()) : "Day";
+                var dayTitle = afterDay.replace(/^[\(\[\{]/, "").replace(/[\)\]\}]$/, "").trim();
+                currentDay = { day: dayLabel, title: dayTitle, items: [] };
+                dayGroups.push(currentDay);
+                return;
+              }
+            }
+
+            if (!currentDay) {
+              currentDay = { day: "", title: "", items: [] };
+              dayGroups.push(currentDay);
+            }
+            currentDay.items.push(parseTimeAndBody(rawLine));
+          });
+
+          return dayGroups.filter(function (g) { return g.items.length > 0; });
+        }
+
+        if (ev.schedule && ev.schedule.trim()) {
+          var scheduleData = parseEventSchedule(ev.schedule);
+          if (scheduleData && scheduleData.length) {
+            var scheduleContainer = document.getElementById("event-schedule-container");
+            var hasMultipleDays = scheduleData.length > 1;
+            var html = [];
+
+            if (hasMultipleDays) {
+              html.push('<div class="event-schedule-tabs" id="event-schedule-tabs">');
+              html.push('  <button type="button" class="event-schedule-tab active" data-day="all">All Days</button>');
+              scheduleData.forEach(function (group, idx) {
+                var label = group.day || ("Day " + (idx + 1));
+                html.push('  <button type="button" class="event-schedule-tab" data-day="day-' + idx + '">' + escapeHtml(label) + '</button>');
+              });
+              html.push('</div>');
+            }
+
+            scheduleData.forEach(function (group, idx) {
+              var dayId = "day-" + idx;
+              html.push('<div class="event-schedule-day-group" data-day-group="' + dayId + '">');
+
+              if (group.day || group.title) {
+                html.push('  <div class="event-schedule-day-header">');
+                if (group.day) {
+                  html.push('    <span class="event-schedule-day-badge">');
+                  html.push('      <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-2px; margin-right:5px;"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>');
+                  html.push('      ' + escapeHtml(group.day));
+                  html.push('    </span>');
+                }
+                if (group.title) {
+                  html.push('    <span class="event-schedule-day-title">' + escapeHtml(group.title) + '</span>');
+                }
+                html.push('  </div>');
+              }
+
+              html.push('  <div class="event-timeline">');
+              group.items.forEach(function (item) {
+                var isBreak = /lunch|tea|break|refreshment|breakfast|dinner|networking/i.test(item.body);
+                html.push('    <div class="event-timeline-item' + (isBreak ? ' event-timeline-item-break' : '') + '">');
+                if (item.time) {
+                  html.push('      <div class="event-timeline-time">');
+                  html.push('        <span class="timeline-time-badge">');
+                  html.push('          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" style="display:inline-block; vertical-align:-1px; margin-right:4px;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>');
+                  html.push('          ' + escapeHtml(item.time));
+                  html.push('        </span>');
+                  html.push('      </div>');
+                }
+                html.push('      <div class="event-timeline-body">' + escapeHtml(item.body) + '</div>');
+                html.push('    </div>');
+              });
+              html.push('  </div>');
+              html.push('</div>');
+            });
+
+            scheduleContainer.innerHTML = html.join("\n");
+            document.getElementById("card-schedule").style.display = "block";
+
+            if (hasMultipleDays) {
+              var tabButtons = scheduleContainer.querySelectorAll(".event-schedule-tab");
+              var dayGroups = scheduleContainer.querySelectorAll(".event-schedule-day-group");
+              tabButtons.forEach(function (btn) {
+                btn.addEventListener("click", function () {
+                  tabButtons.forEach(function (b) { b.classList.remove("active"); });
+                  btn.classList.add("active");
+                  var targetDay = btn.getAttribute("data-day");
+                  dayGroups.forEach(function (dg) {
+                    if (targetDay === "all" || dg.getAttribute("data-day-group") === targetDay) {
+                      dg.style.display = "block";
+                    } else {
+                      dg.style.display = "none";
+                    }
+                  });
+                });
+              });
+            }
+          }
+        }
+
+        // Registration CTA
+        if (ev.registrationLink && ev.registrationLink.trim()) {
+          var regBtn = document.getElementById("event-reg-btn");
+          regBtn.href = ev.registrationLink.trim();
+          if (ev.registrationDeadline && ev.registrationDeadline.trim()) {
+            var deadlineEl = document.getElementById("event-reg-deadline");
+            deadlineEl.textContent = "Deadline: " + ev.registrationDeadline.trim();
+            deadlineEl.style.display = "block";
+          }
+          document.getElementById("card-registration").style.display = "block";
+        }
+
+        // Contact info
+        var hasContact = false;
+        if (ev.contactName && ev.contactName.trim()) {
+          document.getElementById("contact-name").textContent = ev.contactName.trim();
+          document.getElementById("contact-name-item").style.display = "flex";
+          hasContact = true;
+        }
+        if (ev.contactEmail && ev.contactEmail.trim()) {
+          var emailEl = document.getElementById("contact-email");
+          emailEl.href = "mailto:" + ev.contactEmail.trim();
+          emailEl.textContent = ev.contactEmail.trim();
+          document.getElementById("contact-email-item").style.display = "flex";
+          hasContact = true;
+        }
+        if (ev.contactPhone && ev.contactPhone.trim()) {
+          var phoneEl = document.getElementById("contact-phone");
+          phoneEl.href = "tel:" + ev.contactPhone.trim().replace(/\s+/g, "");
+          phoneEl.textContent = ev.contactPhone.trim();
+          document.getElementById("contact-phone-item").style.display = "flex";
+          hasContact = true;
+        }
+        if (hasContact) {
+          document.getElementById("card-contact").style.display = "block";
+        }
+
+        // YouTube Video
+        function getYouTubeEmbedUrl(url) {
+          if (!url) return "";
+          try {
+            var str = String(url).trim();
+            var m = str.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|shorts\/|live\/|watch\?.+&v=))([\w-]{11})/i);
+            if (m && m[1]) {
+              return "https://www.youtube-nocookie.com/embed/" + m[1];
+            }
+          } catch (e) {}
+          return "";
+        }
+
+        if (ev.youtubeLink && ev.youtubeLink.trim()) {
+          var yLink = ev.youtubeLink.trim();
+          var embedUrl = getYouTubeEmbedUrl(yLink);
+
+          // Populate Right Sidebar Video Card (directly below Documents & Downloads)
+          var videoSideContainer = document.getElementById("event-video-container-side");
+          var videoSideLink = document.getElementById("event-video-link-side");
+          if (embedUrl) {
+            videoSideContainer.innerHTML = '<iframe src="' + escapeHtml(embedUrl) + '" title="Event Video" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;border-radius:8px;"></iframe>';
+            if (videoSideLink) {
+              videoSideLink.innerHTML = '<a href="' + escapeHtml(yLink) + '" target="_blank" rel="noopener noreferrer" style="display:inline-flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:#dc2626;text-decoration:none;"><span style="font-size:14px;">▶</span> Open on YouTube &rarr;</a>';
+            }
+          } else {
+            videoSideContainer.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100%;background:#f1f5f9;color:#475569;font-size:13px;padding:16px;text-align:center;">Direct YouTube Link</div>';
+            if (videoSideLink) {
+              videoSideLink.innerHTML = '<a href="' + escapeHtml(yLink) + '" target="_blank" rel="noopener noreferrer" class="portal-button" style="display:inline-flex;align-items:center;gap:8px;text-decoration:none;width:100%;justify-content:center;padding:9px 14px;background:#dc2626;color:#ffffff;font-weight:600;font-size:13px;"><span>▶</span> Watch on YouTube</a>';
+            }
+          }
+          document.getElementById("card-video-side").style.display = "block";
+        }
+
+        // Documents & Downloads
+        if (ev.documents && ev.documents.trim()) {
+          var docLines = ev.documents.split(/\r?\n/).map(function(d) { return d.trim(); }).filter(Boolean);
+          if (docLines.length) {
+            var docContainer = document.getElementById("event-documents-container");
+            docContainer.innerHTML = docLines.map(function (docText) {
+              var urlMatch = docText.match(/https?:\/\/[^\s]+/i) || docText.match(/(\.\/|\/)uploads\/[^\s]+/i);
+              var url = urlMatch ? urlMatch[0] : "#";
+              var label = docText.replace(url, "").replace(/^[:\-–\s]+|[:\-–\s]+$/g, "").trim() || "Download Document";
+              var isPdf = url.toLowerCase().indexOf(".pdf") !== -1;
+              var icon = isPdf ? "&#128196;" : "&#128206;";
+              return '<a class="event-doc-btn" href="' + escapeHtml(url) + '" target="_blank" rel="noopener noreferrer">' + icon + ' ' + escapeHtml(label) + (isPdf ? ' <small style="margin-left:auto;color:#dc2626;font-weight:700;font-size:11px;">PDF</small>' : '') + '</a>';
+            }).join("");
+            document.getElementById("card-documents").style.display = "block";
+          }
+        }
+
+        // Share button
+        var shareBtn = document.getElementById("btn-share-event");
+        shareBtn.addEventListener("click", function () {
+          if (navigator.share) {
+            navigator.share({
+              title: ev.title || document.title,
+              url: window.location.href
+            }).catch(function () {});
+          } else {
+            navigator.clipboard.writeText(window.location.href).then(function () {
+              var prev = shareBtn.textContent;
+              shareBtn.textContent = "✓ Link Copied!";
+              setTimeout(function () { shareBtn.innerHTML = "&#128279; Share This Event"; }, 2000);
+            }).catch(function () {
+              prompt("Copy this event link:", window.location.href);
+            });
+          }
+        });
+
+        // Hide loading, show view
+        loadingEl.style.display = "none";
+        eventViewEl.style.display = "block";
+
+      } catch (err) {
+        console.error("Failed to load event:", err);
+        showError("Unable to Load Event", "A network error occurred. Please refresh or try again shortly.");
       }
     })();
   </script>

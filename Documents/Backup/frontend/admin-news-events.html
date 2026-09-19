@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
 </head>
 <body class="portal-dashboard-page">
   <div class="portal-dashboard-layout">
@@ -44,7 +45,7 @@
           </section>
 
           <section class="portal-panel">
-            <h2 class="portal-panel-title">Create Event</h2>
+            <h2 class="portal-panel-title" id="event-form-title">Create Event</h2>
             <form class="portal-form-grid" id="event-form">
               <label>Type
                 <select class="portal-input" name="bucket">
@@ -64,7 +65,99 @@
               <label>Location<input class="portal-input" name="location" placeholder="Computer Lab, Physics Building" /></label>
               <label class="portal-form-span">Short Description<textarea class="portal-textarea" name="summary" required></textarea></label>
               <label class="portal-form-span">Full Details<textarea class="portal-textarea" name="details" required></textarea></label>
-              <button class="portal-button" type="submit">Create Event</button>
+
+              <div class="portal-form-span" style="margin-top: 8px;">
+                <details id="event-subpage-details" style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 8px; padding: 12px 16px;">
+                  <summary style="font-weight: 600; color: #1e3a8a; cursor: pointer; user-select: none;">
+                    ➕ Event Details Sub-Page Fields (Optional: Banner, Speakers, Schedule, Registration, Contact)
+                  </summary>
+                  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 14px;">
+                    <div class="portal-form-span" style="display: flex; flex-direction: column; gap: 6px;">
+                      <label style="font-size: 13px; font-weight: 600; color: #1e293b;">
+                        Banner Image (Upload or Paste URL)
+                      </label>
+                      <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                        <input class="portal-input" id="event-banner-image" name="bannerImage" placeholder="https://example.com/banner.jpg or click Upload Image" style="flex: 1; min-width: 240px;" />
+                        <label class="portal-button portal-button-secondary" style="cursor: pointer; margin: 0; padding: 8px 14px; font-size: 13px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; user-select: none;">
+                          <span>📁 Upload Image</span>
+                          <input type="file" id="event-banner-file" accept="image/*" style="display: none;" />
+                        </label>
+                      </div>
+                      <div id="event-banner-preview-wrap" style="display: none; margin-top: 6px; align-items: center; gap: 12px; background: #ffffff; padding: 8px 12px; border: 1px solid #cbd5e1; border-radius: 6px;">
+                        <img id="event-banner-preview" src="" alt="Banner Preview" style="height: 48px; width: 84px; object-fit: cover; border-radius: 4px; border: 1px solid #e2e8f0;" />
+                        <div style="display: flex; flex-direction: column;">
+                          <span id="event-banner-status" style="font-size: 12px; color: #16a34a; font-weight: 600;">Image uploaded</span>
+                          <span id="event-banner-filename" style="font-size: 11px; color: #64748b;"></span>
+                        </div>
+                        <button type="button" id="event-banner-clear" style="margin-left: auto; background: none; border: none; color: #ef4444; font-size: 12px; font-weight: 600; cursor: pointer;">Remove</button>
+                      </div>
+                    </div>
+                    <label class="portal-form-span" style="font-size: 13px; font-weight: 500;">
+                      About The Event (In-depth Overview)
+                      <textarea class="portal-textarea" name="about" rows="4" placeholder="Detailed background, goals, scope, and themes..." style="margin-top: 4px;"></textarea>
+                    </label>
+                    <label class="portal-form-span" style="font-size: 13px; font-weight: 500;">
+                      Keynote Speakers / Guests (One per line or comma-separated)
+                      <textarea class="portal-textarea" name="speakers" rows="3" placeholder="Prof. Rajesh Sharma (IIT Delhi) - Keynote Speaker&#10;Dr. Sarah Jenkins (Cambridge University) - Invited Talk" style="margin-top: 4px;"></textarea>
+                    </label>
+                    <label class="portal-form-span" style="font-size: 13px; font-weight: 500;">
+                      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px; flex-wrap: wrap; gap: 6px;">
+                        <span style="font-weight: 600; color: #1e293b;">Schedule / Program Agenda (Day-wise Timeline)</span>
+                        <div style="display: flex; gap: 6px;">
+                          <button type="button" class="portal-button portal-button-secondary" id="btn-insert-day-template" style="padding: 3px 8px; font-size: 11px; margin: 0; line-height: 1.2;">+ Day 1 Template</button>
+                          <button type="button" class="portal-button portal-button-secondary" id="btn-insert-day2-template" style="padding: 3px 8px; font-size: 11px; margin: 0; line-height: 1.2;">+ Day 2</button>
+                        </div>
+                      </div>
+                      <textarea class="portal-textarea" id="event-schedule-input" name="schedule" rows="6" placeholder="Day 1: Inauguration &amp; Keynote&#10;10:00 AM - Registration &amp; Welcome Tea&#10;10:30 AM - Inaugural Session&#10;10:45 AM - 11:00 AM - Welcome Address&#10;11:00 AM - 11:45 AM - Keynote Lecture&#10;11:45 AM - 12:30 PM - Technical Session&#10;12:30 PM - 01:00 PM - Interactive Discussion&#10;01:00 PM - 02:00 PM - Lunch Break&#10;&#10;Day 2: Technical Talks &amp; Valedictory&#10;09:30 AM - 11:00 AM - Technical Session II" style="margin-top: 4px; font-family: monospace; font-size: 13px; line-height: 1.5;"></textarea>
+                      <span style="display: block; font-size: 11px; color: #64748b; margin-top: 4px;">
+                        💡 <strong>Format Guide:</strong> Use <code>Day 1</code> (or <code>Day 1: Subtitle</code>) to start a day section. Then list times like <code>10:00 AM - Session Name</code> or <code>10:45 AM - 11:00 AM - Session Name</code>.
+                      </span>
+                    </label>
+                    <label style="font-size: 13px; font-weight: 500;">
+                      Registration Link
+                      <input class="portal-input" name="registrationLink" placeholder="https://forms.gle/... or portal registration URL" style="margin-top: 4px;" />
+                    </label>
+                    <label style="font-size: 13px; font-weight: 500;">
+                      Registration Deadline
+                      <input class="portal-input" name="registrationDeadline" placeholder="e.g. 15 May 2026, 11:59 PM IST" style="margin-top: 4px;" />
+                    </label>
+                    <label style="font-size: 13px; font-weight: 500;">
+                      Contact Person Name
+                      <input class="portal-input" name="contactName" placeholder="e.g. Prof. A. B. Roy (Convenor)" style="margin-top: 4px;" />
+                    </label>
+                    <label style="font-size: 13px; font-weight: 500;">
+                      Contact Email
+                      <input class="portal-input" name="contactEmail" type="email" placeholder="e.g. physics-event@iitkgp.ac.in" style="margin-top: 4px;" />
+                    </label>
+                    <label style="font-size: 13px; font-weight: 500;">
+                      Contact Phone
+                      <input class="portal-input" name="contactPhone" placeholder="e.g. +91 3222 282280" style="margin-top: 4px;" />
+                    </label>
+                    <label class="portal-form-span" style="font-size: 13px; font-weight: 500;">
+                      YouTube Video Link / Recording URL (Optional)
+                      <input class="portal-input" name="youtubeLink" placeholder="https://www.youtube.com/watch?v=... or https://youtu.be/..." style="margin-top: 4px;" />
+                    </label>
+                    <div class="portal-form-span" style="display: flex; flex-direction: column; gap: 6px;">
+                      <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 8px;">
+                        <label style="font-size: 13px; font-weight: 600; color: #1e293b; margin: 0;">
+                          Documents / Brochure Links &amp; PDF Upload
+                        </label>
+                        <label class="portal-button portal-button-secondary" style="cursor: pointer; margin: 0; padding: 6px 12px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; user-select: none;">
+                          <span>📄 Upload PDF / Document</span>
+                          <input type="file" id="event-document-file" accept=".pdf,.ppt,.pptx" style="display: none;" />
+                        </label>
+                      </div>
+                      <textarea class="portal-textarea" id="event-documents-input" name="documents" rows="3" placeholder="Brochure: https://example.com/brochure.pdf&#10;Poster: https://example.com/poster.jpg" style="margin-top: 4px;"></textarea>
+                      <div id="event-doc-status" style="font-size: 12px; color: #16a34a; display: none;"></div>
+                    </div>
+                  </div>
+                </details>
+              </div>
+
+              <div style="display: flex; gap: 10px; align-items: center; flex-wrap: wrap;">
+                <button class="portal-button" type="submit" id="event-submit-btn">Create Event</button>
+                <button class="portal-button portal-button-secondary" type="button" id="event-cancel-edit-btn" style="display: none;">Cancel Edit</button>
+              </div>
             </form>
             <p class="portal-inline-message" id="event-message"></p>
           </section>
@@ -114,10 +207,16 @@
       }
 
       async function api(path, options) {
-        var response = await fetch(window.location.origin + path, Object.assign({
-          headers: { Authorization: "Bearer " + token }
-        }, options || {}));
-        var data = await response.json();
+        var currentToken = localStorage.getItem("iitPortalToken") || token;
+        var opts = Object.assign({}, options || {});
+        opts.headers = Object.assign({
+          Authorization: "Bearer " + currentToken
+        }, (options && options.headers) || {});
+        var response = await fetch(window.location.origin + path, opts);
+        var data = await response.json().catch(function () { return {}; });
+        if (response.status === 401) {
+          throw new Error("Session expired. Please log in again.");
+        }
         if (!response.ok) { throw new Error(data.message || "Request failed"); }
         return data;
       }
@@ -126,7 +225,93 @@
         if (type === "announcement") {
           return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.date || "") + '</p><h3>' + escapeHtml(item.title) + '</h3></div><button class="portal-button portal-button-secondary" data-delete-announcement="' + escapeHtml(item.id) + '">Delete</button></article>';
         }
-        return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.date || "") + '</p><h3>' + escapeHtml(item.title) + '</h3><p>' + escapeHtml(item.location || "") + '</p></div><button class="portal-button portal-button-secondary" data-delete-event="' + escapeHtml(item.id) + '">Delete</button></article>';
+        return '<article class="portal-item-card"><div><p class="portal-item-meta">' + escapeHtml(item.date || "") + '</p><h3>' + escapeHtml(item.title) + '</h3><p>' + escapeHtml(item.location || "") + '</p></div><div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;"><a href="./news-event-detail.html?id=' + encodeURIComponent(item.id) + '" target="_blank" class="portal-button portal-button-secondary" style="text-decoration:none;font-size:13px;padding:6px 12px;">View Page</a><button class="portal-button portal-button-secondary" data-edit-event="' + escapeHtml(item.id) + '" style="font-size:13px;padding:6px 12px;">Edit</button><button class="portal-button portal-button-secondary" data-delete-event="' + escapeHtml(item.id) + '" style="font-size:13px;padding:6px 12px;color:#dc2626;">Delete</button></div></article>';
+      }
+
+      var editingEventId = null;
+      var eventSubmitBtn = document.getElementById("event-submit-btn");
+      var eventCancelEditBtn = document.getElementById("event-cancel-edit-btn");
+      var eventFormTitle = document.getElementById("event-form-title");
+      var eventSubpageDetails = document.getElementById("event-subpage-details");
+
+      function setFormValue(name, val) {
+        var el = eventForm.querySelector('[name="' + name + '"]');
+        if (el) { el.value = val || ""; }
+      }
+
+      function startEditEvent(eventId) {
+        var allEvents = (cache.upcomingEvents || []).concat(cache.pastEvents || []);
+        var ev = allEvents.find(function (item) { return item && item.id === eventId; });
+        if (!ev) { return; }
+
+        editingEventId = ev.id;
+        if (eventFormTitle) { eventFormTitle.textContent = "Edit Event: " + (ev.title || ""); }
+        if (eventSubmitBtn) { eventSubmitBtn.textContent = "Update & Save Event"; }
+        if (eventCancelEditBtn) { eventCancelEditBtn.style.display = "inline-block"; }
+
+        // Populate basic fields
+        setFormValue("bucket", ev.bucket || "upcoming");
+        setFormValue("category", ev.category || "seminars");
+        setFormValue("title", ev.title || "");
+        setFormValue("date", ev.date || "");
+        setFormValue("location", ev.location || "");
+        setFormValue("summary", ev.summary || "");
+        setFormValue("details", ev.details || "");
+
+        // Populate sub-page details fields
+        setFormValue("bannerImage", ev.bannerImage || "");
+        setFormValue("about", ev.about || "");
+        setFormValue("speakers", ev.speakers || "");
+        setFormValue("schedule", ev.schedule || "");
+        setFormValue("registrationLink", ev.registrationLink || "");
+        setFormValue("registrationDeadline", ev.registrationDeadline || "");
+        setFormValue("contactName", ev.contactName || "");
+        setFormValue("contactEmail", ev.contactEmail || "");
+        setFormValue("contactPhone", ev.contactPhone || "");
+        setFormValue("documents", ev.documents || "");
+        setFormValue("youtubeLink", ev.youtubeLink || "");
+
+        // Image preview handling
+        if (ev.bannerImage && ev.bannerImage.trim()) {
+          if (bannerPreview) { bannerPreview.src = ev.bannerImage.trim(); }
+          if (bannerStatus) {
+            bannerStatus.style.color = "#16a34a";
+            bannerStatus.textContent = "Current banner image loaded";
+          }
+          if (bannerFilename) { bannerFilename.textContent = ""; }
+          if (bannerPreviewWrap) { bannerPreviewWrap.style.display = "flex"; }
+        } else {
+          if (bannerPreviewWrap) { bannerPreviewWrap.style.display = "none"; }
+          if (bannerPreview) { bannerPreview.src = ""; }
+        }
+
+        // Open subpage details section so all filled values are visible
+        if (eventSubpageDetails) {
+          eventSubpageDetails.open = true;
+        }
+
+        if (eventMessage) {
+          eventMessage.style.color = "#2563eb";
+          eventMessage.textContent = 'Editing "' + (ev.title || "event") + '". Modify any fields above and click "Update & Save Event".';
+        }
+
+        eventForm.scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function cancelEditEvent() {
+        editingEventId = null;
+        eventForm.reset();
+        if (eventFormTitle) { eventFormTitle.textContent = "Create Event"; }
+        if (eventSubmitBtn) { eventSubmitBtn.textContent = "Create Event"; }
+        if (eventCancelEditBtn) { eventCancelEditBtn.style.display = "none"; }
+        if (bannerPreviewWrap) { bannerPreviewWrap.style.display = "none"; }
+        if (bannerPreview) { bannerPreview.src = ""; }
+        if (docStatus) { docStatus.style.display = "none"; }
+        if (eventMessage) { eventMessage.textContent = ""; }
+      }
+
+      if (eventCancelEditBtn) {
+        eventCancelEditBtn.addEventListener("click", cancelEditEvent);
       }
 
       function matchesQuery(item, query) {
@@ -176,29 +361,214 @@
         event.preventDefault();
         eventMessage.textContent = "";
         var formData = new FormData(eventForm);
+        var payload = {
+          bucket: formData.get("bucket"),
+          category: formData.get("category"),
+          title: formData.get("title"),
+          date: formData.get("date"),
+          location: formData.get("location"),
+          summary: formData.get("summary"),
+          details: formData.get("details"),
+          bannerImage: formData.get("bannerImage"),
+          about: formData.get("about"),
+          speakers: formData.get("speakers"),
+          schedule: formData.get("schedule"),
+          registrationLink: formData.get("registrationLink"),
+          registrationDeadline: formData.get("registrationDeadline"),
+          contactName: formData.get("contactName"),
+          contactEmail: formData.get("contactEmail"),
+          contactPhone: formData.get("contactPhone"),
+          documents: formData.get("documents"),
+          youtubeLink: formData.get("youtubeLink")
+        };
+
         try {
-          await api("/api/admin/news-events/events", {
-            method: "POST",
-            headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
-            body: JSON.stringify({
-              bucket: formData.get("bucket"),
-              category: formData.get("category"),
-              title: formData.get("title"),
-              date: formData.get("date"),
-              location: formData.get("location"),
-              summary: formData.get("summary"),
-              details: formData.get("details")
-            })
-          });
-          eventForm.reset();
-          eventMessage.textContent = "Event created successfully.";
+          if (editingEventId) {
+            await api("/api/admin/news-events/events/" + encodeURIComponent(editingEventId), {
+              method: "PUT",
+              headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+            var savedTitle = formData.get("title") || "Event";
+            cancelEditEvent();
+            eventMessage.style.color = "#16a34a";
+            eventMessage.textContent = '✓ "' + savedTitle + '" updated and published successfully.';
+          } else {
+            await api("/api/admin/news-events/events", {
+              method: "POST",
+              headers: { Authorization: "Bearer " + token, "Content-Type": "application/json" },
+              body: JSON.stringify(payload)
+            });
+            eventForm.reset();
+            if (bannerPreviewWrap) { bannerPreviewWrap.style.display = "none"; }
+            if (docStatus) { docStatus.style.display = "none"; }
+            eventMessage.style.color = "#16a34a";
+            eventMessage.textContent = "Event created successfully.";
+          }
           await load();
         } catch (error) {
+          eventMessage.style.color = "#ef4444";
           eventMessage.textContent = error.message;
         }
       });
 
+      var bannerInput = document.getElementById("event-banner-image");
+      var bannerFileInput = document.getElementById("event-banner-file");
+      var bannerPreviewWrap = document.getElementById("event-banner-preview-wrap");
+      var bannerPreview = document.getElementById("event-banner-preview");
+      var bannerStatus = document.getElementById("event-banner-status");
+      var bannerFilename = document.getElementById("event-banner-filename");
+      var bannerClear = document.getElementById("event-banner-clear");
+
+      if (bannerFileInput) {
+        bannerFileInput.addEventListener("change", function () {
+          var file = bannerFileInput.files && bannerFileInput.files[0];
+          if (!file) { return; }
+          bannerStatus.style.color = "#2563eb";
+          bannerStatus.textContent = "Uploading image...";
+          bannerFilename.textContent = file.name;
+          bannerPreviewWrap.style.display = "flex";
+          var localUrl = URL.createObjectURL(file);
+          bannerPreview.src = localUrl;
+
+          var reader = new FileReader();
+          reader.onload = async function () {
+            try {
+              var dataUrl = String(reader.result || "");
+              var res = await api("/api/admin/news-events/upload-image", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fileName: file.name, dataUrl: dataUrl })
+              });
+              bannerInput.value = res.imagePath || "";
+              bannerStatus.style.color = "#16a34a";
+              bannerStatus.textContent = "✓ Image uploaded successfully";
+            } catch (err) {
+              bannerStatus.style.color = "#ef4444";
+              bannerStatus.textContent = "Upload failed: " + err.message;
+            } finally {
+              URL.revokeObjectURL(localUrl);
+            }
+          };
+          reader.onerror = function () {
+            bannerStatus.style.color = "#ef4444";
+            bannerStatus.textContent = "Failed to read local file.";
+          };
+          reader.readAsDataURL(file);
+        });
+
+        if (bannerClear) {
+          bannerClear.addEventListener("click", function () {
+            bannerInput.value = "";
+            bannerFileInput.value = "";
+            bannerPreviewWrap.style.display = "none";
+            bannerPreview.src = "";
+          });
+        }
+
+        if (bannerInput) {
+          bannerInput.addEventListener("input", function () {
+            var val = String(bannerInput.value || "").trim();
+            if (val) {
+              bannerPreview.src = val;
+              bannerStatus.style.color = "#64748b";
+              bannerStatus.textContent = "Image URL specified";
+              bannerFilename.textContent = "";
+              bannerPreviewWrap.style.display = "flex";
+            } else {
+              bannerPreviewWrap.style.display = "none";
+            }
+          });
+        }
+      }
+
+      var docFileInput = document.getElementById("event-document-file");
+      var docTextarea = document.getElementById("event-documents-input");
+      var docStatus = document.getElementById("event-doc-status");
+
+      if (docFileInput) {
+        docFileInput.addEventListener("change", function () {
+          var file = docFileInput.files && docFileInput.files[0];
+          if (!file) { return; }
+          docStatus.style.display = "block";
+          docStatus.style.color = "#2563eb";
+          docStatus.textContent = "Uploading document " + file.name + "...";
+
+          var reader = new FileReader();
+          reader.onload = async function () {
+            try {
+              var dataUrl = String(reader.result || "");
+              var res = await api("/api/admin/news-events/upload-document", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ fileName: file.name, dataUrl: dataUrl })
+              });
+              var docPath = res.documentPath || "";
+              var currentVal = String(docTextarea.value || "").trim();
+              var newLine = (file.name.replace(/\.[^/.]+$/, "") || "Document") + ": " + docPath;
+              docTextarea.value = currentVal ? (currentVal + "\n" + newLine) : newLine;
+              docStatus.style.color = "#16a34a";
+              docStatus.textContent = "✓ " + file.name + " uploaded and added to documents list.";
+            } catch (err) {
+              docStatus.style.color = "#ef4444";
+              docStatus.textContent = "Upload failed: " + err.message;
+            }
+          };
+          reader.onerror = function () {
+            docStatus.style.color = "#ef4444";
+            docStatus.textContent = "Failed to read local file.";
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      var scheduleInput = document.getElementById("event-schedule-input");
+      var btnInsertDay1 = document.getElementById("btn-insert-day-template");
+      var btnInsertDay2 = document.getElementById("btn-insert-day2-template");
+
+      if (btnInsertDay1 && scheduleInput) {
+        btnInsertDay1.addEventListener("click", function () {
+          var tpl = "Day 1: Inaugural Session & Keynotes\n" +
+            "10:00 AM - Registration & Welcome Tea\n" +
+            "10:30 AM - Inaugural Session\n" +
+            "10:45 AM - 11:00 AM - Welcome Address\n" +
+            "11:00 AM - 11:45 AM - Keynote Lecture\n" +
+            "11:45 AM - 12:30 PM - Technical Session\n" +
+            "12:30 PM - 01:00 PM - Interactive Discussion\n" +
+            "01:00 PM - 02:00 PM - Lunch & Networking";
+          var cur = String(scheduleInput.value || "").trim();
+          if (!cur) {
+            scheduleInput.value = tpl;
+          } else {
+            scheduleInput.value = cur + "\n\n" + tpl;
+          }
+        });
+      }
+
+      if (btnInsertDay2 && scheduleInput) {
+        btnInsertDay2.addEventListener("click", function () {
+          var tpl = "Day 2: Technical Talks & Valedictory\n" +
+            "09:30 AM - 11:00 AM - Technical Session II\n" +
+            "11:00 AM - 11:15 AM - Tea Break\n" +
+            "11:15 AM - 01:00 PM - Research Presentations\n" +
+            "01:00 PM - 02:00 PM - Lunch Break\n" +
+            "02:00 PM - 03:30 PM - Valedictory & Closing";
+          var cur = String(scheduleInput.value || "").trim();
+          if (!cur) {
+            scheduleInput.value = tpl;
+          } else {
+            scheduleInput.value = cur + "\n\n" + tpl;
+          }
+        });
+      }
+
       document.body.addEventListener("click", async function (event) {
+        var editEventId = event.target.getAttribute("data-edit-event");
+        if (editEventId) {
+          startEditEvent(editEventId);
+          return;
+        }
+
         var announcementId = event.target.getAttribute("data-delete-announcement");
         var eventId = event.target.getAttribute("data-delete-event");
         if (!announcementId && !eventId) { return; }
@@ -207,10 +577,14 @@
             await api("/api/admin/news-events/announcements/" + encodeURIComponent(announcementId), { method: "DELETE" });
           }
           if (eventId) {
+            if (editingEventId === eventId) {
+              cancelEditEvent();
+            }
             await api("/api/admin/news-events/events/" + encodeURIComponent(eventId), { method: "DELETE" });
           }
           await load();
         } catch (error) {
+          eventMessage.style.color = "#ef4444";
           eventMessage.textContent = error.message;
         }
       });
