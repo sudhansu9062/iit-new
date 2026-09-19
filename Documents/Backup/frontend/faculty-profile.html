@@ -83,18 +83,18 @@
           </section>
 
           <section class="profile-section" id="profile-specialization-section" hidden>
-            <h3>Research Area</h3>
-            <p id="profile-specialization"></p>
+            <h3>Specialization</h3>
+            <div id="profile-specialization" class="profile-rich-content"></div>
           </section>
 
           <section class="profile-section biography-section" id="profile-bio-section" hidden>
             <h3>Bio/CV</h3>
-            <p id="profile-bio"></p>
+            <div id="profile-bio" class="profile-rich-content"></div>
           </section>
 
           <section class="profile-section" id="profile-research-interest-section" hidden>
             <h3>Research Interests</h3>
-            <p id="profile-research-interest"></p>
+            <div id="profile-research-interest" class="profile-rich-content"></div>
           </section>
 
           <section class="profile-section" id="profile-research-team-section" hidden>
@@ -102,35 +102,44 @@
             <div id="profile-research-team" class="profile-team-grid">
               <div id="profile-research-team-postdocs-wrap" hidden>
                 <h4>Postdocs</h4>
-                <p id="profile-research-team-postdocs"></p>
+                <div id="profile-research-team-postdocs" class="profile-rich-content"></div>
               </div>
               <div id="profile-research-team-students-wrap" hidden>
                 <h4>Students</h4>
-                <p id="profile-research-team-students"></p>
+                <div id="profile-research-team-students" class="profile-rich-content"></div>
               </div>
             </div>
           </section>
 
           <section class="profile-section" id="profile-publications-section" hidden>
-            <h3>Publications</h3>
-            <p id="profile-publications"></p>
+            <div class="publications-section-header" style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; margin-bottom: 16px;">
+              <h3 style="margin: 0;">Publications</h3>
+              <button type="button" class="all-publications-btn" id="all-publications-btn" style="display: none;" onclick="if(window.__openPubModal)window.__openPubModal(event);">ALL PUBLICATIONS</button>
+            </div>
+            <div id="profile-publications" class="profile-rich-content"></div>
           </section>
 
           <section class="profile-section" id="profile-courses-taught-section" hidden>
             <h3>Courses Taught</h3>
-            <p id="profile-courses-taught"></p>
+            <div id="profile-courses-taught" class="profile-rich-content"></div>
           </section>
 
           <section class="profile-section" id="profile-industry-collaborations-section" hidden>
             <h3>Industry Collaborations</h3>
-            <p id="profile-industry-collaborations"></p>
+            <div id="profile-industry-collaborations" class="profile-rich-content"></div>
           </section>
 
           <section class="profile-section" id="profile-awards-and-honors-section" hidden>
             <h3>Awards and Honors</h3>
-            <p id="profile-awards-and-honors"></p>
+            <div id="profile-awards-and-honors" class="profile-rich-content"></div>
           </section>
           <div id="profile-custom-sections"></div>
+
+          <section class="profile-section" id="profile-faculty-notices-section" hidden>
+            <h3>Notices</h3>
+            <div id="profile-faculty-notices-list" class="profile-faculty-notices-list"></div>
+          </section>
+
         </div>
       </div>
 
@@ -190,6 +199,20 @@
     </div>
   </footer>
 
+  <!-- All Publications Modal -->
+  <div class="pub-modal-backdrop" id="pub-modal" style="display: none;">
+    <div class="pub-modal-container" role="dialog" aria-modal="true" aria-labelledby="pub-modal-title">
+      <div class="pub-modal-header">
+        <h2 id="pub-modal-title">All Publications</h2>
+        <button type="button" class="pub-modal-close" id="pub-modal-close-btn" aria-label="Close modal" onclick="if(window.__closePubModal)window.__closePubModal();">&times;</button>
+      </div>
+      <div class="pub-modal-body">
+        <div id="pub-modal-category" style="display: none; font-size: 15px; font-weight: 700; color: #0f172a; margin-bottom: 14px;"></div>
+        <div id="pub-modal-list"></div>
+      </div>
+    </div>
+  </div>
+
   <script>
     (async function () {
       function esc(value) {
@@ -215,36 +238,65 @@
         template.innerHTML = String(inputHtml || "");
         var allowedTags = {
           A: true, B: true, BR: true, EM: true, I: true, LI: true, OL: true,
-          P: true, SPAN: true, STRONG: true, U: true, UL: true
+          P: true, SPAN: true, STRONG: true, U: true, UL: true,
+          DIV: true, FONT: true, SUB: true, SUP: true, BLOCKQUOTE: true,
+          H1: true, H2: true, H3: true, H4: true, H5: true, H6: true,
+          HR: true, CODE: true, PRE: true, S: true, STRIKE: true,
+          TABLE: true, THEAD: true, TBODY: true, TR: true, TH: true, TD: true
         };
         var allowedStyles = {
           color: true,
+          "background-color": true,
           "font-weight": true,
           "font-style": true,
-          "text-decoration": true
+          "text-decoration": true,
+          "text-align": true
+        };
+        var blockedTags = {
+          SCRIPT: true, STYLE: true, IFRAME: true, OBJECT: true, EMBED: true,
+          FORM: true, INPUT: true, BUTTON: true, TEXTAREA: true, SELECT: true,
+          SVG: true, CANVAS: true, AUDIO: true, VIDEO: true, LINK: true, META: true
         };
 
         function clean(node) {
           var children = Array.prototype.slice.call(node.childNodes);
           children.forEach(function (child) {
             if (child.nodeType === 1) {
-              if (!allowedTags[child.tagName]) {
-                var text = document.createTextNode(child.textContent || "");
-                node.replaceChild(text, child);
+              var tagName = child.tagName.toUpperCase();
+
+              // Completely remove active/scripting elements
+              if (blockedTags[tagName]) {
+                node.removeChild(child);
+                return;
+              }
+
+              // If tag is not in allowed list, unwrap it (keep its formatted child content)
+              if (!allowedTags[tagName]) {
+                while (child.firstChild) {
+                  node.insertBefore(child.firstChild, child);
+                }
+                node.removeChild(child);
                 return;
               }
 
               var attrs = Array.prototype.slice.call(child.attributes);
               attrs.forEach(function (attr) {
                 var name = attr.name.toLowerCase();
-                if (child.tagName === "A" && name === "href") {
+                if (tagName === "A" && name === "href") {
                   var href = String(attr.value || "").trim();
-                  if (!/^https?:\/\//i.test(href) && !/^mailto:/i.test(href)) {
+                  if (!/^https?:\/\//i.test(href) && !/^mailto:/i.test(href) && !/^tel:/i.test(href) && !href.startsWith("#")) {
                     child.removeAttribute(attr.name);
                   } else {
                     child.setAttribute("target", "_blank");
                     child.setAttribute("rel", "noopener noreferrer");
                   }
+                  return;
+                }
+                if (tagName === "FONT") {
+                  if (name === "color") {
+                    return;
+                  }
+                  child.removeAttribute(attr.name);
                   return;
                 }
                 if (name === "style") {
@@ -255,6 +307,7 @@
                     var key = String(parts[0] || "").trim().toLowerCase();
                     var val = String(parts.slice(1).join(":") || "").trim();
                     if (!allowedStyles[key]) { return; }
+                    if (/javascript|expression|url\s*\(/i.test(val)) { return; }
                     safeStyle.push(key + ":" + val);
                   });
                   if (safeStyle.length) {
@@ -370,6 +423,7 @@
       var teamPostdocsWrapNode = document.getElementById("profile-research-team-postdocs-wrap");
       var teamStudentsWrapNode = document.getElementById("profile-research-team-students-wrap");
       var publicationsSectionNode = document.getElementById("profile-publications-section");
+      var allPubBtn = document.getElementById("all-publications-btn");
       var designationNode = document.getElementById("profile-designation");
       var officeNode = document.getElementById("profile-office");
       var phoneNode = document.getElementById("profile-phone");
@@ -482,39 +536,297 @@
         return "";
       }
 
+      var currentPublicationsData = { category: "Journal", items: [] };
+
+      function getPubModalElements() {
+        return {
+          modal: document.getElementById("pub-modal"),
+          closeBtn: document.getElementById("pub-modal-close-btn"),
+          category: document.getElementById("pub-modal-category"),
+          list: document.getElementById("pub-modal-list")
+        };
+      }
+
+      function openPublicationsModal(e) {
+        if (e && e.preventDefault) {
+          e.preventDefault();
+        }
+        var els = getPubModalElements();
+        if (!els.modal) {
+          return;
+        }
+        var items = (currentPublicationsData && currentPublicationsData.items) ? currentPublicationsData.items : [];
+        if (!items.length) {
+          return;
+        }
+        if (els.category) {
+          if (currentPublicationsData.category) {
+            els.category.textContent = currentPublicationsData.category;
+            els.category.style.display = "block";
+          } else {
+            els.category.textContent = "";
+            els.category.style.display = "none";
+          }
+        }
+        if (els.list) {
+          els.list.innerHTML = items.map(function (item, idx) {
+            var zebraClass = (idx % 2 === 1) ? " is-zebra" : "";
+            var checkIcon = '<span class="pub-modal-icon" aria-hidden="true">'
+              + '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#24185d" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">'
+              + '<circle cx="12" cy="12" r="10"></circle>'
+              + '<polyline points="8 12 11 15 16 9"></polyline>'
+              + '</svg>'
+              + '</span>';
+            return '<div class="pub-modal-item' + zebraClass + '">'
+              + checkIcon
+              + '<div class="pub-modal-text">' + (item.modalHtml || item.html) + '</div>'
+              + '</div>';
+          }).join("");
+        }
+        els.modal.style.display = "flex";
+        document.body.style.overflow = "hidden";
+        if (els.closeBtn) {
+          els.closeBtn.focus();
+        }
+      }
+
+      function closePublicationsModal(e) {
+        if (e && e.preventDefault) {
+          e.preventDefault();
+        }
+        var els = getPubModalElements();
+        if (els.modal) {
+          els.modal.style.display = "none";
+        }
+        document.body.style.overflow = "";
+      }
+
+      window.__openPubModal = openPublicationsModal;
+      window.__closePubModal = closePublicationsModal;
+
+      document.addEventListener("click", function (e) {
+        var target = e.target;
+        if (!target) return;
+        if (target.closest && target.closest("#all-publications-btn")) {
+          openPublicationsModal(e);
+          return;
+        }
+        if (target.closest && target.closest("#pub-modal-close-btn")) {
+          closePublicationsModal(e);
+          return;
+        }
+        var modal = document.getElementById("pub-modal");
+        if (modal && target === modal) {
+          closePublicationsModal(e);
+          return;
+        }
+      });
+
+      document.addEventListener("keydown", function (e) {
+        if (e.key === "Escape") {
+          closePublicationsModal(e);
+        }
+      });
+
+      function cleanLeadingNumber(str) {
+        return String(str || "").replace(/^\s*(?:<[^>]+>)*\s*(?:\d+[\.\)]|\[\d+\]|\(\d+\)|[-*•])\s*/i, "").trim();
+      }
+
+      function enhanceInlineLinks(text) {
+        var res = String(text || "");
+        // Link plain URLs if not already part of an <a> tag
+        res = res.replace(/(?:^|[^"'>])((https?:\/\/|www\.)[^\s<]+)/g, function (match, p1) {
+          var href = /^https?:\/\//i.test(p1) ? p1 : ("https://" + p1);
+          return ' <a href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">' + esc(p1) + '</a>';
+        });
+        // Link arXiv IDs
+        res = res.replace(/\barxiv:\s*([0-9]+\.[0-9]+(?:v[0-9]+)?)\b/gi, function (match, id) {
+          return '<a href="https://arxiv.org/abs/' + id + '" target="_blank" rel="noopener noreferrer">arxiv:' + id + '</a>';
+        });
+        // Link DOIs
+        res = res.replace(/\b10\.\d{4,9}\/[-._;()/:A-Z0-9]+\b/gi, function (doi) {
+          return '<a href="https://doi.org/' + doi + '" target="_blank" rel="noopener noreferrer">' + doi + '</a>';
+        });
+        return res;
+      }
+
+      function extractPublicationData(rawValue) {
+        var raw = String(rawValue || "").trim();
+        if (!raw) {
+          return { category: "", items: [] };
+        }
+
+        var category = "";
+        var items = [];
+
+        if (looksLikeHtml(raw)) {
+          var temp = document.createElement("div");
+          temp.innerHTML = sanitizeRichHtml(raw);
+
+          var headingEl = temp.querySelector("h2, h3, h4, h5, h6, strong, b, u");
+          if (headingEl && /(journal|refereed|conference|paper|publication|book)/i.test(headingEl.textContent)) {
+            var catMatch = headingEl.textContent.replace(/[:：\-_]/g, " ").trim();
+            if (catMatch) {
+              category = catMatch;
+            }
+          }
+
+          var lis = temp.querySelectorAll("li");
+          if (lis.length > 0) {
+            lis.forEach(function (li, idx) {
+              var text = li.textContent.trim();
+              if (text) {
+                var rawHtml = li.innerHTML.trim();
+                var cleanHtml = rawHtml.replace(/^\s*(?:<[^>]+>)*\s*(?:\d+[\.\)]|\[\d+\]|\(\d+\)|[-*•])\s*/i, "");
+                var hasExplicitNum = /^\s*(?:\d+[\.\)]|\[\d+\]|\(\d+\))\s*/.test(text);
+                var isInsideOl = li.parentElement && li.parentElement.tagName === "OL";
+                var mainHtml = rawHtml;
+                if (!hasExplicitNum && isInsideOl) {
+                  mainHtml = (idx + 1) + ". " + rawHtml;
+                }
+                items.push({
+                  mainHtml: mainHtml,
+                  modalHtml: cleanHtml,
+                  html: mainHtml,
+                  text: text
+                });
+              }
+            });
+          } else {
+            var blockNodes = temp.querySelectorAll("p, div, blockquote");
+            if (blockNodes.length > 1) {
+              blockNodes.forEach(function (node) {
+                var t = node.textContent.trim();
+                if (!t) return;
+                if (/^(refereed\s+journals?|journals?|publications?|papers?):?$/i.test(t)) {
+                  category = t.replace(/[:：]/g, "").trim();
+                  return;
+                }
+                var rawHtml = node.innerHTML.trim();
+                var cleanHtml = rawHtml.replace(/^\s*(?:<[^>]+>)*\s*(?:\d+[\.\)]|\[\d+\]|\(\d+\)|[-*•])\s*/i, "");
+                items.push({
+                  mainHtml: rawHtml,
+                  modalHtml: cleanHtml,
+                  html: rawHtml,
+                  text: t
+                });
+              });
+            } else {
+              var parts = raw.split(/(?:<br\s*\/?>|\r?\n)+/i);
+              parts.forEach(function (part) {
+                var dummy = document.createElement("div");
+                dummy.innerHTML = sanitizeRichHtml(part);
+                var t = dummy.textContent.trim();
+                if (!t) return;
+                if (/^(refereed\s+journals?|journals?|publications?|papers?):?$/i.test(t)) {
+                  category = t.replace(/[:：]/g, "").trim();
+                  return;
+                }
+                var rawHtml = dummy.innerHTML.trim();
+                var cleanHtml = rawHtml.replace(/^\s*(?:<[^>]+>)*\s*(?:\d+[\.\)]|\[\d+\]|\(\d+\)|[-*•])\s*/i, "");
+                items.push({
+                  mainHtml: rawHtml,
+                  modalHtml: cleanHtml,
+                  html: rawHtml,
+                  text: t
+                });
+              });
+            }
+          }
+        } else {
+          var lines = raw.split(/\r?\n+/);
+          lines.forEach(function (line) {
+            var t = line.trim();
+            if (!t) return;
+            if (/^(refereed\s+journals?|journals?|publications?|papers?):?$/i.test(t)) {
+              category = t.replace(/[:：]/g, "").trim();
+              return;
+            }
+            var cleanLine = cleanLeadingNumber(t);
+            var mainHtml = "";
+            var modalHtml = "";
+            if (t.indexOf("|") !== -1) {
+              var split = t.split("|");
+              var title = split[0].trim();
+              var url = split.slice(1).join("|").trim();
+              var normUrl = normalizeUrl(url);
+              if (normUrl) {
+                mainHtml = '<a href="' + esc(normUrl) + '" target="_blank" rel="noopener noreferrer">' + esc(title || normUrl) + '</a>';
+                modalHtml = mainHtml;
+              } else {
+                mainHtml = formatInlineText(enhanceInlineLinks(t));
+                modalHtml = formatInlineText(enhanceInlineLinks(cleanLine));
+              }
+            } else {
+              mainHtml = formatInlineText(enhanceInlineLinks(t));
+              modalHtml = formatInlineText(enhanceInlineLinks(cleanLine));
+            }
+            items.push({
+              mainHtml: mainHtml,
+              modalHtml: modalHtml,
+              html: mainHtml,
+              text: t
+            });
+          });
+        }
+
+        if (items.length === 0 && raw) {
+          var clean = cleanLeadingNumber(raw);
+          items.push({
+            mainHtml: formatInlineText(enhanceInlineLinks(raw)),
+            modalHtml: formatInlineText(enhanceInlineLinks(clean)),
+            html: formatInlineText(enhanceInlineLinks(raw)),
+            text: raw
+          });
+        }
+
+        return { category: category, items: items };
+      }
+
       function renderPublications(node, value) {
         if (!node) {
           return;
         }
 
+        var btn = allPubBtn || document.getElementById("all-publications-btn");
+
         var rawValue = String(value || "").trim();
         if (!rawValue) {
           node.textContent = "";
-          return;
-        }
-
-        if (looksLikeHtml(rawValue)) {
-          node.innerHTML = sanitizeRichHtml(rawValue);
-          return;
-        }
-
-        if (/\n/.test(rawValue) && !/[|]/.test(rawValue)) {
-          node.innerHTML = plainTextToRichHtml(rawValue);
-          return;
-        }
-
-        var entries = parsePublicationEntries(rawValue);
-
-        var listItems = entries.map(function (entry) {
-          var safeTitle = esc(entry.title || entry.url || "Publication link");
-          var normalizedUrl = normalizeUrl(entry.url);
-          if (!normalizedUrl) {
-            return "<li>" + safeTitle + "</li>";
+          currentPublicationsData = { category: "", items: [] };
+          if (btn) {
+            btn.style.display = "none";
           }
-          return '<li><a href="' + esc(normalizedUrl) + '" target="_blank" rel="noopener noreferrer">' + safeTitle + "</a></li>";
-        }).join("");
+          return;
+        }
 
-        node.innerHTML = "<ol>" + listItems + "</ol>";
+        currentPublicationsData = extractPublicationData(rawValue);
+        var items = currentPublicationsData.items;
+
+        if (!items || items.length === 0) {
+          node.textContent = "";
+          if (btn) {
+            btn.style.display = "none";
+          }
+          return;
+        }
+
+        if (items.length > 5) {
+          var top5 = items.slice(0, 5);
+          node.innerHTML = top5.map(function (item) {
+            return '<div class="pub-summary-item">' + (item.mainHtml || item.html) + '</div>';
+          }).join("");
+          if (btn) {
+            btn.style.display = "inline-block";
+          }
+        } else {
+          node.innerHTML = items.map(function (item) {
+            return '<div class="pub-summary-item">' + (item.mainHtml || item.html) + '</div>';
+          }).join("");
+          if (btn) {
+            btn.style.display = "none";
+          }
+        }
       }
 
       function toggleContactRow(rowNode, contentNode, value, html) {
@@ -619,6 +931,15 @@
           return;
         }
 
+        var isPostdoc = postdocPeople.some(function (p) {
+          return p === person || (p.email && person.email && String(p.email).toLowerCase() === String(person.email).toLowerCase());
+        });
+        var backLink = document.querySelector(".back-link");
+        if (backLink && (isPostdoc || (document.referrer && document.referrer.indexOf("postdocs.html") !== -1))) {
+          backLink.textContent = "\u2039 Back to Researchers";
+          backLink.href = "./postdocs.html";
+        }
+
         var safeName = textValue(person.name, "Faculty Member");
         document.title = safeName + " | Department of Physics | IIT Kharagpur";
         nameNode.textContent = safeName;
@@ -628,9 +949,24 @@
         var hasPhone = toggleContactRow(phoneRowNode, phoneNode, person.phone, person.phone ? '<a href="tel:' + esc(String(person.phone || "").replace(/\s+/g, "")) + '">' + esc(person.phone) + '</a>' : "");
         var hasEmail = toggleContactRow(emailRowNode, emailNode, person.email, person.email ? '<a href="mailto:' + esc(person.email) + '">' + esc(person.email) + '</a>' : "");
         contactBoxNode.hidden = !(hasOffice || hasPhone || hasEmail);
-        renderAutoSection(specializationSectionNode, specializationNode, person.specialization);
         renderAutoSection(bioSectionNode, bioNode, person.bio);
-        renderAutoSection(researchInterestSectionNode, researchNode, person.researchInterest);
+
+        var rawSpec = String(person.specialization || "").trim();
+        var rawInterest = String(person.researchInterest || "").trim();
+        var normSpec = rawSpec.replace(/\s+/g, " ").toLowerCase();
+        var normInterest = rawInterest.replace(/\s+/g, " ").toLowerCase();
+
+        if (normSpec && normInterest && normSpec === normInterest) {
+          // Identical: display under Specialization and avoid repeating in Research Interests
+          renderAutoSection(specializationSectionNode, specializationNode, rawSpec);
+          specializationSectionNode.hidden = false;
+          researchInterestSectionNode.hidden = true;
+          researchNode.textContent = "";
+        } else {
+          // Render both or either when present
+          renderAutoSection(specializationSectionNode, specializationNode, rawSpec);
+          renderAutoSection(researchInterestSectionNode, researchNode, rawInterest);
+        }
 
         if (looksLikeHtml(person.researchTeamPostdocs) || looksLikeHtml(person.researchTeamStudents)) {
           var hasPostdocHtml = hasMeaningfulContent(person.researchTeamPostdocs);
@@ -667,11 +1003,37 @@
         renderOptionalSection(awardsSectionNode, awardsNode, person.showAwardsAndHonors, person.awardsAndHonors, "No awards published yet.");
         renderCustomSections(person.customSections);
 
+        // --- Faculty Notices ---
+        (async function loadFacultyNotices() {
+          var noticeSection = document.getElementById("profile-faculty-notices-section");
+          var noticeList = document.getElementById("profile-faculty-notices-list");
+          if (!noticeSection || !noticeList) { return; }
+          try {
+            // Match by loginId first, then email, then name (same priority as profile lookup)
+            var lookupId = String(person.loginId || person.email || person.name || "").trim();
+            if (!lookupId) { return; }
+            var nRes = await fetch(window.location.origin + "/api/public/faculty-notices?id=" + encodeURIComponent(lookupId.toLowerCase()), { cache: "no-store" });
+            var nData = await nRes.json();
+            var notices = Array.isArray(nData.notices) ? nData.notices : [];
+            if (!notices.length) { return; }
+            noticeSection.hidden = false;
+            noticeList.innerHTML = notices.map(function (n) {
+              var date = "";
+              try { date = new Date(n.publishedAt).toLocaleDateString("en-IN", { day: "numeric", month: "short", year: "numeric" }); } catch (e) {}
+              return '<article class="faculty-notice-card">'
+                + '<p class="faculty-notice-date">' + esc(date) + '</p>'
+                + '<h4 class="faculty-notice-title">' + esc(n.title) + '</h4>'
+                + '<p class="faculty-notice-body">' + esc(n.content) + '</p>'
+                + '</article>';
+            }).join("");
+          } catch (e) { /* silently ignore — profile still works */ }
+        })();
 
         if (person.photoDataUrl) {
           photoNode.innerHTML = '<img src="' + esc(person.photoDataUrl) + '" alt="' + esc(safeName) + '" class="profile-photo-image" />';
         }
       } catch (error) {
+        console.error("Profile load error:", error);
         nameNode.textContent = "Profile unavailable";
         designationNode.textContent = "Could not load profile data";
       }

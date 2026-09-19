@@ -9,6 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
   <script src="./search.js" defer></script>
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
 </head>
 <body class="postdocs-page page-white-bg" style="background: #ffffff;">
   <header class="top-header">
@@ -92,9 +93,9 @@
       <section class="quick-links">
         <h4>Quick Links</h4>
         <ul>
-          <li class="icon-calendar"><a href="#">Academic Calendar</a></li>
+          <li class="icon-calendar"><a href="https://www.iitkgp.ac.in/assets/pdf/AcademicCalendar2025-26.pdf" target="_blank" rel="noopener noreferrer">Academic Calendar</a></li>
           <li class="icon-book"><a href="./research.html">Course Catalogue</a></li>
-          <li class="icon-cap"><a href="./programs.html">Admissions</a></li>
+          <li class="icon-cap"><a href="https://www.iitkgp.ac.in/navpage/admissions" target="_blank" rel="noopener noreferrer">Admissions</a></li>
           <li class="icon-directory"><a href="./directory.html">Directory</a></li>
           <li class="icon-doc"><a href="./news-events.html">Forms &amp; Notices</a></li>
           <li class="icon-mail"><a href="./contact.html">Contact Us</a></li>
@@ -157,13 +158,11 @@
 
       function renderRows(items) {
         return items.length ? items.map(function (item) {
-          var key = profileKey(item);
-          var profileHref = "./faculty-profile.html?id=" + encodeURIComponent(key);
           var photoSrc = item.photoDataUrl || item.photo || "";
           var photo = photoSrc
             ? '<img src="' + escapeHtml(photoSrc) + '" alt="' + escapeHtml(item.name || "Research fellow") + '" class="faculty-profile-image" />'
             : '<span class="faculty-profile-thumb" aria-hidden="true"></span>';
-          var nameBlock = '<div class="faculty-person-block"><strong class="faculty-person-name"><a href="' + escapeHtml(profileHref) + '">' + escapeHtml(item.name || "Research Fellow") + "</a></strong></div>";
+          var nameBlock = '<div class="faculty-person-block"><strong class="faculty-person-name">' + escapeHtml(item.name || "Research Fellow") + "</strong></div>";
           var detailsBlock = '<div class="faculty-detail-stack">' +
             (item.designation ? '<p><strong>Designation:</strong> ' + escapeHtml(item.designation) + '</p>' : '') +
             (item.office ? '<p><strong>Office:</strong> ' + escapeHtml(item.office) + '</p>' : '') +
