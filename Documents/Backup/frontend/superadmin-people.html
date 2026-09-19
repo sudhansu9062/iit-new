@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="./styles.css" />
+  <link rel="icon" type="image/x-icon" href="./favicon.ico" />
 </head>
 <body class="superadmin-page">
   <div class="superadmin-shell">
@@ -140,12 +141,13 @@
         <label>Office / Room<input class="portal-input person-office" /></label>
         <label>Email<input class="portal-input person-email" type="email" /></label>
         <label class="portal-form-span person-photo-path-field" hidden>Photo Path<input class="portal-input person-photo" placeholder="./uploads/staff-photo.jpg" /></label>
-        <label class="portal-form-span person-photo-upload-field" hidden>Upload Photo<input class="person-photo-upload" type="file" accept="image/*" /></label>
+        <label class="portal-form-span person-photo-upload-field" hidden>Upload Photo <small style="font-weight:normal;color:#64748b;">(Max 10 MB)</small><input class="person-photo-upload" type="file" accept="image/*" /></label>
         <div class="portal-form-span person-photo-preview-field" hidden>
           <div class="superadmin-image-preview-wrap">
             <img class="superadmin-image-preview person-photo-preview" alt="Profile photo preview" />
           </div>
         </div>
+        <!-- contact field appended dynamically for administration tab -->
       </div>
     </article>
   </template>
@@ -359,6 +361,7 @@
                 designation: String(item.designation || ""),
                 office: String(item.office || ""),
                 email: String(item.email || ""),
+                contact: String(item.contact || ""),
                 topic: String(item.topic || ""),
                 category: String(item.category || ""),
                 photo: String(item.photo || "")
@@ -378,12 +381,20 @@
               sample: ["Rahul Sharma", "Condensed Matter Physics", "rahul@example.com"],
               note: "Minimum required column: Name. Contact should contain the email address."
             }
+          : state.type === "administration"
+          ? {
+              title: "Staff Excel/CSV format",
+              copy: "These columns fill the Staff table. Column order: Name, Designation, Email, Contact.",
+              headers: ["Name", "Designation", "Email", "Contact"],
+              sample: ["Ravi Kumar", "Technical Assistant", "ravi@iitphysics.ac.in", "+91-9876543210"],
+              note: "Minimum required column: Name. Email should be a valid email address. Contact is the phone/mobile number."
+            }
           : {
               title: "Researcher Excel/CSV format",
-              copy: "These columns fill the public Researchers table: Profile, Name, Professional Details, and Contact.",
-              headers: ["Name", "Designation", "Office", "Contact", "Group"],
-              sample: ["Sudhansu", "Maths Researcher", "Main Building", "ssekhar9062@gmail.com", "Ramunanjan"],
-              note: "Minimum required column: Name. Designation and Office appear under Professional Details. Add profile photos manually after upload."
+              copy: "These columns fill the public Researchers table: Name, Research Area, and Contact.",
+              headers: ["Name", "Research Area", "Contact", "Group"],
+              sample: ["Sudhansu", "Maths Researcher", "ssekhar9062@gmail.com", "Ramunanjan"],
+              note: "Minimum required column: Name. Research Area appears under the Research Area column."
             };
         if (peopleUploadFormatTitle) {
           peopleUploadFormatTitle.textContent = guide.title;
@@ -405,7 +416,7 @@
 
       function updateExcelPanel() {
         if (!peopleExcelPanel) { return; }
-        var canImport = state.type === "postdocs" || state.type === "students";
+        var canImport = state.type === "postdocs" || state.type === "students" || state.type === "administration";
         toggleVisible(peopleExcelPanel, canImport);
         if (canImport) {
           renderUploadFormatGuide();
@@ -430,7 +441,7 @@
           return;
         }
 
-        if (state.type === "students") {
+        if (state.type === "students" || state.type === "administration") {
           toggleVisible(peopleExcelSinglePanel, true);
           toggleVisible(postdocsUploadPanel, false);
           toggleVisible(ramunanjanUploadPanel, false);
@@ -546,7 +557,7 @@
             phone: String(item.phone || ""),
             office: String(item.office || ""),
             specialization: String(item.specialization || ""),
-            bio: stripHtmlTags(String(item.bio || "")),
+            bio: String(item.bio || "").trim(),
             researchCluster: String(item.researchCluster || "")
           };
         });
@@ -559,6 +570,7 @@
           designation: "",
           office: "",
           email: "",
+          contact: "",
           topic: "",
           category: "",
           photo: ""
@@ -591,7 +603,7 @@
 
         var photoUploadField = document.createElement("label");
         photoUploadField.className = "portal-form-span";
-        photoUploadField.innerHTML = "Upload Photo<input class=\"person-photo-upload\" type=\"file\" accept=\"image/*\" />";
+        photoUploadField.innerHTML = "Upload Photo <small style=\"font-weight:normal;color:#64748b;\">(Max 10 MB)</small><input class=\"person-photo-upload\" type=\"file\" accept=\"image/*\" />";
         var photoUploadInput = photoUploadField.querySelector("input");
 
         var photoPreviewWrap = document.createElement("div");
@@ -612,6 +624,11 @@
         photoUploadInput.addEventListener("change", function () {
           var file = photoUploadInput.files && photoUploadInput.files[0];
           if (!file) { return; }
+          if (file.size > 10 * 1024 * 1024) {
+            setInfo("Selected photo exceeds 10 MB limit (" + (file.size / (1024 * 1024)).toFixed(1) + " MB). You can upload photos up to 10 MB only.", true);
+            photoUploadInput.value = "";
+            return;
+          }
           setInfo("Uploading photo...", false);
           uploadImageFile(file).then(function (imagePath) {
             person.photo = imagePath;
@@ -639,13 +656,11 @@
         var photoPathField = fragment.querySelector(".person-photo-path-field");
         var photoUploadField = fragment.querySelector(".person-photo-upload-field");
         var photoPreviewField = fragment.querySelector(".person-photo-preview-field");
-        var photoPathInput = fragment.querySelector(".person-photo");
-        var photoUploadInput = fragment.querySelector(".person-photo-upload");
-        var photoPreview = fragment.querySelector(".person-photo-preview");
-        var isAdministration = state.type === "administration";
         var isAlumni = state.type === "alumni";
+        var isAdministration = state.type === "administration";
 
-        title.textContent = state.type === "students" ? "Student " + (personIndex + 1) : "Person " + (personIndex + 1);
+        title.textContent = state.type === "students" ? "Student " + (personIndex + 1) : (state.type === "postdocs" ? "Researcher " + (personIndex + 1) : "Person " + (personIndex + 1));
+
         if (state.type === "students") {
           designationLabel.innerHTML = 'Research area<input class="portal-input person-designation" />';
           designationInput = designationLabel.querySelector("input");
@@ -653,9 +668,30 @@
           title.textContent = "Student " + (personIndex + 1);
         }
 
+        if (state.type === "postdocs") {
+          designationLabel.innerHTML = 'Research Area<input class="portal-input person-designation" placeholder="e.g. Maths Research" />';
+          designationInput = designationLabel.querySelector("input");
+          officeLabel.remove();
+          title.textContent = "Researcher " + (personIndex + 1);
+        }
+
+        if (isAdministration) {
+          // For staff: hide office, hide photo fields, add contact number field
+          officeLabel.remove();
+          if (photoPathField) { photoPathField.remove(); }
+          if (photoUploadField) { photoUploadField.remove(); }
+          if (photoPreviewField) { photoPreviewField.remove(); }
+          var contactField = document.createElement("label");
+          contactField.innerHTML = 'Contact Number<input class="portal-input person-contact" type="tel" placeholder="e.g. +91-9876543210" />';
+          var contactInput = contactField.querySelector("input");
+          contactInput.value = person.contact || "";
+          fields.appendChild(contactField);
+          contactInput.addEventListener("input", function () { person.contact = contactInput.value; });
+        }
+
         nameInput.value = person.name;
-        designationInput.value = person.designation;
-        if (state.type !== "students") {
+        designationInput.value = person.researchArea || person.designation || "";
+        if (state.type !== "students" && state.type !== "postdocs" && !isAdministration) {
           officeInput.value = person.office;
         }
         emailInput.value = person.email;
@@ -675,37 +711,57 @@
           topicInput.addEventListener("input", function () { person.topic = topicInput.value; });
         }
 
-        if (isAdministration || isAlumni) {
-          photoPathField.hidden = false;
-          photoUploadField.hidden = false;
-          photoPreviewField.hidden = false;
-          photoPathInput.value = person.photo || "";
-          photoPreview.src = getPreviewImageSrc(person.photo || "");
-          photoPreview.alt = isAdministration ? "Staff photo preview" : "Student photo preview";
-
-          photoPathInput.addEventListener("input", function () {
-            person.photo = photoPathInput.value;
-            photoPreview.src = getPreviewImageSrc(person.photo);
-          });
-
-          photoUploadInput.addEventListener("change", function () {
-            var file = photoUploadInput.files && photoUploadInput.files[0];
-            if (!file) { return; }
-            setInfo("Uploading photo...", false);
-            uploadImageFile(file).then(function (imagePath) {
-              person.photo = imagePath;
-              photoPathInput.value = imagePath;
-              photoPreview.src = getPreviewImageSrc(imagePath);
-              setInfo("Photo uploaded. Click Save Changes to publish.", false);
-            }).catch(function (error) {
-              setInfo(error.message, true);
+        if (isAlumni) {
+          var photoPathField2 = fragment.querySelector(".person-photo-path-field");
+          var photoUploadField2 = fragment.querySelector(".person-photo-upload-field");
+          var photoPreviewField2 = fragment.querySelector(".person-photo-preview-field");
+          var photoPathInput = fragment.querySelector(".person-photo");
+          var photoUploadInput = fragment.querySelector(".person-photo-upload");
+          var photoPreview = fragment.querySelector(".person-photo-preview");
+          if (photoPathField2) { photoPathField2.hidden = false; }
+          if (photoUploadField2) { photoUploadField2.hidden = false; }
+          if (photoPreviewField2) { photoPreviewField2.hidden = false; }
+          if (photoPathInput) { photoPathInput.value = person.photo || ""; }
+          if (photoPreview) {
+            photoPreview.src = getPreviewImageSrc(person.photo || "");
+            photoPreview.alt = "Student photo preview";
+          }
+          if (photoPathInput) {
+            photoPathInput.addEventListener("input", function () {
+              person.photo = photoPathInput.value;
+              if (photoPreview) { photoPreview.src = getPreviewImageSrc(person.photo); }
             });
-          });
+          }
+          if (photoUploadInput) {
+            photoUploadInput.addEventListener("change", function () {
+              var file = photoUploadInput.files && photoUploadInput.files[0];
+              if (!file) { return; }
+              if (file.size > 10 * 1024 * 1024) {
+                setInfo("Selected photo exceeds 10 MB limit (" + (file.size / (1024 * 1024)).toFixed(1) + " MB). You can upload photos up to 10 MB only.", true);
+                photoUploadInput.value = "";
+                return;
+              }
+              setInfo("Uploading photo...", false);
+              uploadImageFile(file).then(function (imagePath) {
+                person.photo = imagePath;
+                if (photoPathInput) { photoPathInput.value = imagePath; }
+                if (photoPreview) { photoPreview.src = getPreviewImageSrc(imagePath); }
+                setInfo("Photo uploaded. Click Save Changes to publish.", false);
+              }).catch(function (error) {
+                setInfo(error.message, true);
+              });
+            });
+          }
         }
 
         nameInput.addEventListener("input", function () { person.name = nameInput.value; });
-        designationInput.addEventListener("input", function () { person.designation = designationInput.value; });
-        if (state.type !== "students") {
+        designationInput.addEventListener("input", function () {
+          person.designation = designationInput.value;
+          if (state.type === "postdocs") {
+            person.researchArea = designationInput.value;
+          }
+        });
+        if (state.type !== "students" && state.type !== "postdocs" && !isAdministration) {
           officeInput.addEventListener("input", function () { person.office = officeInput.value; });
         } else {
           person.office = "";
@@ -749,7 +805,7 @@
         specializationInput.value = person.specialization;
         researchClusterSelect.value = person.researchCluster || "";
         passwordInput.value = person.initialPassword;
-        bioInput.value = stripHtmlTags(person.bio || "");
+        bioInput.value = person.bio || "";
         updateMeta();
         facultyIdInput.addEventListener("input", function () { person.facultyId = facultyIdInput.value; updateMeta(); });
         loginIdInput.addEventListener("input", function () { person.loginId = loginIdInput.value; updateMeta(); });
@@ -762,10 +818,6 @@
         researchClusterSelect.addEventListener("change", function () { person.researchCluster = researchClusterSelect.value; });
         passwordInput.addEventListener("input", function () { person.initialPassword = passwordInput.value; });
         bioInput.addEventListener("input", function () { person.bio = bioInput.value; });
-        bioInput.addEventListener("change", function () {
-          bioInput.value = stripHtmlTags(bioInput.value);
-          person.bio = bioInput.value;
-        });
         removeButton.addEventListener("click", function () {
           state.faculty = state.faculty.filter(function (item) { return item !== person; });
           render();
@@ -785,12 +837,13 @@
           var addButton = document.createElement("button");
           addButton.type = "button";
           addButton.className = "portal-button-secondary";
-          addButton.textContent = "Add Person";
+          addButton.textContent = state.type === "students" ? "Add Student" : (state.type === "postdocs" ? "Add Researcher" : "Add Person");
           addButton.addEventListener("click", function (event) {
             event.preventDefault();
             group.items.unshift(createBlankPerson(group.id));
             render();
-            setInfo("New person added at the top. Click Save Changes to keep it.", false);
+            var label = state.type === "postdocs" ? "researcher" : (state.type === "students" ? "student" : "person");
+            setInfo("New " + label + " added at the top. Click Save Changes to keep it.", false);
           });
           header.appendChild(addButton);
           section.appendChild(header);
@@ -888,8 +941,8 @@
         peopleExcelInput.addEventListener("change", function () {
           var file = peopleExcelInput.files && peopleExcelInput.files[0];
           if (!file) { return; }
-          if (!(state.type === "postdocs" || state.type === "students")) {
-            setExcelStatus("Switch to Researchers or Students tab to import Excel.", true);
+          if (!(state.type === "postdocs" || state.type === "students" || state.type === "administration")) {
+            setExcelStatus("Switch to Staff, Researchers or Students tab to import Excel.", true);
             peopleExcelInput.value = "";
             return;
           }
@@ -912,7 +965,7 @@
 
       if (peopleExcelDelete) {
         peopleExcelDelete.addEventListener("click", function () {
-          if (!(state.type === "postdocs" || state.type === "students")) {
+          if (!(state.type === "postdocs" || state.type === "students" || state.type === "administration")) {
             return;
           }
           setExcelStatus("Removing uploaded file...", false);
@@ -1036,8 +1089,10 @@
                     id: person.id,
                     name: person.name,
                     designation: person.designation,
-                    office: person.office,
+                    researchArea: state.type === "postdocs" ? (person.researchArea || person.designation || "") : (person.researchArea || ""),
+                    office: state.type === "postdocs" ? "" : (person.office || ""),
                     email: person.email,
+                    contact: person.contact || "",
                     topic: person.topic || "",
                     category: person.category || "",
                     photo: person.photo || ""

@@ -252,7 +252,8 @@ function normalizePeopleGroups(groups, fallbackGroups) {
       ? group.items.map((item, itemIndex) => ({
         id: String((item && item.id) || `person-${groupIndex + 1}-${itemIndex + 1}`).trim(),
         name: String((item && item.name) || "").trim(),
-        designation: String((item && item.designation) || "").trim(),
+        designation: String((item && (item.designation || item.researchArea)) || "").trim(),
+        researchArea: String((item && (item.researchArea || item.designation)) || "").trim(),
         office: String((item && item.office) || "").trim(),
         email: String((item && item.email) || "").trim(),
         contact: String((item && item.contact) || "").trim(),
@@ -2261,9 +2262,14 @@ function buildManagedPeopleRecordsFromRows(rows, type) {
   return (Array.isArray(rows) ? rows : []).map((row, index) => {
     const name = getAlumniCell(row, ["name", "student name", "researcher name", "postdoc name", "staff name", "full name"]);
     const designation = getAlumniCell(row, ["designation", "research area", "area", "specialization", "field", "department", "topic", "research topic"]);
-    const office = getAlumniCell(row, ["office", "office room", "room", "supervisor", "guide", "advisor", "mentor"]);
-    const email = getAlumniCell(row, ["email", "email id", "email address", "mail"]);
+    const office = (safeType === "postdocs" || safeType === "students" || safeType === "administration")
+      ? ""
+      : getAlumniCell(row, ["office", "office room", "room", "supervisor", "guide", "advisor", "mentor"]);
+    let email = getAlumniCell(row, ["email", "email id", "email address", "mail"]);
     const contact = getAlumniCell(row, ["contact", "contact number", "contact no", "contactno", "contactnumber", "phone", "phone number", "phone no", "phoneno", "phonenumber", "mobile", "mobile number", "mobile no", "mobileno", "mobilenumber", "telephone", "cell"]);
+    if (!email && contact && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(contact)) {
+      email = contact;
+    }
     const group = getAlumniCell(row, ["group", "category", "section", "type", "program"]);
     if (!name && !designation && !office && !email && !contact) {
       return null;
@@ -2272,6 +2278,7 @@ function buildManagedPeopleRecordsFromRows(rows, type) {
       id: `${safeType}-upload-${index + 1}-${slugifyId(name || email, "person")}`,
       name,
       designation,
+      researchArea: designation,
       office,
       email,
       contact,
@@ -2335,7 +2342,8 @@ function buildManagedPeopleGroupsFromRows(rows, type) {
       id: person.id,
       name: person.name,
       designation: person.designation,
-      office: person.office,
+      researchArea: person.designation,
+      office: "",
       email: person.email,
       contact: person.contact || "",
       topic: "",

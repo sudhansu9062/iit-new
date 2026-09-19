@@ -67,7 +67,7 @@
               <tr>
                 <th>Profile</th>
                 <th>Name</th>
-                <th>Professional Details</th>
+                <th>Research Area</th>
                 <th>Contact</th>
               </tr>
             </thead>
@@ -163,9 +163,9 @@
             ? '<img src="' + escapeHtml(photoSrc) + '" alt="' + escapeHtml(item.name || "Research fellow") + '" class="faculty-profile-image" />'
             : '<span class="faculty-profile-thumb" aria-hidden="true"></span>';
           var nameBlock = '<div class="faculty-person-block"><strong class="faculty-person-name">' + escapeHtml(item.name || "Research Fellow") + "</strong></div>";
+          var researchArea = item.researchArea || item.designation || item.topic || "";
           var detailsBlock = '<div class="faculty-detail-stack">' +
-            (item.designation ? '<p><strong>Designation:</strong> ' + escapeHtml(item.designation) + '</p>' : '') +
-            (item.office ? '<p><strong>Office:</strong> ' + escapeHtml(item.office) + '</p>' : '') +
+            (researchArea ? '<p>' + escapeHtml(researchArea) + '</p>' : '<p>-</p>') +
             '</div>';
           var contactBlock = '<div class="faculty-detail-stack">' +
             (item.email ? '<p><strong>Email:</strong> <a href="mailto:' + escapeHtml(item.email) + '">' + escapeHtml(item.email) + '</a></p>' : '') +
@@ -254,7 +254,7 @@
             '<p class="faculty-subtitle">' + escapeHtml(groupSubtitle) + '</p>',
             '<div class="table-wrap">',
             '<table class="directory-table faculty-table">',
-            '<thead><tr><th>Profile</th><th>Name</th><th>Professional Details</th><th>Contact</th></tr></thead>',
+            '<thead><tr><th>Profile</th><th>Name</th><th>Research Area</th><th>Contact</th></tr></thead>',
             '<tbody>' + renderRows(items) + '</tbody>',
             '</table>',
             '</div>',
